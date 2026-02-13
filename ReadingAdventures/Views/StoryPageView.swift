@@ -1,6 +1,5 @@
 import SwiftUI
 import AVFoundation
-import ObjectiveC
 
 struct StoryPageView: View {
 
@@ -9,24 +8,19 @@ struct StoryPageView: View {
     var onPrevious: (() -> Void)?
     var onNext: (() -> Void)?
 
-    // Paragraph → words
+    // MARK: - State
     @State private var paragraphWords: [[String]] = []
+    @State private var flatWords: [String] = []
 
-    // Narration state
-    @State private var currentFlatIndex: Int = -1
-    @State private var totalWordCount: Int = 0
+    @State private var currentWordIndex: Int = -1
     @State private var isPlaying = false
 
     private let synthesizer = AVSpeechSynthesizer()
 
-    private var flatWords: [String] {
-        paragraphWords.flatMap { $0 }
-    }
-
+    // MARK: - View
     var body: some View {
         ZStack {
 
-            // Background
             Color(red: 0.93, green: 0.97, blue: 1.0)
                 .ignoresSafeArea()
 
@@ -34,7 +28,6 @@ struct StoryPageView: View {
 
                 Spacer().frame(height: 28)
 
-                // Image
                 Image(page.imageName)
                     .resizable()
                     .scaledToFill()
@@ -44,36 +37,16 @@ struct StoryPageView: View {
 
                 Spacer().frame(height: 20)
 
-                // TEXT AREA (STABLE – NO REFLOW)
-                VStack(spacing: 18) {
+                // 📖 TEXT AREA (SAFE)
+                VStack(spacing: 22) {
                     ForEach(paragraphWords.indices, id: \.self) { pIndex in
-                        let words = paragraphWords[pIndex]
-
-                        let start = flatStartIndex(for: pIndex)
-                        let end = start + words.count - 1
-
-                        let highlightedIndex: Int? =
-                            (currentFlatIndex >= start && currentFlatIndex <= end)
-                            ? currentFlatIndex - start
-                            : nil
-
-                        FlexibleView(
-                            data: words.indices,
-                            spacing: 10,
-                            alignment: .leading
-                        ) { wIndex in
-                            Text(words[wIndex])
-                                .font(OpenDyslexicFont.regular(size: 28))
-                                .foregroundColor(.primary)
-                                .padding(.vertical, 2)
-                                .padding(.horizontal, 4)
-                                .background(
-                                    isPlaying && highlightedIndex == wIndex
-                                    ? Color.yellow.opacity(0.6)
-                                    : Color.clear
-                                )
-                                .cornerRadius(6)
-                        }
+                        Text(
+                            attributedParagraph(
+                                words: paragraphWords[pIndex],
+                                paragraphStartIndex: startIndex(for: pIndex)
+                            )
+                        )
+                        .font(OpenDyslexicFont.regular(size: 28))
                         .frame(maxWidth: 720, alignment: .leading)
                         .padding(.horizontal, 40)
                     }
@@ -81,11 +54,11 @@ struct StoryPageView: View {
 
                 Spacer()
 
-                // CONTROLS
+                // ▶️ CONTROLS
                 HStack {
 
                     Button {
-                        stopNarrationIfNeeded()
+                        stopNarration()
                         onPrevious?()
                     } label: {
                         Text("<")
@@ -96,7 +69,7 @@ struct StoryPageView: View {
                     Spacer()
 
                     Button {
-                        isPlaying ? pauseNarration() : startNarration()
+                        isPlaying ? stopNarration() : startNarration()
                     } label: {
                         Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                             .font(.system(size: 26, weight: .semibold))
@@ -107,17 +80,14 @@ struct StoryPageView: View {
                             )
                             .overlay(
                                 Circle()
-                                    .stroke(
-                                        Color(red: 125/255, green: 179/255, blue: 143/255),
-                                        lineWidth: 2
-                                    )
+                                    .stroke(Color.green, lineWidth: 2)
                             )
                     }
 
                     Spacer()
 
                     Button {
-                        stopNarrationIfNeeded()
+                        stopNarration()
                         onNext?()
                     } label: {
                         Text(">")
@@ -131,122 +101,88 @@ struct StoryPageView: View {
                     RoundedRectangle(cornerRadius: 28)
                         .fill(Color(red: 0.90, green: 0.96, blue: 0.90))
                 )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 28)
-                        .stroke(
-                            Color(red: 125/255, green: 179/255, blue: 143/255),
-                            lineWidth: 2
-                        )
-                )
                 .frame(width: 720)
 
                 Spacer().frame(height: 28)
             }
             .onAppear {
-                prepareWords()
-                _ = SpeechDelegateConnector.shared(for: synthesizer)
+                prepareText()
             }
             .onDisappear {
-                stopNarrationIfNeeded()
+                stopNarration()
             }
         }
     }
 
-    // MARK: - Narration Helpers
+    // MARK: - Text Builder (SAFE)
 
-    private func prepareWords() {
-        paragraphWords = page.paragraphs.map {
-            $0.components(separatedBy: .whitespacesAndNewlines)
-                .filter { !$0.isEmpty }
+    private func attributedParagraph(
+        words: [String],
+        paragraphStartIndex: Int
+    ) -> AttributedString {
+
+        var result = AttributedString()
+
+        for (index, word) in words.enumerated() {
+            var part = AttributedString(word)
+
+            if isPlaying && paragraphStartIndex + index == currentWordIndex {
+                part.backgroundColor = .yellow.opacity(0.6)
+            }
+
+            result.append(part)
+
+            if index < words.count - 1 {
+                result.append(AttributedString(" "))
+            }
         }
-        totalWordCount = paragraphWords.reduce(0) { $0 + $1.count }
-        currentFlatIndex = -1
+
+        return result
     }
 
-    private func flatStartIndex(for paragraphIndex: Int) -> Int {
-        paragraphWords.prefix(paragraphIndex).reduce(0) { $0 + $1.count }
+    // MARK: - Narration (NO DELEGATES)
+
+    private func prepareText() {
+        paragraphWords = page.paragraphs.map {
+            $0.split(separator: " ").map(String.init)
+        }
+        flatWords = paragraphWords.flatMap { $0 }
+        currentWordIndex = -1
+    }
+
+    private func startIndex(for paragraph: Int) -> Int {
+        paragraphWords.prefix(paragraph).flatMap { $0 }.count
     }
 
     private func startNarration() {
-        guard !isPlaying else { return }
-
-        stopNarrationIfNeeded()
+        stopNarration()
         isPlaying = true
-        currentFlatIndex = -1
-
-        SpeechDelegateConnector.shared(for: synthesizer).onDidFinish = {
-            speakNextWord()
-        }
-
-        speakNextWord()
+        speakNext()
     }
 
-    private func pauseNarration() {
-        stopNarrationIfNeeded()
-    }
-
-    private func stopNarrationIfNeeded() {
+    private func stopNarration() {
         synthesizer.stopSpeaking(at: .immediate)
         isPlaying = false
-        currentFlatIndex = -1
-        SpeechDelegateConnector.shared(for: synthesizer).onDidFinish = nil
+        currentWordIndex = -1
     }
 
-    private func speakNextWord() {
-        currentFlatIndex += 1
+    private func speakNext() {
+        currentWordIndex += 1
 
-        guard currentFlatIndex < totalWordCount else {
-            stopNarrationIfNeeded()
+        guard isPlaying, currentWordIndex < flatWords.count else {
+            stopNarration()
             return
         }
 
-        let utterance = AVSpeechUtterance(string: flatWords[currentFlatIndex])
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        utterance.rate = 0.42
+        let utterance = AVSpeechUtterance(string: flatWords[currentWordIndex])
+        utterance.rate = 0.38
 
         synthesizer.speak(utterance)
-    }
-}
 
-// MARK: - Speech Delegate Connector
-
-final class SpeechDelegateConnector: NSObject, AVSpeechSynthesizerDelegate {
-
-    var onDidFinish: (() -> Void)?
-
-    init(synthesizer: AVSpeechSynthesizer) {
-        super.init()
-        synthesizer.delegate = self
-    }
-
-    static func shared(for synthesizer: AVSpeechSynthesizer) -> SpeechDelegateConnector {
-        if let existing = objc_getAssociatedObject(
-            synthesizer,
-            &AssocKey
-        ) as? SpeechDelegateConnector {
-            return existing
-        }
-
-        let connector = SpeechDelegateConnector(synthesizer: synthesizer)
-        objc_setAssociatedObject(
-            synthesizer,
-            &AssocKey,
-            connector,
-            .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-        )
-        return connector
-    }
-
-    func speechSynthesizer(
-        _ synthesizer: AVSpeechSynthesizer,
-        didFinish utterance: AVSpeechUtterance
-    ) {
-        DispatchQueue.main.async {
-            self.onDidFinish?()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+            speakNext()
         }
     }
-
-    private static var AssocKey: UInt8 = 0
 }
 
 #Preview {
