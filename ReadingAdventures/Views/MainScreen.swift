@@ -89,7 +89,7 @@ struct MainScreenView: View {
         }
     }
 
-    // MARK: - Expanded Card (FINAL TYPOGRAPHY)
+    // MARK: - Expanded Card (FINAL)
 
     @ViewBuilder
     private func expandedCard(for story: Story) -> some View {
@@ -106,13 +106,16 @@ struct MainScreenView: View {
             VStack(alignment: .leading, spacing: 16) {
                 if showDetails {
 
-                    // 🟢 STORY TITLE — ACCESSIBLE SIZE
+                    // ✅ TITLE — ONE LINE, NO TRUNCATION
                     Text(story.title)
                         .font(OpenDyslexicFont.bold(size: 30))
                         .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.3))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
+                        .layoutPriority(1)
                         .transition(.move(edge: .trailing).combined(with: .opacity))
 
-                    // 🟢 STORY DESCRIPTION — ACCESSIBLE SIZE
+                    // DESCRIPTION
                     Text(story.description)
                         .font(OpenDyslexicFont.regular(size: 19))
                         .foregroundColor(.secondary)
@@ -121,10 +124,10 @@ struct MainScreenView: View {
             }
             .animation(.easeInOut(duration: 0.25), value: showDetails)
 
-            Spacer()
+            Spacer(minLength: 0)
         }
         .padding(28)
-        .frame(maxWidth: 720)
+        .frame(maxWidth: 820)   // ✅ gives enough room for full title
         .background(
             RoundedRectangle(cornerRadius: 28)
                 .fill(Color(red: 0.9, green: 0.96, blue: 0.9))

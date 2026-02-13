@@ -1,10 +1,3 @@
-//
-//  StoryIntroCard.swift
-//  ReadingAdventures
-//
-//  Created by Huda Chishtee on 13/02/2026.
-//
-
 import SwiftUI
 
 struct StoryIntroView: View {
@@ -14,55 +7,74 @@ struct StoryIntroView: View {
 
     var body: some View {
         ZStack {
-            Color.white.ignoresSafeArea()
 
-            VStack {
-                Spacer()
+            // Background
+            Color(red: 0.93, green: 0.97, blue: 1.0)
+                .ignoresSafeArea()
 
-                VStack(spacing: 28) {
+            VStack(spacing: 48) {
 
-                    Image(story.coverImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 240)
-                        .clipShape(RoundedRectangle(cornerRadius: 24))
+                Spacer().frame(height: 40)
+
+                // TITLE BANNER — BIGGER & STRONGER
+                ZStack {
+                    Color(red: 0.90, green: 0.96, blue: 0.90)
+                        .frame(width: 620, height: 140)
+                        .clipShape(TicketMask(), style: FillStyle(eoFill: true))
 
                     Text(story.title)
-                        .font(OpenDyslexicFont.bold(size: 32))
-
-                    Text(story.description)
-                        .font(OpenDyslexicFont.regular(size: 20))
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-
-                    Button("Start Reading") {
-                        // Reading screen next
-                    }
-                    .font(OpenDyslexicFont.bold(size: 20))
-                    .padding()
-                    .frame(maxWidth: 240)
-                    .background(Color.green.opacity(0.2))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .font(OpenDyslexicFont.bold(size: 40))
+                        .foregroundColor(
+                            Color(red: 47/255, green: 93/255, blue: 98/255)
+                        )
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
                 }
-                .padding(40)
-                .frame(maxWidth: 600)
-                .background(
-                    RoundedRectangle(cornerRadius: 36)
-                        .fill(Color.white)
-                        .shadow(color: .black.opacity(0.08), radius: 16)
-                )
+
+                Spacer().frame(height: 20)
+
+                // STORY IMAGE — MUCH BIGGER (HERO)
+                Image(story.coverImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 420, height: 320)
+                    .clipShape(RoundedRectangle(cornerRadius: 44))
+                    .shadow(color: .black.opacity(0.14), radius: 16, y: 10)
 
                 Spacer()
 
-                Button("Close") {
-                    dismiss()
+                // START READING BUTTON — BIG & CLEAR
+                Button {
+                    // 👉 Navigate to StoryPageView (next step)
+                } label: {
+                    Text("Start Reading")
+                        .font(OpenDyslexicFont.bold(size: 26))
+                        .foregroundColor(
+                            Color(red: 47/255, green: 93/255, blue: 98/255)
+                        )
+                        .padding(.vertical, 18)
+                        .frame(maxWidth: 320)
+                        .background(
+                            RoundedRectangle(cornerRadius: 32)
+                                .fill(Color(red: 0.90, green: 0.96, blue: 0.90))
+                        )
                 }
-                .font(OpenDyslexicFont.regular(size: 18))
-                .foregroundColor(.secondary)
-                .padding(.bottom, 30)
+
+                Spacer().frame(height: 40)
             }
         }
+        .overlay(
+            // Close button (top-left)
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundColor(.secondary)
+                    .padding(24)
+            },
+            alignment: .topLeading
+        )
     }
 }
 
