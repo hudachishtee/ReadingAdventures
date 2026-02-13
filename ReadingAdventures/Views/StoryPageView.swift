@@ -1,43 +1,105 @@
 import SwiftUI
 import AVFoundation
 
+// MARK: - PAGE DOTS VIEW
+struct PageDotsView: View {
+    let total: Int
+    let current: Int
+
+    var body: some View {
+        HStack(spacing: 14) {
+            ForEach(0..<total, id: \.self) { index in
+                Circle()
+                    .stroke(Color.black.opacity(0.6), lineWidth: 1)
+                    .background(
+                        Circle()
+                            .fill(index == current ? Color.green.opacity(0.6) : Color.clear)
+                    )
+                    .frame(width: 10, height: 10)
+            }
+        }
+    }
+}
+
+// MARK: - STORY PAGE VIEW
 struct StoryPageView: View {
 
-    let page: StoryPage
+    // MARK: - STORY DATA (NO MODEL)
+    private let pages: [(image: String, paragraphs: [String])] = [
+        (
+            image: "story1_page1",
+            paragraphs: [
+                "Nora packed two sandwiches today.",
+                "She did not know why.",
+                "It just felt right."
+            ]
+        ),
+        (
+            image: "story1_page2",
+            paragraphs: [
+                "At school, a boy sat alone.",
+                "He looked at her sandwich.",
+                "Nora walked over slowly."
+            ]
+        ),
+        (
+            image: "story1_page3",
+            paragraphs: [
+                "She shared the extra sandwich.",
+                "The boy smiled and said thank you.",
+                "Nora felt warm inside."
+            ]
+        )
+    ]
 
-    var onPrevious: (() -> Void)?
-    var onNext: (() -> Void)?
+    // MARK: - Paging State
+    @State private var currentPageIndex: Int = 0
 
-    // MARK: - State
+    // MARK: - Narration State
     @State private var paragraphWords: [[String]] = []
     @State private var flatWords: [String] = []
-
     @State private var currentWordIndex: Int = -1
     @State private var isPlaying = false
 
+    // 🎙 Voice selection
+    enum VoiceOption: String, CaseIterable {
+        case us = "US"
+        case uk = "UK"
+        case au = "AU"
+    }
+
+    @State private var selectedVoice: VoiceOption = .us
     private let synthesizer = AVSpeechSynthesizer()
 
-    // MARK: - View
     var body: some View {
+        let page = pages[currentPageIndex]
+
         ZStack {
 
             Color(red: 0.93, green: 0.97, blue: 1.0)
                 .ignoresSafeArea()
 
-            VStack(spacing: 28) {
+            VStack(spacing: 36) {
 
-                Spacer().frame(height: 28)
+                Spacer().frame(height: 60)
 
-                Image(page.imageName)
+                Image(page.image)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 720, height: 470)
                     .clipShape(RoundedRectangle(cornerRadius: 36))
                     .shadow(color: .black.opacity(0.12), radius: 14, y: 8)
 
-                Spacer().frame(height: 20)
+                // 🎙 Voice Picker
+                Picker("Voice", selection: $selectedVoice) {
+                    ForEach(VoiceOption.allCases, id: \.self) {
+                        Text($0.rawValue)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 260)
 
-                // 📖 TEXT AREA (SAFE)
+                // 📖 TEXT
                 VStack(spacing: 22) {
                     ForEach(paragraphWords.indices, id: \.self) { pIndex in
                         Text(
@@ -54,12 +116,11 @@ struct StoryPageView: View {
 
                 Spacer()
 
-                // ▶️ CONTROLS
+                // ▶️ CONTROLS (ARROWS WORK)
                 HStack {
 
                     Button {
-                        stopNarration()
-                        onPrevious?()
+                        goPrevious()
                     } label: {
                         Text("<")
                             .font(OpenDyslexicFont.bold(size: 28))
@@ -79,16 +140,14 @@ struct StoryPageView: View {
                                     .fill(Color(red: 0.90, green: 0.96, blue: 0.90))
                             )
                             .overlay(
-                                Circle()
-                                    .stroke(Color.green, lineWidth: 2)
+                                Circle().stroke(Color.green, lineWidth: 2)
                             )
                     }
 
                     Spacer()
 
                     Button {
-                        stopNarration()
-                        onNext?()
+                        goNext()
                     } label: {
                         Text(">")
                             .font(OpenDyslexicFont.bold(size: 28))
@@ -103,19 +162,34 @@ struct StoryPageView: View {
                 )
                 .frame(width: 720)
 
-                Spacer().frame(height: 28)
+                // 🔘 PAGE DOTS
+                PageDotsView(
+                    total: pages.count,
+                    current: currentPageIndex
+                )
+
+                Spacer().frame(height: 24)
             }
-            .onAppear {
-                prepareText()
-            }
-            .onDisappear {
-                stopNarration()
-            }
+            .onAppear { prepareText() }
         }
     }
 
-    // MARK: - Text Builder (SAFE)
+    // MARK: - Paging
+    private func goPrevious() {
+        guard currentPageIndex > 0 else { return }
+        stopNarration()
+        currentPageIndex -= 1
+        prepareText()
+    }
 
+    private func goNext() {
+        guard currentPageIndex < pages.count - 1 else { return }
+        stopNarration()
+        currentPageIndex += 1
+        prepareText()
+    }
+
+    // MARK: - Text Helpers
     private func attributedParagraph(
         words: [String],
         paragraphStartIndex: Int
@@ -131,19 +205,15 @@ struct StoryPageView: View {
             }
 
             result.append(part)
-
             if index < words.count - 1 {
                 result.append(AttributedString(" "))
             }
         }
-
         return result
     }
 
-    // MARK: - Narration (NO DELEGATES)
-
     private func prepareText() {
-        paragraphWords = page.paragraphs.map {
+        paragraphWords = pages[currentPageIndex].paragraphs.map {
             $0.split(separator: " ").map(String.init)
         }
         flatWords = paragraphWords.flatMap { $0 }
@@ -154,6 +224,7 @@ struct StoryPageView: View {
         paragraphWords.prefix(paragraph).flatMap { $0 }.count
     }
 
+    // MARK: - Narration
     private func startNarration() {
         stopNarration()
         isPlaying = true
@@ -175,7 +246,14 @@ struct StoryPageView: View {
         }
 
         let utterance = AVSpeechUtterance(string: flatWords[currentWordIndex])
+
+        utterance.voice = AVSpeechSynthesisVoice(
+            language: selectedVoice == .uk ? "en-GB" :
+                      selectedVoice == .au ? "en-AU" : "en-US"
+        )
+
         utterance.rate = 0.38
+        utterance.preUtteranceDelay = 0.08
 
         synthesizer.speak(utterance)
 
@@ -185,15 +263,7 @@ struct StoryPageView: View {
     }
 }
 
+// MARK: - PREVIEW
 #Preview {
-    StoryPageView(
-        page: StoryPage(
-            imageName: "story1_page1",
-            paragraphs: [
-                "Nora packed two sandwiches today.",
-                "She did not know why.",
-                "It just felt right."
-            ]
-        )
-    )
+    StoryPageView()
 }
