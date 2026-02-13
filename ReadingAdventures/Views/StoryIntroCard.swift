@@ -16,47 +16,50 @@ struct StoryIntroView: View {
 
                 Spacer().frame(height: 40)
 
-                // TITLE BANNER — BIGGER & STRONGER
+                // STORY TITLE
                 ZStack {
-                    Color(red: 0.90, green: 0.96, blue: 0.90)
-                        .frame(width: 620, height: 140)
-                        .clipShape(TicketMask(), style: FillStyle(eoFill: true))
+                    TitleBannerView(title: story.title)
 
-                    Text(story.title)
-                        .font(OpenDyslexicFont.bold(size: 40))
-                        .foregroundColor(
-                            Color(red: 47/255, green: 93/255, blue: 98/255)
+                    Rectangle()
+                        .stroke(
+                            Color(red: 125/255, green: 179/255, blue: 143/255),
+                            lineWidth: 2
                         )
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.85)
+                        .frame(width: 800, height: 197)
+                        .allowsHitTesting(false)
                 }
 
                 Spacer().frame(height: 20)
 
-                // STORY IMAGE — MUCH BIGGER (HERO)
+                // HERO IMAGE
                 Image(story.coverImage)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 420, height: 320)
+                    .frame(width: 750, height: 500)
                     .clipShape(RoundedRectangle(cornerRadius: 44))
                     .shadow(color: .black.opacity(0.14), radius: 16, y: 10)
 
                 Spacer()
 
-                // START READING BUTTON — BIG & CLEAR
+                // START READING
                 Button {
-                    // 👉 Navigate to StoryPageView (next step)
+                    // NEXT: navigate to StoryPageView
                 } label: {
                     Text("Start Reading")
-                        .font(OpenDyslexicFont.bold(size: 26))
-                        .foregroundColor(
-                            Color(red: 47/255, green: 93/255, blue: 98/255)
-                        )
-                        .padding(.vertical, 18)
-                        .frame(maxWidth: 320)
+                        .font(OpenDyslexicFont.bold(size: 42))
+                        .foregroundColor(.black)
+                        .padding(.vertical, 26)
+                        .frame(width: 480)
                         .background(
-                            RoundedRectangle(cornerRadius: 32)
+                            RoundedRectangle(cornerRadius: 40)
                                 .fill(Color(red: 0.90, green: 0.96, blue: 0.90))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 40)
+                                .stroke(
+                                    Color(red: 125/255, green: 179/255, blue: 143/255),
+                                    lineWidth: 2
+                                )
                         )
                 }
 
@@ -64,7 +67,6 @@ struct StoryIntroView: View {
             }
         }
         .overlay(
-            // Close button (top-left)
             Button {
                 dismiss()
             } label: {

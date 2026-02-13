@@ -6,8 +6,10 @@
 //
 
 import Foundation
-struct Story: Identifiable, Equatable {
+
+struct Story: Identifiable, Equatable, Hashable {
     let id = UUID()
     let title: String
     let description: String
-    let coverImage: String }
+    let coverImage: String
+}

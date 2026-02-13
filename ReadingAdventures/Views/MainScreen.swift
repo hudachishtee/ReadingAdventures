@@ -5,6 +5,9 @@ struct MainScreenView: View {
     @State private var selectedStory: Story?
     @State private var showDetails: Bool = false
 
+    // ✅ Navigation state (separate from UI state)
+    @State private var selectedStoryForIntro: Story?
+
     let stories: [Story] = [
         Story(
             title: "The Extra Sandwich",
@@ -24,40 +27,52 @@ struct MainScreenView: View {
     ]
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        NavigationStack {
+            ZStack(alignment: .topLeading) {
 
-            // Background (LOCKED)
-            Color(red: 0.93, green: 0.97, blue: 1.0)
-                .ignoresSafeArea()
+                // Background (LOCKED)
+                Color(red: 0.93, green: 0.97, blue: 1.0)
+                    .ignoresSafeArea()
 
-            // Title Banner — PIXEL LOCKED
-            TitleBannerView()
-                .padding(.leading, 180)
-                .padding(.top, 87)
+                // Title Banner — PIXEL LOCKED
+                TitleBannerView(title: "Choose A Story")
+                    .padding(.leading, 180)
+                    .padding(.top, 87)
 
-            VStack(spacing: 70) {
+                VStack(spacing: 70) {
 
-                Spacer().frame(height: 300)
+                    Spacer().frame(height: 300)
 
-                ForEach(stories) { story in
-                    if selectedStory?.id == story.id {
-                        expandedCard(for: story)
-                            .onTapGesture { collapseCard() }
-                            .transition(.opacity)
-                    } else {
-                        StorySelectionCard(
-                            story: story,
-                            isSelected: false
-                        )
-                        .onTapGesture {
-                            expandCard(story)
+                    ForEach(stories) { story in
+                        if selectedStory?.id == story.id {
+                            expandedCard(for: story)
+                                // ✅ SECOND TAP → GO TO INTRO
+                                .onTapGesture {
+                                    selectedStoryForIntro = story
+                                }
+                                .transition(.opacity)
+                        } else {
+                            StorySelectionCard(
+                                story: story,
+                                isSelected: false
+                            )
+                            // ✅ FIRST TAP → EXPAND
+                            .onTapGesture {
+                                expandCard(story)
+                            }
                         }
                     }
-                }
 
-                Spacer()
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
             }
-            .frame(maxWidth: .infinity)
+            .navigationBarHidden(true)
+
+            // ✅ Navigation destination
+            .navigationDestination(item: $selectedStoryForIntro) { story in
+                StoryIntroView(story: story)
+            }
         }
     }
 
@@ -89,7 +104,7 @@ struct MainScreenView: View {
         }
     }
 
-    // MARK: - Expanded Card (FINAL)
+    // MARK: - Expanded Card
 
     @ViewBuilder
     private func expandedCard(for story: Story) -> some View {
@@ -106,7 +121,6 @@ struct MainScreenView: View {
             VStack(alignment: .leading, spacing: 16) {
                 if showDetails {
 
-                    // ✅ TITLE — ONE LINE, NO TRUNCATION
                     Text(story.title)
                         .font(OpenDyslexicFont.bold(size: 30))
                         .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.3))
@@ -115,7 +129,6 @@ struct MainScreenView: View {
                         .layoutPriority(1)
                         .transition(.move(edge: .trailing).combined(with: .opacity))
 
-                    // DESCRIPTION
                     Text(story.description)
                         .font(OpenDyslexicFont.regular(size: 19))
                         .foregroundColor(.secondary)
@@ -127,7 +140,7 @@ struct MainScreenView: View {
             Spacer(minLength: 0)
         }
         .padding(28)
-        .frame(maxWidth: 820)   // ✅ gives enough room for full title
+        .frame(maxWidth: 820)
         .background(
             RoundedRectangle(cornerRadius: 28)
                 .fill(Color(red: 0.9, green: 0.96, blue: 0.9))
