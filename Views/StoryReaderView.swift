@@ -22,7 +22,6 @@ struct StoryReaderView: View {
                 
                 // MARK: - IMAGE (TOP)
                 Image("story1_page1")
-                Image("story1_page1")
                     .resizable()
                     .scaledToFit() // keep this
                     .frame(
@@ -48,8 +47,7 @@ struct StoryReaderView: View {
                                     audioManager.play(audioName: page.audioName, speed: speed)
                                 }
                             }
-                            .buttonStyle(PrimaryButtonStyle())
-                            
+                            .buttonStyle(PrimaryButtonStyle(isActive: audioManager.isPlaying))
                             Spacer()
                             
                             HStack(spacing: 0) {
@@ -144,7 +142,7 @@ struct StoryReaderView: View {
         Button(title) {
             speed = value
         }
-        .font(.custom("OpenDyslexic-Bold", size: 14))
+        .font(.custom("OpenDyslexic-Bold", size: 13))
         .foregroundColor(.black)
         .frame(width: 70, height: 35)
         .background(

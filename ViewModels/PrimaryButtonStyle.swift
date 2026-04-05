@@ -1,7 +1,10 @@
 import SwiftUI
 
-// MARK: - PRIMARY BUTTON (Listen)
+// MARK: - PRIMARY BUTTON (Listen with active state)
 struct PrimaryButtonStyle: ButtonStyle {
+    
+    var isActive: Bool
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.custom("OpenDyslexic-Bold", size: 16))
@@ -9,21 +12,53 @@ struct PrimaryButtonStyle: ButtonStyle {
             .padding(.horizontal, 18)
             .padding(.vertical, 10)
             .background(
-                LinearGradient(
-                    colors: [Color.yellow.opacity(0.9), Color.orange.opacity(0.9)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+                ZStack {
+                    
+                    if isActive {
+                        // ✅ ACTIVE → strong gradient
+                        RoundedRectangle(cornerRadius: 18)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.yellow, Color.orange],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    } else {
+                        // ✅ IDLE → glass look (same as other buttons)
+                        RoundedRectangle(cornerRadius: 18)
+                            .fill(.ultraThinMaterial)
+                        
+                        RoundedRectangle(cornerRadius: 18)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color.yellow.opacity(0.4),
+                                        Color.orange.opacity(0.4)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    }
+                    
+                    // Border (same for both)
+                    RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.white.opacity(0.6), lineWidth: 1.2)
+                }
             )
-            .cornerRadius(18)
-            .overlay(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
+            .shadow(
+                color: Color.orange.opacity(isActive ? 0.4 : 0.15),
+                radius: 6,
+                x: 0,
+                y: 3
             )
-            .shadow(color: Color.orange.opacity(0.4), radius: 5, x: 0, y: 2)
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
+            .animation(.easeInOut(duration: 0.2), value: isActive)
     }
 }
+
 
 // MARK: - OUTLINE BUTTON (Back / Next)
 struct OutlineButtonStyle: ButtonStyle {
@@ -34,29 +69,64 @@ struct OutlineButtonStyle: ButtonStyle {
             .padding(.horizontal, 25)
             .padding(.vertical, 10)
             .background(
-                LinearGradient(
-                    colors: [
-                        Color.orange.opacity(0.5),
-                        Color.yellow.opacity(0.5)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+                ZStack {
+                    // Glass base
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(.ultraThinMaterial)
+                    
+                    // Light gradient tint
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.yellow.opacity(0.4),
+                                    Color.orange.opacity(0.4)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                    
+                    // Border
+                    RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.white.opacity(0.7), lineWidth: 1.2)
+                }
             )
-            .cornerRadius(18)
-            .overlay(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color.white.opacity(0.8), lineWidth: 1.5)
-            )
+            .shadow(color: Color.orange.opacity(0.15), radius: 4, x: 0, y: 2)
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
     }
 }
-#Preview("Button Styles") {
-    VStack(spacing: 16) {
-        Button("Primary Button") {}
-            .buttonStyle(PrimaryButtonStyle())
-        Button("Outline Button") {}
-            .buttonStyle(OutlineButtonStyle())
+
+
+// MARK: - PREVIEW
+#Preview("Buttons Preview") {
+    
+    @Previewable @State var isPlaying = false
+    
+    return ZStack {
+        LinearGradient(
+            colors: [Color.yellow.opacity(0.3), Color.orange.opacity(0.6)],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .ignoresSafeArea()
+        
+        VStack(spacing: 20) {
+            
+            Button(isPlaying ? "Pause" : "Listen") {
+                isPlaying.toggle()
+            }
+            .buttonStyle(PrimaryButtonStyle(isActive: isPlaying))
+            
+            HStack(spacing: 20) {
+                Button("Back") {}
+                    .buttonStyle(OutlineButtonStyle())
+                
+                Button("Next") {}
+                    .buttonStyle(OutlineButtonStyle())
+            }
+        }
+        .padding()
     }
-    .padding()
 }
