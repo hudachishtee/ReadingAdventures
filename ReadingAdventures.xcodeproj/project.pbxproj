@@ -10,10 +10,38 @@
 		42D472E92F823F6B00895B7A /* ReadingAdventures.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReadingAdventures.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		42D473032F82407A00895B7A /* Exceptions for "ReadingAdventures" folder in "ReadingAdventures" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 42D472E82F823F6B00895B7A /* ReadingAdventures */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		42D472EB2F823F6B00895B7A /* ReadingAdventures */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				42D473032F82407A00895B7A /* Exceptions for "ReadingAdventures" folder in "ReadingAdventures" target */,
+			);
 			path = ReadingAdventures;
+			sourceTree = "<group>";
+		};
+		42D472FB2F823FC800895B7A /* Others */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Others;
+			sourceTree = "<group>";
+		};
+		42D472FC2F823FCB00895B7A /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		42D472FD2F823FCD00895B7A /* ViewModels */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -33,6 +61,9 @@
 			isa = PBXGroup;
 			children = (
 				42D472EB2F823F6B00895B7A /* ReadingAdventures */,
+				42D472FB2F823FC800895B7A /* Others */,
+				42D472FC2F823FCB00895B7A /* Views */,
+				42D472FD2F823FCD00895B7A /* ViewModels */,
 				42D472EA2F823F6B00895B7A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,6 +93,9 @@
 			);
 			fileSystemSynchronizedGroups = (
 				42D472EB2F823F6B00895B7A /* ReadingAdventures */,
+				42D472FB2F823FC800895B7A /* Others */,
+				42D472FC2F823FCB00895B7A /* Views */,
+				42D472FD2F823FCD00895B7A /* ViewModels */,
 			);
 			name = ReadingAdventures;
 			packageProductDependencies = (
@@ -250,6 +284,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ReadingAdventures/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -292,6 +327,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ReadingAdventures/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
