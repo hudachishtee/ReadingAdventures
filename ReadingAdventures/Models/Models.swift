@@ -1,18 +1,27 @@
-//
-//  Untitled.swift
-//  ReadingAdventures
-//
-//  Created by Huda Chishtee on 05/04/2026.
-//
+import SwiftUI
 
-import Foundation
+// MARK: - Story Theme
+struct StoryTheme {
+    let primary: Color
+    let secondary: Color
+}
+
+// MARK: - Story Category (for future screens)
+enum StoryCategory {
+    case adventure
+    case moral
+    case fantasy
+}
 
 // MARK: - Story Model
 struct Story: Identifiable {
     let id = UUID()
     let title: String
     let level: StoryLevel
+    let category: StoryCategory
     let imageName: String
+    let theme: StoryTheme
+    
     let pages: [Page]
     let moral: String
     let vocabulary: [VocabularyWord]
@@ -49,7 +58,7 @@ struct GameQuestion: Identifiable {
     let type: GameType
     let question: String
     let options: [String]
-    let correctAnswer: String
+    let correctIndex: Int
 }
 
 // MARK: - Game Types

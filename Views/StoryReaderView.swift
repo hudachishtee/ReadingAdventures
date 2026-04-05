@@ -17,11 +17,10 @@ struct StoryReaderView: View {
             ZStack {
                 
                 // ✅ FIX 1: background to remove white bottom area
-                Color.orange.opacity(0.9)
-                    .ignoresSafeArea()
+                story.theme.primary.opacity(0.9)                    .ignoresSafeArea()
                 
                 // MARK: - IMAGE (TOP)
-                Image("story1_page1")
+                Image(page.imageName)
                     .resizable()
                     .scaledToFit() // keep this
                     .frame(
@@ -108,8 +107,8 @@ struct StoryReaderView: View {
                         ZStack {
                             LinearGradient(
                                 colors: [
-                                    Color.yellow.opacity(0.95),
-                                    Color.orange.opacity(0.9)
+                                    story.theme.secondary.opacity(0.95),
+                                    story.theme.primary.opacity(0.9)
                                 ],
                                 startPoint: .top,
                                 endPoint: .bottom
@@ -161,5 +160,5 @@ struct StoryReaderView: View {
 }
 
 #Preview {
-    StoryReaderView(story: sampleStory)
+    StoryReaderView(story: sampleStories[0])
 }
