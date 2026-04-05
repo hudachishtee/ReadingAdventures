@@ -51,3 +51,12 @@ struct OutlineButtonStyle: ButtonStyle {
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
     }
 }
+#Preview("Button Styles") {
+    VStack(spacing: 16) {
+        Button("Primary Button") {}
+            .buttonStyle(PrimaryButtonStyle())
+        Button("Outline Button") {}
+            .buttonStyle(OutlineButtonStyle())
+    }
+    .padding()
+}
