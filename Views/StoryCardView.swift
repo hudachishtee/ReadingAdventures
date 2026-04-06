@@ -14,55 +14,58 @@ struct StoryCard: View {
                 .scaledToFill()
                 .frame(height: 180)
                 .clipped()
-                .cornerRadius(10)
+                .cornerRadius(12)
                 .shadow(radius: 5)
             
             // TITLE
             Text(story.title)
                 .font(.custom("OpenDyslexic-Bold", size: 20))
-                .foregroundColor(.black)
-                .lineLimit(1) // ✅ force single line
-                .minimumScaleFactor(0.8) // ✅ shrink text if needed
+                .foregroundColor(.appPrimaryText)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+            
             // BOTTOM ROW
             HStack {
                 
                 Text(story.level.rawValue + " 🌱")
                     .font(.custom("OpenDyslexic-Regular", size: 14))
-                    .foregroundColor(.appTeal) // ✅ TEXT color changed
+                    .foregroundColor(.appSecondaryText)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
-                    .background(Color.appLightBlue)
+                    .background(Color.appCardBackground)
                     .cornerRadius(10)
                 
                 Spacer()
                 
                 NavigationLink(destination: StoryReaderView(story: story)) {
                     Text("Read Now")
-                        .font(.custom("OpenDyslexic-Bold", size: 16))
-                        .foregroundColor(.appTeal) // ✅ TEXT color changed
+                        .font(.custom("OpenDyslexic-Bold", size: 18))
+                        .foregroundColor(.white) // 👈 FIXED
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
-                        .background(Color.white.opacity(0.8)) // light background
+                        .background(
+                            Color.appSecondaryText.opacity(0.6) // 👈 soft green button
+                        )
                         .cornerRadius(10)
                 }
             }
         }
         .padding()
-        .background(Color.appTeal.opacity(0.1)) // subtle card tint
+        .background(
+            // 🔥 THIS IS THE KEY FIX
+            Color.appSecondaryText.opacity(0.15)
+        )
         .cornerRadius(25)
-        .shadow(color: .black.opacity(0.25), radius: 6, x: 0, y: 3)
+        .shadow(color: Color.black.opacity(0.25), radius: 6, x: 0, y: 3)
         .padding(.horizontal)
     }
 }
 
-#Preview("Story Card") {
+#Preview {
     
     ZStack {
         LinearGradient(
-            colors: [
-                .appLightBlue,
-                .appPrimaryBlue
-            ],
+            colors: [.bgTop, .bgBottom],
             startPoint: .top,
             endPoint: .bottom
         )

@@ -1,10 +1,3 @@
-//
-//  HomeView.swift
-//  ReadingAdventures
-//
-//  Created by Huda Chishtee on 05/04/2026.
-//
-
 import SwiftUI
 
 struct HomeView: View {
@@ -13,61 +6,61 @@ struct HomeView: View {
         
         NavigationStack {
             
-            ZStack {
+            GeometryReader { geo in
+                let s = Scale.factor(geo)
                 
-                // Background
-                LinearGradient(
-                    colors: [
-                        .appLightBlue,
-                        .appPrimaryBlue
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-                
-                VStack(spacing: 20) {
+                ZStack {
                     
-                    // MARK: TITLE
-                    Text("Choose A Story")
-                        .font(.custom("OpenDyslexic-Bold", size: 26))
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.appPrimaryBlue.opacity(0.35))
-                        .cornerRadius(12)
-                        .padding(.horizontal)
+                    LinearGradient(
+                        colors: [.bgTop, .bgBottom],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea()
                     
-                    ScrollView {
-                        VStack(spacing: 25) {
-                            
-                            ForEach(sampleStories) { story in
-                                StoryCard(story: story)
+                    VStack(spacing: 20 * s) {
+                        
+                        Text("Choose A Story")
+                            .font(.custom("OpenDyslexic-Bold", size: 26 * s))
+                            .foregroundColor(.appPrimaryText)
+                            .padding(12 * s)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.appCardBackground.opacity(0.6))
+                            .cornerRadius(12)
+                            .padding(.horizontal, 16 * s)
+                        
+                        ScrollView {
+                            VStack(spacing: 25 * s) {
+                                ForEach(sampleStories) { story in
+                                    StoryCard(story: story)
+                                }
                             }
+                            .padding(.bottom, 100 * s)
                         }
-                        .padding(.bottom, 100)
-                    }
-                    
-                    Spacer()
-                    
-                    // MARK: BOTTOM BAR
-                    HStack {
-                        Image(systemName: "house.fill")
+                        
                         Spacer()
-                        Image(systemName: "gamecontroller.fill")
-                        Spacer()
-                        Image(systemName: "medal.fill")
+                        
+                        HStack {
+                            Image(systemName: "house.fill")
+                            Spacer()
+                            Image(systemName: "gamecontroller.fill")
+                            Spacer()
+                            Image(systemName: "medal.fill")
+                        }
+                        .font(.system(size: 22 * s))
+                        .foregroundColor(.appPrimaryText)
+                        .padding(16 * s)
+                        .background(Color.appCardBackground.opacity(0.7))
+                        .cornerRadius(30)
+                        .padding(.horizontal, 16 * s)
                     }
-                    .font(.title2)
-                    .padding()
-                    .background(Color.green.opacity(0.3))
-                    .cornerRadius(30)
-                    .padding(.horizontal)
+                    .padding(.top, 10 * s)
                 }
-                .padding(.top)
             }
         }
     }
 }
-#Preview("Home Screen") {
+
+#Preview {
     HomeView()
 }

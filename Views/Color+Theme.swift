@@ -9,21 +9,17 @@ import SwiftUI
 
 extension Color {
     
-    static let appLightBlue = Color(
-        red: 227/255,
-        green: 242/255,
-        blue: 255/255
-    )
+    // MARK: Background Gradient
+    static let bgTop = Color("BackgroundTop")
+    static let bgBottom = Color("BackgroundBottom")
     
-    static let appPrimaryBlue = Color(
-        red: 134/255,
-        green: 201/255,
-        blue: 255/255
-    )
+    // MARK: Surfaces
+    static let appCardBackground = Color("CardBackground")
     
-    static let appTeal = Color(
-        red: 47/255,
-        green: 93/255,
-        blue: 98/255
-    )
+    // MARK: Text
+    static let appPrimaryText = Color("PrimaryText")
+    static let appSecondaryText = Color("SecondaryText")
+    
+    // MARK: Accent
+    static let appAccent = Color("AccentColor")
 }

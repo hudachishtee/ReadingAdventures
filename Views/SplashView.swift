@@ -12,23 +12,17 @@ struct SplashView: View {
             ZStack {
                 
                 LinearGradient(
-                    colors: [
-                        .appLightBlue,
-                        .appPrimaryBlue
-                    ],
+                    colors: [.bgTop, .bgBottom],
                     startPoint: .top,
                     endPoint: .bottom
                 )
                 .ignoresSafeArea()
                 
-                VStack(spacing: 20) {
-                    
-                    Image("owl_logo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 380)
-                        .scaleEffect(scale)
-                }
+                Image("owl_logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 350)
+                    .scaleEffect(scale)
             }
             .onAppear {
                 withAnimation(.easeIn(duration: 1.2)) {
@@ -36,15 +30,13 @@ struct SplashView: View {
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
-                    withAnimation {
-                        navigate = true
-                    }
+                    navigate = true
                 }
             }
         }
     }
 }
 
-#Preview("Splash Screen") {
+#Preview {
     SplashView()
 }

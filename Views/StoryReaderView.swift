@@ -62,8 +62,7 @@ struct StoryReaderView: View {
                         Text(page.text)
                             .font(.custom("OpenDyslexic-Regular", size: 16))
                             .lineSpacing(20)
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.appPrimaryText)                       .frame(maxWidth: .infinity, alignment: .leading)
                         
                         Spacer()
                         
