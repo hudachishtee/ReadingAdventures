@@ -20,4 +20,10 @@ extension Color {
         green: 201/255,
         blue: 255/255
     )
+    
+    static let appTeal = Color(
+        red: 47/255,
+        green: 93/255,
+        blue: 98/255
+    )
 }

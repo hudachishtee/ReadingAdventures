@@ -23,7 +23,7 @@ struct SplashView: View {
                 
                 VStack(spacing: 20) {
                     
-                    Image("owl logo")
+                    Image("owl_logo")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 380)
