@@ -4,37 +4,29 @@ import SwiftUI
 struct PrimaryButtonStyle: ButtonStyle {
     
     var isActive: Bool
+    var themeColor: Color
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.custom("OpenDyslexic-Bold", size: 16))
             .foregroundColor(.black)
-            .padding(.horizontal, 18)
-            .padding(.vertical, 10)
+            .padding(.horizontal, 22)
+            .padding(.vertical, 12)
             .background(
                 ZStack {
                     
+                    // Glass base
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                    
+                    // Active state → theme color
                     if isActive {
-                        // ✅ ACTIVE → strong gradient
-                        RoundedRectangle(cornerRadius: 18)
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color.yellow, Color.orange],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
-                    } else {
-                        // ✅ IDLE → glass look (same as other buttons)
-                        RoundedRectangle(cornerRadius: 18)
-                            .fill(.ultraThinMaterial)
-                        
-                        RoundedRectangle(cornerRadius: 18)
+                        RoundedRectangle(cornerRadius: 20)
                             .fill(
                                 LinearGradient(
                                     colors: [
-                                        Color.yellow.opacity(0.4),
-                                        Color.orange.opacity(0.4)
+                                        themeColor,
+                                        themeColor.opacity(0.7)
                                     ],
                                     startPoint: .top,
                                     endPoint: .bottom
@@ -42,13 +34,13 @@ struct PrimaryButtonStyle: ButtonStyle {
                             )
                     }
                     
-                    // Border (same for both)
-                    RoundedRectangle(cornerRadius: 18)
+                    // Border
+                    RoundedRectangle(cornerRadius: 20)
                         .stroke(Color.white.opacity(0.6), lineWidth: 1.2)
                 }
             )
             .shadow(
-                color: Color.orange.opacity(isActive ? 0.4 : 0.15),
+                color: themeColor.opacity(isActive ? 0.4 : 0.15),
                 radius: 6,
                 x: 0,
                 y: 3
@@ -62,6 +54,9 @@ struct PrimaryButtonStyle: ButtonStyle {
 
 // MARK: - OUTLINE BUTTON (Back / Next)
 struct OutlineButtonStyle: ButtonStyle {
+    
+    var themeColor: Color
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.custom("OpenDyslexic-Bold", size: 16))
@@ -70,17 +65,18 @@ struct OutlineButtonStyle: ButtonStyle {
             .padding(.vertical, 10)
             .background(
                 ZStack {
+                    
                     // Glass base
                     RoundedRectangle(cornerRadius: 18)
                         .fill(.ultraThinMaterial)
                     
-                    // Light gradient tint
+                    // Subtle theme tint
                     RoundedRectangle(cornerRadius: 18)
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.yellow.opacity(0.4),
-                                    Color.orange.opacity(0.4)
+                                    themeColor.opacity(0.25),
+                                    themeColor.opacity(0.15)
                                 ],
                                 startPoint: .top,
                                 endPoint: .bottom
@@ -92,7 +88,7 @@ struct OutlineButtonStyle: ButtonStyle {
                         .stroke(Color.white.opacity(0.7), lineWidth: 1.2)
                 }
             )
-            .shadow(color: Color.orange.opacity(0.15), radius: 4, x: 0, y: 2)
+            .shadow(color: themeColor.opacity(0.15), radius: 4, x: 0, y: 2)
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
             .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
     }
@@ -104,9 +100,14 @@ struct OutlineButtonStyle: ButtonStyle {
     
     @Previewable @State var isPlaying = false
     
+    let theme = Color.blue // 👈 change this to test different story themes
+    
     return ZStack {
         LinearGradient(
-            colors: [Color.yellow.opacity(0.3), Color.orange.opacity(0.6)],
+            colors: [
+                theme.opacity(0.3),
+                theme.opacity(0.6)
+            ],
             startPoint: .top,
             endPoint: .bottom
         )
@@ -117,14 +118,23 @@ struct OutlineButtonStyle: ButtonStyle {
             Button(isPlaying ? "Pause" : "Listen") {
                 isPlaying.toggle()
             }
-            .buttonStyle(PrimaryButtonStyle(isActive: isPlaying))
+            .buttonStyle(
+                PrimaryButtonStyle(
+                    isActive: isPlaying,
+                    themeColor: theme
+                )
+            )
             
             HStack(spacing: 20) {
                 Button("Back") {}
-                    .buttonStyle(OutlineButtonStyle())
+                    .buttonStyle(
+                        OutlineButtonStyle(themeColor: theme)
+                    )
                 
                 Button("Next") {}
-                    .buttonStyle(OutlineButtonStyle())
+                    .buttonStyle(
+                        OutlineButtonStyle(themeColor: theme)
+                    )
             }
         }
         .padding()

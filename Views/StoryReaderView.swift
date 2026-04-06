@@ -16,17 +16,18 @@ struct StoryReaderView: View {
             
             ZStack {
                 
-                // ✅ FIX 1: background to remove white bottom area
-                story.theme.primary.opacity(0.9)                    .ignoresSafeArea()
+                // Background
+                story.theme.primary.opacity(0.9)
+                    .ignoresSafeArea()
                 
                 // MARK: - IMAGE (TOP)
                 Image(page.imageName)
                     .resizable()
-                    .scaledToFit() // keep this
+                    .scaledToFit()
                     .frame(
                         width: geo.size.width,
                         height: geo.size.height,
-                        alignment: .top // ✅ THIS is the fix
+                        alignment: .top
                     )
                     .ignoresSafeArea(edges: .top)
                 
@@ -46,23 +47,37 @@ struct StoryReaderView: View {
                                     audioManager.play(audioName: page.audioName, speed: speed)
                                 }
                             }
-                            .buttonStyle(PrimaryButtonStyle(isActive: audioManager.isPlaying))
+                            .buttonStyle(
+                                PrimaryButtonStyle(
+                                    isActive: audioManager.isPlaying,
+                                    themeColor: story.theme.primary
+                                )
+                            )
+                            
                             Spacer()
                             
+                            // ✅ FIXED SPEED CONTROL (ONE CLEAN RECTANGLE)
                             HStack(spacing: 0) {
                                 speedSegment("Slow", 0.75)
                                 speedSegment("Normal", 1.0)
                                 speedSegment("Fast", 1.5)
                             }
-                            .background(Color.white.opacity(0.2))
+                            .padding(4)
+                            .background(.ultraThinMaterial)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .animation(.easeInOut(duration: 0.2), value: speed)
                         }
                         
-                        // MARK: STORY TEXT
-                        Text(page.text)
-                            .font(.custom("OpenDyslexic-Regular", size: 16))
-                            .lineSpacing(20)
-                            .foregroundColor(.appPrimaryText)                       .frame(maxWidth: .infinity, alignment: .leading)
+                        // MARK: TEXT (SCROLLABLE)
+                        ScrollView(showsIndicators: false) {
+                            Text(page.text)
+                                .font(.custom("OpenDyslexic-Regular", size: 16))
+                                .lineSpacing(20)
+                                .foregroundColor(.appPrimaryText)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.vertical, 8)
+                        }
+                        .frame(maxHeight: 140)
                         
                         Spacer()
                         
@@ -75,7 +90,9 @@ struct StoryReaderView: View {
                                     audioManager.stop()
                                 }
                             }
-                            .buttonStyle(OutlineButtonStyle())
+                            .buttonStyle(
+                                OutlineButtonStyle(themeColor: story.theme.primary)
+                            )
                             
                             Spacer()
                             
@@ -85,14 +102,16 @@ struct StoryReaderView: View {
                                     audioManager.stop()
                                 }
                             }
-                            .buttonStyle(OutlineButtonStyle())
+                            .buttonStyle(
+                                OutlineButtonStyle(themeColor: story.theme.primary)
+                            )
                         }
                         
                         // MARK: PAGE DOTS
                         HStack(spacing: 10) {
                             ForEach(0..<story.pages.count, id: \.self) { index in
                                 Circle()
-                                    .fill(index == currentPage ? Color.blue : Color.gray.opacity(0.4))
+                                    .fill(index == currentPage ? story.theme.primary : Color.gray.opacity(0.4))
                                     .frame(width: 8, height: 8)
                             }
                         }
@@ -130,34 +149,41 @@ struct StoryReaderView: View {
                     .ignoresSafeArea(edges: .bottom)
                 }
             }
-            // ✅ FIX 2: removes top white safe area
             .ignoresSafeArea()
         }
     }
     
-    // MARK: - SPEED SEGMENT
+    // MARK: - SPEED SEGMENT (FINAL CLEAN VERSION)
     func speedSegment(_ title: String, _ value: Float) -> some View {
-        Button(title) {
-            speed = value
-        }
-        .font(.custom("OpenDyslexic-Bold", size: 13))
-        .foregroundColor(.black)
-        .frame(width: 70, height: 35)
-        .background(
-            ZStack {
-                if speed == value {
-                    LinearGradient(
-                        colors: [Color.yellow, Color.orange],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
+        Text(title)
+            .font(.custom("OpenDyslexic-Bold", size: 13))
+            .foregroundColor(.black)
+            .frame(width: 75, height: 38)
+            .background(
+                ZStack {
+                    if speed == value {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        story.theme.primary,
+                                        story.theme.primary.opacity(0.7)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    }
                 }
+            )
+            .onTapGesture {
+                speed = value
             }
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 2))
     }
 }
 
+
+// MARK: - PREVIEW
 #Preview {
-    StoryReaderView(story: sampleStories[0])
+    StoryReaderView(story: sampleStories[1])
 }
