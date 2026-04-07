@@ -71,13 +71,13 @@ struct StoryReaderView: View {
                         // MARK: TEXT (SCROLLABLE)
                         ScrollView(showsIndicators: false) {
                             Text(page.text)
-                                .font(.custom("OpenDyslexic-Regular", size: 16))
+                                .font(.custom("OpenDyslexic-Regular", size: 20))
                                 .lineSpacing(20)
                                 .foregroundColor(.appPrimaryText)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 8)
+                                .padding(.vertical, 9)
                         }
-                        .frame(maxHeight: 140)
+                        .frame(maxHeight: 250)
                         
                         Spacer()
                         

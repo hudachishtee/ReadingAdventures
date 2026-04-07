@@ -44,6 +44,11 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		42D473CA2F858EAC00895B7A /* Audio */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Audio;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +69,7 @@
 				42D472FB2F823FC800895B7A /* Others */,
 				42D472FC2F823FCB00895B7A /* Views */,
 				42D472FD2F823FCD00895B7A /* ViewModels */,
+				42D473CA2F858EAC00895B7A /* Audio */,
 				42D472EA2F823F6B00895B7A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -96,6 +102,7 @@
 				42D472FB2F823FC800895B7A /* Others */,
 				42D472FC2F823FCB00895B7A /* Views */,
 				42D472FD2F823FCD00895B7A /* ViewModels */,
+				42D473CA2F858EAC00895B7A /* Audio */,
 			);
 			name = ReadingAdventures;
 			packageProductDependencies = (
