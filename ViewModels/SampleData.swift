@@ -89,9 +89,9 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
-            Page(text: "Mia had one red crayon.\nShe liked to draw hearts.\nThe crayon was gone.", imageName: "story4_page1", audioName: "crayon1"),
-            Page(text: "Mia looked under the table.\nShe looked under the chair.\nShe felt sad.", imageName: "story4_page2", audioName: "crayon2"),
-            Page(text: "Mia saw the crayon on the floor.\nIt rolled near her shoe.\nShe smiled.", imageName: "story4_page3", audioName: "crayon3")
+            Page(text: "Mia had one red crayon.\nShe liked to draw hearts.\nThe crayon was gone.", imageName: "story4_page1", audioName: "story4_audio1"),
+            Page(text: "Mia looked under the table.\nShe looked under the chair.\nShe felt sad.", imageName: "story4_page2", audioName: "story4_audio2"),
+            Page(text: "Mia saw the crayon on the floor.\nIt rolled near her shoe.\nShe smiled.\nShe started to draw again.", imageName: "story4_page3", audioName: "story4_audio3")
         ],
 
         moral: "Do not give up. Keep looking.",
@@ -106,159 +106,49 @@ let sampleStories: [Story] = [
         games: []
     ),
 
+    // =========================
+    // EXPLORER STORIES
+    // =========================
+
     Story(
-        title: "Milo the Cat",
-        level: .beginner,
-        category: .adventure,
-        imageName: "story5_cover",
-        theme: StoryTheme(primary: .blue, secondary: .cyan),
-
+        title: "The Lost Little Bird",
+        level: .explorer,
+        category: .moral,
+        imageName: "story8_cover",
+        theme: StoryTheme(
+            primary: Color(red: 0.95, green: 0.9, blue: 0.6),
+            secondary: Color(red: 0.6, green: 0.85, blue: 0.55)
+        ),
         pages: [
-            Page(text: "Milo is a small cat.\nHe has soft, white fur.\nMilo likes to play.", imageName: "story5_page1", audioName: "milo1"),
-            Page(text: "Milo sees a blue toy.\nThe toy moves.\nMilo runs and taps it.", imageName: "story5_page2", audioName: "milo2"),
-            Page(text: "The toy stops.\nMilo sits and smiles.\n'I like my toy,' says Milo.", imageName: "story5_page3", audioName: "milo3")
+            Page(text: "Omar heard a soft chirp.\nA small bird sat alone.", imageName: "story8_page1", audioName: "story8_audio1"),
+            Page(text: "It looked scared.\nOmar searched for its nest.", imageName: "story8_page2", audioName: "story8_audio2"),
+            Page(text: "He found the nest and helped the bird.\nThe bird was safe again.", imageName: "story8_page3", audioName: "story8_audio3")
         ],
-
-        moral: "Enjoy simple moments.",
-
-        vocabulary: [
-            VocabularyWord(word: "Cat", meaning: "A small pet animal", example: "I have a cat.", audioName: "cat"),
-            VocabularyWord(word: "Soft", meaning: "Not hard", example: "The pillow is soft.", audioName: "soft"),
-            VocabularyWord(word: "Toy", meaning: "Something to play with", example: "He loves his toy.", audioName: "toy"),
-            VocabularyWord(word: "Play", meaning: "To have fun", example: "Children play.", audioName: "play")
-        ],
-
+        moral: "Helping others, even in small ways, makes a big difference.",
+        vocabulary: [],
         games: []
     ),
 
     Story(
-        title: "The Quiet Moon",
-        level: .beginner,
-        category: .adventure,
-        imageName: "story6_cover",
-        theme: StoryTheme(primary: .purple, secondary: .blue),
-
+        title: "The Rainy Day Surprise",
+        level: .explorer,
+        category: .moral,
+        imageName: "story7_cover",
+        theme: StoryTheme(
+            primary: Color(red: 1.0, green: 0.75, blue: 0.8),
+            secondary: Color(red: 1.0, green: 0.55, blue: 0.65)
+        ),
         pages: [
-            Page(text: "The moon is big and bright.\nIt shines in the dark sky.\nEverything is quiet.", imageName: "story6_page1", audioName: "moon1"),
-            Page(text: "A small owl wakes up.\nIt looks at the moon.\n'Hello,' says the owl.", imageName: "story6_page2", audioName: "moon2"),
-            Page(text: "The owl sits very still.\nThe night feels calm.\nThe moon watches over all.", imageName: "story6_page3", audioName: "moon3")
+            Page(text: "Lina woke up to gray clouds.\nRain tapped softly on the window.", imageName: "story7_page1", audioName: "story7_audio1"),
+            Page(text: "She felt a little sad.\nHer mother said, “Let’s make today special.”", imageName: "story7_page2", audioName: "story7_audio2"),
+            Page(text: "They built a tent and read stories.\nLina smiled.\nRainy days can be fun too.", imageName: "story7_page3", audioName: "story7_audio3")
         ],
-
-        moral: "Quiet moments are beautiful.",
-
-        vocabulary: [
-            VocabularyWord(word: "Moon", meaning: "Light in the night sky", example: "The moon is bright.", audioName: "moon"),
-            VocabularyWord(word: "Quiet", meaning: "No loud sounds", example: "The room is quiet.", audioName: "quiet"),
-            VocabularyWord(word: "Owl", meaning: "A night bird", example: "The owl flies.", audioName: "owl"),
-            VocabularyWord(word: "Night", meaning: "Dark time", example: "Stars shine at night.", audioName: "night")
-        ],
-
+        moral: "Even a rainy day can become special with a little creativity.",
+        vocabulary: [],
         games: []
     ),
 
-    // 👉 Explorer + Advanced can be appended here (kept your app stable for now)
-
-Story(
-    title: "The Lost Little Bird",
-    level: .explorer,
-    category: .moral,
-    imageName: "story8_cover",
-    theme: StoryTheme(primary: .green, secondary: .yellow),
-
-    pages: [
-        Page(text: "Omar heard a soft chirp.\nA small bird sat alone.", imageName: "story8_page1", audioName: "story8_audio1"),
-        Page(text: "It looked scared.\nOmar searched for its nest.", imageName: "story8_page2", audioName: "story8_audio2"),
-        Page(text: "He found the nest and helped the bird.\nThe bird was safe again.", imageName: "story8_page3", audioName: "story8_audio3")
-    ],
-
-    moral: "Helping others, even in small ways, makes a big difference.",
-
-    vocabulary: [
-        VocabularyWord(word: "Chirp", meaning: "A small bird sound.", example: "The bird chirped loudly.", audioName: "chirp"),
-        VocabularyWord(word: "Nest", meaning: "A bird’s home.", example: "The bird returned to its nest.", audioName: "nest"),
-        VocabularyWord(word: "Safe", meaning: "Free from danger.", example: "The bird felt safe with Omar.", audioName: "safe"),
-        VocabularyWord(word: "Scared", meaning: "Feeling afraid.", example: "The little bird was scared.", audioName: "scared")
-    ],
-
-    games: []
-),
-
-Story(
-    title: "The Floating Balloon",
-    level: .explorer,
-    category: .moral,
-    imageName: "story9_cover",
-    theme: StoryTheme(primary: .red, secondary: .pink),
-
-    pages: [
-        Page(text: "Sara held a red balloon.\nIt was her favorite.", imageName: "story9_page1", audioName: "story9_audio1"),
-        Page(text: "The wind blew strong.\nThe balloon slipped away.", imageName: "story9_page2", audioName: "story9_audio2"),
-        Page(text: "Sara smiled and waved.\n\"Maybe it will make someone happy.\"", imageName: "story9_page3", audioName: "story9_audio3")
-    ],
-
-    moral: "Letting go can sometimes bring happiness to others.",
-
-    vocabulary: [
-        VocabularyWord(word: "Float", meaning: "Move in the air.", example: "The balloon floated up high.", audioName: "float"),
-        VocabularyWord(word: "Slip", meaning: "To lose hold of something.", example: "The balloon slipped from Sara’s hand.", audioName: "slip"),
-        VocabularyWord(word: "Wave", meaning: "Move your hand to say goodbye.", example: "Sara waved at her balloon.", audioName: "wave"),
-        VocabularyWord(word: "Happiness", meaning: "A feeling of joy.", example: "Seeing someone smile gave her happiness.", audioName: "happiness")
-    ],
-
-    games: []
-),
-
-Story(
-    title: "The Slow and Steady Turtle",
-    level: .explorer,
-    category: .moral,
-    imageName: "story10_cover",
-    theme: StoryTheme(primary: .green, secondary: .blue),
-
-    pages: [
-        Page(text: "A turtle walked very slowly.\nOther animals ran fast.", imageName: "story10_page1", audioName: "story10_audio1"),
-        Page(text: "They laughed at him.\nBut the turtle kept going.", imageName: "story10_page2", audioName: "story10_audio2"),
-        Page(text: "He reached the pond.\nSlow and steady wins.", imageName: "story10_page3", audioName: "story10_audio3")
-    ],
-
-    moral: "Patience and persistence lead to success.",
-
-    vocabulary: [
-        VocabularyWord(word: "Steady", meaning: "Not rushing.", example: "The turtle walked steadily.", audioName: "steady"),
-        VocabularyWord(word: "Rush", meaning: "To move quickly.", example: "The other animals rushed past.", audioName: "rush"),
-        VocabularyWord(word: "Pond", meaning: "A small body of water.", example: "The turtle reached the pond.", audioName: "pond"),
-        VocabularyWord(word: "Persistence", meaning: "Keep trying even when it’s hard.", example: "The turtle showed persistence.", audioName: "persistence")
-    ],
-
-    games: []
-),
-
-Story(
-    title: "The Kind Apple Tree",
-    level: .explorer,
-    category: .moral,
-    imageName: "story11_cover",
-    theme: StoryTheme(primary: .green, secondary: .orange),
-
-    pages: [
-        Page(text: "A tree grew bright apples.\nChildren came to pick them.", imageName: "story11_page1", audioName: "story11_audio1"),
-        Page(text: "One day, a tired boy came.\nHe had no food.", imageName: "story11_page2", audioName: "story11_audio2"),
-        Page(text: "The tree gave him apples.\nGiving made it happy.", imageName: "story11_page3", audioName: "story11_audio3")
-    ],
-
-    moral: "Kindness and giving bring happiness.",
-
-    vocabulary: [
-        VocabularyWord(word: "Freely", meaning: "Without holding back.", example: "The tree gave apples freely.", audioName: "freely"),
-        VocabularyWord(word: "Tired", meaning: "Needing rest.", example: "The boy felt tired.", audioName: "tired"),
-        VocabularyWord(word: "Warm", meaning: "Feeling happy inside.", example: "The boy felt warm inside.", audioName: "warm"),
-        VocabularyWord(word: "Kindness", meaning: "Being caring and helpful.", example: "Showing kindness makes others happy.", audioName: "kindness")
-    ],
-
-    games: []
-),
-
-Story(
+ Story(
     title: "The Whispering Waves",
     level: .explorer,
     category: .adventure,

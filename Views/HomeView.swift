@@ -19,9 +19,9 @@ struct HomeView: View {
                     .ignoresSafeArea()
                     
                     VStack(spacing: 20 * s) {
-                        
+                        Spacer()
                         Text("Choose A Story")
-                            .font(.custom("OpenDyslexic-Bold", size: 26 * s))
+                            .font(.custom("OpenDyslexic-Bold", size: 25 * s))
                             .foregroundColor(.appPrimaryText)
                             .padding(12 * s)
                             .frame(maxWidth: .infinity)

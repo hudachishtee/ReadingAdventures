@@ -56,7 +56,6 @@ struct StoryReaderView: View {
                             
                             Spacer()
                             
-                            // ✅ FIXED SPEED CONTROL (ONE CLEAN RECTANGLE)
                             HStack(spacing: 0) {
                                 speedSegment("Slow", 0.75)
                                 speedSegment("Normal", 1.0)
@@ -68,14 +67,15 @@ struct StoryReaderView: View {
                             .animation(.easeInOut(duration: 0.2), value: speed)
                         }
                         
-                        // MARK: TEXT (SCROLLABLE)
-                        ScrollView(showsIndicators: false) {
-                            Text(page.text)
-                                .font(.custom("OpenDyslexic-Regular", size: 20))
-                                .lineSpacing(20)
-                                .foregroundColor(.appPrimaryText)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 9)
+                        // ✅ FIXED TEXT SECTION
+                        Group {
+                            if page.text.count > 80 {
+                                ScrollView(showsIndicators: false) {
+                                    textContent(page: page)
+                                }
+                            } else {
+                                textContent(page: page)
+                            }
                         }
                         .frame(maxHeight: 250)
                         
@@ -153,7 +153,28 @@ struct StoryReaderView: View {
         }
     }
     
-    // MARK: - SPEED SEGMENT (FINAL CLEAN VERSION)
+    // ✅ CLEAN TEXT BUILDER
+    func textContent(page: Page) -> some View {
+        
+        let lines = page.text
+            .components(separatedBy: "\n")
+            .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        
+        return VStack(alignment: .leading, spacing: 20) {
+            ForEach(lines, id: \.self) { line in
+                Text(line)
+                    .lineSpacing(6)
+            }
+        }
+        .font(.custom("OpenDyslexic-Regular", size: 17.2))
+        .tracking(-0.5)
+        .foregroundColor(.appPrimaryText)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.vertical, 9)
+    }
+    
+    // MARK: - SPEED SEGMENT
     func speedSegment(_ title: String, _ value: Float) -> some View {
         Text(title)
             .font(.custom("OpenDyslexic-Bold", size: 13))
@@ -182,8 +203,7 @@ struct StoryReaderView: View {
     }
 }
 
-
 // MARK: - PREVIEW
 #Preview {
-    StoryReaderView(story: sampleStories[1])
+    StoryReaderView(story: sampleStories[3])
 }
