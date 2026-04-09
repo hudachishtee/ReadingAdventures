@@ -7,7 +7,6 @@ struct HomeView: View {
         NavigationStack {
             
             GeometryReader { geo in
-                let s = Scale.factor(geo)
                 
                 ZStack {
                     
@@ -18,24 +17,25 @@ struct HomeView: View {
                     )
                     .ignoresSafeArea()
                     
-                    VStack(spacing: 20 * s) {
+                    VStack(spacing: 20) {
                         Spacer()
+                        
                         Text("Choose A Story")
-                            .font(.custom("OpenDyslexic-Bold", size: 25 * s))
+                            .font(.custom("OpenDyslexic-Bold", size: 25))
                             .foregroundColor(.appPrimaryText)
-                            .padding(12 * s)
+                            .padding(12)
                             .frame(maxWidth: .infinity)
                             .background(Color.appCardBackground.opacity(0.6))
                             .cornerRadius(12)
-                            .padding(.horizontal, 16 * s)
+                            .padding(.horizontal, 16)
                         
                         ScrollView {
-                            VStack(spacing: 25 * s) {
+                            VStack(spacing: 25) {
                                 ForEach(sampleStories) { story in
                                     StoryCard(story: story)
                                 }
                             }
-                            .padding(.bottom, 100 * s)
+                            .padding(.bottom, 100)
                         }
                         
                         Spacer()
@@ -47,14 +47,18 @@ struct HomeView: View {
                             Spacer()
                             Image(systemName: "medal.fill")
                         }
-                        .font(.system(size: 22 * s))
+                        .font(.system(size: 22))
                         .foregroundColor(.appPrimaryText)
-                        .padding(16 * s)
+                        .padding(16)
                         .background(Color.appCardBackground.opacity(0.7))
                         .cornerRadius(30)
-                        .padding(.horizontal, 16 * s)
+                        .padding(.horizontal, 16)
                     }
-                    .padding(.top, 10 * s)
+                    .padding(.top, 10)
+                    
+                    // ✅ THIS IS THE MAIN iPad FIX
+                    .frame(maxWidth: 600)
+                    .frame(maxWidth: .infinity)
                 }
             }
         }

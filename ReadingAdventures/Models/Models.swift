@@ -13,10 +13,20 @@ enum StoryCategory {
     case fantasy
 }
 
+// MARK: - Story Level
+enum StoryLevel: String, CaseIterable {
+    case beginner = "Beginner"
+    case explorer = "Explorer"
+    case advanced = "Advanced"
+}
+
 // MARK: - Story Model
 struct Story: Identifiable {
     let id = UUID()
+    
     let title: String
+    let description: String   // ✅ NEW (for StoryPreviewView)
+    
     let level: StoryLevel
     let category: StoryCategory
     let imageName: String
@@ -26,13 +36,6 @@ struct Story: Identifiable {
     let moral: String
     let vocabulary: [VocabularyWord]
     let games: [GameQuestion]
-}
-
-// MARK: - Story Level
-enum StoryLevel: String, CaseIterable {
-    case beginner = "Beginner"
-    case explorer = "Explorer"
-    case advanced = "Advanced"
 }
 
 // MARK: - Page Model

@@ -11,6 +11,9 @@ struct Scale {
     static let baseWidth: CGFloat = 375
     
     static func factor(_ geo: GeometryProxy) -> CGFloat {
-        geo.size.width / baseWidth
+        let raw = geo.size.width / baseWidth
+        
+        // 🔥 Clamp scaling (VERY IMPORTANT)
+        return min(max(raw, 0.85), 1.4)
     }
 }

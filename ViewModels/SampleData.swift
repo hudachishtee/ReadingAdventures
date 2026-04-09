@@ -8,6 +8,13 @@ let sampleStories: [Story] = [
 
     Story(
         title: "The Extra Sandwich",
+        description: """
+                Meet a child who brings an extra sandwich to school.
+
+                They notice someone sitting alone and feeling hungry.
+
+                A warm story about kindness and sharing with others.
+                """,
         level: .beginner,
         category: .moral,
         imageName: "story1_cover",
@@ -33,6 +40,13 @@ let sampleStories: [Story] = [
 
     Story(
         title: "The Brave Little Wave",
+        description: """
+                Meet a little wave who feels nervous about reaching the shore.
+                
+                Can it find the courage to roll forward? 
+                
+                A short, splashy story about bravery and trying new things.
+                """,
         level: .beginner,
         category: .adventure,
         imageName: "story2_cover",
@@ -58,6 +72,13 @@ let sampleStories: [Story] = [
 
     Story(
         title: "The Sunset Promise",
+        description: """
+                Meet two friends who watch the sun set by the sea.
+                
+                Can their promise to meet again stay warm in their hearts?
+                
+                A short, gentle story about friendship and keeping promises.
+                """,
         level: .beginner,
         category: .moral,
         imageName: "story3_cover",
@@ -83,6 +104,13 @@ let sampleStories: [Story] = [
 
     Story(
         title: "The Lost Crayon",
+        description: """
+                Meet Mia, a little artist who loses her favorite crayon.    
+                
+                Can she find it again and finish her drawing? 
+                
+                A colorful story about not giving up and keeping hope.
+                """,
         level: .beginner,
         category: .moral,
         imageName: "story4_cover",
@@ -106,12 +134,81 @@ let sampleStories: [Story] = [
         games: []
     ),
 
+    Story(
+        title: "Milo the Cat",
+        description: """
+                Meet Milo, a small, playful cat with soft white fur. 
+                
+                Can he catch his moving toy and enjoy the joy of play?
+                
+                A short, pouncy story about curiosity, fun, and appreciating what you love.
+                """,
+        level: .beginner,
+        category: .moral,
+        imageName: "story5_cover",
+        theme: StoryTheme(primary: .red, secondary: .orange),
+
+        pages: [
+            Page(text: "Milo is a small cat.\nHe has soft, white fur.\nMilo likes to play.", imageName: "story5_page1", audioName: "story5_audio1"),
+            Page(text: "Milo sees a blue toy.\nThe toy moves.\nMilo runs and taps it.", imageName: "story5_page2", audioName: "story5_audio2"),
+            Page(text: "The toy stops.\nMilo sits and smiles.\nShe smiled.\n“I like my toy,” says Milo.", imageName: "story5_page3", audioName: "story5_audio3")
+        ],
+
+        moral: "Take care of the things you love and enjoy simple moments.",
+
+        vocabulary: [
+            VocabularyWord(word: "Cat", meaning: "A small animal with fur that people keep as a pet.", example: "I  have a cat at home.", audioName: "cat"),
+            VocabularyWord(word: "Soft", meaning: "Something that feels nice and not hard.", example: "My pillow is soft.", audioName: "soft"),
+            VocabularyWord(word: "Toy", meaning: "Something to play with.", example: "Milo loves his toy mouse.", audioName: "toy"),
+            VocabularyWord(word: "Play", meaning: "To have fun and enjoy activities.", example: "Milo likes to play with the ball.", audioName: "play")
+        ],
+        games: []
+    ),
+    
+    Story(
+        title: "The Quiet Moon",
+        description: """
+                Meet the quiet moon that watches over the night.
+                
+                Follow a small owl as it explores the calm, peaceful night, learning to enjoy the stillness around it. 
+                
+                A gentle, soothing story about calmness, observation, and the beauty of quiet moments.
+                """,
+        level: .beginner,
+        category: .moral,
+        imageName: "story6_cover",
+        theme: StoryTheme(primary: .red, secondary: .orange),
+
+        pages: [
+            Page(text: "The moon is big and bright.\nIt shines in the dark sky.\nEverything is quiet.", imageName: "story6_page1", audioName: "story6_audio1"),
+            Page(text: "A small owl wakes up.\nIt looks at the moon.\n“Hello,” says the owl.", imageName: "story6_page2", audioName: "story6_audio2"),
+            Page(text: "The owl sits very still.\nThe night feels calm.\nThe moon watches over all.", imageName: "story6_page3", audioName: "story6_audio3")
+        ],
+
+        moral: "Sometimes, quiet moments help us notice the beauty around us.",
+
+        vocabulary: [
+            VocabularyWord(word: "Moon", meaning: "The bright light in the night sky.", example: "Milo looks at the moon before bedtime.", audioName: "moon"),
+            VocabularyWord(word: "Quite", meaning: "No loud sounds.", example: "Milo sleeps quietly on the soft pillow.", audioName: "quite"),
+            VocabularyWord(word: "Owl", meaning: "A bird that wakes up at night.", example: "The owl flies silently in the dark.", audioName: "owl"),
+            VocabularyWord(word: "Night", meaning: "The dark time after the sun goes down.", example: "Stars shine at night.", audioName: "night")
+        ],
+        games: []
+    ),
+
     // =========================
     // EXPLORER STORIES
     // =========================
 
     Story(
         title: "The Lost Little Bird",
+        description: """
+                Meet Omar, who finds a scared little bird all alone.
+                
+                Can he help it return home safely? 
+                
+                A gentle story about kindness and helping others.
+                """,
         level: .explorer,
         category: .moral,
         imageName: "story8_cover",
@@ -131,6 +228,13 @@ let sampleStories: [Story] = [
 
     Story(
         title: "The Rainy Day Surprise",
+        description: """
+                Meet Lina, who wakes to a rainy day.
+                
+                Can she make the day special despite the gray clouds?
+                
+                A short, cheerful story about creativity and making fun in any situation.
+                """,
         level: .explorer,
         category: .moral,
         imageName: "story7_cover",
@@ -149,47 +253,90 @@ let sampleStories: [Story] = [
     ),
 
  Story(
-    title: "The Whispering Waves",
+    title: "The Floating Balloon",
+    description: """
+            Sara’s red balloon slips away in the wind.
+            
+            Can she learn to let go and find happiness in the unexpected?
+            
+            A short, thoughtful story about letting go.
+            """,
     level: .explorer,
     category: .adventure,
-    imageName: "story12_cover",
+    imageName: "story9_cover",
     theme: StoryTheme(primary: .blue, secondary: .cyan),
 
     pages: [
-        Page(text: "The ocean was wide and deep.\nOne small wave felt afraid.", imageName: "story12_page1", audioName: "story12_audio1"),
-        Page(text: "\"What if I fall?\" it thought.\nThe big waves whispered, \"You are strong.\"", imageName: "story12_page2", audioName: "story12_audio2"),
-        Page(text: "The small wave rose high.\n\"I did it,\" it said proudly.", imageName: "story12_page3", audioName: "story12_audio3")
+        Page(text: "Sara held a red balloon.\nIt was her favorite.", imageName: "story9_page1", audioName: "story9_audio1"),
+        Page(text: "The wind blew strong.\nThe balloon slipped away.", imageName: "story9_page2", audioName: "story9_audio2"),
+        Page(text: "Sara smiled and waved.\n\"Maybe it will make someone happy.”", imageName: "story9_page3", audioName: "story9_audio3")
     ],
 
-    moral: "Believe in yourself even when you feel afraid.",
+    moral: "Letting go can sometimes bring happiness to others.",
 
     vocabulary: [
-        VocabularyWord(word: "Whisper", meaning: "Speak very softly.", example: "The waves whispered to the small wave.", audioName: "whisper"),
-        VocabularyWord(word: "Courage", meaning: "Being brave.", example: "The small wave showed courage.", audioName: "courage"),
-        VocabularyWord(word: "Proudly", meaning: "Feeling happy about yourself.", example: "The wave rose proudly.", audioName: "proudly"),
-        VocabularyWord(word: "Afraid", meaning: "Feeling scared.", example: "The small wave was afraid.", audioName: "afraid"),
-        VocabularyWord(word: "Ocean", meaning: "A large body of salt water.", example: "The ocean was wide and deep.", audioName: "ocean")
+        VocabularyWord(word: "Float", meaning: "Move in the air.", example: "The balloon floated up high.", audioName: "float"),
+        VocabularyWord(word: "Slip", meaning: "To lose hold of something.", example: "The balloon slipped from Sara’s hand.", audioName: "slip"),
+        VocabularyWord(word: "Wave", meaning: "Move your hand to say goodbye.", example: "Sara waved at her balloon.", audioName: "wave"),
+        VocabularyWord(word: "Happiness", meaning: "A feeling of joy.", example: "Seeing someone smile gave her happiness.", audioName: "happiness")
     ],
 
     games: []
 ),
+    Story(
+        title: "The Slow and Steady Turtle",
+        description: """
+                A turtle walks slowly while others rush past.
+                
+                Can patience help him reach his goal?
+                
+                A story about persistence and steady progress.
+                """,
+        level: .explorer,
+        category: .moral,
+        imageName: "story10_cover",
+        theme: StoryTheme(
+            primary: Color(red: 1.0, green: 0.75, blue: 0.8),
+            secondary: Color(red: 1.0, green: 0.55, blue: 0.65)
+        ),
+        pages: [
+            Page(text: "A turtle walked very slowly.\nOther animals ran fast.", imageName: "story10_page1", audioName: "story10_audio1"),
+            Page(text: "They laughed at him.\nBut the turtle kept going.", imageName: "story10_page2", audioName: "story10_audio2"),
+            Page(text: "He reached the pond.\nSlow and steady wins.", imageName: "story10_page3", audioName: "story10_audio3")
+        ],
+        moral: "Patience and persistence lead to success.",
+        vocabulary: [
+            VocabularyWord(word: "Steady", meaning: "Not rushing.", example: "The turtle walked steadily.", audioName: "steady"),
+            VocabularyWord(word: "Rush", meaning: "To move quickly.", example: "The other animals rushed past.", audioName: "rush"),
+            VocabularyWord(word: "Pond", meaning: "A small body of water.", example: "The turtle reached the pond.", audioName: "pond"),
+            VocabularyWord(word: "Persistence", meaning: "Keep trying even when it’s hard.", example: "SThe turtle showed persistence.", audioName: "persistence")],
+        games: []
+    ),
+
 
 // =========================
-// ADVANCED STORIES (13–16)
+// ADVANCED STORIES (11–16)
 // =========================
 
 Story(
     title: "The Light in the Dark",
+    description: """
+            Meet a child who feels lost in the dark.
+            
+            Can a small light help them find their way again?
+            
+            A thoughtful story about hope and not giving up.
+            """,
     level: .advanced,
     category: .moral,
-    imageName: "story13_cover",
+    imageName: "story11_cover",
     theme: StoryTheme(primary: .black, secondary: .yellow),
 
     pages: [
-        Page(text: "It was very dark.\nLina could not see the path.\nShe felt a little scared.", imageName: "story13_page1", audioName: "story13_audio1"),
-        Page(text: "She saw a tiny light ahead.\nIt flickered softly.\nLina walked toward it.", imageName: "story13_page2", audioName: "story13_audio2"),
-        Page(text: "The light grew brighter.\nIt showed her the way home.\nLina felt brave again.", imageName: "story13_page3", audioName: "story13_audio3"),
-        Page(text: "She smiled and kept walking.\nThe dark felt smaller now.\nThe light stayed with her.", imageName: "story13_page4", audioName: "story13_audio4")
+        Page(text: "It was very dark.\nLina could not see the path.\nShe felt a little scared.", imageName: "story11_page1", audioName: "story11_audio1"),
+        Page(text: "She saw a tiny light ahead.\nIt flickered softly.\nLina walked toward it.", imageName: "story11_page2", audioName: "story11_audio2"),
+        Page(text: "The light grew brighter.\nIt showed her the way home.\nLina felt brave again.", imageName: "story11_page3", audioName: "story11_audio3"),
+        Page(text: "She smiled and kept walking.\nThe dark felt smaller now.\nThe light stayed with her.", imageName: "story11_page4", audioName: "story11_audio4")
     ],
 
     moral: "Even a small light can guide you through dark times.",
@@ -206,16 +353,23 @@ Story(
 
 Story(
     title: "The Missing Piece",
+    description: """
+            Meet Lina, who wakes to a rainy day.
+            
+            Can she make the day special despite the gray clouds?
+            
+            A short, cheerful story about creativity and making fun in any situation.
+            """,
     level: .advanced,
     category: .moral,
-    imageName: "story14_cover",
+    imageName: "story12_cover",
     theme: StoryTheme(primary: .gray, secondary: .blue),
 
     pages: [
-        Page(text: "A small circle rolled slowly.\nIt had a piece missing.\nIt did not feel whole.", imageName: "story14_page1", audioName: "story14_audio1"),
-        Page(text: "It looked everywhere.\nIt tried many pieces.\nBut none of them fit.", imageName: "story14_page2", audioName: "story14_audio2"),
-        Page(text: "The circle stopped and thought.\n\"Maybe I am okay like this,\" it said.\nIt smiled a little.", imageName: "story14_page3", audioName: "story14_audio3"),
-        Page(text: "It rolled happily again.\nIt did not need to change.\nIt was already enough.", imageName: "story14_page4", audioName: "story14_audio4")
+        Page(text: "A small circle rolled slowly.\nIt had a piece missing.\nIt did not feel whole.", imageName: "story12_page1", audioName: "story12_audio1"),
+        Page(text: "It looked everywhere.\nIt tried many pieces.\nBut none of them fit.", imageName: "story12_page2", audioName: "story12_audio2"),
+        Page(text: "The circle stopped and thought.\n\"Maybe I am okay like this,\" it said.\nIt smiled a little.", imageName: "story12_page3", audioName: "story12_audio3"),
+        Page(text: "It rolled happily again.\nIt did not need to change.\nIt was already enough.", imageName: "story12_page4", audioName: "story12_audio4")
     ],
 
     moral: "You do not need to be perfect to be enough.",
@@ -232,16 +386,23 @@ Story(
 
 Story(
     title: "The Brave Lantern",
+    description: """
+            Meet Lina, who wakes to a rainy day.
+            
+            Can she make the day special despite the gray clouds?
+            
+            A short, cheerful story about creativity and making fun in any situation.
+            """,
     level: .advanced,
     category: .moral,
-    imageName: "story15_cover",
+    imageName: "story13_cover",
     theme: StoryTheme(primary: .orange, secondary: .yellow),
 
     pages: [
-        Page(text: "A small lantern sat quietly.\nIt was afraid of the dark.\nIt did not want to shine.", imageName: "story15_page1", audioName: "story15_audio1"),
-        Page(text: "People walked in the dark.\nThey could not see the road.\nThe lantern felt worried.", imageName: "story15_page2", audioName: "story15_audio2"),
-        Page(text: "It took a deep breath.\nIt began to glow softly.\nThe road became clear.", imageName: "story15_page3", audioName: "story15_audio3"),
-        Page(text: "People smiled and walked safely.\nThe lantern felt proud.\nIt was brave after all.", imageName: "story15_page4", audioName: "story15_audio4")
+        Page(text: "A small lantern sat quietly.\nIt was afraid of the dark.\nIt did not want to shine.", imageName: "story13_page1", audioName: "story13_audio1"),
+        Page(text: "People walked in the dark.\nThey could not see the road.\nThe lantern felt worried.", imageName: "story13_page2", audioName: "story13_audio2"),
+        Page(text: "It took a deep breath.\nIt began to glow softly.\nThe road became clear.", imageName: "story13_page3", audioName: "story13_audio3"),
+        Page(text: "People smiled and walked safely.\nThe lantern felt proud.\nIt was brave after all.", imageName: "story13_page4", audioName: "story13_audio4")
     ],
 
     moral: "Being brave can help others too.",
@@ -258,16 +419,23 @@ Story(
 
 Story(
     title: "The Sky Painter",
+    description: """
+            Meet Lina, who wakes to a rainy day.
+            
+            Can she make the day special despite the gray clouds?
+            
+            A short, cheerful story about creativity and making fun in any situation.
+            """,
     level: .advanced,
     category: .moral,
-    imageName: "story16_cover",
+    imageName: "story14_cover",
     theme: StoryTheme(primary: .blue, secondary: .pink),
 
     pages: [
-        Page(text: "Noor loved to paint the sky.\nShe used blue, pink, and gold.\nShe wanted it to be perfect.", imageName: "story16_page1", audioName: "story16_audio1"),
-        Page(text: "The colors mixed too much.\nThe sky did not look right.\nNoor felt upset.", imageName: "story16_page2", audioName: "story16_audio2"),
-        Page(text: "She tried again slowly.\nShe took her time.\nThe colors looked better.", imageName: "story16_page3", audioName: "story16_audio3"),
-        Page(text: "Noor smiled at her work.\nIt was not perfect, but beautiful.\nShe was proud of trying.", imageName: "story16_page4", audioName: "story16_audio4")
+        Page(text: "Noor loved to paint the sky.\nShe used blue, pink, and gold.\nShe wanted it to be perfect.", imageName: "story14_page1", audioName: "story14_audio1"),
+        Page(text: "The colors mixed too much.\nThe sky did not look right.\nNoor felt upset.", imageName: "story14_page2", audioName: "story14_audio2"),
+        Page(text: "She tried again slowly.\nShe took her time.\nThe colors looked better.", imageName: "story14_page3", audioName: "story14_audio3"),
+        Page(text: "Noor smiled at her work.\nIt was not perfect, but beautiful.\nShe was proud of trying.", imageName: "story14_page4", audioName: "story14_audio4")
     ],
 
     moral: "Trying again helps you improve and grow.",

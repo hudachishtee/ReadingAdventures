@@ -8,11 +8,11 @@ struct StoryCard: View {
         
         VStack(alignment: .leading, spacing: 12) {
             
-            // IMAGE
+            // IMAGE (FIXED)
             Image(story.imageName)
                 .resizable()
-                .scaledToFill()
-                .frame(height: 180)
+                .aspectRatio(2.5, contentMode: .fill) // ✅ prevents zoom issues
+                .frame(maxWidth: .infinity)
                 .clipped()
                 .cornerRadius(12)
                 .shadow(radius: 5)
@@ -40,11 +40,11 @@ struct StoryCard: View {
                 NavigationLink(destination: StoryReaderView(story: story)) {
                     Text("Read Now")
                         .font(.custom("OpenDyslexic-Bold", size: 18))
-                        .foregroundColor(.white) // 👈 FIXED
+                        .foregroundColor(.white)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .background(
-                            Color.appSecondaryText.opacity(0.6) // 👈 soft green button
+                            Color.appSecondaryText.opacity(0.6)
                         )
                         .cornerRadius(10)
                 }
@@ -52,12 +52,15 @@ struct StoryCard: View {
         }
         .padding()
         .background(
-            // 🔥 THIS IS THE KEY FIX
             Color.appSecondaryText.opacity(0.15)
         )
         .cornerRadius(25)
         .shadow(color: Color.black.opacity(0.25), radius: 6, x: 0, y: 3)
         .padding(.horizontal)
+        
+        // ✅ THIS FIXES iPad STRETCHING
+        .frame(maxWidth: 600)
+        .frame(maxWidth: .infinity)
     }
 }
 
