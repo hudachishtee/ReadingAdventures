@@ -9,7 +9,7 @@ struct StoryCard: View {
         VStack(alignment: .leading, spacing: 12) {
             
             // IMAGE (FIXED)
-            Image(story.imageName)
+            Image(story.coverImage)
                 .resizable()
                 .aspectRatio(2.5, contentMode: .fill) // ✅ prevents zoom issues
                 .frame(maxWidth: .infinity)

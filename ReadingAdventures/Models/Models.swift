@@ -25,11 +25,15 @@ struct Story: Identifiable {
     let id = UUID()
     
     let title: String
-    let description: String   // ✅ NEW (for StoryPreviewView)
+    let description: String   // ✅ For StoryPreviewView
     
     let level: StoryLevel
     let category: StoryCategory
-    let imageName: String
+    
+    // ✅ NEW: Separate images for different screens
+    let coverImage: String     // HomeView / StoryCard
+    let previewImage: String   // StoryPreviewView
+    
     let theme: StoryTheme
     
     let pages: [Page]

@@ -17,7 +17,9 @@ let sampleStories: [Story] = [
                 """,
         level: .beginner,
         category: .moral,
-        imageName: "story1_cover",
+        coverImage: "story1_cover",
+        previewImage: "story1_preview",    // ✅ Preview screen
+
         theme: StoryTheme(primary: .orange, secondary: .yellow),
 
         pages: [
@@ -49,7 +51,9 @@ let sampleStories: [Story] = [
                 """,
         level: .beginner,
         category: .adventure,
-        imageName: "story2_cover",
+        coverImage: "story2_cover",
+        previewImage: "story2_preview",    // ✅ Preview screen
+
         theme: StoryTheme(primary: .blue, secondary: .cyan),
 
         pages: [
@@ -81,7 +85,9 @@ let sampleStories: [Story] = [
                 """,
         level: .beginner,
         category: .moral,
-        imageName: "story3_cover",
+        coverImage: "story3_cover",
+        previewImage: "story3_preview",    // ✅ Preview screen
+
         theme: StoryTheme(primary: .orange, secondary: .pink),
 
         pages: [
@@ -113,7 +119,9 @@ let sampleStories: [Story] = [
                 """,
         level: .beginner,
         category: .moral,
-        imageName: "story4_cover",
+        coverImage: "story4_cover",
+        previewImage: "story4_preview",    // ✅ Preview screen
+
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
@@ -145,7 +153,9 @@ let sampleStories: [Story] = [
                 """,
         level: .beginner,
         category: .moral,
-        imageName: "story5_cover",
+        coverImage: "story5_cover",
+        previewImage: "story5_preview",    // ✅ Preview screen
+
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
@@ -176,7 +186,9 @@ let sampleStories: [Story] = [
                 """,
         level: .beginner,
         category: .moral,
-        imageName: "story6_cover",
+        coverImage: "story6_cover",
+        previewImage: "story6_preview",    // ✅ Preview screen
+
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
@@ -211,7 +223,9 @@ let sampleStories: [Story] = [
                 """,
         level: .explorer,
         category: .moral,
-        imageName: "story8_cover",
+        coverImage: "story8_cover",
+        previewImage: "story8_preview",    // ✅ Preview screen
+
         theme: StoryTheme(
             primary: Color(red: 0.95, green: 0.9, blue: 0.6),
             secondary: Color(red: 0.6, green: 0.85, blue: 0.55)
@@ -237,7 +251,9 @@ let sampleStories: [Story] = [
                 """,
         level: .explorer,
         category: .moral,
-        imageName: "story7_cover",
+        coverImage: "story7_cover",
+        previewImage: "story7_preview",    // ✅ Preview screen
+
         theme: StoryTheme(
             primary: Color(red: 1.0, green: 0.75, blue: 0.8),
             secondary: Color(red: 1.0, green: 0.55, blue: 0.65)
@@ -263,7 +279,9 @@ let sampleStories: [Story] = [
             """,
     level: .explorer,
     category: .adventure,
-    imageName: "story9_cover",
+    coverImage: "story9_cover",
+    previewImage: "story9_preview",    // ✅ Preview screen
+
     theme: StoryTheme(primary: .blue, secondary: .cyan),
 
     pages: [
@@ -294,7 +312,9 @@ let sampleStories: [Story] = [
                 """,
         level: .explorer,
         category: .moral,
-        imageName: "story10_cover",
+        coverImage: "story10_cover",
+        previewImage: "story10_preview",    // ✅ Preview screen
+
         theme: StoryTheme(
             primary: Color(red: 1.0, green: 0.75, blue: 0.8),
             secondary: Color(red: 1.0, green: 0.55, blue: 0.65)
@@ -329,7 +349,9 @@ Story(
             """,
     level: .advanced,
     category: .moral,
-    imageName: "story11_cover",
+    coverImage: "story11_cover",
+    previewImage: "story11_preview",    // ✅ Preview screen
+
     theme: StoryTheme(primary: .black, secondary: .yellow),
 
     pages: [
@@ -362,7 +384,9 @@ Story(
             """,
     level: .advanced,
     category: .moral,
-    imageName: "story12_cover",
+    coverImage: "story12_cover",
+    previewImage: "story12_preview",    // ✅ Preview screen
+
     theme: StoryTheme(primary: .gray, secondary: .blue),
 
     pages: [
@@ -395,7 +419,9 @@ Story(
             """,
     level: .advanced,
     category: .moral,
-    imageName: "story13_cover",
+    coverImage: "story13_cover",
+    previewImage: "story13_preview",    // ✅ Preview screen
+
     theme: StoryTheme(primary: .orange, secondary: .yellow),
 
     pages: [
@@ -428,7 +454,9 @@ Story(
             """,
     level: .advanced,
     category: .moral,
-    imageName: "story14_cover",
+    coverImage: "story14_cover",
+    previewImage: "story14_preview",    // ✅ Preview screen
+
     theme: StoryTheme(primary: .blue, secondary: .pink),
 
     pages: [

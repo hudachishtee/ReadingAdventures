@@ -35,7 +35,7 @@ struct StoryReaderView: View {
                 VStack {
                     Spacer()
                     
-                    VStack(spacing: 20) {
+                    VStack(spacing: 0) {
                         
                         // MARK: CONTROLS
                         HStack {
