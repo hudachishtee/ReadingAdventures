@@ -9,6 +9,7 @@ struct StoryPreviewView: View {
         GeometryReader { geo in
             
             let scale = Scale.factor(geo)
+            let isIPad = geo.size.width > 600
             
             ZStack {
                 
@@ -34,7 +35,7 @@ struct StoryPreviewView: View {
                             .font(.custom("OpenDyslexic-Bold", size: 18 * scale))
                             .foregroundColor(.black)
                             .frame(maxWidth: 240)
-                            .padding(.vertical, 8 * scale)
+                            .padding(.vertical, 10 * scale)
                             .background(
                                 LinearGradient(
                                     colors: [
@@ -51,22 +52,20 @@ struct StoryPreviewView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
-                // ✅ SMART PADDING (balanced for iPhone + iPad)
+                // ✅ PERFECT PADDING (device-aware)
                 .padding(
                     EdgeInsets(
-                        top: 30,
-                        leading: min(40, 20 * scale),
-                        bottom: 24,
-                        trailing: min(24, 20 * scale)
+                        top: isIPad ? 30 : 20,
+                        leading: isIPad ? 40 : 20,
+                        bottom: isIPad ? 28 : 20,
+                        trailing: isIPad ? 40 : 20
                     )
                 )
                 
-                // ✅ WIDTH (your “longer card” idea but controlled)
-                .frame(
-                    width: min(geo.size.width, 850) // 🔥 better than 850 (prevents weird stretch)
-                )
+                // ✅ FULL WIDTH (THIS FIXES YOUR MAIN ISSUE)
+                .frame(width: geo.size.width)
                 
-                // ✅ FLEXIBLE HEIGHT (prevents text truncation)
+                // ✅ FLEXIBLE HEIGHT (prevents text cutting)
                 .frame(
                     maxHeight: geo.size.height * 0.5,
                     alignment: .top
@@ -90,7 +89,7 @@ struct StoryPreviewView: View {
                 
                 .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: -5)
                 
-                // ✅ POSITION (keeps your perfect layout)
+                // ✅ POSITION (keeps your layout)
                 .position(
                     x: geo.size.width / 2,
                     y: geo.size.height * 0.83
@@ -99,7 +98,7 @@ struct StoryPreviewView: View {
         }
     }
     
-    // MARK: TEXT BUILDER
+    // MARK: TEXT
     func previewText(_ text: String, scale: CGFloat) -> some View {
         
         let lines = text
@@ -109,18 +108,17 @@ struct StoryPreviewView: View {
         return VStack(alignment: .leading, spacing: max(12, 16 * scale)) {
             ForEach(lines, id: \.self) { line in
                 Text(line)
-                    .lineLimit(nil)
+                    .lineLimit(nil) // ✅ no "..."
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
         .font(.custom("OpenDyslexic-Regular", size: 16 * scale))
-        .frame(maxWidth: 420, alignment: .leading) // 🔥 improves readability (VERY important)
     }
 }
 
 // MARK: PREVIEW
 #Preview {
     NavigationStack {
-        StoryPreviewView(story: sampleStories[0])
+        StoryPreviewView(story: sampleStories[4])
     }
 }
