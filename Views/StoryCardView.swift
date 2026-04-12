@@ -8,10 +8,10 @@ struct StoryCard: View {
         
         VStack(alignment: .leading, spacing: 12) {
             
-            // IMAGE (FIXED)
+            // IMAGE
             Image(story.coverImage)
                 .resizable()
-                .aspectRatio(2.5, contentMode: .fill) // ✅ prevents zoom issues
+                .aspectRatio(2.5, contentMode: .fill)
                 .frame(maxWidth: .infinity)
                 .clipped()
                 .cornerRadius(12)
@@ -37,8 +37,8 @@ struct StoryCard: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: StoryReaderView(story: story)) {
-                    Text("Read Now")
+                NavigationLink(destination: StoryPreviewView(story: story)) {
+                    Text("Preview")
                         .font(.custom("OpenDyslexic-Bold", size: 18))
                         .foregroundColor(.white)
                         .padding(.horizontal, 16)
@@ -58,22 +58,23 @@ struct StoryCard: View {
         .shadow(color: Color.black.opacity(0.25), radius: 6, x: 0, y: 3)
         .padding(.horizontal)
         
-        // ✅ THIS FIXES iPad STRETCHING
+        // iPad fix
         .frame(maxWidth: 600)
         .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
-    
-    ZStack {
-        LinearGradient(
-            colors: [.bgTop, .bgBottom],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .ignoresSafeArea()
-        
-        StoryCard(story: sampleStories[0])
+    NavigationStack {   // ✅ IMPORTANT
+        ZStack {
+            LinearGradient(
+                colors: [.bgTop, .bgBottom],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+            StoryCard(story: sampleStories[0])
+        }
     }
 }

@@ -9,11 +9,11 @@ let sampleStories: [Story] = [
     Story(
         title: "The Extra Sandwich",
         description: """
-                Meet a child who brings an extra sandwich to school.
+                Meet a child who brings an extra sandwich.
+                
+                They notice someone sitting alone.
 
-                They notice someone sitting alone and feeling hungry.
-
-                A warm story about kindness and sharing with others.
+                A story about kindness.
                 """,
         level: .beginner,
         category: .moral,
