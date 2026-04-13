@@ -5,6 +5,9 @@ struct HomeView: View {
     @State private var selectedStory: Story?
     @State private var navigateToReader = false
     
+    // ✅ NEW (holds story AFTER sheet closes)
+    @State private var storyForReader: Story?
+    
     var body: some View {
         
         NavigationStack {
@@ -13,7 +16,6 @@ struct HomeView: View {
                 
                 ZStack {
                     
-                    // BACKGROUND
                     LinearGradient(
                         colors: [.bgTop, .bgBottom],
                         startPoint: .top,
@@ -24,7 +26,6 @@ struct HomeView: View {
                     VStack(spacing: 20) {
                         Spacer()
                         
-                        // TITLE
                         Text("Choose A Story")
                             .font(.custom("OpenDyslexic-Bold", size: 25))
                             .foregroundColor(.appPrimaryText)
@@ -34,7 +35,6 @@ struct HomeView: View {
                             .cornerRadius(12)
                             .padding(.horizontal, 16)
                         
-                        // STORIES
                         ScrollView {
                             VStack(spacing: 25) {
                                 ForEach(sampleStories) { story in
@@ -52,7 +52,6 @@ struct HomeView: View {
                         
                         Spacer()
                         
-                        // TAB BAR
                         HStack {
                             Image(systemName: "house.fill")
                             Spacer()
@@ -73,26 +72,36 @@ struct HomeView: View {
                 }
             }
             
-            // ✅ NAVIGATION TO READER
+            // ✅ FIXED NAVIGATION
             .navigationDestination(isPresented: $navigateToReader) {
-                if let selectedStory {
-                    StoryReaderView(story: selectedStory)
+                if let story = storyForReader {
+                    StoryReaderView(story: story)
                 }
             }
         }
         
-        // ✅ SHEET
         .sheet(item: $selectedStory) { story in
             StoryPreviewSheet(
                 story: story,
                 onStart: {
-                    // 🔥 FIX: delay navigation until sheet fully closes
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    
+                    // ✅ SAVE STORY FIRST
+                    storyForReader = story
+                    
+                    // ✅ CLOSE SHEET
+                    selectedStory = nil
+                    
+                    // ✅ THEN NAVIGATE
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         navigateToReader = true
                     }
                 }
             )
-            .presentationDetents([.large])
+            .presentationDetents(
+                UIDevice.current.userInterfaceIdiom == .pad
+                ? [.large]
+                : [.fraction(0.6)]
+            )
             .presentationCornerRadius(30)
             .presentationDragIndicator(.visible)
         }

@@ -9,81 +9,85 @@ struct StoryPreviewSheet: View {
     
     var body: some View {
         
-        ZStack {
+        GeometryReader { geo in
+            let scale = Scale.factor(geo)
             
-            Color(red: 0.55, green: 0.7, blue: 0.8)
-                .ignoresSafeArea()
-            
-            VStack {
+            ZStack {
                 
-                Spacer().frame(height: 20)
+                Color(red: 0.55, green: 0.7, blue: 0.8)
+                    .ignoresSafeArea()
                 
-                // TOP BAR
-                HStack {
-                    Capsule()
-                        .fill(Color.gray.opacity(0.5))
-                        .frame(width: 40, height: 5)
-                        .frame(maxWidth: .infinity)
-                }
-                .overlay(alignment: .trailing) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.black)
-                            .padding(10)
-                            .background(Color.white.opacity(0.3))
-                            .clipShape(Circle())
+                VStack {
+                    
+                    Spacer().frame(height: 20 * scale)
+                    
+                    // TOP BAR
+                    HStack {
+                        Capsule()
+                            .fill(Color.gray.opacity(0.5))
+                            .frame(width: 40 * scale, height: 5 * scale)
+                            .frame(maxWidth: .infinity)
                     }
-                    .padding(.trailing, 20)
-                }
-                
-                Spacer().frame(height: 30)
-                
-                // IMAGE + TITLE
-                HStack(alignment: .top, spacing: 16) {
+                    .overlay(alignment: .trailing) {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.black)
+                                .padding(10 * scale)
+                                .background(Color.white.opacity(0.3))
+                                .clipShape(Circle())
+                        }
+                        .padding(.trailing, 20 * scale)
+                    }
                     
-                    Image(story.previewImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 100)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    Spacer().frame(height: 20 * scale)
                     
-                    Text(story.title)
-                        .font(.custom("OpenDyslexic-Bold", size: 22))
-                        .foregroundColor(.black)
-                        .lineLimit(2)
+                    // IMAGE + TITLE
+                    HStack(alignment: .top, spacing: 16 * scale) {
+                        
+                        Image(story.coverImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 90 * scale, height: 90 * scale)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        
+                        Text(story.title)
+                            .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
+                            .foregroundColor(.black)
+                            .lineLimit(2)
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal, 24 * scale)
                     
                     Spacer()
-                }
-                .padding(.horizontal, 40)
-                
-                Spacer().frame(height: 80)
-                
-                // DESCRIPTION
-                Text(story.shortDescription)
-                    .font(.custom("OpenDyslexic-Regular", size: 26))
-                    .foregroundColor(.black)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: 400)
-                
-                Spacer()
-                
-                // START BUTTON
-                Button {
-                    dismiss()
-                    onStart()
-                } label: {
-                    Text("START")
-                        .font(.custom("OpenDyslexic-Bold", size: 26))
+                    
+                    // DESCRIPTION
+                    Text(story.shortDescription)
+                        .font(.custom("OpenDyslexic-Regular", size: 20 * scale))
                         .foregroundColor(.black)
-                        .frame(maxWidth: 400)
-                        .padding(.vertical, 18)
-                        .background(Color.green.opacity(0.7))
-                        .cornerRadius(20)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: 350)
+                    
+                    Spacer()
+                    
+                    // START BUTTON (FIXED SIZE)
+                    Button {
+                        dismiss()
+                        onStart()
+                    } label: {
+                        Text("START")
+                            .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: 300)
+                            .padding(.vertical, 14 * scale)
+                            .background(Color.green.opacity(0.7))
+                            .cornerRadius(18)
+                    }
+                    
+                    Spacer().frame(height: 20 * scale)
                 }
-                
-                Spacer().frame(height: 30)
             }
         }
     }
