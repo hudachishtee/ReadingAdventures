@@ -3,12 +3,13 @@ import SwiftUI
 struct StoryCard: View {
     
     let story: Story
+    let onPreview: () -> Void   // ✅ NEW
     
     var body: some View {
         
         VStack(alignment: .leading, spacing: 12) {
             
-            // IMAGE
+            // MARK: IMAGE
             Image(story.coverImage)
                 .resizable()
                 .aspectRatio(2.5, contentMode: .fill)
@@ -17,14 +18,14 @@ struct StoryCard: View {
                 .cornerRadius(12)
                 .shadow(radius: 5)
             
-            // TITLE
+            // MARK: TITLE
             Text(story.title)
                 .font(.custom("OpenDyslexic-Bold", size: 20))
                 .foregroundColor(.appPrimaryText)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
             
-            // BOTTOM ROW
+            // MARK: BOTTOM ROW
             HStack {
                 
                 Text(story.level.rawValue + " 🌱")
@@ -37,17 +38,21 @@ struct StoryCard: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: StoryPreviewView(story: story)) {
+                // ✅ UPDATED BUTTON (NO NavigationLink)
+                Button {
+                    onPreview()
+                } label: {
                     Text("Preview")
                         .font(.custom("OpenDyslexic-Bold", size: 18))
                         .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 10)
                         .background(
-                            Color.appSecondaryText.opacity(0.6)
+                            Color.appSecondaryText.opacity(0.7)
                         )
-                        .cornerRadius(10)
+                        .cornerRadius(12)
                 }
+                .buttonStyle(.plain)
             }
         }
         .padding()
@@ -58,14 +63,14 @@ struct StoryCard: View {
         .shadow(color: Color.black.opacity(0.25), radius: 6, x: 0, y: 3)
         .padding(.horizontal)
         
-        // iPad fix
+        // MARK: iPad FIX
         .frame(maxWidth: 600)
         .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
-    NavigationStack {   // ✅ IMPORTANT
+    NavigationStack {
         ZStack {
             LinearGradient(
                 colors: [.bgTop, .bgBottom],
@@ -74,7 +79,10 @@ struct StoryCard: View {
             )
             .ignoresSafeArea()
             
-            StoryCard(story: sampleStories[0])
+            StoryCard(
+                story: sampleStories[0],
+                onPreview: {} // ✅ REQUIRED
+            )
         }
     }
 }

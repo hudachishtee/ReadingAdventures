@@ -15,6 +15,8 @@ let sampleStories: [Story] = [
 
                 A story about kindness.
                 """,
+        shortDescription: "Two children share their food.", // ✅ ADD THIS
+
         level: .beginner,
         category: .moral,
         coverImage: "story1_cover",
@@ -49,6 +51,8 @@ let sampleStories: [Story] = [
                 
                 A short, splashy story about bravery and trying new things.
                 """,
+        shortDescription: "A small wave learns to be brave.",
+        
         level: .beginner,
         category: .adventure,
         coverImage: "story2_cover",
@@ -83,6 +87,8 @@ let sampleStories: [Story] = [
                 
                 A short, gentle story about friendship and keeping promises.
                 """,
+        shortDescription: "Two friends make a promise.",
+        
         level: .beginner,
         category: .moral,
         coverImage: "story3_cover",
@@ -117,6 +123,8 @@ let sampleStories: [Story] = [
                 
                 A colorful story about not giving up and keeping hope.
                 """,
+        shortDescription: "A girl looks for her crayon.",
+        
         level: .beginner,
         category: .moral,
         coverImage: "story4_cover",
@@ -151,6 +159,8 @@ let sampleStories: [Story] = [
                 
                 A short, pouncy story about curiosity, fun, and appreciating what you love.
                 """,
+        shortDescription: "A playful cat chases his toy.",
+        
         level: .beginner,
         category: .moral,
         coverImage: "story5_cover",
@@ -184,6 +194,8 @@ let sampleStories: [Story] = [
                 
                 A gentle, soothing story about calmness, observation, and the beauty of quiet moments.
                 """,
+        shortDescription: "A quiet night with a small owl.",
+        
         level: .beginner,
         category: .moral,
         coverImage: "story6_cover",
@@ -221,6 +233,8 @@ let sampleStories: [Story] = [
                 
                 A gentle story about kindness and helping others.
                 """,
+        shortDescription: "A boy helps a lost bird.",
+        
         level: .explorer,
         category: .moral,
         coverImage: "story8_cover",
@@ -249,6 +263,8 @@ let sampleStories: [Story] = [
                 
                 A short, cheerful story about creativity and making fun in any situation.
                 """,
+        shortDescription: "A girl makes a rainy day fun.",
+        
         level: .explorer,
         category: .moral,
         coverImage: "story7_cover",
@@ -277,6 +293,8 @@ let sampleStories: [Story] = [
             
             A short, thoughtful story about letting go.
             """,
+    shortDescription: "A girl lets her balloon go.",
+    
     level: .explorer,
     category: .adventure,
     coverImage: "story9_cover",
@@ -310,6 +328,8 @@ let sampleStories: [Story] = [
                 
                 A story about persistence and steady progress.
                 """,
+        shortDescription: "A slow turtle keeps going.",
+        
         level: .explorer,
         category: .moral,
         coverImage: "story10_cover",
@@ -347,6 +367,8 @@ Story(
             
             A thoughtful story about hope and not giving up.
             """,
+    shortDescription: "A small light shows the way.",
+    
     level: .advanced,
     category: .moral,
     coverImage: "story11_cover",
@@ -382,6 +404,8 @@ Story(
             
             A short, cheerful story about creativity and making fun in any situation.
             """,
+    shortDescription: "A circle learns it is enough.",
+    
     level: .advanced,
     category: .moral,
     coverImage: "story12_cover",
@@ -417,6 +441,8 @@ Story(
             
             A short, cheerful story about creativity and making fun in any situation.
             """,
+    shortDescription: "A lantern finds courage to shine.",
+    
     level: .advanced,
     category: .moral,
     coverImage: "story13_cover",
@@ -452,6 +478,8 @@ Story(
             
             A short, cheerful story about creativity and making fun in any situation.
             """,
+    shortDescription: "A girl learns to keep trying.",
+    
     level: .advanced,
     category: .moral,
     coverImage: "story14_cover",

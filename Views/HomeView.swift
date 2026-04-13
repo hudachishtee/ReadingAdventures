@@ -2,6 +2,9 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @State private var selectedStory: Story?
+    @State private var navigateToReader = false
+    
     var body: some View {
         
         NavigationStack {
@@ -10,6 +13,7 @@ struct HomeView: View {
                 
                 ZStack {
                     
+                    // BACKGROUND
                     LinearGradient(
                         colors: [.bgTop, .bgBottom],
                         startPoint: .top,
@@ -20,6 +24,7 @@ struct HomeView: View {
                     VStack(spacing: 20) {
                         Spacer()
                         
+                        // TITLE
                         Text("Choose A Story")
                             .font(.custom("OpenDyslexic-Bold", size: 25))
                             .foregroundColor(.appPrimaryText)
@@ -29,10 +34,17 @@ struct HomeView: View {
                             .cornerRadius(12)
                             .padding(.horizontal, 16)
                         
+                        // STORIES
                         ScrollView {
                             VStack(spacing: 25) {
                                 ForEach(sampleStories) { story in
-                                    StoryCard(story: story)
+                                    
+                                    StoryCard(
+                                        story: story,
+                                        onPreview: {
+                                            selectedStory = story
+                                        }
+                                    )
                                 }
                             }
                             .padding(.bottom, 100)
@@ -40,6 +52,7 @@ struct HomeView: View {
                         
                         Spacer()
                         
+                        // TAB BAR
                         HStack {
                             Image(systemName: "house.fill")
                             Spacer()
@@ -55,12 +68,33 @@ struct HomeView: View {
                         .padding(.horizontal, 16)
                     }
                     .padding(.top, 10)
-                    
-                    // ✅ THIS IS THE MAIN iPad FIX
                     .frame(maxWidth: 600)
                     .frame(maxWidth: .infinity)
                 }
             }
+            
+            // ✅ NAVIGATION TO READER
+            .navigationDestination(isPresented: $navigateToReader) {
+                if let selectedStory {
+                    StoryReaderView(story: selectedStory)
+                }
+            }
+        }
+        
+        // ✅ SHEET
+        .sheet(item: $selectedStory) { story in
+            StoryPreviewSheet(
+                story: story,
+                onStart: {
+                    // 🔥 FIX: delay navigation until sheet fully closes
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        navigateToReader = true
+                    }
+                }
+            )
+            .presentationDetents([.large])
+            .presentationCornerRadius(30)
+            .presentationDragIndicator(.visible)
         }
     }
 }

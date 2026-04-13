@@ -6,7 +6,7 @@ struct StoryTheme {
     let secondary: Color
 }
 
-// MARK: - Story Category (for future screens)
+// MARK: - Story Category
 enum StoryCategory {
     case adventure
     case moral
@@ -25,14 +25,16 @@ struct Story: Identifiable {
     let id = UUID()
     
     let title: String
-    let description: String   // ✅ For StoryPreviewView
+    
+    let description: String          // (keep this for future if needed)
+    let shortDescription: String     // ✅ NEW (USED IN SHEET)
     
     let level: StoryLevel
     let category: StoryCategory
     
-    // ✅ NEW: Separate images for different screens
-    let coverImage: String     // HomeView / StoryCard
-    let previewImage: String   // StoryPreviewView
+    // MARK: Images
+    let coverImage: String
+    let previewImage: String
     
     let theme: StoryTheme
     
