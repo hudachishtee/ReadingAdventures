@@ -14,32 +14,37 @@ struct StoryReaderView: View {
         
         GeometryReader { geo in
             
+            let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+
             ZStack {
                 
                 // Background
                 story.theme.primary.opacity(0.9)
                     .ignoresSafeArea()
                 
-                // MARK: - IMAGE (TOP)
+                // MARK: - IMAGE
                 Image(page.imageName)
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: isIPad ? .fill : .fit)
                     .frame(
                         width: geo.size.width,
                         height: geo.size.height,
                         alignment: .top
                     )
+                    .clipped()
                     .ignoresSafeArea(edges: .top)
                 
                 // MARK: - CONTENT
                 VStack {
-                    Spacer()
                     
-                    VStack(spacing: 0) {
-                        
+                    Spacer(minLength: isIPad ? geo.size.height * 0.55 : 0)
+                    
+                    VStack(spacing: UIDevice.current.userInterfaceIdiom == .pad ? 5 : 16) {
+                        Spacer()
                         // MARK: CONTROLS
                         HStack {
                             
+                            // Listen Button
                             Button(audioManager.isPlaying ? "Pause" : "Listen") {
                                 if audioManager.isPlaying {
                                     audioManager.stop()
@@ -56,32 +61,47 @@ struct StoryReaderView: View {
                             
                             Spacer()
                             
-                            HStack(spacing: 0) {
-                                speedSegment("Slow", 0.75)
-                                speedSegment("Normal", 1.0)
-                                speedSegment("Fast", 1.5)
+                            // ✅ CLEAN SLIDER (FIXED DESIGN)
+                            HStack(spacing: 10) {
+                                
+                                Text("🐢")
+                                    .font(.system(size: isIPad ? 20 : 16))
+                                
+                                Slider(value: $speed, in: 0.5...1.5, step: 0.25)
+                                    .tint(story.theme.primary)
+                                
+                                Text("🐇")
+                                    .font(.system(size: isIPad ? 20 : 16))
                             }
-                            .padding(4)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 10)
+                            .frame(width: isIPad ? 260 : 180)
                             .background(.ultraThinMaterial)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .animation(.easeInOut(duration: 0.2), value: speed)
                         }
                         
-                        // ✅ FIXED TEXT SECTION
+                        // TEXT
                         Group {
                             if page.text.count > 80 {
                                 ScrollView(showsIndicators: false) {
                                     textContent(page: page)
+                                        .padding(.top, isIPad ? 20 : 8)
                                 }
                             } else {
                                 textContent(page: page)
+                                    .padding(.top, isIPad ? 12 : 8)
                             }
                         }
-                        .frame(maxHeight: 250)
+                        .frame(
+                            maxWidth: .infinity,
+                            minHeight: isIPad ? 180 : 150,
+                            maxHeight: isIPad ? 180 : 150,
+                            alignment: .top
+                        )
                         
-                        Spacer()
+//                        Spacer()
                         
-                        // MARK: NAVIGATION
+                        // NAVIGATION
                         HStack {
                             
                             Button("Back") {
@@ -107,11 +127,15 @@ struct StoryReaderView: View {
                             )
                         }
                         
-                        // MARK: PAGE DOTS
+                        // PAGE DOTS
                         HStack(spacing: 10) {
                             ForEach(0..<story.pages.count, id: \.self) { index in
                                 Circle()
-                                    .fill(index == currentPage ? story.theme.primary : Color.gray.opacity(0.4))
+                                    .fill(
+                                        index == currentPage
+                                        ? Color.white
+                                        : Color.white.opacity(0.45)
+                                    )
                                     .frame(width: 8, height: 8)
                             }
                         }
@@ -119,7 +143,9 @@ struct StoryReaderView: View {
                     .padding(20)
                     .frame(
                         width: geo.size.width,
-                        height: geo.size.height * 0.5
+                        height: isIPad
+                            ? geo.size.height * 0.32
+                            : geo.size.height * 0.5
                     )
                     .background(
                         ZStack {
@@ -153,57 +179,32 @@ struct StoryReaderView: View {
         }
     }
     
-    // ✅ CLEAN TEXT BUILDER
+    // MARK: - TEXT
     func textContent(page: Page) -> some View {
-        
         let lines = page.text
             .components(separatedBy: "\n")
             .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
         
-        return VStack(alignment: .leading, spacing: 20) {
+        let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+        
+        return VStack(alignment: .leading, spacing: isIPad ? 28 : 20) {
             ForEach(lines, id: \.self) { line in
                 Text(line)
-                    .lineSpacing(6)
+                    .lineSpacing(isIPad ? 10 : 6)
             }
         }
-        .font(.custom("OpenDyslexic-Regular", size: 17.2))
+        .font(.custom(
+            "OpenDyslexic-Regular",
+            size: isIPad ? 24 : 17.2
+        ))
         .tracking(-0.5)
         .foregroundColor(.appPrimaryText)
         .frame(maxWidth: .infinity, alignment: .leading)
         .fixedSize(horizontal: false, vertical: true)
         .padding(.vertical, 9)
     }
-    
-    // MARK: - SPEED SEGMENT
-    func speedSegment(_ title: String, _ value: Float) -> some View {
-        Text(title)
-            .font(.custom("OpenDyslexic-Bold", size: 13))
-            .foregroundColor(.black)
-            .frame(width: 75, height: 38)
-            .background(
-                ZStack {
-                    if speed == value {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        story.theme.primary,
-                                        story.theme.primary.opacity(0.7)
-                                    ],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
-                    }
-                }
-            )
-            .onTapGesture {
-                speed = value
-            }
-    }
 }
 
-// MARK: - PREVIEW
 #Preview {
     StoryReaderView(story: sampleStories[3])
 }

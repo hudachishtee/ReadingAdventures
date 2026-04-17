@@ -133,9 +133,9 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
-            Page(text: "Mia had one red crayon.\nShe liked to draw hearts.\nThe crayon was gone.", imageName: "story4_page1", audioName: "story4_audio1"),
+            Page(text: "Mia had one red crayon.\nShe liked to draw hearts.\nMia looked in the box. \nThe crayon was gone.", imageName: "story4_page1", audioName: "story4_audio1"),
             Page(text: "Mia looked under the table.\nShe looked under the chair.\nShe felt sad.", imageName: "story4_page2", audioName: "story4_audio2"),
-            Page(text: "Mia saw the crayon on the floor.\nIt rolled near her shoe.\nShe smiled.\nShe started to draw again.", imageName: "story4_page3", audioName: "story4_audio3")
+            Page(text: "Mia saw the crayon on the floor.\nIt rolled near her shoe.\nMia smiled.\nShe started to draw again.", imageName: "story4_page3", audioName: "story4_audio3")
         ],
 
         moral: "Do not give up. Keep looking.",
