@@ -6,6 +6,7 @@ struct StoryReaderView: View {
     
     @State private var currentPage = 0
     @State private var speed: Float = 1.0
+    @State private var goToMoral = false
     
     @ObservedObject var audioManager = AudioManager.shared
     
@@ -80,11 +81,11 @@ struct StoryReaderView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
                         
-                        // MARK: - TEXT (SCROLLABLE ALWAYS)
+                        // MARK: - TEXT
                         ScrollView(showsIndicators: false) {
                             textContent(page: page, isIPad: isIPad)
                                 .padding(.top, isIPad ? 20 : 10)
-                                .padding(.bottom, 50) // prevents overlap with buttons
+                                .padding(.bottom, 50)
                         }
                         
                         // MARK: - NAVIGATION
@@ -102,10 +103,13 @@ struct StoryReaderView: View {
                             
                             Spacer()
                             
-                            Button("Next") {
+                            Button(currentPage == story.pages.count - 1 ? "Finish" : "Next") {
                                 if currentPage < story.pages.count - 1 {
                                     currentPage += 1
                                     audioManager.stop()
+                                } else {
+                                    audioManager.stop()
+                                    goToMoral = true
                                 }
                             }
                             .buttonStyle(
@@ -164,6 +168,9 @@ struct StoryReaderView: View {
             }
             .ignoresSafeArea()
         }
+        .navigationDestination(isPresented: $goToMoral) {
+            MoralView(story: story)
+        }
     }
     
     // MARK: - TEXT CONTENT
@@ -194,4 +201,3 @@ struct StoryReaderView: View {
 #Preview {
     StoryReaderView(story: sampleStories[3])
 }
-
