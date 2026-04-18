@@ -192,18 +192,16 @@ struct VocabularyView: View {
                         Spacer()
                         Image(systemName: "medal.fill")
                     }
-                    .font(.system(size: isIPad ? 28 : 18))
+                    .font(.system(size: 22))
                     .foregroundColor(.appPrimaryText)
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, isIPad ? 18 : 12)
-                    .frame(maxWidth: isIPad ? 620 : 280)
-                    .background(
-                        Capsule()
-                            .fill(Color.white.opacity(0.55))
-                    )
-                    .padding(.bottom, 10)
+                    .padding(16)
+                    .background(Color.appCardBackground.opacity(0.7))
+                    .cornerRadius(30)
+                    .padding(.horizontal, 16)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.top, 10)
+                .frame(maxWidth: 600)
+                .frame(maxWidth: .infinity)
             }
         }
         .navigationBarBackButtonHidden(true)
