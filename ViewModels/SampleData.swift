@@ -39,7 +39,30 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Alone", meaning: "Without anyone else", example: "He felt alone in the playground.", audioName: "alone")
         ],
 
-        games: []
+        games:[
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Sandwich",
+                options: ["Apple", "Sandwich", "Chair"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Share mean?",
+                options: [
+                    "Keep everything",
+                    "Give part to others",
+                    "Run away"
+                ],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word KIND",
+                options: ["K","I","N","D"],
+                correctIndex: 0
+            )
+        ]
     ),
 
     Story(
@@ -75,7 +98,30 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Splash", meaning: "Water hitting something", example: "The wave made a splash.", audioName: "splash")
         ],
 
-        games: []
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Brave",
+                options: ["Scared", "Brave", "Sandwich"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Ocean mean?",
+                options: [
+                    "A very large body of water",
+                    "A mountain",
+                    "A road"
+                ],
+                correctIndex: 0
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word WAVE",
+                options: ["W","A","V","E"],
+                correctIndex: 0
+            )
+        ]
     ),
 
     Story(
@@ -111,7 +157,30 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Sky", meaning: "The space above us", example: "Birds fly in the sky.", audioName: "sky")
         ],
 
-        games: []
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Promise",
+                options: ["Promise", "Window", "Chair"],
+                correctIndex: 0
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Friendship mean?",
+                options: [
+                    "Caring about someone",
+                    "Being angry",
+                    "Sleeping"
+                ],
+                correctIndex: 0
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word SKY",
+                options: ["S","K","Y"],
+                correctIndex: 0
+            )
+        ]
     ),
 
     Story(
@@ -147,7 +216,30 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Smile", meaning: "A happy face", example: "She gave a smile.", audioName: "smile")
         ],
 
-        games: []
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Crayon",
+                options: ["Bottle", "Crayon", "Table"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Lost mean?",
+                options: [
+                    "Not where it should be",
+                    "Very loud",
+                    "Happy"
+                ],
+                correctIndex: 0
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word DRAW",
+                options: ["D","R","A","W"],
+                correctIndex: 0
+            )
+        ]
     ),
 
     Story(
@@ -180,7 +272,7 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Cat", meaning: "A small animal with fur that people keep as a pet.", example: "I  have a cat at home.", audioName: "cat"),
             VocabularyWord(word: "Soft", meaning: "Something that feels nice and not hard.", example: "My pillow is soft.", audioName: "soft"),
             VocabularyWord(word: "Toy", meaning: "Something to play with.", example: "Milo loves his toy mouse.", audioName: "toy"),
-            VocabularyWord(word: "Play", meaning: "To have fun and enjoy activities.", example: "Milo likes to play with the ball.", audioName: "play")
+            VocabularyWord(word: "Play", meaning: "To have fun and enjoy.", example: "Milo likes to play with the ball.", audioName: "play")
         ],
         games: []
     ),

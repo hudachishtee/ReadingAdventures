@@ -23,21 +23,20 @@ enum StoryLevel: String, CaseIterable {
 // MARK: - Story Model
 struct Story: Identifiable {
     let id = UUID()
-    
+
     let title: String
-    
-    let description: String          // (keep this for future if needed)
-    let shortDescription: String     // ✅ NEW (USED IN SHEET)
-    
+    let description: String
+    let shortDescription: String
+
     let level: StoryLevel
     let category: StoryCategory
-    
+
     // MARK: Images
     let coverImage: String
     let previewImage: String
-    
+
     let theme: StoryTheme
-    
+
     let pages: [Page]
     let moral: String
     let vocabulary: [VocabularyWord]
@@ -64,6 +63,7 @@ struct VocabularyWord: Identifiable {
 // MARK: - Game Model
 struct GameQuestion: Identifiable {
     let id = UUID()
+
     let type: GameType
     let question: String
     let options: [String]
