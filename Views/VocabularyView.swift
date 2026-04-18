@@ -7,6 +7,7 @@ struct VocabularyView: View {
     @State private var currentIndex = 0
     @State private var showReward = false
     @State private var dragOffset: CGFloat = 0
+    @State private var goToCelebration = false   // ✅ ONLY ADDED
     
     @ObservedObject var audioManager = AudioManager.shared
     @Environment(\.dismiss) private var dismiss
@@ -40,7 +41,7 @@ struct VocabularyView: View {
                         Spacer()
                         
                         Button("Done") {
-                            dismiss()
+                            goToCelebration = true   // ✅ CHANGED ONLY
                         }
                         .font(.custom(
                             "OpenDyslexic-Bold",
@@ -82,7 +83,6 @@ struct VocabularyView: View {
                         
                         HStack(spacing: isIPad ? 18 : 10) {
                             
-                            // LEFT ARROW
                             Button {
                                 previousWord(total: words.count)
                             } label: {
@@ -94,7 +94,6 @@ struct VocabularyView: View {
                             
                             ZStack {
                                 
-                                // Back Cards
                                 RoundedRectangle(cornerRadius: 26)
                                     .fill(Color.orange.opacity(0.55))
                                     .frame(
@@ -111,7 +110,6 @@ struct VocabularyView: View {
                                     )
                                     .offset(y: 6)
                                 
-                                // Main Card
                                 vocabularyCard(
                                     word: words[currentIndex],
                                     isIPad: isIPad,
@@ -140,7 +138,6 @@ struct VocabularyView: View {
                                 )
                             }
                             
-                            // RIGHT ARROW
                             Button {
                                 nextWord(total: words.count)
                             } label: {
@@ -154,7 +151,6 @@ struct VocabularyView: View {
                     
                     Spacer()
                     
-                    // MARK: Reward Bubble
                     if showReward {
                         
                         HStack(spacing: 0) {
@@ -184,7 +180,6 @@ struct VocabularyView: View {
                     
                     Spacer(minLength: isIPad ? 22 : 12)
                     
-                    // MARK: Bottom Bar
                     HStack {
                         Image(systemName: "house.fill")
                         Spacer()
@@ -205,9 +200,19 @@ struct VocabularyView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $goToCelebration) {   // ✅ ONLY ADDED
+            CelebrationView(
+                story: story,
+                onBackToLibrary: {
+                    dismiss()
+                },
+                onPlayGame: {
+                    
+                }
+            )
+        }
     }
     
-    // MARK: Card
     func vocabularyCard(
         word: VocabularyWord,
         isIPad: Bool,
@@ -289,7 +294,6 @@ struct VocabularyView: View {
         )
     }
     
-    // MARK: Navigation
     func nextWord(total: Int) {
         guard total > 0 else { return }
         

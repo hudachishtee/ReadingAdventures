@@ -81,7 +81,7 @@ struct CelebrationView: View {
                         
                         Image("owl")
                             .resizable()
-                            .scaledToFill()
+                            .scaledToFit()
                             .frame(width: isIPad ? 700 : 240)
                             .transition(.scale.combined(with: .opacity))
                     }
