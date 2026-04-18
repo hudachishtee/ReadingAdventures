@@ -15,15 +15,12 @@ struct VocabularyView: View {
         
         GeometryReader { geo in
             
-            let scale = Scale.factor(geo)
             let isIPad = UIDevice.current.userInterfaceIdiom == .pad
             
-            // FIXED iPhone sizing
-            let cardWidth = isIPad ? 630.0 : geo.size.width - 26
-            let cardHeight = isIPad ? 510.0 : geo.size.height * 0.42
+            let cardWidth = isIPad ? min(geo.size.width * 0.72, 640) : geo.size.width * 0.74
+            let cardHeight = isIPad ? min(geo.size.height * 0.42, 520) : geo.size.height * 0.40
             
             let words = story.vocabulary
-            let word = words.isEmpty ? nil : words[currentIndex]
             
             ZStack {
                 
@@ -36,7 +33,7 @@ struct VocabularyView: View {
                 
                 VStack(spacing: 0) {
                     
-                    Spacer(minLength: isIPad ? 18 : 10)
+                    Spacer(minLength: isIPad ? 18 : 12)
                     
                     // MARK: Done
                     HStack {
@@ -50,11 +47,11 @@ struct VocabularyView: View {
                             size: isIPad ? 24 : 16
                         ))
                         .foregroundColor(.black)
-                        .padding(.horizontal, isIPad ? 26 : 20)
+                        .padding(.horizontal, isIPad ? 28 : 22)
                         .padding(.vertical, isIPad ? 10 : 8)
                         .background(
                             Capsule()
-                                .fill(Color.white.opacity(0.75))
+                                .fill(Color.white.opacity(0.8))
                         )
                     }
                     .padding(.horizontal, 20)
@@ -62,72 +59,95 @@ struct VocabularyView: View {
                     Spacer(minLength: isIPad ? 18 : 10)
                     
                     // MARK: Title
-                    Text("Vocabulary of the Week")
+                    Text("Vocabulary of\nthe Week")
                         .font(.custom(
                             "OpenDyslexic-Bold",
-                            size: isIPad ? 34 : 18
+                            size: isIPad ? 34 : 20
                         ))
                         .foregroundColor(.appPrimaryText)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 16)
+                        .lineSpacing(6)
+                        .padding(.horizontal, 20)
                         .padding(.vertical, isIPad ? 18 : 14)
-                        .frame(maxWidth: isIPad ? 620 : 250)
+                        .frame(maxWidth: isIPad ? 620 : 280)
                         .background(
-                            RoundedRectangle(cornerRadius: 22)
-                                .fill(Color.white.opacity(0.78))
+                            RoundedRectangle(cornerRadius: 24)
+                                .fill(Color.white.opacity(0.84))
                         )
                     
-                    Spacer(minLength: isIPad ? 26 : 16)
+                    Spacer(minLength: isIPad ? 26 : 14)
                     
-                    // MARK: Card Stack
-                    if let word = word {
+                    // MARK: Card + Arrows
+                    if !words.isEmpty {
                         
-                        ZStack {
+                        HStack(spacing: isIPad ? 18 : 10) {
                             
-                            RoundedRectangle(cornerRadius: 28)
-                                .fill(Color.orange.opacity(0.55))
-                                .frame(
-                                    width: cardWidth + 8,
+                            // LEFT ARROW
+                            Button {
+                                previousWord(total: words.count)
+                            } label: {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: isIPad ? 34 : 26, weight: .medium))
+                                    .foregroundColor(.black.opacity(0.75))
+                                    .frame(width: isIPad ? 44 : 34)
+                            }
+                            
+                            ZStack {
+                                
+                                // Back Cards
+                                RoundedRectangle(cornerRadius: 26)
+                                    .fill(Color.orange.opacity(0.55))
+                                    .frame(
+                                        width: cardWidth + 8,
+                                        height: cardHeight
+                                    )
+                                    .offset(y: 12)
+                                
+                                RoundedRectangle(cornerRadius: 26)
+                                    .fill(Color.yellow.opacity(0.78))
+                                    .frame(
+                                        width: cardWidth + 4,
+                                        height: cardHeight
+                                    )
+                                    .offset(y: 6)
+                                
+                                // Main Card
+                                vocabularyCard(
+                                    word: words[currentIndex],
+                                    isIPad: isIPad,
+                                    width: cardWidth,
                                     height: cardHeight
                                 )
-                                .offset(y: 12)
-                            
-                            RoundedRectangle(cornerRadius: 28)
-                                .fill(Color.yellow.opacity(0.75))
-                                .frame(
-                                    width: cardWidth + 4,
-                                    height: cardHeight
+                                .offset(x: dragOffset)
+                                .rotationEffect(.degrees(Double(dragOffset / 30)))
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            dragOffset = value.translation.width
+                                        }
+                                        .onEnded { value in
+                                            
+                                            if value.translation.width < -25 {
+                                                nextWord(total: words.count)
+                                            } else if value.translation.width > 25 {
+                                                previousWord(total: words.count)
+                                            }
+                                            
+                                            withAnimation(.spring(response: 0.32)) {
+                                                dragOffset = 0
+                                            }
+                                        }
                                 )
-                                .offset(y: 6)
+                            }
                             
-                            vocabularyCard(
-                                word: word,
-                                isIPad: isIPad,
-                                width: cardWidth,
-                                height: cardHeight
-                            )
-                            .offset(x: dragOffset)
-                            .rotationEffect(.degrees(Double(dragOffset / 28)))
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        dragOffset = value.translation.width
-                                    }
-                                    .onEnded { value in
-                                        
-                                        if value.translation.width < -70 {
-                                            nextWord(total: words.count)
-                                        } else if value.translation.width > 70 {
-                                            previousWord(total: words.count)
-                                        }
-                                        
-                                        withAnimation(.spring()) {
-                                            dragOffset = 0
-                                        }
-                                    }
-                            )
-                            .onTapGesture {
+                            // RIGHT ARROW
+                            Button {
                                 nextWord(total: words.count)
+                            } label: {
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: isIPad ? 34 : 26, weight: .medium))
+                                    .foregroundColor(.black.opacity(0.75))
+                                    .frame(width: isIPad ? 44 : 34)
                             }
                         }
                     }
@@ -137,37 +157,32 @@ struct VocabularyView: View {
                     // MARK: Reward Bubble
                     if showReward {
                         
-                        ZStack(alignment: .trailing) {
+                        HStack(spacing: 0) {
                             
                             Text("Wow! You learned new words today!")
                                 .font(.custom(
                                     "OpenDyslexic-Bold",
-                                    size: isIPad ? 24 : 14
+                                    size: isIPad ? 22 : 13
                                 ))
                                 .foregroundColor(.appPrimaryText)
                                 .multilineTextAlignment(.center)
-                                .padding(.horizontal, isIPad ? 24 : 16)
-                                .padding(.vertical, isIPad ? 22 : 16)
-                                .frame(maxWidth: isIPad ? 500 : 250)
+                                .padding(.horizontal, isIPad ? 28 : 18)
+                                .padding(.vertical, isIPad ? 18 : 12)
                                 .background(
                                     RoundedRectangle(cornerRadius: 24)
-                                        .fill(Color.white.opacity(0.86))
+                                        .fill(Color.white.opacity(0.88))
                                 )
                             
                             Image("side_owl")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: isIPad ? 180 : 135)
-                                .offset(
-                                    x: isIPad ? 220 : 78,
-                                    y: 5
-                                )
+                                .frame(width: isIPad ? 150 : 95)
+                                .offset(x: isIPad ? -12 : -8)
                         }
-                        .frame(maxWidth: isIPad ? 520 : 255)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                     
-                    Spacer(minLength: isIPad ? 18 : 10)
+                    Spacer(minLength: isIPad ? 22 : 12)
                     
                     // MARK: Bottom Bar
                     HStack {
@@ -179,14 +194,14 @@ struct VocabularyView: View {
                     }
                     .font(.system(size: isIPad ? 28 : 18))
                     .foregroundColor(.appPrimaryText)
-                    .padding(.horizontal, 28)
+                    .padding(.horizontal, 30)
                     .padding(.vertical, isIPad ? 18 : 12)
-                    .frame(maxWidth: isIPad ? 620 : 250)
+                    .frame(maxWidth: isIPad ? 620 : 280)
                     .background(
                         Capsule()
                             .fill(Color.white.opacity(0.55))
                     )
-                    .padding(.bottom, 8)
+                    .padding(.bottom, 10)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -194,7 +209,7 @@ struct VocabularyView: View {
         .navigationBarBackButtonHidden(true)
     }
     
-    // MARK: Front Card
+    // MARK: Card
     func vocabularyCard(
         word: VocabularyWord,
         isIPad: Bool,
@@ -202,9 +217,59 @@ struct VocabularyView: View {
         height: CGFloat
     ) -> some View {
         
-        ZStack {
+        VStack(spacing: isIPad ? 24 : 16) {
             
-            RoundedRectangle(cornerRadius: 28)
+            HStack(spacing: 8) {
+                Spacer()
+                
+                Text(word.word)
+                    .font(.custom(
+                        "OpenDyslexic-Bold",
+                        size: isIPad ? 34 : 20
+                    ))
+                    .foregroundColor(.appPrimaryText)
+                
+                Button {
+                    audioManager.play(audioName: word.audioName)
+                } label: {
+                    Image(systemName: "speaker.wave.2.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: isIPad ? 26 : 16))
+                }
+                
+                Spacer()
+            }
+            
+            Divider()
+            
+            Text(word.meaning)
+                .font(.custom(
+                    "OpenDyslexic-Regular",
+                    size: isIPad ? 28 : 16
+                ))
+                .foregroundColor(.black)
+                .multilineTextAlignment(.center)
+            
+            Text("Example")
+                .font(.custom(
+                    "OpenDyslexic-Bold",
+                    size: isIPad ? 22 : 14
+                ))
+            
+            Text(word.example)
+                .font(.custom(
+                    "OpenDyslexic-Regular",
+                    size: isIPad ? 28 : 16
+                ))
+                .foregroundColor(.black)
+                .multilineTextAlignment(.center)
+            
+            Spacer()
+        }
+        .padding(isIPad ? 28 : 18)
+        .frame(width: width, height: height)
+        .background(
+            RoundedRectangle(cornerRadius: 26)
                 .fill(
                     Color(
                         red: 253/255,
@@ -213,74 +278,24 @@ struct VocabularyView: View {
                     )
                 )
                 .overlay(
-                    RoundedRectangle(cornerRadius: 28)
+                    RoundedRectangle(cornerRadius: 26)
                         .stroke(
                             Color(
-                                red: 0.35,
-                                green: 0.65,
-                                blue: 0.75
+                                red: 0.85,
+                                green: 0.72,
+                                blue: 0.22
                             ),
-                            lineWidth: 1.5
+                            lineWidth: 2
                         )
                 )
-            
-            VStack(alignment: .leading, spacing: isIPad ? 22 : 14) {
-                
-                HStack {
-                    Spacer()
-                    
-                    Text(word.word)
-                        .font(.custom(
-                            "OpenDyslexic-Bold",
-                            size: isIPad ? 30 : 18
-                        ))
-                        .foregroundColor(.appPrimaryText)
-                    
-                    Button {
-                        audioManager.play(audioName: word.audioName)
-                    } label: {
-                        Image(systemName: "speaker.wave.2.fill")
-                            .foregroundColor(.green)
-                            .font(.system(size: isIPad ? 28 : 16))
-                    }
-                    
-                    Spacer()
-                }
-                
-                Divider()
-                
-                Text(word.meaning)
-                    .font(.custom(
-                        "OpenDyslexic-Regular",
-                        size: isIPad ? 24 : 14
-                    ))
-                    .foregroundColor(.black)
-                
-                Text("Example")
-                    .font(.custom(
-                        "OpenDyslexic-Bold",
-                        size: isIPad ? 22 : 14
-                    ))
-                
-                Text(word.example)
-                    .font(.custom(
-                        "OpenDyslexic-Regular",
-                        size: isIPad ? 22 : 14
-                    ))
-                    .foregroundColor(.black)
-                
-                Spacer()
-            }
-            .padding(isIPad ? 22 : 16)
-        }
-        .frame(width: width, height: height)
+        )
     }
     
-    // MARK: Next
+    // MARK: Navigation
     func nextWord(total: Int) {
         guard total > 0 else { return }
         
-        withAnimation(.spring()) {
+        withAnimation(.spring(response: 0.35)) {
             currentIndex = (currentIndex + 1) % total
         }
         
@@ -291,14 +306,11 @@ struct VocabularyView: View {
         }
     }
     
-    // MARK: Previous
     func previousWord(total: Int) {
         guard total > 0 else { return }
         
-        withAnimation(.spring()) {
-            currentIndex = currentIndex == 0
-            ? total - 1
-            : currentIndex - 1
+        withAnimation(.spring(response: 0.35)) {
+            currentIndex = currentIndex == 0 ? total - 1 : currentIndex - 1
         }
     }
 }
