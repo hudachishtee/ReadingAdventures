@@ -29,7 +29,7 @@ struct MiniGameView: View {
             
             ZStack {
                 
-                // MARK: Main Blue Background
+                // MARK: Background
                 LinearGradient(
                     colors: [
                         Color(red: 0.76, green: 0.88, blue: 1.0),
@@ -80,6 +80,10 @@ struct MiniGameView: View {
                         )
                         .cornerRadius(22)
                     
+                    // MARK: Lower spacing
+                    Spacer()
+                        .frame(height: isIPad ? 28 : 18)
+                    
                     // MARK: Game Card
                     VStack(spacing: 18 * scale) {
                         
@@ -105,7 +109,7 @@ struct MiniGameView: View {
                     Spacer(minLength: 10)
                 }
                 
-                // MARK: Wrong Answer Popup
+                // MARK: Wrong Popup
                 if showWrongPopup {
                     
                     Color.black.opacity(0.25)
@@ -147,7 +151,7 @@ struct MiniGameView: View {
                     .padding(.horizontal, 30)
                 }
                 
-                // MARK: Final Success Popup
+                // MARK: Success Popup
                 if showGameComplete {
                     
                     Color.black.opacity(0.25)
@@ -171,6 +175,7 @@ struct MiniGameView: View {
                             Button("Play Again") {
                                 restartGame()
                             }
+                            .foregroundColor(.black)
                             .padding(.horizontal, 18)
                             .padding(.vertical, 10)
                             .background(Color.yellow)
@@ -179,9 +184,10 @@ struct MiniGameView: View {
                             Button("Back Home") {
                                 onFinish()
                             }
+                            .foregroundColor(.black)
                             .padding(.horizontal, 18)
                             .padding(.vertical, 10)
-                            .background(Color.white)
+                            .background(Color.blue.opacity(0.25))
                             .cornerRadius(14)
                         }
                     }
@@ -280,7 +286,6 @@ extension MiniGameView {
         
         return VStack(spacing: 18) {
             
-            // MARK: Boxes
             HStack(spacing: 8) {
                 
                 ForEach(0..<target.count, id: \.self) { i in
@@ -306,7 +311,6 @@ extension MiniGameView {
             }
             .offset(x: shakeWord ? -8 : 8)
             
-            // MARK: Letters
             LazyVGrid(
                 columns: Array(
                     repeating: GridItem(.flexible()),
@@ -335,7 +339,6 @@ extension MiniGameView {
                 }
             }
             
-            // MARK: Delete Button
             Button {
                 deleteLastLetter()
             } label: {

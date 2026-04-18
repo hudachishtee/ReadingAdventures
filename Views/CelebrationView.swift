@@ -1,7 +1,6 @@
 //
 // CelebrationView.swift
-// PERFECT BALANCED LAYOUT
-// title upper-middle + owl center + buttons bottom
+// FINAL FIXED - iOS16+ Navigation
 //
 
 import SwiftUI
@@ -10,14 +9,15 @@ import Combine
 struct CelebrationView: View {
     
     let story: Story
-    var onBackToLibrary: () -> Void
-    var onPlayGame: () -> Void
     
     @State private var showTitle = false
     @State private var showOwl = false
     @State private var showBadge = false
     @State private var showButtons = false
     @State private var badgeDismissed = false
+    
+    @State private var goMiniGame = false
+    @State private var goHome = false
     
     var body: some View {
         
@@ -43,7 +43,7 @@ struct CelebrationView: View {
                     Spacer()
                         .frame(height: isIPad ? 90 : 70)
                     
-                    // MARK: Title Block
+                    // MARK: Title
                     if showTitle {
                         
                         VStack(spacing: 10) {
@@ -73,28 +73,26 @@ struct CelebrationView: View {
                         }
                     }
                     
-                    // pushes owl to center area
                     Spacer()
                     
-                    // MARK: Owl Center
+                    // MARK: Owl
                     if showOwl {
                         
                         Image("owl")
                             .resizable()
                             .scaledToFit()
                             .frame(width: isIPad ? 700 : 240)
-                            .transition(.scale.combined(with: .opacity))
                     }
                     
                     Spacer()
                     
-                    // MARK: Bottom Buttons
+                    // MARK: Buttons
                     if showButtons {
                         
                         VStack(spacing: 14) {
                             
                             Button {
-                                onPlayGame()
+                                goMiniGame = true
                             } label: {
                                 Text("Play Mini Game")
                                     .font(.custom(
@@ -109,7 +107,7 @@ struct CelebrationView: View {
                             }
                             
                             Button {
-                                onBackToLibrary()
+                                goHome = true
                             } label: {
                                 Text("Back To Library")
                                     .font(.custom(
@@ -128,7 +126,7 @@ struct CelebrationView: View {
                     }
                 }
                 
-                // MARK: Popup Badge
+                // MARK: Badge Popup
                 if showBadge && !badgeDismissed {
                     
                     Color.black.opacity(0.18)
@@ -137,25 +135,25 @@ struct CelebrationView: View {
                             dismissBadge()
                         }
                     
-                    VStack(spacing: 22) {
+                    VStack(spacing: isIPad ? 28 : 22) {
                         
                         Text("You Earned\nA Badge!")
                             .font(.custom(
                                 "OpenDyslexic-Bold",
-                                size: isIPad ? 28 : 24
+                                size: isIPad ? 34 : 24
                             ))
                             .multilineTextAlignment(.center)
                         
                         Circle()
                             .fill(Color.orange)
                             .frame(
-                                width: isIPad ? 120 : 105,
-                                height: isIPad ? 120 : 105
+                                width: isIPad ? 150 : 110,
+                                height: isIPad ? 150 : 110
                             )
                             .overlay(
                                 Image(systemName: "star.fill")
                                     .foregroundColor(.white)
-                                    .font(.system(size: 44))
+                                    .font(.system(size: isIPad ? 58 : 44))
                             )
                         
                         Text(
@@ -164,20 +162,33 @@ struct CelebrationView: View {
                         )
                         .font(.custom(
                             "OpenDyslexic-Bold",
-                            size: isIPad ? 24 : 20
+                            size: isIPad ? 26 : 18
                         ))
                         
                         Text("Tap anywhere")
-                            .font(.caption)
+                            .font(.custom(
+                                "OpenDyslexic-Regular",
+                                size: isIPad ? 18 : 14
+                            ))
                             .foregroundColor(.gray)
                     }
-                    .padding(.vertical, 34)
-                    .padding(.horizontal, 28)
-                    .frame(width: isIPad ? 420 : 350)
+                    .padding(.vertical, isIPad ? 42 : 28)
+                    .padding(.horizontal, isIPad ? 50 : 28)
+                    .frame(width: isIPad ? 430 : 300)
                     .background(Color.white)
-                    .cornerRadius(28)
+                    .cornerRadius(32)
                     .shadow(radius: 18)
-                }
+                }            }
+            .navigationDestination(isPresented: $goMiniGame) {
+                MiniGameView(
+                    story: story,
+                    onFinish: {
+                        goHome = true
+                    }
+                )
+            }
+            .navigationDestination(isPresented: $goHome) {
+                HomeView()
             }
             .onAppear {
                 startAnimation()
@@ -223,8 +234,7 @@ extension CelebrationView {
         }
     }
 }
-
-// MARK: CONFETTI
+// MARK: Confetti Models
 
 struct ConfettiParticle: Identifiable {
     let id = UUID()
@@ -315,9 +325,9 @@ struct ConfettiBackground: View {
 }
 
 #Preview {
-    CelebrationView(
-        story: sampleStories[0],
-        onBackToLibrary: {},
-        onPlayGame: {}
-    )
+    NavigationStack {
+        CelebrationView(
+            story: sampleStories[0]
+        )
+    }
 }

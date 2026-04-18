@@ -200,15 +200,9 @@ struct VocabularyView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationDestination(isPresented: $goToCelebration) {   // ✅ ONLY ADDED
+        .navigationDestination(isPresented: $goToCelebration) {
             CelebrationView(
-                story: story,
-                onBackToLibrary: {
-                    dismiss()
-                },
-                onPlayGame: {
-                    
-                }
+                story: story
             )
         }
     }
