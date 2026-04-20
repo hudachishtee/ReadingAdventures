@@ -118,7 +118,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word WAVE",
-                options: ["W","A","V","E"],
+                options: ["W","V","A","E"],
                 correctIndex: 0
             )
         ]
@@ -177,7 +177,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word SKY",
-                options: ["S","K","Y"],
+                options: ["K","S","Y"],
                 correctIndex: 0
             )
         ]
@@ -236,7 +236,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word DRAW",
-                options: ["D","R","A","W"],
+                options: ["W","A","R","D"],
                 correctIndex: 0
             )
         ]
@@ -274,7 +274,30 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Toy", meaning: "Something to play with.", example: "Milo loves his toy mouse.", audioName: "toy"),
             VocabularyWord(word: "Play", meaning: "To have fun and enjoy.", example: "Milo likes to play with the ball.", audioName: "play")
         ],
-        games: []
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Toy",
+                options: ["Cat", "Toy", "Soft"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Soft mean?",
+                options: [
+                    "Something that feels nice and not hard",
+                    "Very loud",
+                    "Very fast"
+                ],
+                correctIndex: 0
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word CAT",
+                options: ["A","C","T"],
+                correctIndex: 0
+            )
+        ]
     ),
     
     Story(
@@ -305,12 +328,34 @@ let sampleStories: [Story] = [
 
         vocabulary: [
             VocabularyWord(word: "Moon", meaning: "The bright light in the night sky.", example: "Milo looks at the moon before bedtime.", audioName: "moon"),
-            VocabularyWord(word: "Quite", meaning: "No loud sounds.", example: "Milo sleeps quietly on the soft pillow.", audioName: "quite"),
+            VocabularyWord(word: "Quiet", meaning: "No loud sounds.", example: "Milo sleeps quietly on the soft pillow.", audioName: "quiet"),
             VocabularyWord(word: "Owl", meaning: "A bird that wakes up at night.", example: "The owl flies silently in the dark.", audioName: "owl"),
             VocabularyWord(word: "Night", meaning: "The dark time after the sun goes down.", example: "Stars shine at night.", audioName: "night")
         ],
-        games: []
-    ),
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Moon",
+                options: ["Owl", "Moon", "Night"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Night mean?",
+                options: [
+                    "The dark time after the sun goes down",
+                    "A bright sunny day",
+                    "Time to eat lunch"
+                ],
+                correctIndex: 0
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word OWL",
+                options: ["O","L","W"],
+                correctIndex: 0
+            )
+        ]    ),
 
     // =========================
     // EXPLORER STORIES
@@ -342,8 +387,56 @@ let sampleStories: [Story] = [
             Page(text: "He found the nest and helped the bird.\nThe bird was safe again.", imageName: "story8_page3", audioName: "story8_audio3")
         ],
         moral: "Helping others, even in small ways, makes a big difference.",
-        vocabulary: [],
-        games: []
+        vocabulary: [
+            VocabularyWord(
+                word: "Chirp",
+                meaning: "A small bird sound",
+                example: "The bird chirped loudly.",
+                audioName: "chirp"
+            ),
+            VocabularyWord(
+                word: "Nest",
+                meaning: "A bird’s home",
+                example: "The bird returned to its nest.",
+                audioName: "nest"
+            ),
+            VocabularyWord(
+                word: "Safe",
+                meaning: "Free from danger",
+                example: "The bird felt safe with Omar.",
+                audioName: "safe"
+            ),
+            VocabularyWord(
+                word: "Scared",
+                meaning: "Feeling afraid",
+                example: "The little bird was scared.",
+                audioName: "scared"
+            )
+        ],
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Nest",
+                options: ["Tree", "Nest", "Sky"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Safe mean?",
+                options: [
+                    "In danger",
+                    "Protected",
+                    "Fast"
+                ],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word BIRD",
+                options: ["I","D","R","B"],
+                correctIndex: 0
+            )
+        ]
     ),
 
     Story(
@@ -372,8 +465,56 @@ let sampleStories: [Story] = [
             Page(text: "They built a tent and read stories.\nLina smiled.\nRainy days can be fun too.", imageName: "story7_page3", audioName: "story7_audio3")
         ],
         moral: "Even a rainy day can become special with a little creativity.",
-        vocabulary: [],
-        games: []
+        vocabulary: [
+            VocabularyWord(
+                word: "Surprise",
+                meaning: "Something unexpected that makes you happy or excited",
+                example: "The gift was a surprise.",
+                audioName: "surprise"
+            ),
+            VocabularyWord(
+                word: "Special",
+                meaning: "Something important or different in a good way",
+                example: "Today felt special.",
+                audioName: "special"
+            ),
+            VocabularyWord(
+                word: "Tent",
+                meaning: "A small shelter made of cloth",
+                example: "They built a tent indoors.",
+                audioName: "tent"
+            ),
+            VocabularyWord(
+                word: "Creativity",
+                meaning: "Using imagination to make something fun or new",
+                example: "Lina used her creativity to play inside.",
+                audioName: "creativity"
+            )
+        ],
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Rain",
+                options: ["Sun", "Rain", "Tree"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "What does Special mean?",
+                options: [
+                    "Boring",
+                    "Important or nice",
+                    "Loud"
+                ],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word TENT",
+                options: ["N","T","T","E"],
+                correctIndex: 0
+            )
+        ]
     ),
 
  Story(
@@ -403,14 +544,57 @@ let sampleStories: [Story] = [
     moral: "Letting go can sometimes bring happiness to others.",
 
     vocabulary: [
-        VocabularyWord(word: "Float", meaning: "Move in the air.", example: "The balloon floated up high.", audioName: "float"),
-        VocabularyWord(word: "Slip", meaning: "To lose hold of something.", example: "The balloon slipped from Sara’s hand.", audioName: "slip"),
-        VocabularyWord(word: "Wave", meaning: "Move your hand to say goodbye.", example: "Sara waved at her balloon.", audioName: "wave"),
-        VocabularyWord(word: "Happiness", meaning: "A feeling of joy.", example: "Seeing someone smile gave her happiness.", audioName: "happiness")
+        VocabularyWord(
+            word: "Float",
+            meaning: "Move in the air",
+            example: "The balloon floated up high.",
+            audioName: "float"
+        ),
+        VocabularyWord(
+            word: "Slip",
+            meaning: "To lose hold of something",
+            example: "The balloon slipped from Sara’s hand.",
+            audioName: "slip"
+        ),
+        VocabularyWord(
+            word: "Wave",
+            meaning: "Move your hand to say goodbye",
+            example: "Sara waved at her balloon.",
+            audioName: "wave"
+        ),
+        VocabularyWord(
+            word: "Happiness",
+            meaning: "A feeling of joy",
+            example: "Seeing someone smile gave her happiness.",
+            audioName: "happiness"
+        )
     ],
 
-    games: []
-),
+    games: [
+        GameQuestion(
+            type: .tapWord,
+            question: "Tap the word Balloon",
+            options: ["Balloon", "Apple", "Book"],
+            correctIndex: 0
+        ),
+        GameQuestion(
+            type: .meaning,
+            question: "Float = ?",
+            options: [
+                "Fall",
+                "Stay",
+                "Move in air"
+            ],
+            correctIndex: 2
+        ),
+        GameQuestion(
+            type: .buildWord,
+            question: "Build the word WAVE",
+            options: ["W", "A", "V", "E"],
+            correctIndex: 0
+        )
+    ]
+    ),
     Story(
         title: "The Slow and Steady Turtle",
         description: """
@@ -438,11 +622,56 @@ let sampleStories: [Story] = [
         ],
         moral: "Patience and persistence lead to success.",
         vocabulary: [
-            VocabularyWord(word: "Steady", meaning: "Not rushing.", example: "The turtle walked steadily.", audioName: "steady"),
-            VocabularyWord(word: "Rush", meaning: "To move quickly.", example: "The other animals rushed past.", audioName: "rush"),
-            VocabularyWord(word: "Pond", meaning: "A small body of water.", example: "The turtle reached the pond.", audioName: "pond"),
-            VocabularyWord(word: "Persistence", meaning: "Keep trying even when it’s hard.", example: "SThe turtle showed persistence.", audioName: "persistence")],
-        games: []
+            VocabularyWord(
+                word: "Steady",
+                meaning: "Not rushing",
+                example: "The turtle walked steadily.",
+                audioName: "steady"
+            ),
+            VocabularyWord(
+                word: "Rush",
+                meaning: "To move quickly",
+                example: "The other animals rushed past.",
+                audioName: "rush"
+            ),
+            VocabularyWord(
+                word: "Pond",
+                meaning: "A small body of water",
+                example: "The turtle reached the pond.",
+                audioName: "pond"
+            ),
+            VocabularyWord(
+                word: "Persistence",
+                meaning: "Keep trying even when it’s hard",
+                example: "The turtle showed persistence.",
+                audioName: "persistence"
+            )
+        ],
+
+        games: [
+            GameQuestion(
+                type: .tapWord,
+                question: "Tap the word Turtle",
+                options: ["Dog", "Turtle", "Bird"],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .meaning,
+                question: "Rush = ?",
+                options: [
+                    "Slow",
+                    "Fast movement",
+                    "Sleep"
+                ],
+                correctIndex: 1
+            ),
+            GameQuestion(
+                type: .buildWord,
+                question: "Build the word POND",
+                options: ["P", "N", "D", "O"],
+                correctIndex: 0
+            )
+        ]
     ),
 
 
@@ -478,13 +707,56 @@ Story(
     moral: "Even a small light can guide you through dark times.",
 
     vocabulary: [
-        VocabularyWord(word: "Flicker", meaning: "A small unsteady light.", example: "The candle began to flicker.", audioName: "flicker"),
-        VocabularyWord(word: "Path", meaning: "A way to go.", example: "She followed the path home.", audioName: "path"),
-        VocabularyWord(word: "Brave", meaning: "Not giving up when afraid.", example: "Lina felt brave in the dark.", audioName: "brave"),
-        VocabularyWord(word: "Guide", meaning: "To show the way.", example: "The light helped guide her.", audioName: "guide")
+        VocabularyWord(
+            word: "Flicker",
+            meaning: "A small unsteady light",
+            example: "The candle began to flicker.",
+            audioName: "flicker"
+        ),
+        VocabularyWord(
+            word: "Path",
+            meaning: "A way to go",
+            example: "She followed the path home.",
+            audioName: "path"
+        ),
+        VocabularyWord(
+            word: "Brave",
+            meaning: "Not giving up when afraid",
+            example: "Lina felt brave in the dark.",
+            audioName: "brave"
+        ),
+        VocabularyWord(
+            word: "Guide",
+            meaning: "To show the way",
+            example: "The light helped guide her.",
+            audioName: "guide"
+        )
     ],
 
-    games: []
+    games: [
+        GameQuestion(
+            type: .tapWord,
+            question: "Tap the word Light",
+            options: ["Light", "Dark", "Fire"],
+            correctIndex: 0
+        ),
+        GameQuestion(
+            type: .meaning,
+            question: "Brave = ?",
+            options: [
+                "Scared",
+                "Not giving up when afraid",
+                "Sleepy"
+            ],
+            correctIndex: 1
+        ),
+        GameQuestion(
+            type: .buildWord,
+            question: "Build the word PATH",
+            options: ["A", "T", "P", "H"],
+            correctIndex: 0
+        )
+    ]
 ),
 
 Story(
@@ -515,13 +787,56 @@ Story(
     moral: "You do not need to be perfect to be enough.",
 
     vocabulary: [
-        VocabularyWord(word: "Missing", meaning: "Not there.", example: "One piece was missing.", audioName: "missing"),
-        VocabularyWord(word: "Whole", meaning: "Complete.", example: "The circle wanted to feel whole.", audioName: "whole"),
-        VocabularyWord(word: "Fit", meaning: "To match or belong.", example: "The piece did not fit.", audioName: "fit"),
-        VocabularyWord(word: "Enough", meaning: "Just right.", example: "She knew she was enough.", audioName: "enough")
+        VocabularyWord(
+            word: "Missing",
+            meaning: "Not there",
+            example: "One piece was missing.",
+            audioName: "missing"
+        ),
+        VocabularyWord(
+            word: "Whole",
+            meaning: "Complete",
+            example: "The circle wanted to feel whole.",
+            audioName: "whole"
+        ),
+        VocabularyWord(
+            word: "Fit",
+            meaning: "To match or belong",
+            example: "The piece did not fit.",
+            audioName: "fit"
+        ),
+        VocabularyWord(
+            word: "Enough",
+            meaning: "Just right",
+            example: "She knew she was enough.",
+            audioName: "enough"
+        )
     ],
 
-    games: []
+    games: [
+        GameQuestion(
+            type: .tapWord,
+            question: "Tap the word Fit",
+            options: ["Fit", "Miss", "Stop"],
+            correctIndex: 0
+        ),
+        GameQuestion(
+            type: .meaning,
+            question: "Whole = ?",
+            options: [
+                "Broken",
+                "Complete",
+                "Small"
+            ],
+            correctIndex: 1
+        ),
+        GameQuestion(
+            type: .buildWord,
+            question: "Build the word ENOUGH",
+            options: ["E", "N", "O", "U", "G", "H"],
+            correctIndex: 0
+        )
+    ]
 ),
 
 Story(
@@ -552,13 +867,56 @@ Story(
     moral: "Being brave can help others too.",
 
     vocabulary: [
-        VocabularyWord(word: "Lantern", meaning: "A light you can carry.", example: "The lantern lit the road.", audioName: "lantern"),
-        VocabularyWord(word: "Glow", meaning: "To shine softly.", example: "The lantern began to glow.", audioName: "glow"),
-        VocabularyWord(word: "Worried", meaning: "Feeling uneasy.", example: "She felt worried in the dark.", audioName: "worried"),
-        VocabularyWord(word: "Proud", meaning: "Feeling happy about what you did.", example: "He felt proud of himself.", audioName: "proud")
+        VocabularyWord(
+            word: "Lantern",
+            meaning: "A light you can carry",
+            example: "The lantern lit the road.",
+            audioName: "lantern"
+        ),
+        VocabularyWord(
+            word: "Glow",
+            meaning: "To shine softly",
+            example: "The lantern began to glow.",
+            audioName: "glow"
+        ),
+        VocabularyWord(
+            word: "Worried",
+            meaning: "Feeling uneasy",
+            example: "She felt worried in the dark.",
+            audioName: "worried"
+        ),
+        VocabularyWord(
+            word: "Proud",
+            meaning: "Feeling happy about what you did",
+            example: "He felt proud of himself.",
+            audioName: "proud"
+        )
     ],
 
-    games: []
+    games: [
+        GameQuestion(
+            type: .tapWord,
+            question: "Tap the word Glow",
+            options: ["Glow", "Dark", "Light"],
+            correctIndex: 0
+        ),
+        GameQuestion(
+            type: .meaning,
+            question: "Proud = ?",
+            options: [
+                "Sad",
+                "Feeling happy about what you did",
+                "Angry"
+            ],
+            correctIndex: 1
+        ),
+        GameQuestion(
+            type: .buildWord,
+            question: "Build the word LANTERN",
+            options: ["L", "N", "T", "A", "R", "E", "N"],
+            correctIndex: 0
+        )
+    ]
 ),
 
 Story(
@@ -589,13 +947,55 @@ Story(
     moral: "Trying again helps you improve and grow.",
 
     vocabulary: [
-        VocabularyWord(word: "Perfect", meaning: "Without mistakes.", example: "She wanted it to be perfect.", audioName: "perfect"),
-        VocabularyWord(word: "Upset", meaning: "Feeling sad or frustrated.", example: "Noor felt upset at first.", audioName: "upset"),
-        VocabularyWord(word: "Improve", meaning: "To get better.", example: "Practice helps you improve.", audioName: "improve"),
-        VocabularyWord(word: "Beautiful", meaning: "Very nice to see.", example: "The sky looked beautiful.", audioName: "beautiful")
+        VocabularyWord(
+            word: "Perfect",
+            meaning: "Without mistakes",
+            example: "She wanted it to be perfect.",
+            audioName: "perfect"
+        ),
+        VocabularyWord(
+            word: "Upset",
+            meaning: "Feeling sad or frustrated",
+            example: "Noor felt upset at first.",
+            audioName: "upset"
+        ),
+        VocabularyWord(
+            word: "Improve",
+            meaning: "To get better",
+            example: "Practice helps you improve.",
+            audioName: "improve"
+        ),
+        VocabularyWord(
+            word: "Beautiful",
+            meaning: "Very nice to see",
+            example: "The sky looked beautiful.",
+            audioName: "beautiful"
+        )
     ],
 
-    games: []
-)
-    
-    ] 
+    games: [
+        GameQuestion(
+            type: .tapWord,
+            question: "Tap the word Beautiful",
+            options: ["Beautiful", "Ugly", "Small"],
+            correctIndex: 0
+        ),
+        GameQuestion(
+            type: .meaning,
+            question: "Improve = ?",
+            options: [
+                "Get worse",
+                "To get better",
+                "Stop"
+            ],
+            correctIndex: 1
+        ),
+        GameQuestion(
+            type: .buildWord,
+            question: "Build the word PERFECT",
+            options: ["P", "E", "R", "F", "E", "C", "T"],
+            correctIndex: 0
+        )
+    ]
+),
+]

@@ -103,7 +103,7 @@ struct HomeView: View {
                 : [.fraction(0.6)]
             )
             .presentationCornerRadius(30)
-            .presentationDragIndicator(.visible)
+//            .presentationDragIndicator(.visible)
         }
     }
 }
