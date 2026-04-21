@@ -282,7 +282,7 @@ extension MiniGameView {
     
     func buildWordView(scale: CGFloat) -> some View {
         
-        let target = currentGame.options.joined()
+        let target = currentGame.correctAnswer ?? ""
         
         return VStack(spacing: 18) {
             
@@ -362,8 +362,7 @@ extension MiniGameView {
     
     func addLetter(_ letter: String) {
         
-        let target = currentGame.options.joined()
-        
+        let target = currentGame.correctAnswer ?? ""
         guard builtLetters.count < target.count else { return }
         
         builtLetters.append(letter)

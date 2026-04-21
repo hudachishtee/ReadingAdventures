@@ -61,15 +61,15 @@ struct VocabularyWord: Identifiable {
 }
 
 // MARK: - Game Model
-struct GameQuestion: Identifiable {
+struct GameQuestion {
     let id = UUID()
 
     let type: GameType
     let question: String
     let options: [String]
-    let correctIndex: Int
+    let correctIndex: Int?
+    let correctAnswer: String?
 }
-
 // MARK: - Game Types
 enum GameType {
     case tapWord

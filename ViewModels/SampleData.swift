@@ -39,13 +39,15 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Alone", meaning: "Without anyone else", example: "He felt alone in the playground.", audioName: "alone")
         ],
 
-        games:[
+        games: [
             GameQuestion(
                 type: .tapWord,
                 question: "Tap the word Sandwich",
                 options: ["Apple", "Sandwich", "Chair"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Share mean?",
@@ -54,13 +56,16 @@ let sampleStories: [Story] = [
                     "Give part to others",
                     "Run away"
                 ],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word KIND",
-                options: ["K","I","N","D"],
-                correctIndex: 0
+                options: ["K", "I", "N", "D"],
+                correctIndex: nil,
+                correctAnswer: "KIND"
             )
         ]
     ),
@@ -103,8 +108,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Brave",
                 options: ["Scared", "Brave", "Sandwich"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Ocean mean?",
@@ -113,15 +120,18 @@ let sampleStories: [Story] = [
                     "A mountain",
                     "A road"
                 ],
-                correctIndex: 0
+                correctIndex: 0,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word WAVE",
-                options: ["W","V","A","E"],
-                correctIndex: 0
+                options: ["W", "V", "A", "E"],
+                correctIndex: nil,
+                correctAnswer: "WAVE"
             )
-        ]
+        ],
     ),
 
     Story(
@@ -162,8 +172,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Promise",
                 options: ["Promise", "Window", "Chair"],
-                correctIndex: 0
+                correctIndex: 0,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Friendship mean?",
@@ -172,13 +184,16 @@ let sampleStories: [Story] = [
                     "Being angry",
                     "Sleeping"
                 ],
-                correctIndex: 0
+                correctIndex: 0,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word SKY",
-                options: ["K","S","Y"],
-                correctIndex: 0
+                options: ["K", "S", "Y"],
+                correctIndex: nil,
+                correctAnswer: "SKY"
             )
         ]
     ),
@@ -221,8 +236,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Crayon",
                 options: ["Bottle", "Crayon", "Table"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Lost mean?",
@@ -231,13 +248,16 @@ let sampleStories: [Story] = [
                     "Very loud",
                     "Happy"
                 ],
-                correctIndex: 0
+                correctIndex: 0,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word DRAW",
-                options: ["W","A","R","D"],
-                correctIndex: 0
+                options: ["W", "A", "R", "D"],
+                correctIndex: nil,
+                correctAnswer: "DRAW"
             )
         ]
     ),
@@ -279,8 +299,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Toy",
                 options: ["Cat", "Toy", "Soft"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Soft mean?",
@@ -289,13 +311,16 @@ let sampleStories: [Story] = [
                     "Very loud",
                     "Very fast"
                 ],
-                correctIndex: 0
+                correctIndex: 0,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word CAT",
-                options: ["A","C","T"],
-                correctIndex: 0
+                options: ["A", "C", "T"],
+                correctIndex: nil,
+                correctAnswer: "CAT"
             )
         ]
     ),
@@ -337,8 +362,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Moon",
                 options: ["Owl", "Moon", "Night"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Night mean?",
@@ -347,15 +374,19 @@ let sampleStories: [Story] = [
                     "A bright sunny day",
                     "Time to eat lunch"
                 ],
-                correctIndex: 0
+                correctIndex: 0,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word OWL",
-                options: ["O","L","W"],
-                correctIndex: 0
+                options: ["O", "L", "W"],
+                correctIndex: nil,
+                correctAnswer: "OWL"
             )
-        ]    ),
+        ]
+    ),
 
     // =========================
     // EXPLORER STORIES
@@ -418,8 +449,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Nest",
                 options: ["Tree", "Nest", "Sky"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Safe mean?",
@@ -428,13 +461,16 @@ let sampleStories: [Story] = [
                     "Protected",
                     "Fast"
                 ],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word BIRD",
-                options: ["I","D","R","B"],
-                correctIndex: 0
+                options: ["I", "D", "R", "B"],
+                correctIndex: nil,
+                correctAnswer: "BIRD"
             )
         ]
     ),
@@ -496,8 +532,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Rain",
                 options: ["Sun", "Rain", "Tree"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "What does Special mean?",
@@ -506,16 +544,18 @@ let sampleStories: [Story] = [
                     "Important or nice",
                     "Loud"
                 ],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word TENT",
-                options: ["N","T","T","E"],
-                correctIndex: 0
+                options: ["N", "T", "T", "E"],
+                correctIndex: nil,
+                correctAnswer: "TENT"
             )
-        ]
-    ),
+        ]    ),
 
  Story(
     title: "The Floating Balloon",
@@ -575,8 +615,10 @@ let sampleStories: [Story] = [
             type: .tapWord,
             question: "Tap the word Balloon",
             options: ["Balloon", "Apple", "Book"],
-            correctIndex: 0
+            correctIndex: 0,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .meaning,
             question: "Float = ?",
@@ -585,13 +627,16 @@ let sampleStories: [Story] = [
                 "Stay",
                 "Move in air"
             ],
-            correctIndex: 2
+            correctIndex: 2,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .buildWord,
             question: "Build the word WAVE",
             options: ["W", "A", "V", "E"],
-            correctIndex: 0
+            correctIndex: nil,
+            correctAnswer: "WAVE"
         )
     ]
     ),
@@ -653,8 +698,10 @@ let sampleStories: [Story] = [
                 type: .tapWord,
                 question: "Tap the word Turtle",
                 options: ["Dog", "Turtle", "Bird"],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .meaning,
                 question: "Rush = ?",
@@ -663,13 +710,16 @@ let sampleStories: [Story] = [
                     "Fast movement",
                     "Sleep"
                 ],
-                correctIndex: 1
+                correctIndex: 1,
+                correctAnswer: nil
             ),
+            
             GameQuestion(
                 type: .buildWord,
                 question: "Build the word POND",
                 options: ["P", "N", "D", "O"],
-                correctIndex: 0
+                correctIndex: nil,
+                correctAnswer: "POND"
             )
         ]
     ),
@@ -738,8 +788,10 @@ Story(
             type: .tapWord,
             question: "Tap the word Light",
             options: ["Light", "Dark", "Fire"],
-            correctIndex: 0
+            correctIndex: 0,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .meaning,
             question: "Brave = ?",
@@ -748,13 +800,16 @@ Story(
                 "Not giving up when afraid",
                 "Sleepy"
             ],
-            correctIndex: 1
+            correctIndex: 1,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .buildWord,
             question: "Build the word PATH",
             options: ["A", "T", "P", "H"],
-            correctIndex: 0
+            correctIndex: nil,
+            correctAnswer: "PATH"
         )
     ]
 ),
@@ -818,8 +873,10 @@ Story(
             type: .tapWord,
             question: "Tap the word Fit",
             options: ["Fit", "Miss", "Stop"],
-            correctIndex: 0
+            correctIndex: 0,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .meaning,
             question: "Whole = ?",
@@ -828,13 +885,16 @@ Story(
                 "Complete",
                 "Small"
             ],
-            correctIndex: 1
+            correctIndex: 1,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .buildWord,
             question: "Build the word ENOUGH",
             options: ["E", "N", "O", "U", "G", "H"],
-            correctIndex: 0
+            correctIndex: nil,
+            correctAnswer: "ENOUGH"
         )
     ]
 ),
@@ -898,8 +958,10 @@ Story(
             type: .tapWord,
             question: "Tap the word Glow",
             options: ["Glow", "Dark", "Light"],
-            correctIndex: 0
+            correctIndex: 0,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .meaning,
             question: "Proud = ?",
@@ -908,13 +970,16 @@ Story(
                 "Feeling happy about what you did",
                 "Angry"
             ],
-            correctIndex: 1
+            correctIndex: 1,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .buildWord,
             question: "Build the word LANTERN",
             options: ["L", "N", "T", "A", "R", "E", "N"],
-            correctIndex: 0
+            correctIndex: nil,
+            correctAnswer: "LANTERN"
         )
     ]
 ),
@@ -978,8 +1043,10 @@ Story(
             type: .tapWord,
             question: "Tap the word Beautiful",
             options: ["Beautiful", "Ugly", "Small"],
-            correctIndex: 0
+            correctIndex: 0,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .meaning,
             question: "Improve = ?",
@@ -988,13 +1055,16 @@ Story(
                 "To get better",
                 "Stop"
             ],
-            correctIndex: 1
+            correctIndex: 1,
+            correctAnswer: nil
         ),
+        
         GameQuestion(
             type: .buildWord,
             question: "Build the word PERFECT",
             options: ["P", "E", "R", "F", "E", "C", "T"],
-            correctIndex: 0
+            correctIndex: nil,
+            correctAnswer: "PERFECT"
         )
     ]
 ),
