@@ -178,21 +178,7 @@ struct VocabularyView: View {
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                     
-                    Spacer(minLength: isIPad ? 22 : 12)
-                    
-                    HStack {
-                        Image(systemName: "house.fill")
-                        Spacer()
-                        Image(systemName: "gamecontroller.fill")
-                        Spacer()
-                        Image(systemName: "medal.fill")
-                    }
-                    .font(.system(size: 22))
-                    .foregroundColor(.appPrimaryText)
-                    .padding(16)
-                    .background(Color.appCardBackground.opacity(0.7))
-                    .cornerRadius(30)
-                    .padding(.horizontal, 16)
+                    Spacer(minLength: 30)
                 }
                 .padding(.top, 10)
                 .frame(maxWidth: 600)

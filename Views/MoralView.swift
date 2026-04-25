@@ -116,28 +116,9 @@ struct MoralView: View {
                             )
                     }
                     
-                    Spacer(minLength: 24)
-                    
-                    // BOTTOM BAR
-                    HStack {
-                        Image(systemName: "house.fill")
-                        Spacer()
-                        Image(systemName: "gamecontroller.fill")
-                        Spacer()
-                        Image(systemName: "medal.fill")
-                    }
-                    .font(.system(size: isIPad ? 26 : 22))
-                    .foregroundColor(.appPrimaryText)
-                    .padding(.horizontal, 34)
-                    .padding(.vertical, 18)
-                    .frame(maxWidth: isIPad ? 620 : .infinity)
-                    .background(
-                        Capsule()
-                            .fill(Color.white.opacity(0.55))
-                    )
-                    .padding(.horizontal, 22)
-                    .padding(.bottom, 10)
+                    Spacer(minLength: 40)
                 }
+                .padding(.horizontal, 20)
             }
             .ignoresSafeArea()
         }
