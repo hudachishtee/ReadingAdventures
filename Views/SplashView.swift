@@ -7,7 +7,7 @@ struct SplashView: View {
     
     var body: some View {
         if navigate {
-            HomeView()
+            MainTabContainerView()
         } else {
             ZStack {
                 
