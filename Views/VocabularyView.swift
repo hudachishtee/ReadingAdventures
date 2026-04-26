@@ -186,10 +186,8 @@ struct VocabularyView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationDestination(isPresented: $goToCelebration) {
-            CelebrationView(
-                story: story
-            )
+        .fullScreenCover(isPresented: $goToCelebration) {
+            CelebrationView(story: story)
         }
     }
     

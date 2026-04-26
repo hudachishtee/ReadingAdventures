@@ -59,13 +59,16 @@ struct HomeView: View {
             }
         }
         
+        // MARK: Navigate to Story Reader
         .navigationDestination(isPresented: $navigateToReader) {
             if let story = storyForReader {
                 StoryReaderView(story: story)
             }
         }
         
+        // MARK: Story Preview Sheet
         .sheet(item: $selectedStory) { story in
+            
             StoryPreviewSheet(
                 story: story,
                 onStart: {
@@ -84,6 +87,12 @@ struct HomeView: View {
                 : [.fraction(0.6)]
             )
             .presentationCornerRadius(30)
+        }
+        
+        // MARK: Reset Navigation State When Returning Home
+        .onAppear {
+            navigateToReader = false
+            storyForReader = nil
         }
     }
 }

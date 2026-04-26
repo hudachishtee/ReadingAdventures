@@ -16,6 +16,9 @@ struct MiniGameView: View {
     @State private var shakeWord = false
     @State private var wrongGlow = false
     
+    // ONLY ADDED
+    @State private var goHome = false
+    
     var currentGame: GameQuestion {
         story.games[currentIndex]
     }
@@ -50,7 +53,6 @@ struct MiniGameView: View {
                     Spacer()
                         .frame(height: 8)
                     
-                    // MARK: Title
                     Text("Story Game")
                         .font(.custom(
                             "OpenDyslexic-Bold",
@@ -58,7 +60,6 @@ struct MiniGameView: View {
                         ))
                         .foregroundColor(.appPrimaryText)
                     
-                    // MARK: Progress
                     HStack(spacing: 10) {
                         ForEach(0..<story.games.count, id: \.self) { index in
                             Capsule()
@@ -70,7 +71,6 @@ struct MiniGameView: View {
                         }
                     }
                     
-                    // MARK: Image
                     Image(story.coverImage)
                         .resizable()
                         .scaledToFit()
@@ -80,11 +80,9 @@ struct MiniGameView: View {
                         )
                         .cornerRadius(22)
                     
-                    // MARK: LOWERED MORE
                     Spacer()
                         .frame(height: isIPad ? 55 : 34)
                     
-                    // MARK: Game Card
                     VStack(spacing: 18 * scale) {
                         
                         Text(currentGame.question)
@@ -115,7 +113,6 @@ struct MiniGameView: View {
                     Spacer(minLength: 10)
                 }
                 
-                // MARK: Wrong Popup
                 if showWrongPopup {
                     
                     Color.black.opacity(0.25)
@@ -157,7 +154,6 @@ struct MiniGameView: View {
                     .padding(.horizontal, 30)
                 }
                 
-                // MARK: Success Popup
                 if showGameComplete {
                     
                     Color.black.opacity(0.25)
@@ -188,7 +184,7 @@ struct MiniGameView: View {
                             .cornerRadius(14)
                             
                             Button("Back Home") {
-                                onFinish()
+                                goHome = true
                             }
                             .foregroundColor(.black)
                             .padding(.horizontal, 18)
@@ -206,6 +202,9 @@ struct MiniGameView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .fullScreenCover(isPresented: $goHome) {
+            MainTabContainerView()
+        }
     }
 }
 
@@ -284,7 +283,6 @@ extension MiniGameView {
 }
 
 // MARK: BUILD WORD
-// MARK: BUILD WORD
 extension MiniGameView {
     
     func buildWordView(scale: CGFloat) -> some View {
@@ -293,7 +291,6 @@ extension MiniGameView {
         
         return VStack(spacing: 18) {
             
-            // MARK: Word Boxes + Delete Button
             HStack(spacing: 12 * scale) {
                 
                 HStack(spacing: 8) {
@@ -320,7 +317,6 @@ extension MiniGameView {
                     }
                 }
                 
-                // Delete Button on Right
                 Button {
                     deleteLastLetter()
                 } label: {
@@ -336,7 +332,6 @@ extension MiniGameView {
             }
             .offset(x: shakeWord ? -8 : 8)
             
-            // MARK: Letter Choices
             LazyVGrid(
                 columns: Array(
                     repeating: GridItem(.flexible()),
