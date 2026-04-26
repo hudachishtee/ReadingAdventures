@@ -80,9 +80,9 @@ struct MiniGameView: View {
                         )
                         .cornerRadius(22)
                     
-                    // MARK: Lower spacing
+                    // MARK: LOWERED MORE
                     Spacer()
-                        .frame(height: isIPad ? 28 : 18)
+                        .frame(height: isIPad ? 55 : 34)
                     
                     // MARK: Game Card
                     VStack(spacing: 18 * scale) {
@@ -104,6 +104,12 @@ struct MiniGameView: View {
                     .padding(20 * scale)
                     .background(Color.white.opacity(0.5))
                     .cornerRadius(26)
+                    .shadow(
+                        color: .black.opacity(0.08),
+                        radius: 10,
+                        x: 0,
+                        y: 6
+                    )
                     .padding(.horizontal, 18)
                     
                     Spacer(minLength: 10)
@@ -278,6 +284,7 @@ extension MiniGameView {
 }
 
 // MARK: BUILD WORD
+// MARK: BUILD WORD
 extension MiniGameView {
     
     func buildWordView(scale: CGFloat) -> some View {
@@ -286,31 +293,50 @@ extension MiniGameView {
         
         return VStack(spacing: 18) {
             
-            HStack(spacing: 8) {
+            // MARK: Word Boxes + Delete Button
+            HStack(spacing: 12 * scale) {
                 
-                ForEach(0..<target.count, id: \.self) { i in
+                HStack(spacing: 8) {
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(
-                            wrongGlow
-                            ? Color.red.opacity(0.35)
-                            : Color(red: 1.0, green: 0.96, blue: 0.55)
-                        )
-                        .frame(
-                            width: 42 * scale,
-                            height: 48 * scale
-                        )
-                        .overlay(
-                            Text(letterAt(i))
-                                .font(.custom(
-                                    "OpenDyslexic-Bold",
-                                    size: 22 * scale
-                                ))
-                        )
+                    ForEach(0..<target.count, id: \.self) { i in
+                        
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(
+                                wrongGlow
+                                ? Color.red.opacity(0.35)
+                                : Color(red: 1.0, green: 0.96, blue: 0.55)
+                            )
+                            .frame(
+                                width: 42 * scale,
+                                height: 48 * scale
+                            )
+                            .overlay(
+                                Text(letterAt(i))
+                                    .font(.custom(
+                                        "OpenDyslexic-Bold",
+                                        size: 22 * scale
+                                    ))
+                            )
+                    }
                 }
+                
+                // Delete Button on Right
+                Button {
+                    deleteLastLetter()
+                } label: {
+                    
+                    Image(systemName: "delete.left.fill")
+                        .font(.system(size: 18))
+                        .foregroundColor(.white)
+                        .frame(width: 46, height: 46)
+                        .background(Color.red)
+                        .cornerRadius(12)
+                }
+                .opacity(builtLetters.isEmpty ? 0.45 : 1)
             }
             .offset(x: shakeWord ? -8 : 8)
             
+            // MARK: Letter Choices
             LazyVGrid(
                 columns: Array(
                     repeating: GridItem(.flexible()),
@@ -337,25 +363,6 @@ extension MiniGameView {
                             .cornerRadius(14)
                     }
                 }
-            }
-            
-            Button {
-                deleteLastLetter()
-            } label: {
-                
-                HStack(spacing: 8) {
-                    Image(systemName: "delete.left.fill")
-                    Text("Delete")
-                }
-                .font(.custom(
-                    "OpenDyslexic-Bold",
-                    size: 16 * scale
-                ))
-                .foregroundColor(.white)
-                .padding(.horizontal, 22)
-                .padding(.vertical, 12)
-                .background(Color.red)
-                .cornerRadius(16)
             }
         }
     }
