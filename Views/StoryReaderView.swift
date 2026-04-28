@@ -17,155 +17,148 @@ struct StoryReaderView: View {
             
             let isIPad = UIDevice.current.userInterfaceIdiom == .pad
             
-            ZStack {
-                
-                // MARK: - BACKGROUND
-                story.theme.primary.opacity(0.9)
-                    .ignoresSafeArea()
+            VStack(spacing: 0) {
                 
                 // MARK: - IMAGE
                 Image(page.imageName)
                     .resizable()
-                    .aspectRatio(contentMode: isIPad ? .fill : .fit)
-                    .frame(
-                        width: geo.size.width,
-                        height: geo.size.height,
-                        alignment: .top
-                    )
-                    .clipped()
-                    .ignoresSafeArea(edges: .top)
-                
-                // MARK: - CONTENT
-                VStack {
-                    
-                    Spacer(minLength: isIPad ? geo.size.height * 0.55 : geo.size.height * 0.45)
-                    
-                    VStack(spacing: isIPad ? 20 : 16) {
-                        
-                        // MARK: - CONTROLS
-                        HStack {
-                            
-                            // Listen Button
-                            Button(audioManager.isPlaying ? "Pause" : "Listen") {
-                                if audioManager.isPlaying {
-                                    audioManager.stop()
-                                } else {
-                                    audioManager.play(audioName: page.audioName, speed: speed)
-                                }
-                            }
-                            .buttonStyle(
-                                PrimaryButtonStyle(
-                                    isActive: audioManager.isPlaying,
-                                    themeColor: story.theme.primary
-                                )
-                            )
-                            
-                            Spacer()
-                            
-                            // Speed Slider
-                            HStack(spacing: 10) {
-                                
-                                Text("🐢")
-                                    .font(.system(size: isIPad ? 20 : 16))
-                                
-                                Slider(value: $speed, in: 0.5...1.5, step: 0.25)
-                                    .tint(story.theme.primary)
-                                
-                                Text("🐇")
-                                    .font(.system(size: isIPad ? 20 : 16))
-                            }
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 10)
-                            .frame(width: isIPad ? 260 : 180)
-                            .background(.ultraThinMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                        }
-                        
-                        // MARK: - TEXT
-                        ScrollView(showsIndicators: false) {
-                            textContent(page: page, isIPad: isIPad)
-                                .padding(.top, isIPad ? 20 : 10)
-                                .padding(.bottom, 50)
-                        }
-                        
-                        // MARK: - NAVIGATION
-                        HStack {
-                            
-                            Button("Back") {
-                                if currentPage > 0 {
-                                    currentPage -= 1
-                                    audioManager.stop()
-                                }
-                            }
-                            .buttonStyle(
-                                OutlineButtonStyle(themeColor: story.theme.primary)
-                            )
-                            
-                            Spacer()
-                            
-                            Button(currentPage == story.pages.count - 1 ? "Finish" : "Next") {
-                                if currentPage < story.pages.count - 1 {
-                                    currentPage += 1
-                                    audioManager.stop()
-                                } else {
-                                    audioManager.stop()
-                                    goToMoral = true
-                                }
-                            }
-                            .buttonStyle(
-                                OutlineButtonStyle(themeColor: story.theme.primary)
-                            )
-                        }
-                        .padding(.top, 5)
-                        
-                        // MARK: - PAGE DOTS
-                        HStack(spacing: 10) {
-                            ForEach(0..<story.pages.count, id: \.self) { index in
-                                Circle()
-                                    .fill(
-                                        index == currentPage
-                                        ? Color.white
-                                        : Color.white.opacity(0.45)
-                                    )
-                                    .frame(width: 8, height: 8)
-                            }
-                        }
-                    }
-                    .padding(isIPad ? 28 : 20)
+                    .aspectRatio(contentMode: .fill)
                     .frame(
                         width: geo.size.width,
                         height: isIPad
-                            ? geo.size.height * 0.35
-                            : geo.size.height * 0.5
+                            ? geo.size.height * 0.70
+                            : geo.size.height * 0.56
                     )
-                    .background(
-                        ZStack {
-                            LinearGradient(
-                                colors: [
-                                    story.theme.secondary.opacity(0.95),
-                                    story.theme.primary.opacity(0.9)
-                                ],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            
-                            LinearGradient(
-                                colors: [
-                                    Color.white.opacity(0.35),
-                                    Color.clear
-                                ],
-                                startPoint: .top,
-                                endPoint: .center
-                            )
+                    .offset(y: page.imageOffset)
+//                    .clipped()
+                
+                // MARK: - CONTENT
+                VStack(spacing: isIPad ? 20 : 16) {
+                    
+                    // MARK: - CONTROLS
+                    HStack {
+                        
+                        Button(audioManager.isPlaying ? "Pause" : "Listen") {
+                            if audioManager.isPlaying {
+                                audioManager.stop()
+                            } else {
+                                audioManager.play(audioName: page.audioName, speed: speed)
+                            }
                         }
-                    )
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: isIPad ? 50 : 40, style: .continuous)
-                    )
-                    .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: -5)
-                    .ignoresSafeArea(edges: .bottom)
+                        .buttonStyle(
+                            PrimaryButtonStyle(
+                                isActive: audioManager.isPlaying,
+                                themeColor: story.theme.primary
+                            )
+                        )
+                        
+                        Spacer()
+                        
+                        HStack(spacing: 10) {
+                            
+                            Text("🐢")
+                                .font(.system(size: isIPad ? 20 : 16))
+                            
+                            Slider(value: $speed, in: 0.5...1.5, step: 0.25)
+                                .tint(story.theme.primary)
+                            
+                            Text("🐇")
+                                .font(.system(size: isIPad ? 20 : 16))
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .frame(width: isIPad ? 260 : 180)
+                        .background(.ultraThinMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
+                    
+                    // MARK: - TEXT
+                    ScrollView(showsIndicators: false) {
+                        textContent(page: page, isIPad: isIPad)
+                            .padding(.top, isIPad ? 20 : 10)
+                            .padding(.bottom, 20)
+                    }
+                    
+                    // MARK: - NAVIGATION
+                    HStack {
+                        
+                        Button("Back") {
+                            if currentPage > 0 {
+                                currentPage -= 1
+                                audioManager.stop()
+                            }
+                        }
+                        .buttonStyle(
+                            OutlineButtonStyle(themeColor: story.theme.primary)
+                        )
+                        
+                        Spacer()
+                        
+                        Button(currentPage == story.pages.count - 1 ? "Finish" : "Next") {
+                            if currentPage < story.pages.count - 1 {
+                                currentPage += 1
+                                audioManager.stop()
+                            } else {
+                                audioManager.stop()
+                                goToMoral = true
+                            }
+                        }
+                        .buttonStyle(
+                            OutlineButtonStyle(themeColor: story.theme.primary)
+                        )
+                    }
+                    
+                    // MARK: - PAGE DOTS
+                    HStack(spacing: 10) {
+                        ForEach(0..<story.pages.count, id: \.self) { index in
+                            Circle()
+                                .fill(
+                                    index == currentPage
+                                    ? Color.white
+                                    : Color.white.opacity(0.45)
+                                )
+                                .frame(width: 8, height: 8)
+                        }
+                    }
+                    .padding(.bottom, isIPad ? 12 : 8)
                 }
+                .padding(isIPad ? 28 : 20)
+                .frame(
+                    width: geo.size.width,
+                    height: isIPad
+                        ? geo.size.height * 0.34
+                        : geo.size.height * 0.44
+                )
+                .background(
+                    ZStack {
+                        LinearGradient(
+                            colors: [
+                                story.theme.secondary.opacity(0.95),
+                                story.theme.primary.opacity(0.9)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.35),
+                                Color.clear
+                            ],
+                            startPoint: .top,
+                            endPoint: .center
+                        )
+                    }
+                )
+                .clipShape(
+                    RoundedRectangle(cornerRadius: isIPad ? 50 : 40, style: .continuous)
+                )
+                .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: -5)
             }
+            .background(
+                story.theme.primary.opacity(0.9)
+                    .ignoresSafeArea()
+            )
             .ignoresSafeArea()
         }
         .navigationDestination(isPresented: $goToMoral) {
@@ -173,7 +166,6 @@ struct StoryReaderView: View {
         }
     }
     
-    // MARK: - TEXT CONTENT
     func textContent(page: Page, isIPad: Bool) -> some View {
         
         let lines = page.text
@@ -199,5 +191,5 @@ struct StoryReaderView: View {
 }
 
 #Preview {
-    StoryReaderView(story: sampleStories[3])
+    StoryReaderView(story: sampleStories[13])
 }

@@ -46,9 +46,27 @@ struct Story: Identifiable {
 // MARK: - Page Model
 struct Page: Identifiable {
     let id = UUID()
+    
     let text: String
     let imageName: String
     let audioName: String
+    
+    let imageAlignment: Alignment
+    let imageOffset: CGFloat
+    
+    init(
+        text: String,
+        imageName: String,
+        audioName: String,
+        imageAlignment: Alignment = .center,
+        imageOffset: CGFloat = 0
+    ) {
+        self.text = text
+        self.imageName = imageName
+        self.audioName = audioName
+        self.imageAlignment = imageAlignment
+        self.imageOffset = imageOffset
+    }
 }
 
 // MARK: - Vocabulary Model

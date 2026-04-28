@@ -25,11 +25,27 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .orange, secondary: .yellow),
 
         pages: [
-            Page(text: "Nora packed two sandwiches today.\nShe did not know why.\nIt just felt right.", imageName: "story1_page1", audioName: "story1_audio1"),
-            Page(text: "At school, a boy sat alone.\nHe looked at her sandwich.\nNora walked over slowly.", imageName: "story1_page2", audioName: "story1_audio2"),
-            Page(text: "She shared the extra sandwich.\nThe boy smiled and said thank you.\nNora felt warm inside.", imageName: "story1_page3", audioName: "story1_audio3")
+            Page(
+                text: "Nora packed two sandwiches today.\nShe did not know why.\nIt just felt right.",
+                imageName: "story1_page1",
+                audioName: "story1_audio1",
+                imageOffset: 90
+            ),
+            
+            Page(
+                text: "At school, a boy sat alone.\nHe looked at her sandwich.\nNora walked over slowly.",
+                imageName: "story1_page2",
+                audioName: "story1_audio2",
+                imageOffset: 70
+            ),
+            
+            Page(
+                text: "She shared the extra sandwich.\nThe boy smiled and said thank you.\nNora felt warm inside.",
+                imageName: "story1_page3",
+                audioName: "story1_audio3",
+                imageOffset: 18
+            )
         ],
-
         moral: "A small kindness can make a big difference.",
 
         vocabulary: [
@@ -89,9 +105,26 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .blue, secondary: .cyan),
 
         pages: [
-            Page(text: "A little wave lived far out in the ocean.\nIt watched the shore from a distance.\nThe shore looked big and loud.", imageName: "story2_page1", audioName: "story2_audio1"),
-            Page(text: "The little wave felt scared.\nOther waves rushed forward bravely.\nThey whispered, \"You can do it.\"", imageName: "story2_page2", audioName: "story2_audio2"),
-            Page(text: "The little wave took a deep breath.\nIt rolled toward the shore.\nThe shore welcomed it with a splash.", imageName: "story2_page3", audioName: "story2_audio3")
+            Page(
+                text: "A little wave lived far out in the ocean.\nIt watched the shore from a distance.\nThe shore looked big and loud.",
+                imageName: "story2_page1",
+                audioName: "story2_audio1",
+                imageOffset: -70
+            ),
+            
+            Page(
+                text: "The little wave felt scared.\nOther waves rushed forward bravely.\nThey whispered, \"You can do it.\"",
+                imageName: "story2_page2",
+                audioName: "story2_audio2",
+                imageOffset: -65
+            ),
+            
+            Page(
+                text: "The little wave took a deep breath.\nIt rolled toward the shore.\nThe shore welcomed it with a splash.",
+                imageName: "story2_page3",
+                audioName: "story2_audio3",
+                imageOffset: -55
+            )
         ],
 
         moral: "Being brave means trying even when you feel scared.",
@@ -153,11 +186,28 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .orange, secondary: .pink),
 
         pages: [
-            Page(text: "Two friends sat by the sea.\nThe sun began to go down.\nThe sky turned orange and pink.", imageName: "story3_page1", audioName: "story3_audio1"),
-            Page(text: "The friends talked quietly.\nThey promised to meet again tomorrow.\nThey smiled and held hands.", imageName: "story3_page2", audioName: "story3_audio2"),
-            Page(text: "The sun disappeared behind the water.\nThe friends waved goodbye.\nTheir promise stayed warm in their hearts.", imageName: "story3_page3", audioName: "story3_audio3")
+            Page(
+                text: "Two friends sat by the sea.\nThe sun began to go down.\nThe sky turned orange and pink.",
+                imageName: "story3_page1",
+                audioName: "story3_audio1",
+                imageOffset: -25
+            ),
+            
+            Page(
+                text: "The friends talked quietly.\nThey promised to meet again tomorrow.\nThey smiled and held hands.",
+                imageName: "story3_page2",
+                audioName: "story3_audio2",
+                imageOffset: -15
+            ),
+            
+            Page(
+                text: "The sun disappeared behind the water.\nThe friends waved goodbye.\nTheir promise stayed warm in their hearts.",
+                imageName: "story3_page3",
+                audioName: "story3_audio3",
+                imageOffset: -35
+            )
         ],
-
+        
         moral: "Friendship and promises stay in your heart.",
 
         vocabulary: [
@@ -217,9 +267,26 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
-            Page(text: "Mia had one red crayon.\nShe liked to draw hearts.\nMia looked in the box. \nThe crayon was gone.", imageName: "story4_page1", audioName: "story4_audio1"),
-            Page(text: "Mia looked under the table.\nShe looked under the chair.\nShe felt sad.", imageName: "story4_page2", audioName: "story4_audio2"),
-            Page(text: "Mia saw the crayon on the floor.\nIt rolled near her shoe.\nMia smiled.\nShe started to draw again.", imageName: "story4_page3", audioName: "story4_audio3")
+            Page(
+                text: "Mia had one red crayon.\nShe liked to draw hearts.\nMia looked in the box. \nThe crayon was gone.",
+                imageName: "story4_page1",
+                audioName: "story4_audio1",
+                imageOffset: 75
+            ),
+            
+            Page(
+                text: "Mia looked under the table.\nShe looked under the chair.\nShe felt sad.",
+                imageName: "story4_page2",
+                audioName: "story4_audio2",
+                imageOffset: 75
+            ),
+            
+            Page(
+                text: "Mia saw the crayon on the floor.\nIt rolled near her shoe.\nMia smiled.\nShe started to draw again.",
+                imageName: "story4_page3",
+                audioName: "story4_audio3",
+                imageOffset: 120
+            )
         ],
 
         moral: "Do not give up. Keep looking.",
@@ -281,9 +348,26 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
-            Page(text: "Milo is a small cat.\nHe has soft, white fur.\nMilo likes to play.", imageName: "story5_page1", audioName: "story5_audio1"),
-            Page(text: "Milo sees a blue toy.\nThe toy moves.\nMilo runs and taps it.", imageName: "story5_page2", audioName: "story5_audio2"),
-            Page(text: "The toy stops.\nMilo sits and smiles.\nShe smiled.\n“I like my toy,” says Milo.", imageName: "story5_page3", audioName: "story5_audio3")
+            Page(
+                text: "Milo is a small cat.\nHe has soft, white fur.\nMilo likes to play.",
+                imageName: "story5_page1",
+                audioName: "story5_audio1",
+                imageOffset: 35
+            ),
+            
+            Page(
+                text: "Milo sees a blue toy.\nThe toy moves.\nMilo runs and taps it.",
+                imageName: "story5_page2",
+                audioName: "story5_audio2",
+                imageOffset: 20
+            ),
+            
+            Page(
+                text: "The toy stops.\nMilo sits and smiles.\nShe smiled.\n“I like my toy,” says Milo.",
+                imageName: "story5_page3",
+                audioName: "story5_audio3",
+                imageOffset: 28
+            )
         ],
 
         moral: "Take care of the things you love and enjoy simple moments.",
@@ -344,9 +428,26 @@ let sampleStories: [Story] = [
         theme: StoryTheme(primary: .red, secondary: .orange),
 
         pages: [
-            Page(text: "The moon is big and bright.\nIt shines in the dark sky.\nEverything is quiet.", imageName: "story6_page1", audioName: "story6_audio1"),
-            Page(text: "A small owl wakes up.\nIt looks at the moon.\n“Hello,” says the owl.", imageName: "story6_page2", audioName: "story6_audio2"),
-            Page(text: "The owl sits very still.\nThe night feels calm.\nThe moon watches over all.", imageName: "story6_page3", audioName: "story6_audio3")
+            Page(
+                text: "The moon is big and bright.\nIt shines in the dark sky.\nEverything is quiet.",
+                imageName: "story6_page1",
+                audioName: "story6_audio1",
+                imageOffset: 185
+            ),
+            
+            Page(
+                text: "A small owl wakes up.\nIt looks at the moon.\n“Hello,” says the owl.",
+                imageName: "story6_page2",
+                audioName: "story6_audio2",
+                imageOffset: -35
+            ),
+            
+            Page(
+                text: "The owl sits very still.\nThe night feels calm.\nThe moon watches over all.",
+                imageName: "story6_page3",
+                audioName: "story6_audio3",
+                imageOffset: -25
+            )
         ],
 
         moral: "Sometimes, quiet moments help us notice the beauty around us.",
@@ -413,9 +514,26 @@ let sampleStories: [Story] = [
             secondary: Color(red: 0.6, green: 0.85, blue: 0.55)
         ),
         pages: [
-            Page(text: "Omar heard a soft chirp.\nA small bird sat alone.", imageName: "story8_page1", audioName: "story8_audio1"),
-            Page(text: "It looked scared.\nOmar searched for its nest.", imageName: "story8_page2", audioName: "story8_audio2"),
-            Page(text: "He found the nest and helped the bird.\nThe bird was safe again.", imageName: "story8_page3", audioName: "story8_audio3")
+            Page(
+                text: "Omar heard a soft chirp.\nA small bird sat alone.",
+                imageName: "story8_page1",
+                audioName: "story8_audio1",
+                imageOffset: 80
+            ),
+            
+            Page(
+                text: "It looked scared.\nOmar searched for its nest.",
+                imageName: "story8_page2",
+                audioName: "story8_audio2",
+                imageOffset: 22
+            ),
+            
+            Page(
+                text: "He found the nest and helped the bird.\nThe bird was safe again.",
+                imageName: "story8_page3",
+                audioName: "story8_audio3",
+                imageOffset: 150
+            )
         ],
         moral: "Helping others, even in small ways, makes a big difference.",
         vocabulary: [
@@ -496,9 +614,26 @@ let sampleStories: [Story] = [
             secondary: Color(red: 1.0, green: 0.55, blue: 0.65)
         ),
         pages: [
-            Page(text: "Lina woke up to gray clouds.\nRain tapped softly on the window.", imageName: "story7_page1", audioName: "story7_audio1"),
-            Page(text: "She felt a little sad.\nHer mother said, “Let’s make today special.”", imageName: "story7_page2", audioName: "story7_audio2"),
-            Page(text: "They built a tent and read stories.\nLina smiled.\nRainy days can be fun too.", imageName: "story7_page3", audioName: "story7_audio3")
+            Page(
+                text: "Lina woke up to gray clouds.\nRain tapped softly on the window.",
+                imageName: "story7_page1",
+                audioName: "story7_audio1",
+                imageOffset: -18
+            ),
+            
+            Page(
+                text: "She felt a little sad.\nHer mother said, “Let’s make today special.”",
+                imageName: "story7_page2",
+                audioName: "story7_audio2",
+                imageOffset: 150
+            ),
+            
+            Page(
+                text: "They built a tent and read stories.\nLina smiled.\nRainy days can be fun too.",
+                imageName: "story7_page3",
+                audioName: "story7_audio3",
+                imageOffset: 42
+            )
         ],
         moral: "Even a rainy day can become special with a little creativity.",
         vocabulary: [
@@ -576,9 +711,26 @@ let sampleStories: [Story] = [
     theme: StoryTheme(primary: .blue, secondary: .cyan),
 
     pages: [
-        Page(text: "Sara held a red balloon.\nIt was her favorite.", imageName: "story9_page1", audioName: "story9_audio1"),
-        Page(text: "The wind blew strong.\nThe balloon slipped away.", imageName: "story9_page2", audioName: "story9_audio2"),
-        Page(text: "Sara smiled and waved.\n\"Maybe it will make someone happy.”", imageName: "story9_page3", audioName: "story9_audio3")
+        Page(
+            text: "Sara held a red balloon.\nIt was her favorite.",
+            imageName: "story9_page1",
+            audioName: "story9_audio1",
+            imageOffset: 180
+        ),
+        
+        Page(
+            text: "The wind blew strong.\nThe balloon slipped away.",
+            imageName: "story9_page2",
+            audioName: "story9_audio2",
+            imageOffset: 60
+        ),
+        
+        Page(
+            text: "Sara smiled and waved.\n\"Maybe it will make someone happy.”",
+            imageName: "story9_page3",
+            audioName: "story9_audio3",
+            imageOffset: 90
+        )
     ],
 
     moral: "Letting go can sometimes bring happiness to others.",
