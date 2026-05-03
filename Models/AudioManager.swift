@@ -9,7 +9,7 @@ import Foundation
 import AVFoundation
 import Combine
 
-class AudioManager: ObservableObject {
+class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     static let shared = AudioManager()
     
@@ -27,8 +27,15 @@ class AudioManager: ObservableObject {
             player = try AVAudioPlayer(contentsOf: url)
             player?.enableRate = true
             player?.rate = speed
+            
+            player?.delegate = self   // ✅ ADD THIS
+            
             player?.play()
-            isPlaying = true
+            
+            DispatchQueue.main.async {
+                self.isPlaying = true
+            }
+            
         } catch {
             print("Audio error:", error)
         }
@@ -36,6 +43,17 @@ class AudioManager: ObservableObject {
     
     func stop() {
         player?.stop()
-        isPlaying = false
+        player = nil
+        
+        DispatchQueue.main.async {
+            self.isPlaying = false
+        }
+    }
+    
+    // ✅ THIS FIXES YOUR ISSUE
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        DispatchQueue.main.async {
+            self.isPlaying = false
+        }
     }
 }

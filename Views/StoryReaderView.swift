@@ -39,7 +39,8 @@ struct StoryReaderView: View {
                     // MARK: - CONTROLS
                     HStack {
                         
-                        Button(audioManager.isPlaying ? "Pause" : "Listen") {
+                        // Listen Button
+                        Button {
                             if audioManager.isPlaying {
                                 audioManager.stop()
                             } else {
@@ -48,6 +49,8 @@ struct StoryReaderView: View {
                                     speed: speed
                                 )
                             }
+                        } label: {
+                            Text(audioManager.isPlaying ? "Pause" : "Listen")
                         }
                         .buttonStyle(
                             PrimaryButtonStyle(
@@ -58,20 +61,28 @@ struct StoryReaderView: View {
                         
                         Spacer()
                         
-                        HStack(spacing: 10) {
+                        // Speed Control
+                        VStack(spacing: 4) {
                             
-                            Text("🐢")
-                                .font(.system(size: isIPad ? 20 : 16))
+                            HStack(spacing: 10) {
+                                
+                                Text("🐢")
+                                    .font(.system(size: isIPad ? 20 : 16))
+                                
+                                Slider(
+                                    value: $speed,
+                                    in: 0.5...1.5,
+                                    step: 0.25
+                                )
+                                .tint(story.theme.primary)
+                                
+                                Text("🐇")
+                                    .font(.system(size: isIPad ? 20 : 16))
+                            }
                             
-                            Slider(
-                                value: $speed,
-                                in: 0.5...1.5,
-                                step: 0.25
-                            )
-                            .tint(story.theme.primary)
-                            
-                            Text("🐇")
-                                .font(.system(size: isIPad ? 20 : 16))
+                            Text("\(String(format: "%.1fx", speed))")
+                                .font(.system(size: isIPad ? 14 : 12, weight: .medium))
+                                .foregroundColor(.black.opacity(0.6))
                         }
                         .padding(.horizontal, 14)
                         .padding(.vertical, 10)
@@ -88,7 +99,7 @@ struct StoryReaderView: View {
                             page: page,
                             isIPad: isIPad
                         )
-                        .padding(.top, isIPad ? 20 : 10)
+//                        .padding(.top, isIPad ? 20 : 10)
                         .padding(.bottom, 8)
                     }
                     
@@ -130,16 +141,11 @@ struct StoryReaderView: View {
                             )
                         )
                     }
-                    .padding(.top, 18)
                     .padding(.bottom, 2)
                     
                     // MARK: - PAGE DOTS
                     HStack(spacing: 10) {
-                        ForEach(
-                            0..<story.pages.count,
-                            id: \.self
-                        ) { index in
-                            
+                        ForEach(0..<story.pages.count, id: \.self) { index in
                             Circle()
                                 .fill(
                                     index == currentPage
@@ -152,19 +158,14 @@ struct StoryReaderView: View {
                     .padding(.bottom, isIPad ? 12 : 8)
                 }
                 .padding(isIPad ? 28 : 20)
-                .frame(
-                    maxWidth: .infinity,
-                    maxHeight: isIPad
-                        ? geo.size.height * 0.38
-                        : geo.size.height * 0.48,
-                    alignment: .top
-                )
+                .frame(maxWidth: .infinity, alignment: .top)
                 .background(
                     ZStack {
                         LinearGradient(
                             colors: [
-                                story.theme.secondary.opacity(0.95),
-                                story.theme.primary.opacity(0.9)
+                                story.theme.secondary,
+                                story.theme.primary,
+                                story.theme.primary.opacity(0.95)
                             ],
                             startPoint: .top,
                             endPoint: .bottom
@@ -172,13 +173,14 @@ struct StoryReaderView: View {
                         
                         LinearGradient(
                             colors: [
-                                Color.white.opacity(0.35),
+                                Color.white.opacity(0.25),
                                 Color.clear
                             ],
                             startPoint: .top,
                             endPoint: .center
                         )
                     }
+                    .drawingGroup()
                 )
                 .clipShape(
                     RoundedRectangle(
@@ -200,14 +202,12 @@ struct StoryReaderView: View {
             )
             .ignoresSafeArea()
             
-            // ✅ SWIPE GESTURE (added)
+            // MARK: - SWIPE
             .gesture(
                 DragGesture()
                     .onEnded { value in
-                        
                         let horizontalAmount = value.translation.width
                         
-                        // Swipe Left → Next
                         if horizontalAmount < -50 {
                             if currentPage < story.pages.count - 1 {
                                 withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.85)) {
@@ -219,7 +219,6 @@ struct StoryReaderView: View {
                             }
                         }
                         
-                        // Swipe Right → Back
                         if horizontalAmount > 50 {
                             if currentPage > 0 {
                                 withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.85)) {
@@ -231,24 +230,17 @@ struct StoryReaderView: View {
                     }
             )
         }
-        .navigationDestination(
-            isPresented: $goToMoral
-        ) {
+        .navigationDestination(isPresented: $goToMoral) {
             MoralView(story: story)
         }
     }
     
-    func textContent(
-        page: Page,
-        isIPad: Bool
-    ) -> some View {
+    func textContent(page: Page, isIPad: Bool) -> some View {
         
         let lines = page.text
             .components(separatedBy: "\n")
             .filter {
-                !$0.trimmingCharacters(
-                    in: .whitespaces
-                ).isEmpty
+                !$0.trimmingCharacters(in: .whitespaces).isEmpty
             }
         
         return VStack(
@@ -257,9 +249,7 @@ struct StoryReaderView: View {
         ) {
             ForEach(lines, id: \.self) { line in
                 Text(line)
-                    .lineSpacing(
-                        isIPad ? 10 : 6
-                    )
+                    .lineSpacing(isIPad ? 10 : 6)
             }
         }
         .font(
@@ -270,20 +260,12 @@ struct StoryReaderView: View {
         )
         .tracking(-0.4)
         .foregroundColor(.appPrimaryText)
-        .frame(
-            maxWidth: .infinity,
-            alignment: .leading
-        )
-        .fixedSize(
-            horizontal: false,
-            vertical: true
-        )
-        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.vertical, 5)
     }
 }
 
 #Preview {
-    StoryReaderView(
-        story: sampleStories[0]
-    )
+    StoryReaderView(story: sampleStories[0])
 }

@@ -392,6 +392,8 @@ extension MiniGameView {
                             .background(Color.yellow)
                             .cornerRadius(14)
                     }
+                    // disable button if pressed once
+//                    .opacity(builtLetters.isEmpty ? 0.45 : 1)
                 }
             }
         }
