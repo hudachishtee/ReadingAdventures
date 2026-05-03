@@ -8,8 +8,8 @@ struct StoryReaderView: View {
     @State private var speed: Float = 1.0
     @State private var goToMoral = false
     
-    @ObservedObject var audioManager = AudioManager.shared
-    
+    @StateObject private var audioManager = AudioManager.shared
+
     var body: some View {
         let page = story.pages[currentPage]
         
@@ -30,7 +30,8 @@ struct StoryReaderView: View {
                             : geo.size.height * 0.56
                     )
                     .offset(y: page.imageOffset)
-//                    .clipped()
+                
+                Spacer(minLength: 0)
                 
                 // MARK: - CONTENT
                 VStack(spacing: isIPad ? 20 : 16) {
@@ -42,7 +43,10 @@ struct StoryReaderView: View {
                             if audioManager.isPlaying {
                                 audioManager.stop()
                             } else {
-                                audioManager.play(audioName: page.audioName, speed: speed)
+                                audioManager.play(
+                                    audioName: page.audioName,
+                                    speed: speed
+                                )
                             }
                         }
                         .buttonStyle(
@@ -59,8 +63,12 @@ struct StoryReaderView: View {
                             Text("🐢")
                                 .font(.system(size: isIPad ? 20 : 16))
                             
-                            Slider(value: $speed, in: 0.5...1.5, step: 0.25)
-                                .tint(story.theme.primary)
+                            Slider(
+                                value: $speed,
+                                in: 0.5...1.5,
+                                step: 0.25
+                            )
+                            .tint(story.theme.primary)
                             
                             Text("🐇")
                                 .font(.system(size: isIPad ? 20 : 16))
@@ -69,15 +77,22 @@ struct StoryReaderView: View {
                         .padding(.vertical, 10)
                         .frame(width: isIPad ? 260 : 180)
                         .background(.ultraThinMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: 16)
+                        )
                     }
                     
                     // MARK: - TEXT
                     ScrollView(showsIndicators: false) {
-                        textContent(page: page, isIPad: isIPad)
-                            .padding(.top, isIPad ? 20 : 10)
-                            .padding(.bottom, 20)
+                        textContent(
+                            page: page,
+                            isIPad: isIPad
+                        )
+                        .padding(.top, isIPad ? 20 : 10)
+                        .padding(.bottom, 8)
                     }
+                    
+                    Spacer(minLength: 0)
                     
                     // MARK: - NAVIGATION
                     HStack {
@@ -89,12 +104,18 @@ struct StoryReaderView: View {
                             }
                         }
                         .buttonStyle(
-                            OutlineButtonStyle(themeColor: story.theme.primary)
+                            OutlineButtonStyle(
+                                themeColor: story.theme.primary
+                            )
                         )
                         
                         Spacer()
                         
-                        Button(currentPage == story.pages.count - 1 ? "Finish" : "Next") {
+                        Button(
+                            currentPage == story.pages.count - 1
+                            ? "Finish"
+                            : "Next"
+                        ) {
                             if currentPage < story.pages.count - 1 {
                                 currentPage += 1
                                 audioManager.stop()
@@ -104,13 +125,21 @@ struct StoryReaderView: View {
                             }
                         }
                         .buttonStyle(
-                            OutlineButtonStyle(themeColor: story.theme.primary)
+                            OutlineButtonStyle(
+                                themeColor: story.theme.primary
+                            )
                         )
                     }
+                    .padding(.top, 18)
+                    .padding(.bottom, 2)
                     
                     // MARK: - PAGE DOTS
                     HStack(spacing: 10) {
-                        ForEach(0..<story.pages.count, id: \.self) { index in
+                        ForEach(
+                            0..<story.pages.count,
+                            id: \.self
+                        ) { index in
+                            
                             Circle()
                                 .fill(
                                     index == currentPage
@@ -124,10 +153,11 @@ struct StoryReaderView: View {
                 }
                 .padding(isIPad ? 28 : 20)
                 .frame(
-                    width: geo.size.width,
-                    height: isIPad
-                        ? geo.size.height * 0.34
-                        : geo.size.height * 0.44
+                    maxWidth: .infinity,
+                    maxHeight: isIPad
+                        ? geo.size.height * 0.38
+                        : geo.size.height * 0.48,
+                    alignment: .top
                 )
                 .background(
                     ZStack {
@@ -151,45 +181,109 @@ struct StoryReaderView: View {
                     }
                 )
                 .clipShape(
-                    RoundedRectangle(cornerRadius: isIPad ? 50 : 40, style: .continuous)
+                    RoundedRectangle(
+                        cornerRadius: isIPad ? 50 : 40,
+                        style: .continuous
+                    )
                 )
-                .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: -5)
+                .shadow(
+                    color: Color.black.opacity(0.15),
+                    radius: 10,
+                    x: 0,
+                    y: -5
+                )
             }
+            .frame(maxHeight: .infinity)
             .background(
                 story.theme.primary.opacity(0.9)
                     .ignoresSafeArea()
             )
             .ignoresSafeArea()
+            
+            // ✅ SWIPE GESTURE (added)
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        
+                        let horizontalAmount = value.translation.width
+                        
+                        // Swipe Left → Next
+                        if horizontalAmount < -50 {
+                            if currentPage < story.pages.count - 1 {
+                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.85)) {
+                                    currentPage += 1
+                                    audioManager.stop()
+                                }
+                            } else {
+                                goToMoral = true
+                            }
+                        }
+                        
+                        // Swipe Right → Back
+                        if horizontalAmount > 50 {
+                            if currentPage > 0 {
+                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.85)) {
+                                    currentPage -= 1
+                                    audioManager.stop()
+                                }
+                            }
+                        }
+                    }
+            )
         }
-        .navigationDestination(isPresented: $goToMoral) {
+        .navigationDestination(
+            isPresented: $goToMoral
+        ) {
             MoralView(story: story)
         }
     }
     
-    func textContent(page: Page, isIPad: Bool) -> some View {
+    func textContent(
+        page: Page,
+        isIPad: Bool
+    ) -> some View {
         
         let lines = page.text
             .components(separatedBy: "\n")
-            .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+            .filter {
+                !$0.trimmingCharacters(
+                    in: .whitespaces
+                ).isEmpty
+            }
         
-        return VStack(alignment: .leading, spacing: isIPad ? 28 : 20) {
+        return VStack(
+            alignment: .leading,
+            spacing: isIPad ? 28 : 20
+        ) {
             ForEach(lines, id: \.self) { line in
                 Text(line)
-                    .lineSpacing(isIPad ? 10 : 6)
+                    .lineSpacing(
+                        isIPad ? 10 : 6
+                    )
             }
         }
-        .font(.custom(
-            "OpenDyslexic-Regular",
-            size: isIPad ? 26 : 18
-        ))
+        .font(
+            .custom(
+                "OpenDyslexic-Regular",
+                size: isIPad ? 26 : 18
+            )
+        )
         .tracking(-0.4)
         .foregroundColor(.appPrimaryText)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .fixedSize(horizontal: false, vertical: true)
+        .frame(
+            maxWidth: .infinity,
+            alignment: .leading
+        )
+        .fixedSize(
+            horizontal: false,
+            vertical: true
+        )
         .padding(.vertical, 8)
     }
 }
 
 #Preview {
-    StoryReaderView(story: sampleStories[13])
+    StoryReaderView(
+        story: sampleStories[0]
+    )
 }

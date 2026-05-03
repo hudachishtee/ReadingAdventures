@@ -16,8 +16,8 @@ struct MiniGameView: View {
     @State private var shakeWord = false
     @State private var wrongGlow = false
     
-    // ONLY ADDED
     @State private var goHome = false
+    @State private var showExitAlert = false
     
     var currentGame: GameQuestion {
         story.games[currentIndex]
@@ -48,6 +48,29 @@ struct MiniGameView: View {
                         .ignoresSafeArea()
                 }
                 
+                // MARK: Exit Button
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            showExitAlert = true
+                        } label: {
+                            Image(systemName: "door.left.hand.open")
+                                .font(.system(size: 22, weight: .bold))
+                                .foregroundColor(.black)
+                                .frame(width: 48, height: 48)
+                                .background(Color.white.opacity(0.9))
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
+                    
+                    Spacer()
+                }
+                
                 VStack(spacing: 14 * scale) {
                     
                     Spacer()
@@ -73,11 +96,12 @@ struct MiniGameView: View {
                     
                     Image(story.coverImage)
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
                         .frame(
-                            width: geo.size.width * 0.72,
-                            height: isIPad ? 260 : 180
+                            width: geo.size.width * 0.92,
+                            height: isIPad ? 300 : 210
                         )
+                        .clipped()
                         .cornerRadius(22)
                     
                     Spacer()
@@ -202,6 +226,17 @@ struct MiniGameView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .alert("Leave Mini Game?", isPresented: $showExitAlert) {
+            
+            Button("Continue", role: .cancel) { }
+            
+            Button("Leave", role: .destructive) {
+                goHome = true
+            }
+            
+        } message: {
+            Text("Are you sure you want to leave?")
+        }
         .fullScreenCover(isPresented: $goHome) {
             MainTabContainerView()
         }

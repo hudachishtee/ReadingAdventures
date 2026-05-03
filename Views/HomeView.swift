@@ -1,5 +1,5 @@
 //==============================================================
-// HomeView.swift
+// HomeView.swift (NO Hashable version)
 //==============================================================
 
 import SwiftUI
@@ -59,7 +59,7 @@ struct HomeView: View {
             }
         }
         
-        // MARK: Navigate to Story Reader
+        // ✅ Boolean navigation (fixed version)
         .navigationDestination(isPresented: $navigateToReader) {
             if let story = storyForReader {
                 StoryReaderView(story: story)
@@ -76,7 +76,8 @@ struct HomeView: View {
                     storyForReader = story
                     selectedStory = nil
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    // 👇 IMPORTANT: delay avoids SwiftUI race condition
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         navigateToReader = true
                     }
                 }
@@ -87,12 +88,6 @@ struct HomeView: View {
                 : [.fraction(0.6)]
             )
             .presentationCornerRadius(30)
-        }
-        
-        // MARK: Reset Navigation State When Returning Home
-        .onAppear {
-            navigateToReader = false
-            storyForReader = nil
         }
     }
 }
