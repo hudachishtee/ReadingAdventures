@@ -61,36 +61,62 @@ struct StoryReaderView: View {
                         
                         Spacer()
                         
-                        // Speed Control
-                        VStack(spacing: 4) {
+                        // ✅ SPEED CONTROL (FIXED + SAFE TAPS)
+                        HStack {
                             
-                            HStack(spacing: 10) {
-                                
-                                Text("🐢")
-                                    .font(.system(size: isIPad ? 20 : 16))
-                                
-                                Slider(
-                                    value: $speed,
-                                    in: 0.5...1.5,
-                                    step: 0.25
-                                )
-                                .tint(story.theme.primary)
-                                
-                                Text("🐇")
-                                    .font(.system(size: isIPad ? 20 : 16))
+                            // MINUS
+                            Button {
+                                if speed > 0.5 {
+                                    speed -= 0.25
+                                    
+                                    if audioManager.isPlaying {
+                                        audioManager.play(
+                                            audioName: page.audioName,
+                                            speed: speed
+                                        )
+                                    }
+                                }
+                            } label: {
+                                Text("−")
+                                    .font(.system(size: isIPad ? 20 : 16, weight: .bold))
+                                    .foregroundColor(.orange.opacity(0.7))
+                                    .frame(width: 54, height: 30) // bigger tap
+                                    .contentShape(Rectangle())
                             }
                             
+                            Spacer(minLength: 0)
+                            
+                            // SPEED TEXT
                             Text("\(String(format: "%.1fx", speed))")
-                                .font(.system(size: isIPad ? 14 : 12, weight: .medium))
-                                .foregroundColor(.black.opacity(0.6))
+                                .font(.system(size: isIPad ? 15 : 13, weight: .medium))
+                                .foregroundColor(.black.opacity(0.8))
+                            
+                            Spacer(minLength: 0)
+                            
+                            // PLUS
+                            Button {
+                                if speed < 1.5 {
+                                    speed += 0.25
+                                    
+                                    if audioManager.isPlaying {
+                                        audioManager.play(
+                                            audioName: page.audioName,
+                                            speed: speed
+                                        )
+                                    }
+                                }
+                            } label: {
+                                Text("+")
+                                    .font(.system(size: isIPad ? 20 : 16, weight: .bold))
+                                    .foregroundColor(.orange)
+                                    .frame(width: 44, height: 30) // bigger tap
+                                    .contentShape(Rectangle())
+                            }
                         }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 10)
-                        .frame(width: isIPad ? 260 : 180)
-                        .background(.ultraThinMaterial)
-                        .clipShape(
-                            RoundedRectangle(cornerRadius: 16)
-                        )
+                        .padding(.horizontal, 12)
+                        .frame(width: isIPad ? 240 : 180, height: 46)
+                        .background(Color.white.opacity(0.55))
+                        .clipShape(Capsule())
                     }
                     
                     // MARK: - TEXT
@@ -99,7 +125,6 @@ struct StoryReaderView: View {
                             page: page,
                             isIPad: isIPad
                         )
-//                        .padding(.top, isIPad ? 20 : 10)
                         .padding(.bottom, 8)
                     }
                     
