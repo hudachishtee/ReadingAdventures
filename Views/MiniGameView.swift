@@ -7,7 +7,9 @@ struct MiniGameView: View {
     
     @State private var currentIndex = 0
     @State private var selectedIndex: Int? = nil
-    @State private var builtLetters: [String] = []
+    
+    // ✅ FIXED (supports duplicates + dimming)
+    @State private var builtLetterIndices: [Int] = []
     
     @State private var showWrongPopup = false
     @State private var showConfetti = false
@@ -32,7 +34,6 @@ struct MiniGameView: View {
             
             ZStack {
                 
-                // MARK: Background
                 LinearGradient(
                     colors: [
                         Color(red: 0.76, green: 0.88, blue: 1.0),
@@ -48,7 +49,6 @@ struct MiniGameView: View {
                         .ignoresSafeArea()
                 }
                 
-                // MARK: Exit Button
                 VStack {
                     HStack {
                         Spacer()
@@ -73,47 +73,34 @@ struct MiniGameView: View {
                 
                 VStack(spacing: 14 * scale) {
                     
-                    Spacer()
-                        .frame(height: 8)
+                    Spacer().frame(height: 8)
                     
                     Text("Story Game")
-                        .font(.custom(
-                            "OpenDyslexic-Bold",
-                            size: isIPad ? 34 : 26
-                        ))
+                        .font(.custom("OpenDyslexic-Bold", size: isIPad ? 34 : 26))
                         .foregroundColor(.appPrimaryText)
                     
                     HStack(spacing: 10) {
                         ForEach(0..<story.games.count, id: \.self) { index in
                             Capsule()
                                 .fill(index <= currentIndex ? .yellow : .white.opacity(0.55))
-                                .frame(
-                                    width: 24 * scale,
-                                    height: 6
-                                )
+                                .frame(width: 24 * scale, height: 6)
                         }
                     }
                     
                     Image(story.coverImage)
                         .resizable()
                         .scaledToFill()
-                        .frame(
-                            width: geo.size.width * 0.92,
-                            height: isIPad ? 300 : 210
-                        )
+                        .frame(width: geo.size.width * 0.92,
+                               height: isIPad ? 300 : 210)
                         .clipped()
                         .cornerRadius(22)
                     
-                    Spacer()
-                        .frame(height: isIPad ? 55 : 34)
+                    Spacer().frame(height: isIPad ? 55 : 34)
                     
                     VStack(spacing: 18 * scale) {
                         
                         Text(currentGame.question)
-                            .font(.custom(
-                                "OpenDyslexic-Bold",
-                                size: 20 * scale
-                            ))
+                            .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
                             .multilineTextAlignment(.center)
                             .foregroundColor(.black)
                         
@@ -126,24 +113,16 @@ struct MiniGameView: View {
                     .padding(20 * scale)
                     .background(Color.white.opacity(0.5))
                     .cornerRadius(26)
-                    .shadow(
-                        color: .black.opacity(0.08),
-                        radius: 10,
-                        x: 0,
-                        y: 6
-                    )
+                    .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 6)
                     .padding(.horizontal, 18)
                     
                     Spacer(minLength: 10)
                 }
                 
                 if showWrongPopup {
-                    
-                    Color.black.opacity(0.25)
-                        .ignoresSafeArea()
+                    Color.black.opacity(0.25).ignoresSafeArea()
                     
                     VStack(spacing: 18) {
-                        
                         Text("Nice Try!")
                             .font(.custom("OpenDyslexic-Bold", size: 24))
                         
@@ -179,12 +158,9 @@ struct MiniGameView: View {
                 }
                 
                 if showGameComplete {
-                    
-                    Color.black.opacity(0.25)
-                        .ignoresSafeArea()
+                    Color.black.opacity(0.25).ignoresSafeArea()
                     
                     VStack(spacing: 20) {
-                        
                         Text("Amazing Work!")
                             .font(.custom("OpenDyslexic-Bold", size: 28))
                         
@@ -227,13 +203,8 @@ struct MiniGameView: View {
         }
         .navigationBarBackButtonHidden(true)
         .alert("Leave Mini Game?", isPresented: $showExitAlert) {
-            
             Button("Continue", role: .cancel) { }
-            
-            Button("Leave", role: .destructive) {
-                goHome = true
-            }
-            
+            Button("Leave", role: .destructive) { goHome = true }
         } message: {
             Text("Are you sure you want to leave?")
         }
@@ -243,7 +214,9 @@ struct MiniGameView: View {
     }
 }
 
-// MARK: OPTIONS
+//
+// MARK: OPTIONS (⚠️ THIS WAS MISSING → caused your error)
+//
 extension MiniGameView {
     
     func optionsView(scale: CGFloat) -> some View {
@@ -259,10 +232,7 @@ extension MiniGameView {
                     HStack {
                         
                         Text(currentGame.options[index])
-                            .font(.custom(
-                                "OpenDyslexic-Regular",
-                                size: 18 * scale
-                            ))
+                            .font(.custom("OpenDyslexic-Regular", size: 18 * scale))
                             .foregroundColor(.black)
                         
                         Spacer()
@@ -317,7 +287,9 @@ extension MiniGameView {
     }
 }
 
+//
 // MARK: BUILD WORD
+//
 extension MiniGameView {
     
     func buildWordView(scale: CGFloat) -> some View {
@@ -338,16 +310,10 @@ extension MiniGameView {
                                 ? Color.red.opacity(0.35)
                                 : Color(red: 1.0, green: 0.96, blue: 0.55)
                             )
-                            .frame(
-                                width: 42 * scale,
-                                height: 48 * scale
-                            )
+                            .frame(width: 42 * scale, height: 48 * scale)
                             .overlay(
                                 Text(letterAt(i))
-                                    .font(.custom(
-                                        "OpenDyslexic-Bold",
-                                        size: 22 * scale
-                                    ))
+                                    .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
                             )
                     }
                 }
@@ -355,7 +321,6 @@ extension MiniGameView {
                 Button {
                     deleteLastLetter()
                 } label: {
-                    
                     Image(systemName: "delete.left.fill")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
@@ -363,63 +328,71 @@ extension MiniGameView {
                         .background(Color.red)
                         .cornerRadius(12)
                 }
-                .opacity(builtLetters.isEmpty ? 0.45 : 1)
+                .opacity(builtLetterIndices.isEmpty ? 0.45 : 1)
             }
             .offset(x: shakeWord ? -8 : 8)
             
             LazyVGrid(
-                columns: Array(
-                    repeating: GridItem(.flexible()),
-                    count: 4
-                ),
+                columns: Array(repeating: GridItem(.flexible()), count: 4),
                 spacing: 12
             ) {
                 
-                ForEach(currentGame.options, id: \.self) { letter in
+                ForEach(currentGame.options.indices, id: \.self) { index in
+                    
+                    let letter = currentGame.options[index]
+                    let isUsed = builtLetterIndices.contains(index)
                     
                     Button {
-                        addLetter(letter)
+                        addLetter(index)
                     } label: {
                         
                         Text(letter)
-                            .font(.custom(
-                                "OpenDyslexic-Bold",
-                                size: 22 * scale
-                            ))
+                            .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
                             .foregroundColor(.black)
                             .frame(height: 50)
                             .frame(maxWidth: .infinity)
                             .background(Color.yellow)
                             .cornerRadius(14)
+                            .opacity(isUsed ? 0.4 : 1.0)
                     }
-                    // disable button if pressed once
-//                    .opacity(builtLetters.isEmpty ? 0.45 : 1)
+                    .disabled(isUsed)
                 }
             }
         }
     }
     
-    func addLetter(_ letter: String) {
+    func addLetter(_ index: Int) {
         
         let target = currentGame.correctAnswer ?? ""
-        guard builtLetters.count < target.count else { return }
+        guard builtLetterIndices.count < target.count else { return }
         
-        builtLetters.append(letter)
+        builtLetterIndices.append(index)
         
-        if builtLetters.joined() == target {
+        let builtWord = builtLetterIndices.map {
+            currentGame.options[$0]
+        }.joined()
+        
+        if builtWord == target {
             correctAnswer()
             return
         }
         
-        if builtLetters.count == target.count &&
-            builtLetters.joined() != target {
+        if builtLetterIndices.count == target.count &&
+            builtWord != target {
             wrongBuildWordAnimation()
         }
     }
     
     func deleteLastLetter() {
-        guard !builtLetters.isEmpty else { return }
-        builtLetters.removeLast()
+        guard !builtLetterIndices.isEmpty else { return }
+        builtLetterIndices.removeLast()
+    }
+    
+    func letterAt(_ index: Int) -> String {
+        if index < builtLetterIndices.count {
+            return currentGame.options[builtLetterIndices[index]]
+        }
+        return ""
     }
     
     func wrongBuildWordAnimation() {
@@ -433,27 +406,21 @@ extension MiniGameView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             
             withAnimation(.spring()) {
-                builtLetters = []
+                builtLetterIndices = []
             }
             
             wrongGlow = false
             shakeWord = false
         }
     }
-    
-    func letterAt(_ index: Int) -> String {
-        if index < builtLetters.count {
-            return builtLetters[index]
-        }
-        return ""
-    }
 }
 
+//
 // MARK: FLOW
+//
 extension MiniGameView {
     
     func correctAnswer() {
-        
         showConfetti = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
@@ -465,13 +432,12 @@ extension MiniGameView {
     func resetTryAgain() {
         showWrongPopup = false
         selectedIndex = nil
-        builtLetters = []
+        builtLetterIndices = []
     }
     
     func nextGame() {
-        
         selectedIndex = nil
-        builtLetters = []
+        builtLetterIndices = []
         
         if currentIndex < story.games.count - 1 {
             currentIndex += 1
@@ -483,7 +449,7 @@ extension MiniGameView {
     func restartGame() {
         currentIndex = 0
         selectedIndex = nil
-        builtLetters = []
+        builtLetterIndices = []
         showGameComplete = false
     }
 }

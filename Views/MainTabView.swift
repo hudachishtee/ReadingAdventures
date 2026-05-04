@@ -1,8 +1,8 @@
-//==============================================================
-// MainTabContainerView.swift
-//==============================================================
-
 import SwiftUI
+
+//==============================================================
+// MainTabContainerView
+//==============================================================
 
 struct MainTabContainerView: View {
     
@@ -30,20 +30,16 @@ struct MainTabContainerView: View {
                     }
                 }
                 
-                // TAB BAR ONLY ON ROOT SCREENS
-                if selectedTab == .home ||
-                    selectedTab == .games ||
-                    selectedTab == .badges {
-                    
-                    PremiumTabBar(selectedTab: $selectedTab)
-                        .padding(.bottom, 14)
-                }
+                PremiumTabBar(selectedTab: $selectedTab)
+                    .padding(.bottom, 14)
             }
         }
     }
 }
 
-// MARK: - TAB ITEMS
+//==============================================================
+// TAB ITEMS
+//==============================================================
 
 enum TabItem: CaseIterable {
     case home
@@ -59,7 +55,9 @@ enum TabItem: CaseIterable {
     }
 }
 
-// MARK: - PREMIUM TAB BAR
+//==============================================================
+// TAB BAR
+//==============================================================
 
 struct PremiumTabBar: View {
     
@@ -109,51 +107,120 @@ struct PremiumTabBar: View {
     }
 }
 
-// MARK: - GAMES PAGE
+//==============================================================
+// 🎮 GAME HUB (FIXED)
+//==============================================================
 
 struct GameHubView: View {
     
-    let games = [
-        ("Tap The Word", "hand.tap.fill", Color.yellow),
-        ("Picture Match", "photo.fill", Color.green),
-        ("Quiz Time", "questionmark.circle.fill", Color.blue),
-        ("Memory Game", "brain.head.profile", Color.pink)
+    @StateObject private var progress = ProgressManager.shared
+    @State private var selectedStory: Story?
+    @State private var showLockedAlert = false
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
     ]
     
     var body: some View {
+        
         ScrollView {
-            VStack(spacing: 22) {
+            VStack(spacing: 24) {
                 
-                Text("Games")
-                    .font(.custom("OpenDyslexic-Regular", size: 30))
-                    .tracking(5)
+                Text("Game Controller")
+                    .font(.custom("OpenDyslexic-Regular", size: 28))
+                    .tracking(3)
                     .padding(.top, 70)
                 
-                ForEach(games, id: \.0) { game in
-                    HStack {
-                        Image(systemName: game.1)
-                            .font(.system(size: 25))
+                LazyVGrid(columns: columns, spacing: 16) {
+                    
+                    ForEach(sampleStories) { story in
                         
-                        Text(game.0)
-                            .font(.custom("OpenDyslexic-Regular", size: 22))
+                        let unlocked = progress.isGameUnlocked(for: story)
                         
-                        Spacer()
-                        
-                        Image(systemName: "play.fill")
+                        Button {
+                            if unlocked {
+                                selectedStory = story
+                            } else {
+                                showLockedAlert = true
+                            }
+                        } label: {
+                            gridItem(story: story, unlocked: unlocked)
+                        }
                     }
-                    .padding(.horizontal, 22)
-                    .frame(height: 88)
-                    .background(game.2.opacity(0.78))
-                    .cornerRadius(22)
                 }
+                .padding(.horizontal, 20)
+                
+                Spacer(minLength: 120)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 120)
+        }
+        
+        // ✅ NAVIGATION (FIXED)
+        .navigationDestination(isPresented: Binding(
+            get: { selectedStory != nil },
+            set: { if !$0 { selectedStory = nil } }
+        )) {
+            if let story = selectedStory {
+                MiniGameView(story: story, onFinish: {})
+            }
+        }
+        
+        // ✅ ALERT (FIXED POSITION)
+        .alert("Locked", isPresented: $showLockedAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Finish reading the story to unlock this game")
         }
     }
 }
 
-// MARK: - BADGES PAGE
+//==============================================================
+// GRID ITEM
+//==============================================================
+
+extension GameHubView {
+    
+    func gridItem(story: Story, unlocked: Bool) -> some View {
+        
+        VStack(spacing: 10) {
+            
+            ZStack {
+                
+                Image(story.coverImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 120)
+                    .clipped()
+                    .cornerRadius(18)
+                    .opacity(unlocked ? 1 : 0.35)
+                
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(Color.black.opacity(unlocked ? 0.0 : 0.25))
+                
+                if unlocked {
+                    Image(systemName: "gamecontroller.fill")
+                        .font(.system(size: 28))
+                        .foregroundColor(.white)
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                }
+            }
+            .frame(height: 120)
+            
+            Text(story.title)
+                .font(.custom("OpenDyslexic-Regular", size: 13))
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+        }
+    }
+}
+
+//==============================================================
+// BADGES PAGE
+//==============================================================
 
 struct BadgesView: View {
     
@@ -162,6 +229,10 @@ struct BadgesView: View {
             .font(.largeTitle)
     }
 }
+
+//==============================================================
+// PREVIEW
+//==============================================================
 
 #Preview {
     MainTabContainerView()

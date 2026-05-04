@@ -12,6 +12,8 @@ struct CelebrationView: View {
     
     let story: Story
     
+    @StateObject private var progress = ProgressManager.shared   // ✅ ADDED
+    
     @State private var showTitle = false
     @State private var showOwl = false
     @State private var showBadge = false
@@ -171,6 +173,7 @@ struct CelebrationView: View {
             }
             .onAppear {
                 startAnimation()
+                progress.completeStory(story)   // ✅ THIS SAVES PROGRESS
             }
         }
         .navigationBarBackButtonHidden(true)
