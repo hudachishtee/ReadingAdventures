@@ -21,10 +21,8 @@ struct MainTabContainerView: View {
                     switch selectedTab {
                     case .home:
                         HomeView()
-                        
                     case .games:
                         GameHubView()
-                        
                     case .badges:
                         BadgesView()
                     }
@@ -56,12 +54,15 @@ enum TabItem: CaseIterable {
 }
 
 //==============================================================
-// TAB BAR
+// TAB BAR (WAVE VERSION)
 //==============================================================
 
 struct PremiumTabBar: View {
     
     @Binding var selectedTab: TabItem
+    @ObservedObject var progress = ProgressManager.shared
+    
+    @State private var wave = false
     
     var body: some View {
         
@@ -72,6 +73,11 @@ struct PremiumTabBar: View {
                 Button {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
                         selectedTab = tab
+                        
+                        if tab == .badges {
+                            progress.markAchievementsAsSeen()
+                            wave = false
+                        }
                     }
                 } label: {
                     
@@ -84,13 +90,48 @@ struct PremiumTabBar: View {
                                 .shadow(color: .black.opacity(0.10), radius: 5, y: 3)
                         }
                         
-                        Image(systemName: tab.icon)
-                            .font(.system(size: 21, weight: .semibold))
-                            .foregroundColor(
-                                selectedTab == tab
-                                ? .black
-                                : .black.opacity(0.38)
-                            )
+                        ZStack {
+                            
+                            // 🌊 BADGES WAVE (STRONG)
+                            if tab == .badges && progress.hasUnseenAchievements {
+                                Circle()
+                                    .fill(Color.red.opacity(0.15))
+                                    .frame(width: 30, height: 30)
+                                    .scaleEffect(wave ? 2.2 : 1)
+                                    .opacity(wave ? 0 : 0.6)
+                            }
+                            
+                            // 🌊 GAMES WAVE (SUBTLE)
+                            if tab == .games && progress.hasUnseenAchievements {
+                                Circle()
+                                    .fill(Color.blue.opacity(0.12))
+                                    .frame(width: 30, height: 30)
+                                    .scaleEffect(wave ? 2.0 : 1)
+                                    .opacity(wave ? 0 : 0.5)
+                            }
+                            
+                            Image(systemName: tab.icon)
+                                .font(.system(size: 21, weight: .semibold))
+                                .foregroundColor(
+                                    selectedTab == tab
+                                    ? .black
+                                    : .black.opacity(0.38)
+                                )
+                            
+                            // 🔴 Badge dot
+                            if tab == .badges && progress.hasUnseenAchievements {
+                                Circle()
+                                    .fill(Color.red)
+                                    .frame(width: 10, height: 10)
+                                    .offset(x: 10, y: -10)
+                            }
+                        }
+                        .onAppear {
+                            startWaveIfNeeded()
+                        }
+                        .onChange(of: progress.hasUnseenAchievements) { _ in
+                            startWaveIfNeeded()
+                        }
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 58)
@@ -105,10 +146,26 @@ struct PremiumTabBar: View {
                 .shadow(color: .black.opacity(0.10), radius: 10, y: 6)
         )
     }
+    
+    // MARK: Wave Animation
+    
+    private func startWaveIfNeeded() {
+        guard progress.hasUnseenAchievements else {
+            wave = false
+            return
+        }
+        
+        withAnimation(
+            .easeOut(duration: 1.0)
+            .repeatForever(autoreverses: false)
+        ) {
+            wave = true
+        }
+    }
 }
 
 //==============================================================
-// 🎮 GAME HUB (FIXED)
+// GAME HUB (UNCHANGED)
 //==============================================================
 
 struct GameHubView: View {
@@ -156,7 +213,6 @@ struct GameHubView: View {
             }
         }
         
-        // ✅ NAVIGATION (FIXED)
         .navigationDestination(isPresented: Binding(
             get: { selectedStory != nil },
             set: { if !$0 { selectedStory = nil } }
@@ -166,7 +222,6 @@ struct GameHubView: View {
             }
         }
         
-        // ✅ ALERT (FIXED POSITION)
         .alert("Locked", isPresented: $showLockedAlert) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -176,7 +231,7 @@ struct GameHubView: View {
 }
 
 //==============================================================
-// GRID ITEM
+// GRID ITEM (UNCHANGED)
 //==============================================================
 
 extension GameHubView {
@@ -222,16 +277,12 @@ extension GameHubView {
 // BADGES PAGE
 //==============================================================
 
-//==============================================================
-// BADGES PAGE (CONNECTED)
-//==============================================================
-
 struct BadgesView: View {
-    
     var body: some View {
         AchievementsView(stories: sampleStories)
     }
 }
+
 //==============================================================
 // PREVIEW
 //==============================================================
