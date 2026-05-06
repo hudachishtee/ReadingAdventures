@@ -95,10 +95,10 @@ struct PremiumTabBar: View {
                             // 🌊 BADGES WAVE (STRONG)
                             if tab == .badges && progress.hasUnseenAchievements {
                                 Circle()
-                                    .fill(Color.red.opacity(0.15))
-                                    .frame(width: 30, height: 30)
+                                    .fill(Color.red.opacity(0.19))
+                                    .frame(width: 100, height: 100)
                                     .scaleEffect(wave ? 2.2 : 1)
-                                    .opacity(wave ? 0 : 0.6)
+                                    .opacity(wave ? 0 : 0.9)
                             }
                             
                             // 🌊 GAMES WAVE (SUBTLE)
@@ -176,8 +176,8 @@ struct GameHubView: View {
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
+//        GridItem(.flexible(), spacing: 16)
     ]
     
     var body: some View {
@@ -185,7 +185,7 @@ struct GameHubView: View {
         ScrollView {
             VStack(spacing: 24) {
                 
-                Text("Game Controller")
+                Text("Story Games")
                     .font(.custom("OpenDyslexic-Regular", size: 28))
                     .tracking(3)
                     .padding(.top, 70)

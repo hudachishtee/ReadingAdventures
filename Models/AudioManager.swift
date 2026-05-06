@@ -2,8 +2,6 @@
 //  AudioManager.swift
 //  ReadingAdventures
 //
-//  Created by Huda Chishtee on 05/04/2026.
-//
 
 import Foundation
 import AVFoundation
@@ -17,6 +15,27 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     @Published var isPlaying = false
     
+    override init() {
+        super.init()
+        configureAudioSession() // 🔥 THIS FIXES SILENT MODE
+    }
+    
+    // MARK: - Configure Audio Session
+    
+    private func configureAudioSession() {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            
+            try session.setCategory(.playback, mode: .default, options: [])
+            try session.setActive(true)
+            
+        } catch {
+            print("Audio session error:", error.localizedDescription)
+        }
+    }
+    
+    // MARK: - Play
+    
     func play(audioName: String, speed: Float = 1.0) {
         guard let url = Bundle.main.url(forResource: audioName, withExtension: "mp3") else {
             print("Audio not found")
@@ -25,11 +44,13 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         
         do {
             player = try AVAudioPlayer(contentsOf: url)
+            
             player?.enableRate = true
             player?.rate = speed
             
-            player?.delegate = self   // ✅ ADD THIS
+            player?.delegate = self
             
+            player?.prepareToPlay() // ✅ smoother start
             player?.play()
             
             DispatchQueue.main.async {
@@ -41,6 +62,8 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
+    // MARK: - Stop
+    
     func stop() {
         player?.stop()
         player = nil
@@ -50,7 +73,8 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
-    // ✅ THIS FIXES YOUR ISSUE
+    // MARK: - Delegate
+    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         DispatchQueue.main.async {
             self.isPlaying = false

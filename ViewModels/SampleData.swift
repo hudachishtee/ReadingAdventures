@@ -183,8 +183,10 @@ let sampleStories: [Story] = [
         coverImage: "story3_cover",
         previewImage: "story3_preview",    // ✅ Preview screen
 
-        theme: StoryTheme(primary: .orange, secondary: .pink),
-
+        theme: StoryTheme(
+            primary: Color(red: 1.0, green: 0.78, blue: 0.55),   // soft peach
+            secondary: Color(red: 1.0, green: 0.60, blue: 0.70)  // soft pink
+        ),
         pages: [
             Page(
                 text: "Two friends sat by the sea.\nThe sun began to go down.\nThe sky turned orange and pink.",
@@ -264,8 +266,10 @@ let sampleStories: [Story] = [
         coverImage: "story4_cover",
         previewImage: "story4_preview",    // ✅ Preview screen
 
-        theme: StoryTheme(primary: .red, secondary: .orange),
-
+        theme: StoryTheme(
+            primary: Color(red: 0.996, green: 0.847, blue: 0.043),  // #FED80B
+            secondary: Color(red: 1.0, green: 0.475, blue: 0.259)   // #FF7942
+        ),
         pages: [
             Page(
                 text: "Mia had one red crayon.\nShe liked to draw hearts.\nMia looked in the box. \nThe crayon was gone.",
@@ -345,8 +349,11 @@ let sampleStories: [Story] = [
         coverImage: "story5_cover",
         previewImage: "story5_preview",    // ✅ Preview screen
 
-        theme: StoryTheme(primary: .red, secondary: .orange),
-
+        theme: StoryTheme(
+            primary: Color(red: 236/255, green: 188/255, blue: 182/255),
+            secondary: Color(red: 245/255, green: 229/255, blue: 188/255) // creamy sunlight
+        ),
+        
         pages: [
             Page(
                 text: "Milo is a small cat.\nHe has soft, white fur.\nMilo likes to play.",
@@ -425,8 +432,10 @@ let sampleStories: [Story] = [
         coverImage: "story6_cover",
         previewImage: "story6_preview",    // ✅ Preview screen
 
-        theme: StoryTheme(primary: .red, secondary: .orange),
-
+        theme: StoryTheme(
+            primary: Color(red: 124/255, green: 146/255, blue: 224/255),
+            secondary: Color(red: 218/255, green: 225/255, blue: 255/255) // moonlight silver-blue
+        ),
         pages: [
             Page(
                 text: "The moon is big and bright.\nIt shines in the dark sky.\nEverything is quiet.",
@@ -708,8 +717,10 @@ let sampleStories: [Story] = [
     coverImage: "story9_cover",
     previewImage: "story9_preview",    // ✅ Preview screen
 
-    theme: StoryTheme(primary: .blue, secondary: .cyan),
-
+    theme: StoryTheme(
+        primary: Color(red: 255/255, green: 183/255, blue: 168/255), // soft playful coral
+        secondary: Color(red: 255/255, green: 228/255, blue: 138/255) // sunny pastel yellow
+    ),
     pages: [
         Page(
             text: "Sara held a red balloon.\nIt was her favorite.",
@@ -809,8 +820,8 @@ let sampleStories: [Story] = [
         previewImage: "story10_preview",    // ✅ Preview screen
 
         theme: StoryTheme(
-            primary: Color(red: 1.0, green: 0.75, blue: 0.8),
-            secondary: Color(red: 1.0, green: 0.55, blue: 0.65)
+            primary: Color(red: 198/255, green: 219/255, blue: 167/255),
+            secondary: Color(red: 246/255, green: 229/255, blue: 170/255) // warm sunlight cream
         ),
         pages: [
             Page(text: "A turtle walked very slowly.\nOther animals ran fast.", imageName: "story10_page1", audioName: "story10_audio1"),
@@ -897,8 +908,10 @@ Story(
     coverImage: "story11_cover",
     previewImage: "story11_preview",    // ✅ Preview screen
 
-    theme: StoryTheme(primary: .black, secondary: .yellow),
-
+    theme: StoryTheme(
+        primary: Color(red: 96/255, green: 108/255, blue: 158/255), // muted deep twilight
+        secondary: Color(red: 234/255, green: 214/255, blue: 150/255) // warm flashlight glow
+    ),
     pages: [
         Page(text: "It was very dark.\nLina could not see the path.\nShe felt a little scared.", imageName: "story11_page1", audioName: "story11_audio1"),
         Page(text: "She saw a tiny light ahead.\nIt flickered softly.\nLina walked toward it.", imageName: "story11_page2", audioName: "story11_audio2"),
@@ -982,8 +995,10 @@ Story(
     coverImage: "story12_cover",
     previewImage: "story12_preview",    // ✅ Preview screen
 
-    theme: StoryTheme(primary: .gray, secondary: .blue),
-
+    theme: StoryTheme(
+        primary: Color(red: 215/255, green: 214/255, blue: 218/255), // warm soft gray
+        secondary: Color(red: 103/255, green: 156/255, blue: 232/255) // muted storybook blue
+    ),
     pages: [
         Page(text: "A small circle rolled slowly.\nIt had a piece missing.\nIt did not feel whole.", imageName: "story12_page1", audioName: "story12_audio1"),
         Page(text: "It looked everywhere.\nIt tried many pieces.\nBut none of them fit.", imageName: "story12_page2", audioName: "story12_audio2"),
@@ -1067,8 +1082,10 @@ Story(
     coverImage: "story13_cover",
     previewImage: "story13_preview",    // ✅ Preview screen
 
-    theme: StoryTheme(primary: .orange, secondary: .yellow),
-
+    theme: StoryTheme(
+        primary: Color(red: 248/255, green: 154/255, blue: 52/255), // warm lantern orange
+        secondary: Color(red: 245/255, green: 207/255, blue: 92/255) // soft golden glow
+    ),
     pages: [
         Page(text: "A small lantern sat quietly.\nIt was afraid of the dark.\nIt did not want to shine.", imageName: "story13_page1", audioName: "story13_audio1"),
         Page(text: "People walked in the dark.\nThey could not see the road.\nThe lantern felt worried.", imageName: "story13_page2", audioName: "story13_audio2"),
@@ -1152,8 +1169,10 @@ Story(
     coverImage: "story14_cover",
     previewImage: "story14_preview",    // ✅ Preview screen
 
-    theme: StoryTheme(primary: .blue, secondary: .pink),
-
+    theme: StoryTheme(
+        primary: Color(red: 116/255, green: 154/255, blue: 232/255), // painterly twilight blue
+        secondary: Color(red: 230/255, green: 142/255, blue: 176/255) // sunset pink
+    ),
     pages: [
         Page(text: "Noor loved to paint the sky.\nShe used blue, pink, and gold.\nShe wanted it to be perfect.", imageName: "story14_page1", audioName: "story14_audio1"),
         Page(text: "The colors mixed too much.\nThe sky did not look right.\nNoor felt upset.", imageName: "story14_page2", audioName: "story14_audio2"),

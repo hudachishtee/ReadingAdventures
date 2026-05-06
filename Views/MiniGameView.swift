@@ -8,7 +8,6 @@ struct MiniGameView: View {
     @State private var currentIndex = 0
     @State private var selectedIndex: Int? = nil
     
-    // ✅ FIXED (supports duplicates + dimming)
     @State private var builtLetterIndices: [Int] = []
     
     @State private var showWrongPopup = false
@@ -20,6 +19,9 @@ struct MiniGameView: View {
     
     @State private var goHome = false
     @State private var showExitAlert = false
+    
+    @State private var pressedIndex: Int? = nil
+    @State private var animatePopup = false
     
     var currentGame: GameQuestion {
         story.games[currentIndex]
@@ -47,6 +49,7 @@ struct MiniGameView: View {
                 if showConfetti {
                     ConfettiBackground()
                         .ignoresSafeArea()
+                        .transition(.opacity)
                 }
                 
                 VStack {
@@ -84,6 +87,7 @@ struct MiniGameView: View {
                             Capsule()
                                 .fill(index <= currentIndex ? .yellow : .white.opacity(0.55))
                                 .frame(width: 24 * scale, height: 6)
+                                .animation(.easeInOut(duration: 0.3), value: currentIndex)
                         }
                     }
                     
@@ -99,11 +103,8 @@ struct MiniGameView: View {
                     
                     VStack(spacing: 18 * scale) {
                         
-                        Text(currentGame.question)
-                            .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                        
+                        highlightedQuestion(scale: scale) // ✅ HERE
+                    
                         if currentGame.type == .buildWord {
                             buildWordView(scale: scale)
                         } else {
@@ -169,7 +170,7 @@ struct MiniGameView: View {
                             .multilineTextAlignment(.center)
                         
                         Image(systemName: "star.fill")
-                            .font(.system(size: 50))
+                            .font(.system(size: 60))
                             .foregroundColor(.yellow)
                         
                         HStack(spacing: 14) {
@@ -198,6 +199,13 @@ struct MiniGameView: View {
                     .cornerRadius(28)
                     .shadow(radius: 16)
                     .padding(.horizontal, 28)
+                    .scaleEffect(animatePopup ? 1 : 0.8)
+                    .opacity(animatePopup ? 1 : 0)
+                    .onAppear {
+                        withAnimation(.spring()) {
+                            animatePopup = true
+                        }
+                    }
                 }
             }
         }
@@ -205,8 +213,6 @@ struct MiniGameView: View {
         .alert("Leave Mini Game?", isPresented: $showExitAlert) {
             Button("Continue", role: .cancel) { }
             Button("Leave", role: .destructive) { goHome = true }
-        } message: {
-            Text("Are you sure you want to leave?")
         }
         .fullScreenCover(isPresented: $goHome) {
             MainTabContainerView()
@@ -215,7 +221,36 @@ struct MiniGameView: View {
 }
 
 //
-// MARK: OPTIONS (⚠️ THIS WAS MISSING → caused your error)
+// MARK: ✅ Highlight ONLY specific words
+//
+extension MiniGameView {
+    
+    func highlightedQuestion(scale: CGFloat) -> some View {
+        
+        let highlightWords = ["Sandwich", "KIND", "Share", "Brave", "Ocean", "WAVE", "Promise", "Friendship", "SKY", "Crayon", "Lost", "DRAW", "Toy", "Soft"]
+        let words = currentGame.question.split(separator: " ")
+        
+        var text = Text("")
+        
+        for word in words {
+            
+            let clean = word.trimmingCharacters(in: .punctuationCharacters)
+            
+            if highlightWords.contains(clean) {
+                text = text + Text("\(word) ").foregroundColor(.orange)
+            } else {
+                text = text + Text("\(word) ")
+            }
+        }
+        
+        return text
+            .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
+            .multilineTextAlignment(.center)
+    }
+}
+
+//
+// MARK: OPTIONS (🔥 Improved)
 //
 extension MiniGameView {
     
@@ -226,7 +261,14 @@ extension MiniGameView {
             ForEach(currentGame.options.indices, id: \.self) { index in
                 
                 Button {
-                    optionTapped(index)
+                    pressedIndex = index
+                    
+                    // 🔥 Tap feedback delay
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                        optionTapped(index)
+                        pressedIndex = nil
+                    }
+                    
                 } label: {
                     
                     HStack {
@@ -253,6 +295,8 @@ extension MiniGameView {
                     .padding(.vertical, 14)
                     .background(buttonColor(index))
                     .cornerRadius(18)
+                    .scaleEffect(pressedIndex == index ? 0.95 : 1)
+                    .animation(.spring(response: 0.25, dampingFraction: 0.5), value: pressedIndex)
                 }
             }
         }
@@ -288,7 +332,7 @@ extension MiniGameView {
 }
 
 //
-// MARK: BUILD WORD
+// MARK: BUILD WORD (🔥 Improved Animation)
 //
 extension MiniGameView {
     
@@ -315,6 +359,8 @@ extension MiniGameView {
                                 Text(letterAt(i))
                                     .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
                             )
+                            .scaleEffect(letterAt(i).isEmpty ? 0.9 : 1)
+                            .animation(.spring(), value: builtLetterIndices)
                     }
                 }
                 
@@ -343,7 +389,9 @@ extension MiniGameView {
                     let isUsed = builtLetterIndices.contains(index)
                     
                     Button {
-                        addLetter(index)
+                        withAnimation(.spring()) {
+                            addLetter(index)
+                        }
                     } label: {
                         
                         Text(letter)
@@ -421,11 +469,15 @@ extension MiniGameView {
 extension MiniGameView {
     
     func correctAnswer() {
-        showConfetti = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
-            showConfetti = false
-            nextGame()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            
+            showConfetti = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                showConfetti = false
+                nextGame()
+            }
         }
     }
     
@@ -451,6 +503,7 @@ extension MiniGameView {
         selectedIndex = nil
         builtLetterIndices = []
         showGameComplete = false
+        animatePopup = false
     }
 }
 
