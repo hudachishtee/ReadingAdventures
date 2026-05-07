@@ -29,12 +29,21 @@ struct StoryCard: View {
             HStack {
                 
                 Text(story.level.rawValue + " 🌱")
-                    .font(.custom("OpenDyslexic-Regular", size: 14))
-                    .foregroundColor(.appSecondaryText)
+                    .font(.custom("OpenDyslexic-Regular", size: 12))
+                    .foregroundColor(.appSecondaryText.opacity(0.9))
                     .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(Color.appCardBackground)
-                    .cornerRadius(10)
+                    .padding(.vertical, 4)
+                    .background(
+                        Capsule()
+                            .fill(Color.white.opacity(0.4))
+                    )
+                    .overlay(
+                        Capsule()
+                            .stroke(
+                                Color.white.opacity(0.55),
+                                lineWidth: 1
+                            )
+                    )
                 
                 Spacer()
                 
@@ -48,9 +57,24 @@ struct StoryCard: View {
                         .padding(.horizontal, 18)
                         .padding(.vertical, 10)
                         .background(
-                            Color.appSecondaryText.opacity(0.7)
+                            RoundedRectangle(
+                                cornerRadius: 12,
+                                style: .continuous
+                            )
+                            .fill(
+                                Color.appSecondaryText.opacity(0.7)
+                            )
                         )
-                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(
+                                cornerRadius: 12,
+                                style: .continuous
+                            )
+                            .stroke(
+                                Color.white.opacity(0.45),
+                                lineWidth: 1.1
+                            )
+                        )
                 }
                 .buttonStyle(.plain)
             }

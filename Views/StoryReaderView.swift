@@ -186,6 +186,8 @@ struct StoryReaderView: View {
                 .frame(maxWidth: .infinity, alignment: .top)
                 .background(
                     ZStack {
+                        
+                        // MARK: - MAIN GRADIENT
                         LinearGradient(
                             colors: [
                                 story.theme.secondary,
@@ -196,13 +198,24 @@ struct StoryReaderView: View {
                             endPoint: .bottom
                         )
                         
+                        // MARK: - SOFT TOP HIGHLIGHT
                         LinearGradient(
                             colors: [
-                                Color.white.opacity(0.25),
+                                Color.white.opacity(0.22),
                                 Color.clear
                             ],
                             startPoint: .top,
                             endPoint: .center
+                        )
+                        
+                        // MARK: - BORDER
+                        RoundedRectangle(
+                            cornerRadius: isIPad ? 50 : 40,
+                            style: .continuous
+                        )
+                        .stroke(
+                            Color.white.opacity(0.35),
+                            lineWidth: 1.2
                         )
                     }
                     .drawingGroup()

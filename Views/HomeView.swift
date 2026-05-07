@@ -32,8 +32,14 @@ struct HomeView: View {
                         .foregroundColor(.appPrimaryText)
                         .padding(12)
                         .frame(maxWidth: .infinity)
-                        .background(Color.appCardBackground.opacity(0.6))
-                        .cornerRadius(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .fill(Color.appCardBackground.opacity(0.6))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .stroke(Color.white.opacity(0.45), lineWidth: 1.2)
+                        )
                         .padding(.horizontal, 16)
                     
                     ScrollView(showsIndicators: false) {
