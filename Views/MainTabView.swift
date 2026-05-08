@@ -22,7 +22,7 @@ struct MainTabContainerView: View {
                     case .home:
                         HomeView()
                     case .games:
-                        GameHubView()
+                        GameHubView(selectedTab: $selectedTab)
                     case .badges:
                         BadgesView()
                     }
@@ -170,6 +170,7 @@ struct PremiumTabBar: View {
 
 struct GameHubView: View {
     
+    @Binding var selectedTab: TabItem
     @StateObject private var progress = ProgressManager.shared
     @State private var selectedStory: Story?
     @State private var showLockedAlert = false
@@ -218,7 +219,11 @@ struct GameHubView: View {
             set: { if !$0 { selectedStory = nil } }
         )) {
             if let story = selectedStory {
-                MiniGameView(story: story, onFinish: {})
+                MiniGameView(
+                    story: story,
+                    selectedTab: $selectedTab,
+                    onFinish: {}
+                )
             }
         }
         

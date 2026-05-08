@@ -163,6 +163,7 @@ struct CelebrationView: View {
             .fullScreenCover(isPresented: $goMiniGame) {
                 MiniGameView(
                     story: story,
+                    selectedTab: .constant(.games),
                     onFinish: {
                         goHome = true
                     }

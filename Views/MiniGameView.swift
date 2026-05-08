@@ -3,6 +3,9 @@ import SwiftUI
 struct MiniGameView: View {
     
     let story: Story
+    @Binding var selectedTab: TabItem
+    @Environment(\.dismiss) private var dismiss
+    
     var onFinish: () -> Void
     
     @State private var currentIndex = 0
@@ -185,8 +188,10 @@ struct MiniGameView: View {
                             .cornerRadius(14)
                             
                             Button("Back Home") {
-                                goHome = true
+                                selectedTab = .games
+                                dismiss()
                             }
+                            
                             .foregroundColor(.black)
                             .padding(.horizontal, 18)
                             .padding(.vertical, 10)
@@ -212,11 +217,14 @@ struct MiniGameView: View {
         .navigationBarBackButtonHidden(true)
         .alert("Leave Mini Game?", isPresented: $showExitAlert) {
             Button("Continue", role: .cancel) { }
-            Button("Leave", role: .destructive) { goHome = true }
+            Button("Leave", role: .destructive) {
+                selectedTab = .games
+                dismiss()
+            }
         }
-        .fullScreenCover(isPresented: $goHome) {
-            MainTabContainerView()
-        }
+//        .fullScreenCover(isPresented: $goHome) {
+//            MainTabContainerView()
+//        }
     }
 }
 
@@ -511,6 +519,7 @@ extension MiniGameView {
     NavigationStack {
         MiniGameView(
             story: sampleStories[0],
+            selectedTab: .constant(.games),
             onFinish: {}
         )
     }
