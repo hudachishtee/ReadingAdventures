@@ -61,7 +61,6 @@ struct StoryReaderView: View {
                         
                         Spacer()
                         
-                        // ✅ SPEED CONTROL (FIXED + SAFE TAPS)
                         HStack {
                             
                             // MINUS
@@ -79,8 +78,8 @@ struct StoryReaderView: View {
                             } label: {
                                 Text("−")
                                     .font(.system(size: isIPad ? 20 : 16, weight: .bold))
-                                    .foregroundColor(.orange.opacity(0.7))
-                                    .frame(width: 54, height: 30) // bigger tap
+                                    .foregroundColor(.black.opacity(0.85))
+                                    .frame(width: 54, height: 30)
                                     .contentShape(Rectangle())
                             }
                             
@@ -108,17 +107,25 @@ struct StoryReaderView: View {
                             } label: {
                                 Text("+")
                                     .font(.system(size: isIPad ? 20 : 16, weight: .bold))
-                                    .foregroundColor(.orange)
-                                    .frame(width: 44, height: 30) // bigger tap
+                                    .foregroundColor(.black.opacity(0.85))
+                                    .frame(width: 44, height: 30)
                                     .contentShape(Rectangle())
                             }
                         }
                         .padding(.horizontal, 12)
                         .frame(width: isIPad ? 240 : 180, height: 46)
-                        .background(Color.white.opacity(0.55))
-                        .clipShape(Capsule())
+                        .background(
+                            Capsule()
+                                .fill(Color.white.opacity(0.55))
+                                .overlay(
+                                    Capsule()
+                                        .stroke(
+                                            Color.white.opacity(0.7),
+                                            lineWidth: 2
+                                        )
+                                )
+                        )
                     }
-                    
                     // MARK: - TEXT
                     ScrollView(showsIndicators: false) {
                         textContent(
