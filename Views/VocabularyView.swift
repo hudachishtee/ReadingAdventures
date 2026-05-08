@@ -110,8 +110,6 @@ struct VocabularyView: View {
                             )
                         )
                     
-                    Spacer(minLength: isIPad ? 10 : 4)
-                    
                     // MARK: Card + Arrows
                     if !words.isEmpty {
                         
@@ -168,12 +166,20 @@ struct VocabularyView: View {
                                     .frame(width: isIPad ? 44 : 34)
                             }
                         }
+                        .offset(y: isIPad ? 100 : 100)
                     }
                     
-                    Spacer(minLength: isIPad ? 140 : 110)
-
-                    // MARK: Reward Bubble
-                    if showReward {
+                    Spacer(minLength: 30)
+                }
+                .padding(.top, -200)
+                .frame(maxWidth: 500)
+                .frame(maxWidth: .infinity)
+                
+                // MARK: Floating Reward Bubble
+                if showReward {
+                    
+                    VStack {
+                        Spacer()
                         
                         HStack(spacing: 0) {
                             
@@ -214,37 +220,25 @@ struct VocabularyView: View {
                                 ? 0
                                 : geo.size.width + 500
                         )
-                        .clipped()
                         .animation(
                             .easeInOut(duration: 0.7),
                             value: showOwl
                         )
+                        .padding(.bottom, isIPad ? 50 : 35)
                         .onAppear {
                             
-                            // Start outside screen
                             showOwl = false
                             
-                            // Enter screen
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 showOwl = true
                             }
                             
-                            // Leave screen forever
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                                 showOwl = false
                             }
                         }
-                        .transition(
-                            .move(edge: .bottom)
-                            .combined(with: .opacity)
-                        )
                     }
-                    
-                    Spacer(minLength: 30)
                 }
-                .padding(.top, 10)
-                .frame(maxWidth: 600)
-                .frame(maxWidth: .infinity)
             }
         }
         .navigationBarBackButtonHidden(true)
