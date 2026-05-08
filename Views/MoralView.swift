@@ -32,20 +32,24 @@ struct MoralView: View {
                     Spacer(minLength: 24 * scale)
                     
                     // TITLE
+                    // TITLE
                     Text("Moral of the Story")
                         .font(.custom(
                             "OpenDyslexic-Bold",
-                            size: isIPad ? 30 : 24
+                            size: isIPad ? 32 : 25
                         ))
                         .foregroundColor(.appPrimaryText)
                         .multilineTextAlignment(.center)
-                        .padding(.vertical, 18)
-                        .padding(.horizontal, 22)
-                        .frame(maxWidth: isIPad ? 620 : 330)
+                        .padding(12)
+                        .frame(maxWidth: isIPad ? 620 : .infinity)
                         .background(
-                            RoundedRectangle(cornerRadius: 24)
-                                .fill(Color.white.opacity(0.75))
+                            RoundedRectangle(
+                                cornerRadius: 12,
+                                style: .continuous
+                            )
+                            .fill(Color.appCardBackground.opacity(0.6))
                         )
+                        .padding(.horizontal, isIPad ? 60 : 4)
                     
                     Spacer()
                     
@@ -112,6 +116,13 @@ struct MoralView: View {
                                             startPoint: .top,
                                             endPoint: .bottom
                                         )
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 18)
+                                            .stroke(
+                                                Color.white.opacity(0.7),
+                                                lineWidth: 2
+                                            )
                                     )
                             )
                     }
