@@ -127,32 +127,122 @@ struct VocabularyView: View {
                                     .frame(width: isIPad ? 44 : 34)
                             }
                             
-                            vocabularyCard(
-                                word: words[currentIndex],
-                                isIPad: isIPad,
-                                width: cardWidth,
-                                height: cardHeight
-                            )
-                            .offset(x: dragOffset)
-                            .rotationEffect(.degrees(Double(dragOffset / 30)))
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        dragOffset = value.translation.width
-                                    }
-                                    .onEnded { value in
-                                        
-                                        if value.translation.width < -25 {
-                                            nextWord(total: words.count)
-                                        } else if value.translation.width > 25 {
-                                            previousWord(total: words.count)
+                            ZStack {
+                                
+                                // Back Card 2
+                                RoundedRectangle(
+                                    cornerRadius: 26,
+                                    style: .continuous
+                                )
+                                .fill(
+                                    Color(
+                                        red: 228/255,
+                                        green: 218/255,
+                                        blue: 150/255
+                                    )
+                                )
+                                .frame(
+                                    width: cardWidth - 14,
+                                    height: cardHeight - 14
+                                )
+                                .offset(x: 16, y: 16)
+                                
+                                // Back Card 1
+                                RoundedRectangle(
+                                    cornerRadius: 26,
+                                    style: .continuous
+                                )
+                                .fill(
+                                    Color(
+                                        red: 242/255,
+                                        green: 229/255,
+                                        blue: 165/255
+                                    )
+                                )
+                                .frame(
+                                    width: cardWidth - 8,
+                                    height: cardHeight - 8
+                                )
+                                .offset(x: 8, y: 8)
+                                
+                                // Main Card
+                                vocabularyCard(
+                                    word: words[currentIndex],
+                                    isIPad: isIPad,
+                                    width: cardWidth,
+                                    height: cardHeight
+                                )
+                                .offset(x: dragOffset)
+                                .rotationEffect(
+                                    .degrees(Double(dragOffset / 28))
+                                )
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            dragOffset = value.translation.width
                                         }
-                                        
-                                        withAnimation(.spring(response: 0.32)) {
-                                            dragOffset = 0
+                                        .onEnded { value in
+                                            
+                                            let threshold: CGFloat = 70
+                                            
+                                            if value.translation.width < -threshold {
+                                                
+                                                withAnimation(.easeOut(duration: 0.2)) {
+                                                    dragOffset = -geo.size.width
+                                                }
+                                                
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                    
+                                                    nextWord(total: words.count)
+                                                    
+                                                    dragOffset = geo.size.width * 0.2
+                                                    
+                                                    withAnimation(
+                                                        .spring(
+                                                            response: 0.36,
+                                                            dampingFraction: 0.84
+                                                        )
+                                                    ) {
+                                                        dragOffset = 0
+                                                    }
+                                                }
+                                                
+                                            } else if value.translation.width > threshold {
+                                                
+                                                withAnimation(.easeOut(duration: 0.2)) {
+                                                    dragOffset = geo.size.width
+                                                }
+                                                
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                                    
+                                                    previousWord(total: words.count)
+                                                    
+                                                    dragOffset = -geo.size.width * 0.2
+                                                    
+                                                    withAnimation(
+                                                        .spring(
+                                                            response: 0.36,
+                                                            dampingFraction: 0.84
+                                                        )
+                                                    ) {
+                                                        dragOffset = 0
+                                                    }
+                                                }
+                                                
+                                            } else {
+                                                
+                                                withAnimation(
+                                                    .spring(
+                                                        response: 0.35,
+                                                        dampingFraction: 0.84
+                                                    )
+                                                ) {
+                                                    dragOffset = 0
+                                                }
+                                            }
                                         }
-                                    }
-                            )
+                                )
+                            }
                             
                             Button {
                                 nextWord(total: words.count)
