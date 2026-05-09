@@ -171,54 +171,111 @@ struct PremiumTabBar: View {
 struct GameHubView: View {
     
     @Binding var selectedTab: TabItem
+    
     @StateObject private var progress = ProgressManager.shared
+    
     @State private var selectedStory: Story?
-    @State private var showLockedAlert = false
+    @State private var lockedStory: Story?
+    
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    
+    private var isPhone: Bool {
+        horizontalSizeClass == .compact
+    }
     
     let columns = [
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16)
-//        GridItem(.flexible(), spacing: 16)
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
     ]
     
     var body: some View {
         
-        ScrollView {
-            VStack(spacing: 24) {
+        ZStack {
+            
+            //==================================================
+            // BACKGROUND GRADIENT
+            //==================================================
+            
+            LinearGradient(
+                colors: [.bgTop, .bgBottom],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+            //==================================================
+            // CONTENT
+            //==================================================
+            
+            ScrollView {
                 
-                Text("Story Games")
-                    .font(.custom("OpenDyslexic-Regular", size: 28))
-                    .tracking(3)
-                    .padding(.top, 70)
-                
-                LazyVGrid(columns: columns, spacing: 16) {
+                VStack(spacing: 40) {
                     
-                    ForEach(sampleStories) { story in
+                    Spacer()
+                    
+                    Text("Story Games")
+                        .font(.custom("OpenDyslexic-Bold", size: 25))
+                        .foregroundColor(.appPrimaryText)
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(
+                            RoundedRectangle(
+                                cornerRadius: 12,
+                                style: .continuous
+                            )
+                            .fill(Color.appCardBackground.opacity(0.6))
+                        )
+                        .overlay(
+                            RoundedRectangle(
+                                cornerRadius: 12,
+                                style: .continuous
+                            )
+                            .stroke(
+                                Color.white.opacity(0.45),
+                                lineWidth: 1.2
+                            )
+                        )
+                        .padding(.horizontal, 20)
+                    
+                    LazyVGrid(columns: columns, spacing: 25) {
                         
-                        let unlocked = progress.isGameUnlocked(for: story)
-                        
-                        Button {
-                            if unlocked {
-                                selectedStory = story
-                            } else {
-                                showLockedAlert = true
+                        ForEach(sampleStories) { story in
+                            
+                            let unlocked = progress.isGameUnlocked(for: story)
+                            
+                            Button {
+                                if unlocked {
+                                    selectedStory = story
+                                } else {
+                                    lockedStory = story
+                                }
+                            } label: {
+                                
+                                gridItem(
+                                    story: story,
+                                    unlocked: unlocked
+                                )
                             }
-                        } label: {
-                            gridItem(story: story, unlocked: unlocked)
                         }
                     }
+                    .padding(.horizontal, 20)
+                    
+                    Spacer(minLength: 120)
                 }
-                .padding(.horizontal, 20)
-                
-                Spacer(minLength: 120)
             }
         }
+        
+        //==================================================
+        // NAVIGATION
+        //==================================================
         
         .navigationDestination(isPresented: Binding(
             get: { selectedStory != nil },
             set: { if !$0 { selectedStory = nil } }
         )) {
+            
             if let story = selectedStory {
+                
                 MiniGameView(
                     story: story,
                     selectedTab: $selectedTab,
@@ -227,58 +284,142 @@ struct GameHubView: View {
             }
         }
         
-        .alert("Locked", isPresented: $showLockedAlert) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text("Finish reading the story to unlock this game")
+        //==================================================
+        // CUSTOM LOCKED POPUP
+        //==================================================
+        
+        .overlay {
+            
+            if let story = lockedStory {
+                
+                ZStack {
+                    
+                    Color.black.opacity(0.25)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation {
+                                lockedStory = nil
+                            }
+                        }
+                    
+                    VStack(spacing: 16) {
+                        
+                        Text("Locked Game")
+                            .font(.headline)
+                        
+                        Circle()
+                            .fill(Color.gray.opacity(0.35))
+                            .frame(width: 100, height: 100)
+                            .overlay(
+                                Image(systemName: "lock.fill")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 32))
+                            )
+                        
+                        Text(story.title)
+                            .font(.title3)
+                            .bold()
+                            .multilineTextAlignment(.center)
+                        
+                        Text("Finish reading this story to unlock the game")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
+                        
+                        Button {
+                            withAnimation {
+                                lockedStory = nil
+                            }
+                        } label: {
+                            
+                            Text("OK")
+                                .fontWeight(.semibold)
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .background(
+                                    Capsule()
+                                        .fill(Color.gray.opacity(0.15))
+                                )
+                        }
+                    }
+                    .padding(24)
+                    .frame(maxWidth: 320)
+                    .background(
+                        RoundedRectangle(cornerRadius: 28)
+                            .fill(Color.white.opacity(0.96))
+                    )
+                    .shadow(radius: 20)
+                    .padding(.horizontal, 30)
+                }
+                .transition(.opacity)
+            }
         }
     }
 }
 
 //==============================================================
-// GRID ITEM (UNCHANGED)
+// GRID ITEM
 //==============================================================
 
 extension GameHubView {
     
-    func gridItem(story: Story, unlocked: Bool) -> some View {
+    func gridItem(
+        story: Story,
+        unlocked: Bool
+    ) -> some View {
         
         VStack(spacing: 10) {
             
-            ZStack {
+            GeometryReader { geo in
                 
-                Image(story.coverImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 120)
-                    .clipped()
-                    .cornerRadius(18)
-                    .opacity(unlocked ? 1 : 0.35)
+                let width = geo.size.width
+                let height = width * 0.62
                 
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(Color.black.opacity(unlocked ? 0.0 : 0.25))
-                
-                if unlocked {
-                    Image(systemName: "gamecontroller.fill")
-                        .font(.system(size: 28))
-                        .foregroundColor(.white)
-                } else {
-                    Image(systemName: "lock.fill")
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
+                ZStack {
+                    
+                    Image(story.coverImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: width, height: height)
+                        .clipped()
+                        .cornerRadius(18)
+                        .opacity(unlocked ? 1 : 0.35)
+                    
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(
+                            Color.black.opacity(
+                                unlocked ? 0.0 : 0.25
+                            )
+                        )
+                    
+                    if unlocked {
+                        Image(systemName: "gamecontroller.fill")
+                            .font(.system(size: 28))
+                            .foregroundColor(.white)
+                    } else {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 24))
+                            .foregroundColor(.white)
+                    }
                 }
             }
-            .frame(height: 120)
+            .aspectRatio(1.0 / 0.62, contentMode: .fit)
             
             Text(story.title)
-                .font(.custom("OpenDyslexic-Regular", size: 13))
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
+                .font(.custom(
+                    "OpenDyslexic-Regular",
+                    size: isPhone ? 15 : 19
+                ))
+                .foregroundColor(.black)
+                .lineLimit(isPhone ? 2 : 1)
+                .minimumScaleFactor(0.75)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .frame(height: isPhone ? 52 : 24)
         }
     }
-}
-
-//==============================================================
+}//==============================================================
 // BADGES PAGE
 //==============================================================
 

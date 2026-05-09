@@ -71,11 +71,11 @@ struct MiniGameView: View {
                             showExitAlert = true
                         } label: {
                             
-                            Image(systemName: "door.left.hand.open")
-                                .font(.system(size: 22, weight: .bold))
-                                .foregroundColor(.black)
-                                .frame(width: 48, height: 48)
-                                .background(Color.white.opacity(0.9))
+                            Image(systemName: "xmark")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundColor(.white)
+                                .frame(width: 46, height: 46)
+                                .background(Color.red)
                                 .clipShape(Circle())
                                 .shadow(radius: 4)
                         }
