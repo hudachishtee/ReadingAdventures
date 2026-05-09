@@ -56,31 +56,93 @@ let sampleStories: [Story] = [
         ],
 
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Sandwich",
-                options: ["Apple", "Sandwich", "Chair"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Sandwich?",
+
+                promptAudio: "sandwich",
+
+                options: [
+
+                    GameOption(
+                        text: "Apple",
+                        audioName: "apple"
+                    ),
+
+                    GameOption(
+                        text: "Sandwich",
+                        audioName: "sandwich"
+                    ),
+
+                    GameOption(
+                        text: "Chair",
+                        audioName: "chair"
+                    )
+                ],
+
+                correctAnswer: "Sandwich"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Share mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "Keep everything",
-                    "Give part to others",
-                    "Run away"
+
+                    GameOption(
+                        text: "Keep everything",
+                        audioName: "keep_everything"
+                    ),
+
+                    GameOption(
+                        text: "Give part to others",
+                        audioName: "give_part_to_others"
+                    ),
+
+                    GameOption(
+                        text: "Run away",
+                        audioName: "run_away"
+                    )
                 ],
-                correctIndex: 1,
-                correctAnswer: nil
+
+                correctAnswer: "Give part to others"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word KIND",
-                options: ["K", "I", "N", "D"],
-                correctIndex: nil,
+
+                promptAudio: "kind",
+
+                options: [
+
+                    GameOption(
+                        text: "K",
+                        audioName: "k"
+                    ),
+
+                    GameOption(
+                        text: "I",
+                        audioName: "i"
+                    ),
+
+                    GameOption(
+                        text: "N",
+                        audioName: "n"
+                    ),
+
+                    GameOption(
+                        text: "D",
+                        audioName: "d"
+                    )
+                ],
+
                 correctAnswer: "KIND"
             )
         ]
@@ -137,34 +199,96 @@ let sampleStories: [Story] = [
         ],
 
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Brave",
-                options: ["Scared", "Brave", "Sandwich"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Brave?",
+
+                promptAudio: "brave",
+
+                options: [
+
+                    GameOption(
+                        text: "Scared",
+                        audioName: "scared"
+                    ),
+
+                    GameOption(
+                        text: "Brave",
+                        audioName: "brave"
+                    ),
+
+                    GameOption(
+                        text: "Sandwich",
+                        audioName: "sandwich"
+                    )
+                ],
+
+                correctAnswer: "Brave"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Ocean mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "A very large body of water",
-                    "A mountain",
-                    "A road"
+
+                    GameOption(
+                        text: "A very large body of water",
+                        audioName: "large_body_of_water"
+                    ),
+
+                    GameOption(
+                        text: "A mountain",
+                        audioName: "mountain"
+                    ),
+
+                    GameOption(
+                        text: "A road",
+                        audioName: "road"
+                    )
                 ],
-                correctIndex: 0,
-                correctAnswer: nil
+
+                correctAnswer: "A very large body of water"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word WAVE",
-                options: ["W", "V", "A", "E"],
-                correctIndex: nil,
+
+                promptAudio: "wave",
+
+                options: [
+
+                    GameOption(
+                        text: "W",
+                        audioName: "w"
+                    ),
+
+                    GameOption(
+                        text: "V",
+                        audioName: "v"
+                    ),
+
+                    GameOption(
+                        text: "A",
+                        audioName: "a"
+                    ),
+
+                    GameOption(
+                        text: "E",
+                        audioName: "e"
+                    )
+                ],
+
                 correctAnswer: "WAVE"
             )
-        ],
+        ]
     ),
 
     Story(
@@ -220,31 +344,88 @@ let sampleStories: [Story] = [
         ],
 
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Promise",
-                options: ["Promise", "Window", "Chair"],
-                correctIndex: 0,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Promise?",
+
+                promptAudio: "promise",
+
+                options: [
+
+                    GameOption(
+                        text: "Promise",
+                        audioName: "promise"
+                    ),
+
+                    GameOption(
+                        text: "Window",
+                        audioName: "window"
+                    ),
+
+                    GameOption(
+                        text: "Chair",
+                        audioName: "chair"
+                    )
+                ],
+
+                correctAnswer: "Promise"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Friendship mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "Caring about someone",
-                    "Being angry",
-                    "Sleeping"
+
+                    GameOption(
+                        text: "Caring about someone",
+                        audioName: "caring_about_someone"
+                    ),
+
+                    GameOption(
+                        text: "Being angry",
+                        audioName: "being_angry"
+                    ),
+
+                    GameOption(
+                        text: "Sleeping",
+                        audioName: "sleeping"
+                    )
                 ],
-                correctIndex: 0,
-                correctAnswer: nil
+
+                correctAnswer: "Caring about someone"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word SKY",
-                options: ["K", "S", "Y"],
-                correctIndex: nil,
+
+                promptAudio: "sky",
+
+                options: [
+
+                    GameOption(
+                        text: "K",
+                        audioName: "k"
+                    ),
+
+                    GameOption(
+                        text: "S",
+                        audioName: "s"
+                    ),
+
+                    GameOption(
+                        text: "Y",
+                        audioName: "y"
+                    )
+                ],
+
                 correctAnswer: "SKY"
             )
         ]
@@ -303,31 +484,93 @@ let sampleStories: [Story] = [
         ],
 
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Crayon",
-                options: ["Bottle", "Crayon", "Table"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Crayon?",
+
+                promptAudio: "crayon",
+
+                options: [
+
+                    GameOption(
+                        text: "Bottle",
+                        audioName: "bottle"
+                    ),
+
+                    GameOption(
+                        text: "Crayon",
+                        audioName: "crayon"
+                    ),
+
+                    GameOption(
+                        text: "Table",
+                        audioName: "table"
+                    )
+                ],
+
+                correctAnswer: "Crayon"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Lost mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "Not where it should be",
-                    "Very loud",
-                    "Happy"
+
+                    GameOption(
+                        text: "Not where it should be",
+                        audioName: "not_where_it_should_be"
+                    ),
+
+                    GameOption(
+                        text: "Very loud",
+                        audioName: "very_loud"
+                    ),
+
+                    GameOption(
+                        text: "Happy",
+                        audioName: "happy"
+                    )
                 ],
-                correctIndex: 0,
-                correctAnswer: nil
+
+                correctAnswer: "Not where it should be"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word DRAW",
-                options: ["W", "A", "R", "D"],
-                correctIndex: nil,
+
+                promptAudio: "draw",
+
+                options: [
+
+                    GameOption(
+                        text: "W",
+                        audioName: "w"
+                    ),
+
+                    GameOption(
+                        text: "A",
+                        audioName: "a"
+                    ),
+
+                    GameOption(
+                        text: "R",
+                        audioName: "r"
+                    ),
+
+                    GameOption(
+                        text: "D",
+                        audioName: "d"
+                    )
+                ],
+
                 correctAnswer: "DRAW"
             )
         ]
@@ -386,31 +629,88 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Play", meaning: "To have fun and enjoy.", example: "Milo likes to play with the ball.", audioName: "play")
         ],
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Toy",
-                options: ["Cat", "Toy", "Soft"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Toy?",
+
+                promptAudio: "toy",
+
+                options: [
+
+                    GameOption(
+                        text: "Cat",
+                        audioName: "cat"
+                    ),
+
+                    GameOption(
+                        text: "Toy",
+                        audioName: "toy"
+                    ),
+
+                    GameOption(
+                        text: "Soft",
+                        audioName: "soft"
+                    )
+                ],
+
+                correctAnswer: "Toy"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Soft mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "Something that feels nice and not hard",
-                    "Very loud",
-                    "Very fast"
+
+                    GameOption(
+                        text: "Something that feels nice and not hard",
+                        audioName: "feels_nice_and_not_hard"
+                    ),
+
+                    GameOption(
+                        text: "Very loud",
+                        audioName: "very_loud"
+                    ),
+
+                    GameOption(
+                        text: "Very fast",
+                        audioName: "very_fast"
+                    )
                 ],
-                correctIndex: 0,
-                correctAnswer: nil
+
+                correctAnswer: "Something that feels nice and not hard"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word CAT",
-                options: ["A", "C", "T"],
-                correctIndex: nil,
+
+                promptAudio: "cat",
+
+                options: [
+
+                    GameOption(
+                        text: "A",
+                        audioName: "a"
+                    ),
+
+                    GameOption(
+                        text: "C",
+                        audioName: "c"
+                    ),
+
+                    GameOption(
+                        text: "T",
+                        audioName: "t"
+                    )
+                ],
+
                 correctAnswer: "CAT"
             )
         ]
@@ -468,31 +768,88 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Night", meaning: "The dark time after the sun goes down.", example: "Stars shine at night.", audioName: "night")
         ],
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Moon",
-                options: ["Owl", "Moon", "Night"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Moon?",
+
+                promptAudio: "moon",
+
+                options: [
+
+                    GameOption(
+                        text: "Owl",
+                        audioName: "owl"
+                    ),
+
+                    GameOption(
+                        text: "Moon",
+                        audioName: "moon"
+                    ),
+
+                    GameOption(
+                        text: "Night",
+                        audioName: "night"
+                    )
+                ],
+
+                correctAnswer: "Moon"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Night mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "The dark time after the sun goes down",
-                    "A bright sunny day",
-                    "Time to eat lunch"
+
+                    GameOption(
+                        text: "The dark time after the sun goes down",
+                        audioName: "dark_time_after_sun_goes_down"
+                    ),
+
+                    GameOption(
+                        text: "A bright sunny day",
+                        audioName: "bright_sunny_day"
+                    ),
+
+                    GameOption(
+                        text: "Time to eat lunch",
+                        audioName: "time_to_eat_lunch"
+                    )
                 ],
-                correctIndex: 0,
-                correctAnswer: nil
+
+                correctAnswer: "The dark time after the sun goes down"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word OWL",
-                options: ["O", "L", "W"],
-                correctIndex: nil,
+
+                promptAudio: "owl",
+
+                options: [
+
+                    GameOption(
+                        text: "O",
+                        audioName: "o"
+                    ),
+
+                    GameOption(
+                        text: "L",
+                        audioName: "l"
+                    ),
+
+                    GameOption(
+                        text: "W",
+                        audioName: "w"
+                    )
+                ],
+
                 correctAnswer: "OWL"
             )
         ]
@@ -572,31 +929,93 @@ let sampleStories: [Story] = [
             )
         ],
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Nest",
-                options: ["Tree", "Nest", "Sky"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Nest?",
+
+                promptAudio: "nest",
+
+                options: [
+
+                    GameOption(
+                        text: "Tree",
+                        audioName: "tree"
+                    ),
+
+                    GameOption(
+                        text: "Nest",
+                        audioName: "nest"
+                    ),
+
+                    GameOption(
+                        text: "Sky",
+                        audioName: "sky"
+                    )
+                ],
+
+                correctAnswer: "Nest"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Safe mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "In danger",
-                    "Protected",
-                    "Fast"
+
+                    GameOption(
+                        text: "In danger",
+                        audioName: "in_danger"
+                    ),
+
+                    GameOption(
+                        text: "Protected",
+                        audioName: "protected"
+                    ),
+
+                    GameOption(
+                        text: "Fast",
+                        audioName: "fast"
+                    )
                 ],
-                correctIndex: 1,
-                correctAnswer: nil
+
+                correctAnswer: "Protected"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word BIRD",
-                options: ["I", "D", "R", "B"],
-                correctIndex: nil,
+
+                promptAudio: "bird",
+
+                options: [
+
+                    GameOption(
+                        text: "I",
+                        audioName: "i"
+                    ),
+
+                    GameOption(
+                        text: "D",
+                        audioName: "d"
+                    ),
+
+                    GameOption(
+                        text: "R",
+                        audioName: "r"
+                    ),
+
+                    GameOption(
+                        text: "B",
+                        audioName: "b"
+                    )
+                ],
+
                 correctAnswer: "BIRD"
             )
         ]
@@ -672,34 +1091,97 @@ let sampleStories: [Story] = [
             )
         ],
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Rain",
-                options: ["Sun", "Rain", "Tree"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Rain?",
+
+                promptAudio: "rain",
+
+                options: [
+
+                    GameOption(
+                        text: "Sun",
+                        audioName: "sun"
+                    ),
+
+                    GameOption(
+                        text: "Rain",
+                        audioName: "rain"
+                    ),
+
+                    GameOption(
+                        text: "Tree",
+                        audioName: "tree"
+                    )
+                ],
+
+                correctAnswer: "Rain"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "What does Special mean?",
+
+                promptAudio: nil,
+
                 options: [
-                    "Boring",
-                    "Important or nice",
-                    "Loud"
+
+                    GameOption(
+                        text: "Boring",
+                        audioName: "boring"
+                    ),
+
+                    GameOption(
+                        text: "Important or nice",
+                        audioName: "important_or_nice"
+                    ),
+
+                    GameOption(
+                        text: "Loud",
+                        audioName: "loud"
+                    )
                 ],
-                correctIndex: 1,
-                correctAnswer: nil
+
+                correctAnswer: "Important or nice"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word TENT",
-                options: ["N", "T", "T", "E"],
-                correctIndex: nil,
+
+                promptAudio: "tent",
+
+                options: [
+
+                    GameOption(
+                        text: "N",
+                        audioName: "n"
+                    ),
+
+                    GameOption(
+                        text: "T",
+                        audioName: "t"
+                    ),
+
+                    GameOption(
+                        text: "T",
+                        audioName: "t"
+                    ),
+
+                    GameOption(
+                        text: "E",
+                        audioName: "e"
+                    )
+                ],
+
                 correctAnswer: "TENT"
             )
-        ]    ),
+        ]
+    ),
 
  Story(
     title: "The Floating Balloon",
@@ -774,31 +1256,93 @@ let sampleStories: [Story] = [
     ],
 
     games: [
+
         GameQuestion(
-            type: .tapWord,
-            question: "Tap the word Balloon",
-            options: ["Balloon", "Apple", "Book"],
-            correctIndex: 0,
-            correctAnswer: nil
+            type: .listenAndChoose,
+
+            question: "Which word says Balloon?",
+
+            promptAudio: "balloon",
+
+            options: [
+
+                GameOption(
+                    text: "Balloon",
+                    audioName: "balloon"
+                ),
+
+                GameOption(
+                    text: "Apple",
+                    audioName: "apple"
+                ),
+
+                GameOption(
+                    text: "Book",
+                    audioName: "book"
+                )
+            ],
+
+            correctAnswer: "Balloon"
         ),
-        
+
         GameQuestion(
             type: .meaning,
+
             question: "Float = ?",
+
+            promptAudio: nil,
+
             options: [
-                "Fall",
-                "Stay",
-                "Move in air"
+
+                GameOption(
+                    text: "Fall",
+                    audioName: "fall"
+                ),
+
+                GameOption(
+                    text: "Stay",
+                    audioName: "stay"
+                ),
+
+                GameOption(
+                    text: "Move in air",
+                    audioName: "move_in_air"
+                )
             ],
-            correctIndex: 2,
-            correctAnswer: nil
+
+            correctAnswer: "Move in air"
         ),
-        
+
         GameQuestion(
             type: .buildWord,
+
             question: "Build the word WAVE",
-            options: ["W", "A", "V", "E"],
-            correctIndex: nil,
+
+            promptAudio: "wave",
+
+            options: [
+
+                GameOption(
+                    text: "W",
+                    audioName: "w"
+                ),
+
+                GameOption(
+                    text: "A",
+                    audioName: "a"
+                ),
+
+                GameOption(
+                    text: "V",
+                    audioName: "v"
+                ),
+
+                GameOption(
+                    text: "E",
+                    audioName: "e"
+                )
+            ],
+
             correctAnswer: "WAVE"
         )
     ]
@@ -857,31 +1401,93 @@ let sampleStories: [Story] = [
         ],
 
         games: [
+
             GameQuestion(
-                type: .tapWord,
-                question: "Tap the word Turtle",
-                options: ["Dog", "Turtle", "Bird"],
-                correctIndex: 1,
-                correctAnswer: nil
+                type: .listenAndChoose,
+
+                question: "Which word says Turtle?",
+
+                promptAudio: "turtle",
+
+                options: [
+
+                    GameOption(
+                        text: "Dog",
+                        audioName: "dog"
+                    ),
+
+                    GameOption(
+                        text: "Turtle",
+                        audioName: "turtle"
+                    ),
+
+                    GameOption(
+                        text: "Bird",
+                        audioName: "bird"
+                    )
+                ],
+
+                correctAnswer: "Turtle"
             ),
-            
+
             GameQuestion(
                 type: .meaning,
+
                 question: "Rush = ?",
+
+                promptAudio: nil,
+
                 options: [
-                    "Slow",
-                    "Fast movement",
-                    "Sleep"
+
+                    GameOption(
+                        text: "Slow",
+                        audioName: "slow"
+                    ),
+
+                    GameOption(
+                        text: "Fast movement",
+                        audioName: "fast_movement"
+                    ),
+
+                    GameOption(
+                        text: "Sleep",
+                        audioName: "sleep"
+                    )
                 ],
-                correctIndex: 1,
-                correctAnswer: nil
+
+                correctAnswer: "Fast movement"
             ),
-            
+
             GameQuestion(
                 type: .buildWord,
+
                 question: "Build the word POND",
-                options: ["P", "N", "D", "O"],
-                correctIndex: nil,
+
+                promptAudio: "pond",
+
+                options: [
+
+                    GameOption(
+                        text: "P",
+                        audioName: "p"
+                    ),
+
+                    GameOption(
+                        text: "N",
+                        audioName: "n"
+                    ),
+
+                    GameOption(
+                        text: "D",
+                        audioName: "d"
+                    ),
+
+                    GameOption(
+                        text: "O",
+                        audioName: "o"
+                    )
+                ],
+
                 correctAnswer: "POND"
             )
         ]
@@ -949,31 +1555,93 @@ Story(
     ],
 
     games: [
+
         GameQuestion(
-            type: .tapWord,
-            question: "Tap the word Light",
-            options: ["Light", "Dark", "Fire"],
-            correctIndex: 0,
-            correctAnswer: nil
+            type: .listenAndChoose,
+
+            question: "Which word says Light?",
+
+            promptAudio: "light",
+
+            options: [
+
+                GameOption(
+                    text: "Light",
+                    audioName: "light"
+                ),
+
+                GameOption(
+                    text: "Dark",
+                    audioName: "dark"
+                ),
+
+                GameOption(
+                    text: "Fire",
+                    audioName: "fire"
+                )
+            ],
+
+            correctAnswer: "Light"
         ),
-        
+
         GameQuestion(
             type: .meaning,
+
             question: "Brave = ?",
+
+            promptAudio: nil,
+
             options: [
-                "Scared",
-                "Not giving up when afraid",
-                "Sleepy"
+
+                GameOption(
+                    text: "Scared",
+                    audioName: "scared"
+                ),
+
+                GameOption(
+                    text: "Not giving up when afraid",
+                    audioName: "not_giving_up_when_afraid"
+                ),
+
+                GameOption(
+                    text: "Sleepy",
+                    audioName: "sleepy"
+                )
             ],
-            correctIndex: 1,
-            correctAnswer: nil
+
+            correctAnswer: "Not giving up when afraid"
         ),
-        
+
         GameQuestion(
             type: .buildWord,
+
             question: "Build the word PATH",
-            options: ["A", "T", "P", "H"],
-            correctIndex: nil,
+
+            promptAudio: "path",
+
+            options: [
+
+                GameOption(
+                    text: "A",
+                    audioName: "a"
+                ),
+
+                GameOption(
+                    text: "T",
+                    audioName: "t"
+                ),
+
+                GameOption(
+                    text: "P",
+                    audioName: "p"
+                ),
+
+                GameOption(
+                    text: "H",
+                    audioName: "h"
+                )
+            ],
+
             correctAnswer: "PATH"
         )
     ]
@@ -1036,31 +1704,103 @@ Story(
     ],
 
     games: [
+
         GameQuestion(
-            type: .tapWord,
-            question: "Tap the word Fit",
-            options: ["Fit", "Miss", "Stop"],
-            correctIndex: 0,
-            correctAnswer: nil
+            type: .listenAndChoose,
+
+            question: "Which word says Fit?",
+
+            promptAudio: "fit",
+
+            options: [
+
+                GameOption(
+                    text: "Fit",
+                    audioName: "fit"
+                ),
+
+                GameOption(
+                    text: "Miss",
+                    audioName: "miss"
+                ),
+
+                GameOption(
+                    text: "Stop",
+                    audioName: "stop"
+                )
+            ],
+
+            correctAnswer: "Fit"
         ),
-        
+
         GameQuestion(
             type: .meaning,
+
             question: "Whole = ?",
+
+            promptAudio: nil,
+
             options: [
-                "Broken",
-                "Complete",
-                "Small"
+
+                GameOption(
+                    text: "Broken",
+                    audioName: "broken"
+                ),
+
+                GameOption(
+                    text: "Complete",
+                    audioName: "complete"
+                ),
+
+                GameOption(
+                    text: "Small",
+                    audioName: "small"
+                )
             ],
-            correctIndex: 1,
-            correctAnswer: nil
+
+            correctAnswer: "Complete"
         ),
-        
+
         GameQuestion(
             type: .buildWord,
+
             question: "Build the word ENOUGH",
-            options: ["E", "N", "O", "U", "G", "H"],
-            correctIndex: nil,
+
+            promptAudio: "enough",
+
+            options: [
+
+                GameOption(
+                    text: "E",
+                    audioName: "e"
+                ),
+
+                GameOption(
+                    text: "N",
+                    audioName: "n"
+                ),
+
+                GameOption(
+                    text: "O",
+                    audioName: "o"
+                ),
+
+                GameOption(
+                    text: "U",
+                    audioName: "u"
+                ),
+
+                GameOption(
+                    text: "G",
+                    audioName: "g"
+                ),
+
+                GameOption(
+                    text: "H",
+                    audioName: "h"
+                )
+            ],
+
             correctAnswer: "ENOUGH"
         )
     ]
@@ -1123,31 +1863,108 @@ Story(
     ],
 
     games: [
+
         GameQuestion(
-            type: .tapWord,
-            question: "Tap the word Glow",
-            options: ["Glow", "Dark", "Light"],
-            correctIndex: 0,
-            correctAnswer: nil
+            type: .listenAndChoose,
+
+            question: "Which word says Glow?",
+
+            promptAudio: "glow",
+
+            options: [
+
+                GameOption(
+                    text: "Glow",
+                    audioName: "glow"
+                ),
+
+                GameOption(
+                    text: "Dark",
+                    audioName: "dark"
+                ),
+
+                GameOption(
+                    text: "Light",
+                    audioName: "light"
+                )
+            ],
+
+            correctAnswer: "Glow"
         ),
-        
+
         GameQuestion(
             type: .meaning,
+
             question: "Proud = ?",
+
+            promptAudio: nil,
+
             options: [
-                "Sad",
-                "Feeling happy about what you did",
-                "Angry"
+
+                GameOption(
+                    text: "Sad",
+                    audioName: "sad"
+                ),
+
+                GameOption(
+                    text: "Feeling happy about what you did",
+                    audioName: "feeling_happy_about_what_you_did"
+                ),
+
+                GameOption(
+                    text: "Angry",
+                    audioName: "angry"
+                )
             ],
-            correctIndex: 1,
-            correctAnswer: nil
+
+            correctAnswer: "Feeling happy about what you did"
         ),
-        
+
         GameQuestion(
             type: .buildWord,
+
             question: "Build the word LANTERN",
-            options: ["L", "N", "T", "A", "R", "E", "N"],
-            correctIndex: nil,
+
+            promptAudio: "lantern",
+
+            options: [
+
+                GameOption(
+                    text: "L",
+                    audioName: "l"
+                ),
+
+                GameOption(
+                    text: "N",
+                    audioName: "n"
+                ),
+
+                GameOption(
+                    text: "T",
+                    audioName: "t"
+                ),
+
+                GameOption(
+                    text: "A",
+                    audioName: "a"
+                ),
+
+                GameOption(
+                    text: "R",
+                    audioName: "r"
+                ),
+
+                GameOption(
+                    text: "E",
+                    audioName: "e"
+                ),
+
+                GameOption(
+                    text: "N",
+                    audioName: "n"
+                )
+            ],
+
             correctAnswer: "LANTERN"
         )
     ]
@@ -1210,31 +2027,108 @@ Story(
     ],
 
     games: [
+
         GameQuestion(
-            type: .tapWord,
-            question: "Tap the word Beautiful",
-            options: ["Beautiful", "Ugly", "Small"],
-            correctIndex: 0,
-            correctAnswer: nil
+            type: .listenAndChoose,
+
+            question: "Which word says Beautiful?",
+
+            promptAudio: "beautiful",
+
+            options: [
+
+                GameOption(
+                    text: "Beautiful",
+                    audioName: "beautiful"
+                ),
+
+                GameOption(
+                    text: "Ugly",
+                    audioName: "ugly"
+                ),
+
+                GameOption(
+                    text: "Small",
+                    audioName: "small"
+                )
+            ],
+
+            correctAnswer: "Beautiful"
         ),
-        
+
         GameQuestion(
             type: .meaning,
+
             question: "Improve = ?",
+
+            promptAudio: nil,
+
             options: [
-                "Get worse",
-                "To get better",
-                "Stop"
+
+                GameOption(
+                    text: "Get worse",
+                    audioName: "get_worse"
+                ),
+
+                GameOption(
+                    text: "To get better",
+                    audioName: "to_get_better"
+                ),
+
+                GameOption(
+                    text: "Stop",
+                    audioName: "stop"
+                )
             ],
-            correctIndex: 1,
-            correctAnswer: nil
+
+            correctAnswer: "To get better"
         ),
-        
+
         GameQuestion(
             type: .buildWord,
+
             question: "Build the word PERFECT",
-            options: ["P", "E", "R", "F", "E", "C", "T"],
-            correctIndex: nil,
+
+            promptAudio: "perfect",
+
+            options: [
+
+                GameOption(
+                    text: "P",
+                    audioName: "p"
+                ),
+
+                GameOption(
+                    text: "E",
+                    audioName: "e"
+                ),
+
+                GameOption(
+                    text: "R",
+                    audioName: "r"
+                ),
+
+                GameOption(
+                    text: "F",
+                    audioName: "f"
+                ),
+
+                GameOption(
+                    text: "E",
+                    audioName: "e"
+                ),
+
+                GameOption(
+                    text: "C",
+                    audioName: "c"
+                ),
+
+                GameOption(
+                    text: "T",
+                    audioName: "t"
+                )
+            ],
+
             correctAnswer: "PERFECT"
         )
     ]

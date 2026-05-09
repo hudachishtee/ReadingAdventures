@@ -17,32 +17,46 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     override init() {
         super.init()
-        configureAudioSession() // 🔥 THIS FIXES SILENT MODE
+        configureAudioSession()
     }
     
     // MARK: - Configure Audio Session
     
     private func configureAudioSession() {
+        
         do {
+            
             let session = AVAudioSession.sharedInstance()
             
-            try session.setCategory(.playback, mode: .default, options: [])
+            try session.setCategory(
+                .playback,
+                mode: .default,
+                options: []
+            )
+            
             try session.setActive(true)
             
         } catch {
+            
             print("Audio session error:", error.localizedDescription)
         }
     }
     
-    // MARK: - Play
+    // MARK: - Main Play Function
     
     func play(audioName: String, speed: Float = 1.0) {
-        guard let url = Bundle.main.url(forResource: audioName, withExtension: "mp3") else {
-            print("Audio not found")
+        
+        guard let url = Bundle.main.url(
+            forResource: audioName,
+            withExtension: "mp3"
+        ) else {
+            
+            print("Audio not found:", audioName)
             return
         }
         
         do {
+            
             player = try AVAudioPlayer(contentsOf: url)
             
             player?.enableRate = true
@@ -50,7 +64,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             
             player?.delegate = self
             
-            player?.prepareToPlay() // ✅ smoother start
+            player?.prepareToPlay()
             player?.play()
             
             DispatchQueue.main.async {
@@ -58,13 +72,22 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             }
             
         } catch {
-            print("Audio error:", error)
+            
+            print("Audio error:", error.localizedDescription)
         }
+    }
+    
+    // MARK: - Convenience Function
+    
+    func playSound(named audioName: String, speed: Float = 1.0) {
+        
+        play(audioName: audioName, speed: speed)
     }
     
     // MARK: - Stop
     
     func stop() {
+        
         player?.stop()
         player = nil
         
@@ -75,7 +98,11 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     // MARK: - Delegate
     
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(
+        _ player: AVAudioPlayer,
+        successfully flag: Bool
+    ) {
+        
         DispatchQueue.main.async {
             self.isPlaying = false
         }
