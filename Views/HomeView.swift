@@ -1,5 +1,5 @@
 //==============================================================
-// HomeView.swift (NO Hashable version)
+// HomeView.swift (FILTER VERSION)
 //==============================================================
 
 import SwiftUI
@@ -9,6 +9,47 @@ struct HomeView: View {
     @State private var selectedStory: Story?
     @State private var navigateToReader = false
     @State private var storyForReader: Story?
+    
+    //==========================================================
+    // FILTERS
+    //==========================================================
+    
+    @State private var selectedFilter: String = "All"
+    
+    @ObservedObject private var progress = ProgressManager.shared
+    
+    //==========================================================
+    // FILTERED STORIES
+    //==========================================================
+    
+    var filteredStories: [Story] {
+        
+        switch selectedFilter {
+            
+        case "Beginner":
+            return sampleStories.filter {
+                $0.level == .beginner
+            }
+            
+        case "Explorer":
+            return sampleStories.filter {
+                $0.level == .explorer
+            }
+            
+        case "Advanced":
+            return sampleStories.filter {
+                $0.level == .advanced
+            }
+            
+        case "Completed":
+            return sampleStories.filter {
+                progress.completedStories.contains($0.id)
+            }
+            
+        default:
+            return sampleStories
+        }
+    }
     
     var body: some View {
         
@@ -27,6 +68,10 @@ struct HomeView: View {
                     
                     Spacer()
                     
+                    //==================================================
+                    // TITLE
+                    //==================================================
+                    
                     Text("Choose A Story")
                         .font(.custom("OpenDyslexic-Bold", size: 25))
                         .foregroundColor(.appPrimaryText)
@@ -41,11 +86,42 @@ struct HomeView: View {
                                 .stroke(Color.white.opacity(0.45), lineWidth: 1.2)
                         )
                         .padding(.horizontal, 16)
+                        .padding(
+                            .bottom,
+                            UIDevice.current.userInterfaceIdiom == .pad ? 10 : 0
+                        )
+                    //==================================================
+                    // FILTER BAR
+                    //==================================================
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        
+                        HStack(spacing: 12) {
+                            
+                            filterButton(title: "All")
+                            
+                            filterButton(title: "Beginner")
+                            
+                            filterButton(title: "Explorer")
+                            
+                            filterButton(title: "Advanced")
+                            
+                            if !progress.completedStories.isEmpty {
+                                filterButton(title: "Completed")
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                    
+                    //==================================================
+                    // STORIES
+                    //==================================================
                     
                     ScrollView(showsIndicators: false) {
+                        
                         VStack(spacing: 25) {
                             
-                            ForEach(sampleStories) { story in
+                            ForEach(filteredStories) { story in
                                 
                                 StoryCard(
                                     story: story,
@@ -65,14 +141,21 @@ struct HomeView: View {
             }
         }
         
-        // ✅ Boolean navigation (fixed version)
+        //======================================================
+        // NAVIGATION
+        //======================================================
+        
         .navigationDestination(isPresented: $navigateToReader) {
+            
             if let story = storyForReader {
                 StoryReaderView(story: story)
             }
         }
         
-        // MARK: Story Preview Sheet
+        //======================================================
+        // STORY PREVIEW SHEET
+        //======================================================
+        
         .sheet(item: $selectedStory) { story in
             
             StoryPreviewSheet(
@@ -82,7 +165,9 @@ struct HomeView: View {
                     storyForReader = story
                     selectedStory = nil
                     
-                    // 👇 IMPORTANT: delay avoids SwiftUI race condition
+                    // IMPORTANT:
+                    // Delay avoids SwiftUI race condition
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         navigateToReader = true
                     }
@@ -97,6 +182,59 @@ struct HomeView: View {
         }
     }
 }
+
+//==============================================================
+// MARK: FILTER BUTTON
+//==============================================================
+
+extension HomeView {
+    
+    func filterButton(title: String) -> some View {
+        
+        Button {
+            
+            withAnimation(.spring(response: 0.3)) {
+                selectedFilter = title
+            }
+            
+        } label: {
+            
+            Text(title)
+                .font(.custom("OpenDyslexic-Bold", size: 14))
+                .foregroundColor(
+                    selectedFilter == title
+                    ? .white
+                    : .appPrimaryText
+                )
+                .padding(.horizontal, 18)
+                .padding(.vertical, 10)
+                .background(
+                    Capsule()
+                        .fill(
+                            selectedFilter == title
+                            ? Color(
+                                red: 0.36,
+                                green: 0.56,
+                                blue: 0.62
+                            )
+                            : Color.white.opacity(0.45)
+                        )
+                )
+                .overlay(
+                    Capsule()
+                        .stroke(
+                            Color.white.opacity(0.5),
+                            lineWidth: 1
+                        )
+                )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+//==============================================================
+// MARK: PREVIEW
+//==============================================================
 
 #Preview {
     NavigationStack {
