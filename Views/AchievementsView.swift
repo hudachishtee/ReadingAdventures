@@ -1,5 +1,6 @@
 //==============================================================
-// AchievementsView.swift (FINAL PREMIUM SAFE VERSION)
+// AchievementsView.swift
+// FINAL BADGE STYLE VERSION
 //==============================================================
 
 import SwiftUI
@@ -11,40 +12,70 @@ struct AchievementsView: View {
     
     @State private var selectedStory: Story? = nil
     
-    // ✅ CHANGED: 2 columns instead of 3
+    //==========================================================
+    // 2 COLUMNS
+    //==========================================================
+    
     private let columns = [
-        GridItem(.flexible(), spacing: 20),
-        GridItem(.flexible(), spacing: 20)
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
     ]
     
     var body: some View {
+        
         ZStack {
             
+            //==================================================
+            // BACKGROUND
+            //==================================================
+            
             LinearGradient(
-                colors: [.bgTop, .bgBottom],
+                colors: [
+                    Color(red: 0.84, green: 0.94, blue: 1.0),
+                    Color(red: 0.75, green: 0.90, blue: 1.0)
+                ],
                 startPoint: .top,
                 endPoint: .bottom
             )
             .ignoresSafeArea()
             
-            VStack(spacing: 40) {
+            VStack(spacing: 25) {
                 
-                Text("My Achievements")
-                    .font(.custom("OpenDyslexic-Bold", size: 32))
-                    .padding(.top, 20)
+                //==================================================
+                // TITLE
+                //==================================================
+                
+                titleBanner
+                    .padding(.top, 30)
+                
+                //==================================================
+                // PROGRESS
+                //==================================================
                 
                 progressCard
                 
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 20) { // slight spacing tweak
+                //==================================================
+                // GRID
+                //==================================================
+                
+                ScrollView(showsIndicators: false) {
+                    
+                    LazyVGrid(
+                        columns: columns,
+                        spacing: 12
+                    ) {
+                        
                         ForEach(stories) { story in
                             badgeItem(for: story)
                         }
                     }
                     .padding(.horizontal, 20)
+                    .padding(.top, 6)
                     .padding(.bottom, 30)
                 }
             }
+        }
+        .overlay {
             
             if let story = selectedStory {
                 badgePopup(for: story)
@@ -54,185 +85,275 @@ struct AchievementsView: View {
 }
 
 //==============================================================
-// MARK: - Components
+// MARK: COMPONENTS
 //==============================================================
 
 extension AchievementsView {
     
-    // MARK: Progress Card
+    //==========================================================
+    // TITLE BANNER
+    //==========================================================
+    
+    var titleBanner: some View {
+        
+        ZStack {
+            
+            RoundedRectangle(cornerRadius: 24)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 1.0, green: 0.95, blue: 0.78),
+                            Color(red: 1.0, green: 0.83, blue: 0.52)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(height: 80)
+            
+            RoundedRectangle(cornerRadius: 24)
+                .stroke(Color.white.opacity(0.9), lineWidth: 3)
+                .frame(height: 80)
+            
+            HStack(spacing: 8) {
+                
+                Image(systemName: "star.fill")
+                    .font(.system(size: 15))
+                    .foregroundColor(.yellow)
+                
+                Text("My Achievements")
+                    .font(.custom("OpenDyslexic-Bold", size: 20))
+                    .foregroundColor(
+                        Color(red: 0.18, green: 0.18, blue: 0.35)
+                    )
+                
+                Image(systemName: "star.fill")
+                    .font(.system(size: 15))
+                    .foregroundColor(.yellow)
+            }
+        }
+        .padding(.horizontal, 20)
+    }
+    
+    //==========================================================
+    // PROGRESS CARD
+    //==========================================================
+    
     var progressCard: some View {
+        
         let earned = progress.completedStories.count
         let total = stories.count
         
-        return VStack(spacing: 10) {
+        return HStack {
             
-            Text("You earned")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-            
-            Text("\(earned) / \(total)")
-                .font(.system(size: 34, weight: .bold))
-            
-            Text("badges")
-                .font(.caption)
-                .foregroundColor(.gray)
-            
-            ProgressView(value: Double(earned), total: Double(total))
+            VStack(alignment: .leading, spacing: 6) {
+                
+                Text("You earned")
+                    .font(.custom("OpenDyslexic-Regular", size: 13))
+                    .foregroundColor(.gray)
+                
+                Text("\(earned) / \(total)")
+                    .font(.system(size: 34, weight: .heavy))
+                    .foregroundColor(
+                        Color(red: 0.18, green: 0.18, blue: 0.35)
+                    )
+                
+                Text("badges")
+                    .font(.custom("OpenDyslexic-Regular", size: 12))
+                    .foregroundColor(.gray)
+                
+                ProgressView(
+                    value: Double(earned),
+                    total: Double(total)
+                )
                 .tint(.blue)
+                .scaleEffect(y: 1.4)
                 .padding(.top, 6)
+            }
+            
+            Spacer()
+            
+            VStack(spacing: 4) {
+                
+                Image(systemName: "star.fill")
+                    .font(.system(size: 48))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.yellow, .orange],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                
+                Text("Great job!")
+                    .font(.custom("OpenDyslexic-Bold", size: 13))
+                    .foregroundColor(.purple)
+            }
         }
-        .padding()
-        .frame(maxWidth: .infinity)
+        .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color.white.opacity(0.7))
-                .shadow(color: .black.opacity(0.08), radius: 10, y: 5)
+            RoundedRectangle(cornerRadius: 28)
+                .fill(Color.white.opacity(0.88))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 28)
+                .stroke(Color.white.opacity(0.9), lineWidth: 2)
+        )
+        .shadow(
+            color: .black.opacity(0.05),
+            radius: 6,
+            y: 3
         )
         .padding(.horizontal, 20)
     }
     
-    // MARK: Badge Item
+    //==========================================================
+    // BADGE ITEM
+    //==========================================================
+    
     func badgeItem(for story: Story) -> some View {
+        
         let unlocked = progress.completedStories.contains(story.id)
-        let color = story.theme.primary
         
         return Button {
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+            
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
                 selectedStory = story
             }
+            
         } label: {
             
-            VStack(spacing: 12) {
-                
-                ZStack {
-                    
-                    RoundedRectangle(cornerRadius: 22)
-                        .fill(
-                            unlocked
-                            ? color.opacity(0.25)
-                            : Color.white.opacity(0.4)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 22)
-                                .stroke(
-                                    unlocked
-                                    ? color.opacity(0.6)
-                                    : Color.clear,
-                                    lineWidth: 2
-                                )
-                        )
-                        .shadow(
-                            color: unlocked
-                            ? color.opacity(0.4)
-                            : .black.opacity(0.05),
-                            radius: unlocked ? 12 : 4,
-                            y: 5
-                        )
-                        .frame(height: 150) // ✅ CHANGED (was 120)
-                    
-                    VStack(spacing: 12) {
-                        
-                        ZStack {
-                            Circle()
-                                .fill(unlocked ? color : Color.gray.opacity(0.3))
-                                .overlay(
-                                    Circle()
-                                        .stroke(
-                                            unlocked ? color.opacity(0.5) : Color.clear,
-                                            lineWidth: 2
-                                        )
-                                )
-                                .frame(width: 68, height: 68) // ✅ CHANGED (was 58)
-                                .shadow(
-                                    color: unlocked ? color.opacity(0.5) : .clear,
-                                    radius: 8
-                                )
-                            
-                            Image(systemName: unlocked ? icon(for: story) : "lock.fill")
-                                .foregroundColor(.white)
-                                .font(.system(size: 22, weight: .bold)) // slightly bigger
-                        }
-                        
-                        Text(story.title)
-                            .font(.custom("OpenDyslexic-Regular", size: 14)) // slight bump
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.7)
-                            .foregroundColor(.black)
-                            .opacity(unlocked ? 1 : 0.45)
-                    }
-                }
-                .opacity(unlocked ? 1 : 0.6)
-                .scaleEffect(unlocked ? 1 : 0.95)
-                .animation(.spring(), value: unlocked)
-            }
+            Image(badgeImage(for: story))
+                .resizable()
+                .scaledToFit()
+                .saturation(unlocked ? 1 : 0)
+                .opacity(unlocked ? 1 : 0.65)
+                .shadow(
+                    color: .black.opacity(0.08),
+                    radius: 8,
+                    y: 4
+                )
+                .scaleEffect(unlocked ? 1 : 0.98)
         }
+        .buttonStyle(.plain)
     }
     
-    // MARK: Popup
+    //==========================================================
+    // POPUP
+    //==========================================================
+    
     func badgePopup(for story: Story) -> some View {
+        
         let unlocked = progress.completedStories.contains(story.id)
-        let color = story.theme.primary
         
         return ZStack {
             
-            Color.black.opacity(0.3)
+            Color.black.opacity(0.35)
                 .ignoresSafeArea()
                 .onTapGesture {
                     selectedStory = nil
                 }
             
-            VStack(spacing: 16) {
-                
-                Text(unlocked ? "Badge Unlocked!" : "Locked Badge")
-                    .font(.headline)
-                
-                Circle()
-                    .fill(unlocked ? color : Color.gray.opacity(0.4))
-                    .frame(width: 100, height: 100)
-                    .overlay(
-                        Image(systemName: unlocked ? icon(for: story) : "lock.fill")
-                            .foregroundColor(.white)
-                            .font(.system(size: 32))
-                    )
-                    .shadow(color: unlocked ? color.opacity(0.5) : .clear, radius: 10)
-                
-                Text(story.title)
-                    .font(.title3)
-                    .bold()
+            VStack(spacing: 20) {
                 
                 Text(
                     unlocked
-                    ? "You completed this story 🎉"
-                    : "Finish this story to unlock this badge"
+                    ? "Badge Unlocked!"
+                    : "Locked Badge"
                 )
-                .font(.caption)
+                .font(.custom("OpenDyslexic-Bold", size: 24))
+                .foregroundColor(
+                    Color(red: 0.18, green: 0.18, blue: 0.35)
+                )
+                
+                Image(badgeImage(for: story))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 230)
+                    .saturation(unlocked ? 1 : 0)
+                    .opacity(unlocked ? 1 : 0.55)
+                
+                Text(
+                    unlocked
+                    ? "You completed this story!"
+                    : "Finish this story to unlock this badge."
+                )
+                .font(.custom("OpenDyslexic-Regular", size: 15))
+                .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
             }
-            .padding()
-            .frame(width: 260)
-            .background(Color.white)
-            .cornerRadius(22)
+            .padding(28)
+            .frame(width: 340)
+            .background(
+                RoundedRectangle(cornerRadius: 34)
+                    .fill(Color.white)
+            )
+            .shadow(radius: 20)
         }
     }
     
-    // MARK: Icon Helper
-    func icon(for story: Story) -> String {
-        switch story.category {
-        case .moral:
-            return "heart.fill"
-        case .adventure:
-            return "star.fill"
-        case .fantasy:
-            return "sparkles"
+    //==========================================================
+    // BADGE IMAGE HELPER
+    //==========================================================
+    
+    func badgeImage(for story: Story) -> String {
+        
+        switch story.title {
+            
+        case "The Extra Sandwich":
+            return "story1_badge"
+            
+        case "The Brave Little Wave":
+            return "story2_badge"
+            
+        case "The Sunset Promise":
+            return "story3_badge"
+            
+        case "The Lost Crayon":
+            return "story4_badge"
+            
+        case "Milo the Cat":
+            return "story5_badge"
+            
+        case "The Quiet Moon":
+            return "story6_badge"
+            
+        case "The Lost Little Bird":
+            return "story7_badge"
+            
+        case "The Rainy Day Surprise":
+            return "story8_badge"
+            
+        case "The Floating Balloon":
+            return "story9_badge"
+        
+        case "The Slow and Steady Turtle":
+            return "story10_badge"
+            
+        case "The Light in the Dark":
+            return "story11_badge"
+            
+        case "The Missing Piece":
+            return "story12_badge"
+            
+        case "The Brave Lantern":
+            return "story13_badge"
+            
+        case "The Sky Painter":
+            return "story14_badge"
+
+        default:
+            return "story1_badge"
         }
     }
 }
 
 //==============================================================
-// MARK: Preview
+// MARK: PREVIEW
 //==============================================================
 
 #Preview {
+    
     let progress = ProgressManager.shared
     
     progress.resetProgress()
