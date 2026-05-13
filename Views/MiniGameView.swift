@@ -131,8 +131,8 @@ struct MiniGameView: View {
                         
                         // MARK: Prompt Audio
                         
-                        if let promptAudio = currentGame.promptAudio {
-                            
+                        if let promptAudio = currentGame.promptAudio,
+                           currentGame.type != .listenAndChoose {
                             Button {
                                 
                                 AudioManager.shared.playSound(
@@ -490,6 +490,10 @@ extension MiniGameView {
                     
                     Button {
                         
+                        AudioManager.shared.playSound(
+                            named: option.audioName
+                        )
+                        
                         withAnimation(.spring()) {
                             addLetter(index)
                         }
@@ -632,7 +636,7 @@ extension MiniGameView {
     NavigationStack {
         
         MiniGameView(
-            story: sampleStories[0],
+            story: sampleStories[13],
             selectedTab: .constant(.games),
             onFinish: {}
         )

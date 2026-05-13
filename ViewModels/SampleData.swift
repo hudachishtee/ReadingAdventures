@@ -624,7 +624,7 @@ let sampleStories: [Story] = [
 
         vocabulary: [
             VocabularyWord(word: "Cat", meaning: "A small animal with fur that people keep as a pet.", example: "I  have a cat at home.", audioName: "cat"),
-            VocabularyWord(word: "Soft", meaning: "Something that feels nice and not hard.", example: "My pillow is soft.", audioName: "soft"),
+            VocabularyWord(word: "Soft", meaning: "gentle and not hard to touch.", example: "My pillow is soft.", audioName: "soft"),
             VocabularyWord(word: "Toy", meaning: "Something to play with.", example: "Milo loves his toy mouse.", audioName: "toy"),
             VocabularyWord(word: "Play", meaning: "To have fun and enjoy.", example: "Milo likes to play with the ball.", audioName: "play")
         ],
@@ -668,8 +668,8 @@ let sampleStories: [Story] = [
                 options: [
 
                     GameOption(
-                        text: "Something that feels nice and not hard",
-                        audioName: "feels_nice_and_not_hard"
+                        text: "Gentle and not hard to touch.",
+                        audioName: "gentle_and_not_hard_to_touch"
                     ),
 
                     GameOption(
@@ -683,7 +683,7 @@ let sampleStories: [Story] = [
                     )
                 ],
 
-                correctAnswer: "Something that feels nice and not hard"
+                correctAnswer: "Gentle and not hard to touch."
             ),
 
             GameQuestion(
@@ -1230,10 +1230,10 @@ let sampleStories: [Story] = [
 
     vocabulary: [
         VocabularyWord(
-            word: "Float",
-            meaning: "Move in the air",
-            example: "The balloon floated up high.",
-            audioName: "float"
+            word: "Wind",
+            meaning: "Moving air you can feel outside",
+            example: "The wind blew the balloon away.",
+            audioName: "wind"
         ),
         VocabularyWord(
             word: "Slip",
@@ -1288,7 +1288,7 @@ let sampleStories: [Story] = [
         GameQuestion(
             type: .meaning,
 
-            question: "Float = ?",
+            question: "Slip = ?",
 
             promptAudio: nil,
 
@@ -1305,12 +1305,12 @@ let sampleStories: [Story] = [
                 ),
 
                 GameOption(
-                    text: "Move in air",
-                    audioName: "move_in_air"
+                    text: "To lose hold of something",
+                    audioName: "To_lose_hold_of_something"
                 )
             ],
 
-            correctAnswer: "Move in air"
+            correctAnswer: "To lose hold of something"
         ),
 
         GameQuestion(
@@ -1368,7 +1368,7 @@ let sampleStories: [Story] = [
             secondary: Color(red: 246/255, green: 229/255, blue: 170/255) // warm sunlight cream
         ),
         pages: [
-            Page(text: "A turtle walked very slowly.\nOther animals ran fast.", imageName: "story10_page1", audioName: "story10_audio1"),
+            Page(text: "A turtle walked very slowly.\nOther animals rushed.", imageName: "story10_page1", audioName: "story10_audio1"),
             Page(text: "They laughed at him.\nBut the turtle kept going.", imageName: "story10_page2", audioName: "story10_audio2"),
             Page(text: "He reached the pond.\nSlow and steady wins.", imageName: "story10_page3", audioName: "story10_audio3")
         ],
@@ -1445,8 +1445,8 @@ let sampleStories: [Story] = [
                     ),
 
                     GameOption(
-                        text: "Fast movement",
-                        audioName: "fast_movement"
+                        text: "To move quickly",
+                        audioName: "to_move_quickly"
                     ),
 
                     GameOption(
@@ -1455,7 +1455,7 @@ let sampleStories: [Story] = [
                     )
                 ],
 
-                correctAnswer: "Fast movement"
+                correctAnswer: "To move quickly"
             ),
 
             GameQuestion(
