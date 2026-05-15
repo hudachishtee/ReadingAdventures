@@ -345,7 +345,7 @@ struct VocabularyView: View {
         height: CGFloat
     ) -> some View {
         
-        VStack(spacing: isIPad ? 24 : 16) {
+        VStack(alignment: .leading, spacing: isIPad ? 32 : 22) {
             
             HStack(spacing: 8) {
                 
@@ -373,6 +373,7 @@ struct VocabularyView: View {
             }
             
             Divider()
+                .padding(.top, 4)
             
             Text(word.meaning)
                 .font(.custom(
@@ -380,13 +381,23 @@ struct VocabularyView: View {
                     size: isIPad ? 28 : 16
                 ))
                 .foregroundColor(.black)
-                .multilineTextAlignment(.center)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .minimumScaleFactor(0.85)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, isIPad ? 14 : 8)
             
-            Text("Example")
-                .font(.custom(
-                    "OpenDyslexic-Bold",
-                    size: isIPad ? 22 : 14
-                ))
+            HStack {
+                
+                Text("Example")
+                    .font(.custom(
+                        "OpenDyslexic-Bold",
+                        size: isIPad ? 22 : 14
+                    ))
+                
+                Spacer()
+            }
+            .padding(.top, isIPad ? 10 : 6)
             
             Text(word.example)
                 .font(.custom(
@@ -394,12 +405,12 @@ struct VocabularyView: View {
                     size: isIPad ? 28 : 16
                 ))
                 .foregroundColor(.black)
-                .multilineTextAlignment(.center)
-            
-            Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 6)
         }
         .padding(isIPad ? 28 : 18)
-        .frame(width: width, height: height)
+        .frame(width: width)
+        .frame(minHeight: height)
         .background(
             ZStack {
                 
@@ -471,5 +482,5 @@ struct VocabularyView: View {
 }
 
 #Preview {
-    VocabularyView(story: sampleStories[0])
+    VocabularyView(story: sampleStories[1])
 }

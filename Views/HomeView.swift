@@ -77,9 +77,15 @@ struct HomeView: View {
                         .foregroundColor(.appPrimaryText)
                         .padding(12)
                         .frame(maxWidth: .infinity)
+                        .shadow(
+                            color: Color.black.opacity(0.22),
+                            radius: 25,
+                            x: 0,
+                            y: 10
+                        )
                         .background(
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .fill(Color.appCardBackground.opacity(0.6))
+                                .fill(Color.appCardBackground.opacity(0.72))
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -203,7 +209,7 @@ extension HomeView {
                 .font(.custom("OpenDyslexic-Bold", size: 14))
                 .foregroundColor(
                     selectedFilter == title
-                    ? .white
+                    ? .black
                     : .appPrimaryText
                 )
                 .padding(.horizontal, 18)
@@ -217,7 +223,13 @@ extension HomeView {
                                 green: 0.56,
                                 blue: 0.62
                             )
-                            : Color.white.opacity(0.45)
+                            : Color(
+                                UIColor { trait in
+                                    trait.userInterfaceStyle == .dark
+                                    ? UIColor.white.withAlphaComponent(0.18)
+                                    : UIColor.white.withAlphaComponent(0.45)
+                                }
+                            )
                         )
                 )
                 .overlay(

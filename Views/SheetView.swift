@@ -82,8 +82,13 @@ struct StoryPreviewSheet: View {
                             .foregroundColor(.black)
                             .frame(maxWidth: 300)
                             .padding(.vertical, 14 * scale)
-                            .background(Color.green.opacity(0.7))
-                            .cornerRadius(18)
+                            .background(
+                                Color(
+                                    red: 0.5,
+                                    green: 0.82,
+                                    blue: 1.00
+                                )
+                            )                            .cornerRadius(18)
                     }
                     
                     Spacer().frame(height: 20 * scale)

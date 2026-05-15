@@ -30,10 +30,7 @@ struct AchievementsView: View {
             //==================================================
             
             LinearGradient(
-                colors: [
-                    Color(red: 0.84, green: 0.94, blue: 1.0),
-                    Color(red: 0.75, green: 0.90, blue: 1.0)
-                ],
+                colors: [.bgTop, .bgBottom],
                 startPoint: .top,
                 endPoint: .bottom
             )
@@ -123,10 +120,7 @@ extension AchievementsView {
                 
                 Text("My Achievements")
                     .font(.custom("OpenDyslexic-Bold", size: 20))
-                    .foregroundColor(
-                        Color(red: 0.18, green: 0.18, blue: 0.35)
-                    )
-                
+                    .foregroundColor(.appPrimaryText)
                 Image(systemName: "star.fill")
                     .font(.system(size: 15))
                     .foregroundColor(.yellow)
@@ -193,7 +187,7 @@ extension AchievementsView {
         .padding(16)
         .background(
             RoundedRectangle(cornerRadius: 28)
-                .fill(Color.white.opacity(0.88))
+                .fill(Color.appCardBackground.opacity(0.88))
         )
         .overlay(
             RoundedRectangle(cornerRadius: 28)
@@ -286,8 +280,7 @@ extension AchievementsView {
             .frame(width: 340)
             .background(
                 RoundedRectangle(cornerRadius: 34)
-                    .fill(Color.white)
-            )
+                    .fill(Color.appCardBackground)            )
             .shadow(radius: 20)
         }
     }

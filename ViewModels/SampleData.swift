@@ -1067,13 +1067,13 @@ let sampleStories: [Story] = [
         vocabulary: [
             VocabularyWord(
                 word: "Surprise",
-                meaning: "Something unexpected that makes you happy or excited",
+                meaning: "Something unexpected",
                 example: "The gift was a surprise.",
                 audioName: "surprise"
             ),
             VocabularyWord(
                 word: "Special",
-                meaning: "Something important or different in a good way",
+                meaning: "Something important or nice",
                 example: "Today felt special.",
                 audioName: "special"
             ),

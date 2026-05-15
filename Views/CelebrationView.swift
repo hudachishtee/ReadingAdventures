@@ -1,8 +1,7 @@
 //
 // CelebrationView.swift
 // FINAL COMPLETE VERSION
-// SAME UI + SAME APP LOGIC
-// FIXED: Play Mini Game + Back To Library
+// DARK MODE FIXED
 //
 
 import SwiftUI
@@ -12,7 +11,7 @@ struct CelebrationView: View {
     
     let story: Story
     
-    @StateObject private var progress = ProgressManager.shared   // ✅ ADDED
+    @StateObject private var progress = ProgressManager.shared
     
     @State private var showTitle = false
     @State private var showOwl = false
@@ -46,23 +45,39 @@ struct CelebrationView: View {
                     Spacer()
                         .frame(height: isIPad ? 90 : 70)
                     
+                    //==================================================
+                    // TITLE
+                    //==================================================
+                    
                     if showTitle {
                         
                         VStack(spacing: 10) {
                             
                             Text("You Did It!")
-                                .font(.custom("OpenDyslexic-Bold",
-                                              size: isIPad ? 44 : 32))
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Bold",
+                                        size: isIPad ? 44 : 32
+                                    )
+                                )
                                 .foregroundColor(.appPrimaryText)
                             
                             Text("You finished reading")
-                                .font(.custom("OpenDyslexic-Regular",
-                                              size: isIPad ? 24 : 18))
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Regular",
+                                        size: isIPad ? 24 : 18
+                                    )
+                                )
                                 .foregroundColor(.appPrimaryText)
                             
                             Text(story.title)
-                                .font(.custom("OpenDyslexic-Bold",
-                                              size: isIPad ? 28 : 22))
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Bold",
+                                        size: isIPad ? 28 : 22
+                                    )
+                                )
                                 .foregroundColor(.appPrimaryText)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 24)
@@ -71,7 +86,12 @@ struct CelebrationView: View {
                     
                     Spacer()
                     
+                    //==================================================
+                    // OWL
+                    //==================================================
+                    
                     if showOwl {
+                        
                         Image("owl")
                             .resizable()
                             .scaledToFit()
@@ -80,6 +100,10 @@ struct CelebrationView: View {
                     
                     Spacer()
                     
+                    //==================================================
+                    // BUTTONS
+                    //==================================================
+                    
                     if showButtons {
                         
                         VStack(spacing: 14) {
@@ -87,9 +111,14 @@ struct CelebrationView: View {
                             Button {
                                 goMiniGame = true
                             } label: {
+                                
                                 Text("Play Mini Game")
-                                    .font(.custom("OpenDyslexic-Bold",
-                                                  size: isIPad ? 24 : 18))
+                                    .font(
+                                        .custom(
+                                            "OpenDyslexic-Bold",
+                                            size: isIPad ? 24 : 18
+                                        )
+                                    )
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
@@ -100,9 +129,14 @@ struct CelebrationView: View {
                             Button {
                                 goHome = true
                             } label: {
+                                
                                 Text("Back To Library")
-                                    .font(.custom("OpenDyslexic-Bold",
-                                                  size: isIPad ? 24 : 18))
+                                    .font(
+                                        .custom(
+                                            "OpenDyslexic-Bold",
+                                            size: isIPad ? 24 : 18
+                                        )
+                                    )
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
@@ -115,6 +149,10 @@ struct CelebrationView: View {
                     }
                 }
                 
+                //==================================================
+                // BADGE CARD
+                //==================================================
+                
                 if showBadge && !badgeDismissed {
                     
                     Color.black.opacity(0.18)
@@ -126,41 +164,82 @@ struct CelebrationView: View {
                     VStack(spacing: isIPad ? 28 : 22) {
                         
                         Text("You Earned\nA Badge!")
-                            .font(.custom("OpenDyslexic-Bold",
-                                          size: isIPad ? 34 : 24))
+                            .font(
+                                .custom(
+                                    "OpenDyslexic-Bold",
+                                    size: isIPad ? 34 : 24
+                                )
+                            )
                             .multilineTextAlignment(.center)
                         
                         Circle()
                             .fill(Color.orange)
-                            .frame(width: isIPad ? 150 : 110,
-                                   height: isIPad ? 150 : 110)
+                            .frame(
+                                width: isIPad ? 150 : 110,
+                                height: isIPad ? 150 : 110
+                            )
                             .overlay(
                                 Image(systemName: "star.fill")
                                     .foregroundColor(.white)
-                                    .font(.system(size: isIPad ? 58 : 44))
+                                    .font(
+                                        .system(
+                                            size: isIPad ? 58 : 44
+                                        )
+                                    )
                             )
                         
                         Text(
                             (story.title.components(separatedBy: " ").first ?? "Reading")
                             + " Star"
                         )
-                        .font(.custom("OpenDyslexic-Bold",
-                                      size: isIPad ? 26 : 18))
+                        .font(
+                            .custom(
+                                "OpenDyslexic-Bold",
+                                size: isIPad ? 26 : 18
+                            )
+                        )
                         
                         Text("Tap anywhere")
-                            .font(.custom("OpenDyslexic-Regular",
-                                          size: isIPad ? 18 : 14))
+                            .font(
+                                .custom(
+                                    "OpenDyslexic-Regular",
+                                    size: isIPad ? 18 : 14
+                                )
+                            )
                             .foregroundColor(.gray)
                     }
+                    .foregroundColor(
+                        Color(
+                            UIColor { trait in
+                                trait.userInterfaceStyle == .dark
+                                ? UIColor.white
+                                : UIColor.black
+                            }
+                        )
+                    )
                     .padding(.vertical, isIPad ? 42 : 28)
                     .padding(.horizontal, isIPad ? 50 : 28)
                     .frame(width: isIPad ? 430 : 300)
-                    .background(Color.white)
+                    .background(
+                        Color(
+                            UIColor { trait in
+                                trait.userInterfaceStyle == .dark
+                                ? UIColor(
+                                    red: 0.12,
+                                    green: 0.15,
+                                    blue: 0.20,
+                                    alpha: 1
+                                )
+                                : UIColor.white
+                            }
+                        )
+                    )
                     .cornerRadius(32)
                     .shadow(radius: 18)
                 }
             }
             .fullScreenCover(isPresented: $goMiniGame) {
+                
                 MiniGameView(
                     story: story,
                     selectedTab: .constant(.games),
@@ -174,29 +253,34 @@ struct CelebrationView: View {
             }
             .onAppear {
                 startAnimation()
-                progress.completeStory(story)   // ✅ THIS SAVES PROGRESS
+                progress.completeStory(story)
             }
         }
         .navigationBarBackButtonHidden(true)
     }
 }
 
+//==============================================================
 // MARK: Animation
+//==============================================================
 
 extension CelebrationView {
     
     func startAnimation() {
+        
         withAnimation(.easeOut(duration: 0.45)) {
             showTitle = true
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            
             withAnimation(.spring()) {
                 showOwl = true
             }
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            
             withAnimation(.spring()) {
                 showBadge = true
             }
@@ -204,11 +288,13 @@ extension CelebrationView {
     }
     
     func dismissBadge() {
+        
         withAnimation(.easeOut(duration: 0.2)) {
             badgeDismissed = true
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            
             withAnimation(.spring()) {
                 showButtons = true
             }
@@ -216,10 +302,14 @@ extension CelebrationView {
     }
 }
 
+//==============================================================
 // MARK: Confetti Models
+//==============================================================
 
 struct ConfettiParticle: Identifiable {
+    
     let id = UUID()
+    
     var x: CGFloat
     var y: CGFloat
     var size: CGFloat
@@ -240,9 +330,13 @@ struct ConfettiBackground: View {
     ).autoconnect()
     
     let colors: [Color] = [
-        .red, .blue, .green,
-        .yellow, .orange,
-        .pink, .purple
+        .red,
+        .blue,
+        .green,
+        .yellow,
+        .orange,
+        .pink,
+        .purple
     ]
     
     var body: some View {
@@ -256,9 +350,14 @@ struct ConfettiBackground: View {
                     let p = particles[i]
                     
                     Group {
+                        
                         if p.isCircle {
-                            Circle().fill(p.color)
+                            
+                            Circle()
+                                .fill(p.color)
+                            
                         } else {
+                            
                             RoundedRectangle(cornerRadius: 2)
                                 .fill(p.color)
                         }
@@ -269,7 +368,10 @@ struct ConfettiBackground: View {
                 }
             }
             .onAppear {
-                particles = createParticles(count: 95, size: geo.size)
+                particles = createParticles(
+                    count: 95,
+                    size: geo.size
+                )
             }
             .onReceive(timer) { _ in
                 
@@ -279,16 +381,25 @@ struct ConfettiBackground: View {
                     particles[i].rotation += 4
                     
                     if particles[i].y > geo.size.height + 20 {
+                        
                         particles[i].y = -20
-                        particles[i].x = CGFloat.random(in: 0...geo.size.width)
+                        
+                        particles[i].x = CGFloat.random(
+                            in: 0...geo.size.width
+                        )
                     }
                 }
             }
         }
     }
     
-    func createParticles(count: Int, size: CGSize) -> [ConfettiParticle] {
+    func createParticles(
+        count: Int,
+        size: CGSize
+    ) -> [ConfettiParticle] {
+        
         (0..<count).map { _ in
+            
             ConfettiParticle(
                 x: CGFloat.random(in: 0...size.width),
                 y: CGFloat.random(in: 0...size.height),
@@ -302,8 +413,14 @@ struct ConfettiBackground: View {
     }
 }
 
+//==============================================================
+// MARK: Preview
+//==============================================================
+
 #Preview {
+    
     NavigationStack {
+        
         CelebrationView(
             story: sampleStories[0]
         )
