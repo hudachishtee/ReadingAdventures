@@ -31,7 +31,6 @@ struct MiniGameView: View {
     var currentGame: GameQuestion {
         story.games[currentIndex]
     }
-    
     var body: some View {
         
         GeometryReader { geo in
@@ -44,10 +43,7 @@ struct MiniGameView: View {
                 // MARK: Background
                 
                 LinearGradient(
-                    colors: [
-                        Color(red: 0.76, green: 0.88, blue: 1.0),
-                        Color(red: 0.56, green: 0.78, blue: 0.98)
-                    ],
+                    colors: [.bgTop, .bgBottom],
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -90,9 +86,7 @@ struct MiniGameView: View {
                 
                 VStack(spacing: 14 * scale) {
                     
-                    Spacer().frame(height: 8)
-                    
-                    Text("Story Game")
+                    Spacer().frame(height: isIPad ? 70 : 24);                    Text("Story Game")
                         .font(.custom("OpenDyslexic-Bold", size: isIPad ? 34 : 26))
                         .foregroundColor(.appPrimaryText)
                     
@@ -166,8 +160,7 @@ struct MiniGameView: View {
                         }
                     }
                     .padding(20 * scale)
-                    .background(Color.white.opacity(0.5))
-                    .cornerRadius(26)
+                    .background(Color("MiniGameOuter")) .cornerRadius(26)
                     .shadow(
                         color: .black.opacity(0.08),
                         radius: 10,
@@ -428,8 +421,7 @@ extension MiniGameView {
             return .red.opacity(0.85)
         }
         
-        return .white
-    }
+        return Color("MiniGameOption")    }
 }
 
 // MARK: Build Word
