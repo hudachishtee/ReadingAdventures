@@ -136,9 +136,9 @@ struct MiniGameView: View {
                             Button {
                                 
                                 AudioManager.shared.playSound(
-                                    named: promptAudio
+                                    named: promptAudio,
+                                    text: ""
                                 )
-                                
                             } label: {
                                 
                                 HStack(spacing: 10) {
@@ -331,7 +331,8 @@ extension MiniGameView {
                     Button {
                         
                         AudioManager.shared.playSound(
-                            named: option.audioName
+                            named: option.audioName,
+                            text: ""
                         )
                         
                     } label: {
@@ -491,7 +492,8 @@ extension MiniGameView {
                     Button {
                         
                         AudioManager.shared.playSound(
-                            named: option.audioName
+                            named: option.audioName,
+                            text: ""
                         )
                         
                         withAnimation(.spring()) {

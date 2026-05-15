@@ -359,7 +359,10 @@ struct VocabularyView: View {
                     .foregroundColor(.appPrimaryText)
                 
                 Button {
-                    audioManager.play(audioName: word.audioName)
+                    audioManager.play(
+                        audioName: word.audioName,
+                        text: ""
+                    )
                 } label: {
                     Image(systemName: "speaker.wave.2.fill")
                         .foregroundColor(.green)

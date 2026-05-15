@@ -7,50 +7,68 @@ struct StoryReaderView: View {
     @State private var currentPage = 0
     @State private var speed: Float = 1.0
     @State private var goToMoral = false
+    @State private var lastScrolledLine = 0
     
     @StateObject private var audioManager = AudioManager.shared
-
+    
     var body: some View {
+        
         let page = story.pages[currentPage]
         
         GeometryReader { geo in
             
-            let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+            let isIPad =
+            UIDevice.current.userInterfaceIdiom == .pad
             
             VStack(spacing: 0) {
                 
                 // MARK: - IMAGE
+                
                 Image(page.imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(
                         width: geo.size.width,
                         height: isIPad
-                            ? geo.size.height * 0.70
-                            : geo.size.height * 0.56
+                        ? geo.size.height * 0.70
+                        : geo.size.height * 0.56
                     )
                     .offset(y: page.imageOffset)
                 
                 Spacer(minLength: 0)
                 
                 // MARK: - CONTENT
+                
                 VStack(spacing: isIPad ? 20 : 16) {
                     
                     // MARK: - CONTROLS
+                    
                     HStack {
                         
                         // Listen Button
+                        
                         Button {
+                            
                             if audioManager.isPlaying {
+                                
                                 audioManager.stop()
+                                
                             } else {
+                                
                                 audioManager.play(
                                     audioName: page.audioName,
+                                    text: page.text,
                                     speed: speed
                                 )
                             }
+                            
                         } label: {
-                            Text(audioManager.isPlaying ? "Pause" : "Listen")
+                            
+                            Text(
+                                audioManager.isPlaying
+                                ? "Pause"
+                                : "Listen"
+                            )
                         }
                         .buttonStyle(
                             PrimaryButtonStyle(
@@ -61,24 +79,40 @@ struct StoryReaderView: View {
                         
                         Spacer()
                         
+                        // MARK: - SPEED CONTROL
+                        
                         HStack {
                             
                             // MINUS
+                            
                             Button {
+                                
                                 if speed > 0.5 {
+                                    
                                     speed -= 0.25
                                     
                                     if audioManager.isPlaying {
+                                        
                                         audioManager.play(
                                             audioName: page.audioName,
+                                            text: page.text,
                                             speed: speed
                                         )
                                     }
                                 }
+                                
                             } label: {
+                                
                                 Text("−")
-                                    .font(.system(size: isIPad ? 20 : 16, weight: .bold))
-                                    .foregroundColor(.black.opacity(0.85))
+                                    .font(
+                                        .system(
+                                            size: isIPad ? 20 : 16,
+                                            weight: .bold
+                                        )
+                                    )
+                                    .foregroundColor(
+                                        .black.opacity(0.85)
+                                    )
                                     .frame(width: 54, height: 30)
                                     .contentShape(Rectangle())
                             }
@@ -86,37 +120,66 @@ struct StoryReaderView: View {
                             Spacer(minLength: 0)
                             
                             // SPEED TEXT
-                            Text("\(String(format: "%.1fx", speed))")
-                                .font(.system(size: isIPad ? 15 : 13, weight: .medium))
-                                .foregroundColor(.black.opacity(0.8))
+                            
+                            Text(
+                                "\(String(format: "%.1fx", speed))"
+                            )
+                            .font(
+                                .system(
+                                    size: isIPad ? 15 : 13,
+                                    weight: .medium
+                                )
+                            )
+                            .foregroundColor(
+                                .black.opacity(0.8)
+                            )
                             
                             Spacer(minLength: 0)
                             
                             // PLUS
+                            
                             Button {
+                                
                                 if speed < 1.5 {
+                                    
                                     speed += 0.25
                                     
                                     if audioManager.isPlaying {
+                                        
                                         audioManager.play(
                                             audioName: page.audioName,
+                                            text: page.text,
                                             speed: speed
                                         )
                                     }
                                 }
+                                
                             } label: {
+                                
                                 Text("+")
-                                    .font(.system(size: isIPad ? 20 : 16, weight: .bold))
-                                    .foregroundColor(.black.opacity(0.85))
+                                    .font(
+                                        .system(
+                                            size: isIPad ? 20 : 16,
+                                            weight: .bold
+                                        )
+                                    )
+                                    .foregroundColor(
+                                        .black.opacity(0.85)
+                                    )
                                     .frame(width: 44, height: 30)
                                     .contentShape(Rectangle())
                             }
                         }
                         .padding(.horizontal, 12)
-                        .frame(width: isIPad ? 240 : 180, height: 46)
+                        .frame(
+                            width: isIPad ? 240 : 180,
+                            height: 46
+                        )
                         .background(
                             Capsule()
-                                .fill(Color.white.opacity(0.55))
+                                .fill(
+                                    Color.white.opacity(0.55)
+                                )
                                 .overlay(
                                     Capsule()
                                         .stroke(
@@ -126,22 +189,93 @@ struct StoryReaderView: View {
                                 )
                         )
                     }
+                    
                     // MARK: - TEXT
-                    ScrollView(showsIndicators: false) {
-                        textContent(
-                            page: page,
-                            isIPad: isIPad
-                        )
-                        .padding(.bottom, 8)
+                    
+                    ScrollViewReader { proxy in
+                        
+                        ScrollView(showsIndicators: false) {
+                            
+                            NarratedTextView(
+                                text: page.text,
+                                currentWordIndex:
+                                    audioManager.currentWordIndex,
+                                themeColor: story.theme.primary,
+                                isIPad: isIPad
+                            )
+//                            .id(audioManager.currentWordIndex)
+                            .frame(
+                                maxWidth: isIPad ? 720 : .infinity,
+                                alignment: .leading
+                            )
+                            .padding(.horizontal, isIPad ? 18 : 2)
+                            .padding(.bottom, 8)
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        .onChange(
+                            of: audioManager.currentWordIndex
+                        ) { _, newValue in
+                            
+                            guard newValue >= 0 else { return }
+                            
+                            let lines =
+                                page.text
+                                    .components(separatedBy: "\n")
+                                    .filter {
+                                        !$0.trimmingCharacters(
+                                            in: .whitespaces
+                                        ).isEmpty
+                                    }
+                            
+                            var runningCount = 0
+                            var currentLine = 0
+                            
+                            for (index, line) in lines.enumerated() {
+                                
+                                let words =
+                                    line
+                                        .components(
+                                            separatedBy: .whitespaces
+                                        )
+                                        .filter { !$0.isEmpty }
+                                
+                                runningCount += words.count
+                                
+                                if newValue < runningCount {
+                                    currentLine = index
+                                    break
+                                }
+                            }
+                            
+                            guard currentLine != lastScrolledLine else {
+                                return
+                            }
+                            
+                            lastScrolledLine = currentLine
+                            
+                            withAnimation(
+                                .easeInOut(duration: 0.55)
+                            ) {
+                                
+                                proxy.scrollTo(
+                                    newValue,
+                                    anchor: .center
+                                )
+                            }
+                        }
                     }
                     
-                    Spacer(minLength: 0)
+//                    Spacer(minLength: 0)
                     
                     // MARK: - NAVIGATION
+                    
                     HStack {
                         
                         Button("Back") {
+                            
                             if currentPage > 0 {
+                                
                                 currentPage -= 1
                                 audioManager.stop()
                             }
@@ -159,10 +293,15 @@ struct StoryReaderView: View {
                             ? "Finish"
                             : "Next"
                         ) {
-                            if currentPage < story.pages.count - 1 {
+                            
+                            if currentPage <
+                                story.pages.count - 1 {
+                                
                                 currentPage += 1
                                 audioManager.stop()
+                                
                             } else {
+                                
                                 audioManager.stop()
                                 goToMoral = true
                             }
@@ -176,8 +315,14 @@ struct StoryReaderView: View {
                     .padding(.bottom, 2)
                     
                     // MARK: - PAGE DOTS
+                    
                     HStack(spacing: 10) {
-                        ForEach(0..<story.pages.count, id: \.self) { index in
+                        
+                        ForEach(
+                            0..<story.pages.count,
+                            id: \.self
+                        ) { index in
+                            
                             Circle()
                                 .fill(
                                     index == currentPage
@@ -187,14 +332,23 @@ struct StoryReaderView: View {
                                 .frame(width: 8, height: 8)
                         }
                     }
-                    .padding(.bottom, isIPad ? 12 : 8)
+                    .padding(
+                        .bottom,
+                        isIPad ? 12 : 8
+                    )
                 }
-                .padding(isIPad ? 28 : 20)
-                .frame(maxWidth: .infinity, alignment: .top)
+                .padding(.horizontal, isIPad ? 34 : 20)
+                .padding(.top, isIPad ? 30 : 20)
+                .padding(.bottom, isIPad ? 20 : 16)
+                .frame(
+                    maxWidth: .infinity,
+                    alignment: .top
+                )
                 .background(
                     ZStack {
                         
-                        // MARK: - MAIN GRADIENT
+                        // MAIN GRADIENT
+                        
                         LinearGradient(
                             colors: [
                                 story.theme.secondary,
@@ -205,7 +359,8 @@ struct StoryReaderView: View {
                             endPoint: .bottom
                         )
                         
-                        // MARK: - SOFT TOP HIGHLIGHT
+                        // TOP HIGHLIGHT
+                        
                         LinearGradient(
                             colors: [
                                 Color.white.opacity(0.22),
@@ -215,9 +370,11 @@ struct StoryReaderView: View {
                             endPoint: .center
                         )
                         
-                        // MARK: - BORDER
+                        // BORDER
+                        
                         RoundedRectangle(
-                            cornerRadius: isIPad ? 50 : 40,
+                            cornerRadius:
+                                isIPad ? 50 : 40,
                             style: .continuous
                         )
                         .stroke(
@@ -229,7 +386,8 @@ struct StoryReaderView: View {
                 )
                 .clipShape(
                     RoundedRectangle(
-                        cornerRadius: isIPad ? 50 : 40,
+                        cornerRadius:
+                            isIPad ? 50 : 40,
                         style: .continuous
                     )
                 )
@@ -242,31 +400,54 @@ struct StoryReaderView: View {
             }
             .frame(maxHeight: .infinity)
             .background(
-                story.theme.primary.opacity(0.9)
+                story.theme.primary
+                    .opacity(0.9)
                     .ignoresSafeArea()
             )
             .ignoresSafeArea()
             
             // MARK: - SWIPE
+            
             .gesture(
                 DragGesture()
                     .onEnded { value in
-                        let horizontalAmount = value.translation.width
+                        
+                        let horizontalAmount =
+                        value.translation.width
                         
                         if horizontalAmount < -50 {
-                            if currentPage < story.pages.count - 1 {
-                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.85)) {
+                            
+                            if currentPage <
+                                story.pages.count - 1 {
+                                
+                                withAnimation(
+                                    .interactiveSpring(
+                                        response: 0.4,
+                                        dampingFraction: 0.85
+                                    )
+                                ) {
+                                    
                                     currentPage += 1
                                     audioManager.stop()
                                 }
+                                
                             } else {
+                                
                                 goToMoral = true
                             }
                         }
                         
                         if horizontalAmount > 50 {
+                            
                             if currentPage > 0 {
-                                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.85)) {
+                                
+                                withAnimation(
+                                    .interactiveSpring(
+                                        response: 0.4,
+                                        dampingFraction: 0.85
+                                    )
+                                ) {
+                                    
                                     currentPage -= 1
                                     audioManager.stop()
                                 }
@@ -275,42 +456,16 @@ struct StoryReaderView: View {
                     }
             )
         }
-        .navigationDestination(isPresented: $goToMoral) {
+        .navigationDestination(
+            isPresented: $goToMoral
+        ) {
             MoralView(story: story)
         }
-    }
-    
-    func textContent(page: Page, isIPad: Bool) -> some View {
-        
-        let lines = page.text
-            .components(separatedBy: "\n")
-            .filter {
-                !$0.trimmingCharacters(in: .whitespaces).isEmpty
-            }
-        
-        return VStack(
-            alignment: .leading,
-            spacing: isIPad ? 28 : 20
-        ) {
-            ForEach(lines, id: \.self) { line in
-                Text(line)
-                    .lineSpacing(isIPad ? 10 : 6)
-            }
-        }
-        .font(
-            .custom(
-                "OpenDyslexic-Regular",
-                size: isIPad ? 26 : 18
-            )
-        )
-        .tracking(-0.4)
-        .foregroundColor(.appPrimaryText)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .fixedSize(horizontal: false, vertical: true)
-        .padding(.vertical, 5)
     }
 }
 
 #Preview {
-    StoryReaderView(story: sampleStories[13])
+    StoryReaderView(
+        story: sampleStories[13]
+    )
 }
