@@ -196,8 +196,8 @@ extension AchievementsView {
                 .fill(
                     LinearGradient(
                         colors: [
-                            Color(red: 0.16, green: 0.30, blue: 0.22),
-                            Color(red: 0.12, green: 0.22, blue: 0.17)
+                            Color("CardBackground"),
+                            Color("CardBackground").opacity(0.85)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
