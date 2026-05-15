@@ -120,7 +120,7 @@ extension AchievementsView {
                 
                 Text("My Achievements")
                     .font(.custom("OpenDyslexic-Bold", size: 20))
-                    .foregroundColor(.appPrimaryText)
+                    .foregroundColor(.black)
                 Image(systemName: "star.fill")
                     .font(.system(size: 15))
                     .foregroundColor(.yellow)
@@ -144,17 +144,15 @@ extension AchievementsView {
                 
                 Text("You earned")
                     .font(.custom("OpenDyslexic-Regular", size: 13))
-                    .foregroundColor(.gray)
+                    .foregroundColor(.appSecondaryText)
                 
                 Text("\(earned) / \(total)")
                     .font(.system(size: 34, weight: .heavy))
-                    .foregroundColor(
-                        Color(red: 0.18, green: 0.18, blue: 0.35)
-                    )
+                    .foregroundColor(.appPrimaryText)
                 
                 Text("badges")
                     .font(.custom("OpenDyslexic-Regular", size: 12))
-                    .foregroundColor(.gray)
+                    .foregroundColor(.appSecondaryText)
                 
                 ProgressView(
                     value: Double(earned),
@@ -181,7 +179,7 @@ extension AchievementsView {
                 
                 Text("Great job!")
                     .font(.custom("OpenDyslexic-Bold", size: 13))
-                    .foregroundColor(.purple)
+                    .foregroundColor(.orange)
             }
         }
         .padding(16)
@@ -256,10 +254,7 @@ extension AchievementsView {
                     : "Locked Badge"
                 )
                 .font(.custom("OpenDyslexic-Bold", size: 24))
-                .foregroundColor(
-                    Color(red: 0.18, green: 0.18, blue: 0.35)
-                )
-                
+                .foregroundColor(.appPrimaryText)
                 Image(badgeImage(for: story))
                     .resizable()
                     .scaledToFit()
