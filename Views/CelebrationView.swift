@@ -140,7 +140,9 @@ struct CelebrationView: View {
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
-                                    .background(Color.white.opacity(0.9))
+                                    .background(
+                                        Color("ButtonSecondaryBackground")
+                                    )
                                     .cornerRadius(18)
                             }
                         }
