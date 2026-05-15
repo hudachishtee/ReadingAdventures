@@ -1,6 +1,6 @@
 //==============================================================
 // AchievementsView.swift
-// FINAL BADGE STYLE VERSION
+// FINAL WORKING VERSION
 //==============================================================
 
 import SwiftUI
@@ -13,12 +13,12 @@ struct AchievementsView: View {
     @State private var selectedStory: Story? = nil
     
     //==========================================================
-    // 2 COLUMNS
+    // GRID
     //==========================================================
     
     private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
     ]
     
     var body: some View {
@@ -36,7 +36,7 @@ struct AchievementsView: View {
             )
             .ignoresSafeArea()
             
-            VStack(spacing: 25) {
+            VStack(spacing: 24) {
                 
                 //==================================================
                 // TITLE
@@ -59,7 +59,7 @@ struct AchievementsView: View {
                     
                     LazyVGrid(
                         columns: columns,
-                        spacing: 12
+                        spacing: 16
                     ) {
                         
                         ForEach(stories) { story in
@@ -68,14 +68,18 @@ struct AchievementsView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 6)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 40)
                 }
             }
         }
         .overlay {
             
             if let story = selectedStory {
+                
                 badgePopup(for: story)
+//                    .transition(
+//                        .scale.combined(with: .opacity)
+//                    )
             }
         }
     }
@@ -95,7 +99,7 @@ extension AchievementsView {
         
         ZStack {
             
-            RoundedRectangle(cornerRadius: 24)
+            RoundedRectangle(cornerRadius: 26)
                 .fill(
                     LinearGradient(
                         colors: [
@@ -106,11 +110,14 @@ extension AchievementsView {
                         endPoint: .bottom
                     )
                 )
-                .frame(height: 80)
+                .frame(height: 82)
             
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(Color.white.opacity(0.9), lineWidth: 3)
-                .frame(height: 80)
+            RoundedRectangle(cornerRadius: 26)
+                .stroke(
+                    Color.white.opacity(0.9),
+                    lineWidth: 3
+                )
+                .frame(height: 82)
             
             HStack(spacing: 8) {
                 
@@ -121,6 +128,7 @@ extension AchievementsView {
                 Text("My Achievements")
                     .font(.custom("OpenDyslexic-Bold", size: 20))
                     .foregroundColor(.black)
+                
                 Image(systemName: "star.fill")
                     .font(.system(size: 15))
                     .foregroundColor(.yellow)
@@ -159,8 +167,8 @@ extension AchievementsView {
                     total: Double(total)
                 )
                 .tint(.blue)
-                .scaleEffect(y: 1.4)
-                .padding(.top, 6)
+                .scaleEffect(y: 1.5)
+                .padding(.top, 8)
             }
             
             Spacer()
@@ -182,19 +190,31 @@ extension AchievementsView {
                     .foregroundColor(.orange)
             }
         }
-        .padding(16)
+        .padding(18)
         .background(
-            RoundedRectangle(cornerRadius: 28)
-                .fill(Color.appCardBackground.opacity(0.88))
+            RoundedRectangle(cornerRadius: 30)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0.16, green: 0.30, blue: 0.22),
+                            Color(red: 0.12, green: 0.22, blue: 0.17)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 28)
-                .stroke(Color.white.opacity(0.9), lineWidth: 2)
+            RoundedRectangle(cornerRadius: 30)
+                .stroke(
+                    Color.white.opacity(0.18),
+                    lineWidth: 2
+                )
         )
         .shadow(
-            color: .black.opacity(0.05),
-            radius: 6,
-            y: 3
+            color: .black.opacity(0.25),
+            radius: 16,
+            y: 8
         )
         .padding(.horizontal, 20)
     }
@@ -209,7 +229,12 @@ extension AchievementsView {
         
         return Button {
             
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
+            withAnimation(
+                .spring(
+                    response: 0.35,
+                    dampingFraction: 0.82
+                )
+            ) {
                 selectedStory = story
             }
             
@@ -219,11 +244,13 @@ extension AchievementsView {
                 .resizable()
                 .scaledToFit()
                 .saturation(unlocked ? 1 : 0)
-                .opacity(unlocked ? 1 : 0.65)
+                .opacity(unlocked ? 1 : 0.5)
                 .shadow(
-                    color: .black.opacity(0.08),
-                    radius: 8,
-                    y: 4
+                    color: unlocked
+                    ? .yellow.opacity(0.12)
+                    : .black.opacity(0.08),
+                    radius: unlocked ? 18 : 8,
+                    y: unlocked ? 10 : 4
                 )
                 .scaleEffect(unlocked ? 1 : 0.98)
         }
@@ -240,21 +267,25 @@ extension AchievementsView {
         
         return ZStack {
             
-            Color.black.opacity(0.35)
-                .ignoresSafeArea()
+            Color.black.opacity(0.25)                .ignoresSafeArea()
                 .onTapGesture {
-                    selectedStory = nil
+                    
+                    withAnimation {
+                        selectedStory = nil
+                    }
                 }
             
             VStack(spacing: 20) {
                 
                 Text(
                     unlocked
-                    ? "Badge Unlocked!"
+                    ? "Badge\nUnlocked!"
                     : "Locked Badge"
                 )
                 .font(.custom("OpenDyslexic-Bold", size: 24))
+                .multilineTextAlignment(.center)
                 .foregroundColor(.appPrimaryText)
+                
                 Image(badgeImage(for: story))
                     .resizable()
                     .scaledToFit()
@@ -269,14 +300,36 @@ extension AchievementsView {
                 )
                 .font(.custom("OpenDyslexic-Regular", size: 15))
                 .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
+                .foregroundColor(.appSecondaryText)
+                .padding(.horizontal, 10)
             }
             .padding(28)
             .frame(width: 340)
             .background(
                 RoundedRectangle(cornerRadius: 34)
-                    .fill(Color.appCardBackground)            )
-            .shadow(radius: 20)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.appCardBackground,
+                                Color.appCardBackground.opacity(0.92)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 34)
+                    .stroke(
+                        Color.white.opacity(0.08),
+                        lineWidth: 1
+                    )
+            )
+            .shadow(
+                color: .black.opacity(0.35),
+                radius: 30,
+                y: 15
+            )
         }
     }
     
@@ -314,7 +367,7 @@ extension AchievementsView {
             
         case "The Floating Balloon":
             return "story9_badge"
-        
+            
         case "The Slow and Steady Turtle":
             return "story10_badge"
             
@@ -329,7 +382,7 @@ extension AchievementsView {
             
         case "The Sky Painter":
             return "story14_badge"
-
+            
         default:
             return "story1_badge"
         }
