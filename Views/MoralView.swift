@@ -61,15 +61,14 @@ struct MoralView: View {
                                 "OpenDyslexic-Regular",
                                 size: isIPad ? 28 : 22
                             ))
-                            .foregroundColor(.appPrimaryText)
-                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)                            .multilineTextAlignment(.center)
                             .lineSpacing(20)
                             .padding(.horizontal, 28)
                             .padding(.vertical, 34)
                             .frame(maxWidth: isIPad ? 650 : 340)
                             .background(
                                 RoundedRectangle(cornerRadius: 36)
-                                    .fill(Color.white.opacity(0.78))
+                                    .fill(Color("MiniGameOption"))
                             )
                         
                         // OWL ON SIDE
