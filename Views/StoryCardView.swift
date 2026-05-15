@@ -30,12 +30,27 @@ struct StoryCard: View {
                 
                 Text(story.level.rawValue + " 🌱")
                     .font(.custom("OpenDyslexic-Regular", size: 12))
-                    .foregroundColor(.appSecondaryText.opacity(0.9))
-                    .padding(.horizontal, 10)
+                    .foregroundColor(
+                        Color(
+                            UIColor { trait in
+                                trait.userInterfaceStyle == .dark
+                                ? .white
+                                : .black
+                            }
+                        )
+                    )                    .padding(.horizontal, 10)
                     .padding(.vertical, 4)
                     .background(
                         Capsule()
-                            .fill(Color.white.opacity(0.4))
+                            .fill(
+                                Color(
+                                    UIColor { trait in
+                                        trait.userInterfaceStyle == .dark
+                                        ? UIColor.black.withAlphaComponent(0.22)
+                                        : UIColor.white.withAlphaComponent(0.4)
+                                    }
+                                )
+                            )
                     )
                     .overlay(
                         Capsule()
@@ -44,7 +59,6 @@ struct StoryCard: View {
                                 lineWidth: 1
                             )
                     )
-                
                 Spacer()
                 
                 // ✅ UPDATED BUTTON (NO NavigationLink)
