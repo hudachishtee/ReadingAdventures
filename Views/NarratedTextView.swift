@@ -63,7 +63,7 @@ struct NarratedTextView: View {
                             .foregroundStyle(
                                 currentWordIndex == currentIndex
                                 ? Color.white
-                                : Color.appPrimaryText
+                                : Color.black
                             )
                             
                             .padding(.horizontal, 8)

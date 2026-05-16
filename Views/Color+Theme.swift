@@ -15,6 +15,8 @@ extension Color {
     
     // MARK: Surfaces
     static let appCardBackground = Color("CardBackground")
+//    static let readerControlBackground = Color("ReaderControlBackground")
+
     
     // MARK: Text
     static let appPrimaryText = Color("PrimaryText")

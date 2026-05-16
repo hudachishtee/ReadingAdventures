@@ -110,10 +110,9 @@ struct StoryReaderView: View {
                                             weight: .bold
                                         )
                                     )
-                                    .foregroundColor(
-                                        .black.opacity(0.85)
-                                    )
-                                    .frame(width: 54, height: 30)
+                                    .foregroundStyle(
+                                        Color(uiColor: .label)
+                                    )                                    .frame(width: 54, height: 30)
                                     .contentShape(Rectangle())
                             }
                             
@@ -130,10 +129,9 @@ struct StoryReaderView: View {
                                     weight: .medium
                                 )
                             )
-                            .foregroundColor(
-                                .black.opacity(0.8)
+                            .foregroundStyle(
+                                Color(uiColor: .label)
                             )
-                            
                             Spacer(minLength: 0)
                             
                             // PLUS
@@ -163,10 +161,9 @@ struct StoryReaderView: View {
                                             weight: .bold
                                         )
                                     )
-                                    .foregroundColor(
-                                        .black.opacity(0.85)
-                                    )
-                                    .frame(width: 44, height: 30)
+                                    .foregroundStyle(
+                                        Color(uiColor: .label)
+                                    )                               .frame(width: 44, height: 30)
                                     .contentShape(Rectangle())
                             }
                         }
@@ -176,17 +173,9 @@ struct StoryReaderView: View {
                             height: 46
                         )
                         .background(
-                            Capsule()
-                                .fill(
-                                    Color.white.opacity(0.55)
-                                )
-                                .overlay(
-                                    Capsule()
-                                        .stroke(
-                                            Color.white.opacity(0.7),
-                                            lineWidth: 2
-                                        )
-                                )
+                            SpeedControlBackground(
+                                themeColor: story.theme.primary
+                            )
                         )
                     }
                     
@@ -466,6 +455,6 @@ struct StoryReaderView: View {
 
 #Preview {
     StoryReaderView(
-        story: sampleStories[13]
+        story: sampleStories[1]
     )
 }
