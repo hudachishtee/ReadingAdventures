@@ -60,7 +60,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Sandwich?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "sandwich",
 
@@ -203,10 +203,10 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Brave?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "brave",
-
+                
                 options: [
 
                     GameOption(
@@ -348,7 +348,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Promise?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "promise",
 
@@ -488,7 +488,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Crayon?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "crayon",
 
@@ -633,7 +633,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Toy?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "toy",
 
@@ -772,7 +772,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Moon?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "moon",
 
@@ -933,7 +933,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Nest?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "nest",
 
@@ -1095,7 +1095,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Rain?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "rain",
 
@@ -1260,7 +1260,7 @@ let sampleStories: [Story] = [
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Which word says Balloon?",
+            question: "Tap the word you hear.",
 
             promptAudio: "balloon",
 
@@ -1405,7 +1405,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Which word says Turtle?",
+                question: "Tap the word you hear.",
 
                 promptAudio: "turtle",
 
@@ -1559,7 +1559,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Which word says Light?",
+            question: "Tap the word you hear.",
 
             promptAudio: "light",
 
@@ -1708,7 +1708,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Which word says Fit?",
+            question: "Tap the word you hear.",
 
             promptAudio: "fit",
 
@@ -1867,7 +1867,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Which word says Glow?",
+            question: "Tap the word you hear.",
 
             promptAudio: "glow",
 
@@ -2031,7 +2031,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Which word says Beautiful?",
+            question: "Tap the word you hear.",
 
             promptAudio: "beautiful",
 

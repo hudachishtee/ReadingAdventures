@@ -31,6 +31,7 @@ struct MiniGameView: View {
     var currentGame: GameQuestion {
         story.games[currentIndex]
     }
+    
     var body: some View {
         
         GeometryReader { geo in
@@ -86,7 +87,9 @@ struct MiniGameView: View {
                 
                 VStack(spacing: 14 * scale) {
                     
-                    Spacer().frame(height: isIPad ? 70 : 24);                    Text("Story Game")
+                    Spacer().frame(height: isIPad ? 70 : 24)
+                    
+                    Text("Story Game")
                         .font(.custom("OpenDyslexic-Bold", size: isIPad ? 34 : 26))
                         .foregroundColor(.appPrimaryText)
                     
@@ -123,33 +126,6 @@ struct MiniGameView: View {
                         
                         highlightedQuestion(scale: scale)
                         
-                        // MARK: Prompt Audio
-                        
-                        if let promptAudio = currentGame.promptAudio,
-                           currentGame.type != .listenAndChoose {
-                            Button {
-                                
-                                AudioManager.shared.playSound(
-                                    named: promptAudio,
-                                    text: ""
-                                )
-                            } label: {
-                                
-                                HStack(spacing: 10) {
-                                    
-                                    Image(systemName: "speaker.wave.2.fill")
-                                    
-                                    Text("Hear Word")
-                                }
-                                .font(.custom("OpenDyslexic-Bold", size: 18))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 12)
-                                .background(Color.orange)
-                                .cornerRadius(18)
-                            }
-                        }
-                        
                         if currentGame.type == .buildWord {
                             
                             buildWordView(scale: scale)
@@ -160,7 +136,8 @@ struct MiniGameView: View {
                         }
                     }
                     .padding(20 * scale)
-                    .background(Color("MiniGameOuter")) .cornerRadius(26)
+                    .background(Color("MiniGameOuter"))
+                    .cornerRadius(26)
                     .shadow(
                         color: .black.opacity(0.08),
                         radius: 10,
@@ -183,10 +160,12 @@ struct MiniGameView: View {
                         
                         Text("Nice Try!")
                             .font(.custom("OpenDyslexic-Bold", size: 24))
-                        
+                            .foregroundColor(.black)
+
                         Text("Want to try again or continue?")
                             .font(.custom("OpenDyslexic-Regular", size: 16))
                             .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
                         
                         HStack(spacing: 14) {
                             
@@ -227,10 +206,12 @@ struct MiniGameView: View {
                         
                         Text("Amazing Work!")
                             .font(.custom("OpenDyslexic-Bold", size: 28))
-                        
+                            .foregroundColor(.black)
+
                         Text("You completed\n\(story.title)")
                             .font(.custom("OpenDyslexic-Regular", size: 18))
                             .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
                         
                         Image(systemName: "star.fill")
                             .font(.system(size: 60))
@@ -302,10 +283,35 @@ extension MiniGameView {
     
     func highlightedQuestion(scale: CGFloat) -> some View {
         
-        Text(currentGame.question)
-            .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
-            .multilineTextAlignment(.center)
-            .foregroundColor(.black)
+        HStack(spacing: 12) {
+            
+            Text(currentGame.question)
+                .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
+                .multilineTextAlignment(.center)
+                .foregroundColor(.black)
+            
+            // MARK: Replay Prompt Audio
+            
+            if let promptAudio = currentGame.promptAudio {
+                
+                Button {
+                    
+                    AudioManager.shared.playSound(
+                        named: promptAudio,
+                        text: ""
+                    )
+                    
+                } label: {
+                    
+                    Image(systemName: "speaker.wave.2.fill")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(width: 42, height: 42)
+                        .background(Color.orange)
+                        .clipShape(Circle())
+                }
+            }
+        }
     }
 }
 
@@ -421,7 +427,8 @@ extension MiniGameView {
             return .red.opacity(0.85)
         }
         
-        return Color("MiniGameOption")    }
+        return Color("MiniGameOption")
+    }
 }
 
 // MARK: Build Word
@@ -444,7 +451,7 @@ extension MiniGameView {
                             .fill(
                                 wrongGlow
                                 ? Color.red.opacity(0.35)
-                                : Color(red: 1.0, green: 0.96, blue: 0.55)
+                                : Color("VocabularyCard")
                             )
                             .frame(width: 42 * scale, height: 48 * scale)
                             .overlay(
