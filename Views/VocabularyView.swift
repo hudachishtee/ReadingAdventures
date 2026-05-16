@@ -52,13 +52,13 @@ struct VocabularyView: View {
                             "OpenDyslexic-Bold",
                             size: isIPad ? 24 : 16
                         ))
-                        .foregroundColor(.black)
-                        .padding(.horizontal, isIPad ? 28 : 22)
+                        .foregroundColor(.appPrimaryText)                        .padding(.horizontal, isIPad ? 28 : 22)
                         .padding(.vertical, isIPad ? 10 : 8)
                         .background(
                             Capsule()
-                                .fill(Color.white.opacity(0.8))
-                        )
+                                .fill(
+                                    Color.buttonSecondaryBackground.opacity(0.85)
+                                )                        )
                         .overlay(
                             Capsule()
                                 .stroke(
@@ -96,7 +96,7 @@ struct VocabularyView: View {
                                 style: .continuous
                             )
                             .fill(
-                                Color.appCardBackground.opacity(0.6)
+                                Color.appCardBackground.opacity(0.82)
                             )
                         )
                         .overlay(
@@ -123,7 +123,9 @@ struct VocabularyView: View {
                                         size: isIPad ? 34 : 26,
                                         weight: .medium
                                     ))
-                                    .foregroundColor(.black.opacity(0.75))
+                                    .foregroundColor(
+                                        .appPrimaryText.opacity(0.85)
+                                    )
                                     .frame(width: isIPad ? 44 : 34)
                             }
                             
@@ -252,7 +254,9 @@ struct VocabularyView: View {
                                         size: isIPad ? 34 : 26,
                                         weight: .medium
                                     ))
-                                    .foregroundColor(.black.opacity(0.75))
+                                    .foregroundColor(
+                                        .appPrimaryText.opacity(0.85)
+                                    )
                                     .frame(width: isIPad ? 44 : 34)
                             }
                         }
@@ -287,8 +291,7 @@ struct VocabularyView: View {
                                         cornerRadius: 24,
                                         style: .continuous
                                     )
-                                    .fill(Color.white.opacity(0.88))
-                                )
+                                    .fill(.ultraThinMaterial)                              )
                                 .overlay(
                                     RoundedRectangle(
                                         cornerRadius: 24,
@@ -380,8 +383,7 @@ struct VocabularyView: View {
                     "OpenDyslexic-Regular",
                     size: isIPad ? 28 : 16
                 ))
-                .foregroundColor(.black)
-                .lineLimit(nil)
+                .foregroundColor(.appPrimaryText)                .lineLimit(nil)
                 .fixedSize(horizontal: false, vertical: true)
                 .minimumScaleFactor(0.85)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -404,8 +406,7 @@ struct VocabularyView: View {
                     "OpenDyslexic-Regular",
                     size: isIPad ? 28 : 16
                 ))
-                .foregroundColor(.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(.appPrimaryText)                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 6)
         }
         .padding(isIPad ? 28 : 18)
@@ -421,16 +422,8 @@ struct VocabularyView: View {
                 .fill(
                     LinearGradient(
                         colors: [
-                            Color(
-                                red: 255/255,
-                                green: 239/255,
-                                blue: 170/255
-                            ),
-                            Color(
-                                red: 255/255,
-                                green: 221/255,
-                                blue: 120/255
-                            )
+                            Color.vocabularyCard.opacity(1),
+                            Color.vocabularyCard.opacity(0.9)
                         ],
                         startPoint: .top,
                         endPoint: .bottom
