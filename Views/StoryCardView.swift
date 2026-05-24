@@ -3,113 +3,137 @@ import SwiftUI
 struct StoryCard: View {
     
     let story: Story
-    let onPreview: () -> Void   // ✅ NEW
+    let onPreview: () -> Void
     
     var body: some View {
         
-        VStack(alignment: .leading, spacing: 12) {
+        let isPad = UIDevice.current.userInterfaceIdiom == .pad
+        
+        VStack(alignment: .leading, spacing: isPad ? 18 : 14) {
             
-            // MARK: IMAGE
-            Image(story.coverImage)
-                .resizable()
-                .aspectRatio(2.5, contentMode: .fill)
-                .frame(maxWidth: .infinity)
-                .clipped()
-                .cornerRadius(12)
-                .shadow(radius: 5)
+            //==================================================
+            // IMAGE
+            //==================================================
             
-            // MARK: TITLE
-            Text(story.title)
-                .font(.custom("OpenDyslexic-Bold", size: 20))
-                .foregroundColor(.appPrimaryText)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-            
-            // MARK: BOTTOM ROW
-            HStack {
+            ZStack(alignment: .topLeading) {
                 
-                Text(story.level.rawValue + " 🌱")
-                    .font(.custom("OpenDyslexic-Regular", size: 12))
-                    .foregroundColor(
-                        Color(
-                            UIColor { trait in
-                                trait.userInterfaceStyle == .dark
-                                ? .white
-                                : .black
-                            }
+                Image(story.coverImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: isPad ? 270 : 170)
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .cornerRadius(isPad ? 28 : 22)
+                
+                Text(story.level.rawValue)
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Bold",
+                            size: isPad ? 15 : 12
                         )
-                    )                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
+                    )
+                    .foregroundColor(.black)
+                    .padding(.horizontal, isPad ? 18 : 14)
+                    .padding(.vertical, isPad ? 8 : 6)
                     .background(
                         Capsule()
                             .fill(
                                 Color(
-                                    UIColor { trait in
-                                        trait.userInterfaceStyle == .dark
-                                        ? UIColor.black.withAlphaComponent(0.22)
-                                        : UIColor.white.withAlphaComponent(0.4)
-                                    }
+                                    red: 0.82,
+                                    green: 0.90,
+                                    blue: 1.0
                                 )
                             )
                     )
-                    .overlay(
-                        Capsule()
-                            .stroke(
-                                Color.white.opacity(0.55),
-                                lineWidth: 1
-                            )
-                    )
-                Spacer()
-                
-                // ✅ UPDATED BUTTON (NO NavigationLink)
-                Button {
-                    onPreview()
-                } label: {
-                    Text("Preview")
-                        .font(.custom("OpenDyslexic-Bold", size: 18))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 18)
-                        .padding(.vertical, 10)
-                        .background(
-                            RoundedRectangle(
-                                cornerRadius: 12,
-                                style: .continuous
-                            )
-                            .fill(
-                                Color.appSecondaryText.opacity(0.7)
-                            )
-                        )
-                        .overlay(
-                            RoundedRectangle(
-                                cornerRadius: 12,
-                                style: .continuous
-                            )
-                            .stroke(
-                                Color.white.opacity(0.45),
-                                lineWidth: 1.1
-                            )
-                        )
-                }
-                .buttonStyle(.plain)
+                    .padding(isPad ? 16 : 12)
             }
+            
+            //==================================================
+            // TITLE
+            //==================================================
+            
+            Text(story.title)
+                .font(
+                    .custom(
+                        "OpenDyslexic-Bold",
+                        size: isPad ? 28 : 18
+                    )
+                )
+                .foregroundColor(.black)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+                .padding(.horizontal, 4)
+            
+            //==================================================
+            // BUTTON
+            //==================================================
+            
+            Button {
+                onPreview()
+            } label: {
+                
+                Text("Preview")
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Bold",
+                            size: isPad ? 22 : 18
+                        )
+                    )
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, isPad ? 14 : 12)
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: isPad ? 18 : 14,
+                            style: .continuous
+                        )
+                        .fill(
+                            Color(
+                                red: 0.33,
+                                green: 0.49,
+                                blue: 0.53
+                            )
+                        )
+                    )
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, isPad ? 28 : 18)
         }
-        .padding()
+        .padding(isPad ? 22 : 14)
         .background(
-            Color.appSecondaryText.opacity(0.15)
+            RoundedRectangle(
+                cornerRadius: isPad ? 34 : 26,
+                style: .continuous
+            )
+            .fill(
+                Color(
+                    red: 0.56,
+                    green: 0.74,
+                    blue: 0.90
+                )
+                .opacity(0.55)
+            )
         )
-        .cornerRadius(25)
-        .shadow(color: Color.black.opacity(0.25), radius: 6, x: 0, y: 3)
-        .padding(.horizontal)
+        .shadow(
+            color: Color.blue.opacity(0.18),
+            radius: isPad ? 16 : 10,
+            x: 0,
+            y: isPad ? 8 : 5
+        )
+        .padding(.horizontal, isPad ? 20 : 14)
+        //==================================================
+        // WIDTH CONTROL
+        //==================================================
         
-        // MARK: iPad FIX
-        .frame(maxWidth: 600)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: isPad ? 760 : 500)        .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
     NavigationStack {
+        
         ZStack {
+            
             LinearGradient(
                 colors: [.bgTop, .bgBottom],
                 startPoint: .top,
@@ -119,7 +143,7 @@ struct StoryCard: View {
             
             StoryCard(
                 story: sampleStories[0],
-                onPreview: {} // ✅ REQUIRED
+                onPreview: {}
             )
         }
     }
