@@ -186,14 +186,24 @@ struct HomeView: View {
                                 ZStack {
                                     
                                     Circle()
-                                        .stroke(
+                                        .fill(
                                             showMenu
-                                            ? Color.red
-                                            : Color.black.opacity(0.65),
-                                            lineWidth: 2.0
+                                            ? Color(
+                                                red: 0.35,
+                                                green: 0.57,
+                                                blue: 0.63
+                                            )
+                                            : .clear
+                                        )
+                                        .overlay(
+                                            Circle()
+                                                .stroke(
+                                                    Color.black.opacity(0.65),
+                                                    lineWidth: 2.0
+                                                )
                                         )
                                         .frame(width: 38, height: 38)
-                                    
+
                                     Image(systemName: "line.3.horizontal")
                                         .font(
                                             .system(
@@ -203,10 +213,9 @@ struct HomeView: View {
                                         )
                                         .foregroundColor(
                                             showMenu
-                                            ? .red
+                                            ? .white
                                             : .black.opacity(0.65)
-                                        )
-                                }
+                                        )                                }
                             }
                             .buttonStyle(.plain)
                             .padding(.trailing, 16)
