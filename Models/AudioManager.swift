@@ -14,6 +14,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     private var player: AVAudioPlayer?
     
     @Published var isPlaying = false
+    @Published var isPaused = false
     @Published var currentWordIndex = -1
     
     private var narratedWords: [String] = []
@@ -88,6 +89,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             
             DispatchQueue.main.async {
                 self.isPlaying = true
+                self.isPaused = false
             }
             
             startWordHighlighting(
@@ -158,7 +160,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             // Slightly faster overall pacing
             
             var weight =
-                Double(word.count) * 0.072
+            Double(word.count) * 0.072
             
             // Short words should move quicker
             
@@ -191,15 +193,15 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
         
         let totalWeight =
-            weights.reduce(0, +)
+        weights.reduce(0, +)
         
         var cumulativeTime = 0.0
         
         for index in words.indices {
             
             let wordDuration =
-                (weights[index] / totalWeight)
-                * (audioDuration / Double(speed))
+            (weights[index] / totalWeight)
+            * (audioDuration / Double(speed))
             
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + cumulativeTime
@@ -215,7 +217,25 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             cumulativeTime += wordDuration
         }
     }
+    func pause() {
+        
+        player?.pause()
+        
+        DispatchQueue.main.async {
+            self.isPlaying = false
+            self.isPaused = true
+        }
+    }
     
+    func resume() {
+        
+        player?.play()
+        
+        DispatchQueue.main.async {
+            self.isPlaying = true
+            self.isPaused = false
+        }
+    }
     // MARK: - Stop
     
     func stop() {
@@ -225,6 +245,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         
         DispatchQueue.main.async {
             self.isPlaying = false
+            self.isPaused = false
             self.currentWordIndex = -1
         }
     }
@@ -238,6 +259,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         
         DispatchQueue.main.async {
             self.isPlaying = false
+            self.isPaused = false
             self.currentWordIndex = -1
         }
     }

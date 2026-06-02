@@ -43,15 +43,19 @@ struct StoryReaderView: View {
                     
                     // MARK: - CONTROLS
                     
-                    HStack {
-                        
-                        // Listen Button
+                    // MARK: - CONTROLS
+
+                    HStack(spacing: 8) {
                         
                         Button {
                             
                             if audioManager.isPlaying {
                                 
-                                audioManager.stop()
+                                audioManager.pause()
+                                
+                            } else if audioManager.isPaused {
+                                
+                                audioManager.resume()
                                 
                             } else {
                                 
@@ -64,22 +68,28 @@ struct StoryReaderView: View {
                             
                         } label: {
                             
-                            Text(
-                                audioManager.isPlaying
-                                ? "Pause"
-                                : "Listen"
+                            Image(
+                                systemName:
+                                    audioManager.isPlaying
+                                    ? "pause.fill"
+                                    : audioManager.isPaused
+                                    ? "play.fill"
+                                    : "speaker.wave.2.fill"
+                            )
+                            .font(
+                                .system(
+                                    size: isIPad ? 22 : 18,
+                                    weight: .semibold
+                                )
+                            )
+                            .foregroundStyle(
+                                Color(uiColor: .label)
+                            )
+                            .frame(
+                                width: isIPad ? 52 : 46,
+                                height: 46
                             )
                         }
-                        .buttonStyle(
-                            PrimaryButtonStyle(
-                                isActive: audioManager.isPlaying,
-                                themeColor: story.theme.primary
-                            )
-                        )
-                        
-                        Spacer()
-                        
-                        // MARK: - SPEED CONTROL
                         
                         HStack {
                             
@@ -112,13 +122,12 @@ struct StoryReaderView: View {
                                     )
                                     .foregroundStyle(
                                         Color(uiColor: .label)
-                                    )                                    .frame(width: 54, height: 30)
+                                    )
+                                    .frame(width: 54, height: 30)
                                     .contentShape(Rectangle())
                             }
                             
                             Spacer(minLength: 0)
-                            
-                            // SPEED TEXT
                             
                             Text(
                                 "\(String(format: "%.1fx", speed))"
@@ -132,6 +141,7 @@ struct StoryReaderView: View {
                             .foregroundStyle(
                                 Color(uiColor: .label)
                             )
+                            
                             Spacer(minLength: 0)
                             
                             // PLUS
@@ -163,21 +173,23 @@ struct StoryReaderView: View {
                                     )
                                     .foregroundStyle(
                                         Color(uiColor: .label)
-                                    )                               .frame(width: 44, height: 30)
+                                    )
+                                    .frame(width: 44, height: 30)
                                     .contentShape(Rectangle())
                             }
                         }
-                        .padding(.horizontal, 12)
                         .frame(
                             width: isIPad ? 240 : 180,
                             height: 46
                         )
-                        .background(
-                            SpeedControlBackground(
-                                themeColor: story.theme.primary
-                            )
-                        )
                     }
+                    .padding(.horizontal, isIPad ? 18 : 12)
+                    .frame(height: isIPad ? 58 : 46)
+                    .background(
+                        SpeedControlBackground(
+                            themeColor: story.theme.primary
+                        )
+                    )
                     
                     // MARK: - TEXT
                     
@@ -257,50 +269,58 @@ struct StoryReaderView: View {
                     
 //                    Spacer(minLength: 0)
                     
-                    // MARK: - NAVIGATION
-                    
-                    HStack {
+                    // MARK: - SWIPE HINTS + FINISH
+
+                    ZStack {
                         
-                        Button("Back") {
+                        HStack {
                             
-                            if currentPage > 0 {
+                            Image(systemName: "arrow.left")
+                                .font(
+                                    .system(
+                                        size: isIPad ? 34 : 26,
+                                        weight: .medium
+                                    )
+                                )
+                                .foregroundStyle(
+                                    Color.black.opacity(0.28)
+                                )
+                            
+                            Spacer()
+                            
+                            Image(systemName: "arrow.right")
+                                .font(
+                                    .system(
+                                        size: isIPad ? 34 : 26,
+                                        weight: .medium
+                                    )
+                                )
+                                .foregroundStyle(
+                                    Color.black.opacity(0.28)
+                                )
+                        }
+                        
+                        if currentPage == story.pages.count - 1 {
+                            
+                            HStack {
                                 
-                                currentPage -= 1
-                                audioManager.stop()
+                                Spacer()
+                                
+                                Button("Finish") {
+                                    
+                                    audioManager.stop()
+                                    goToMoral = true
+                                }
+                                .buttonStyle(
+                                    PrimaryButtonStyle(
+                                        isActive: true,
+                                        themeColor: .green
+                                    )
+                                )
                             }
                         }
-                        .buttonStyle(
-                            OutlineButtonStyle(
-                                themeColor: story.theme.primary
-                            )
-                        )
-                        
-                        Spacer()
-                        
-                        Button(
-                            currentPage == story.pages.count - 1
-                            ? "Finish"
-                            : "Next"
-                        ) {
-                            
-                            if currentPage <
-                                story.pages.count - 1 {
-                                
-                                currentPage += 1
-                                audioManager.stop()
-                                
-                            } else {
-                                
-                                audioManager.stop()
-                                goToMoral = true
-                            }
-                        }
-                        .buttonStyle(
-                            OutlineButtonStyle(
-                                themeColor: story.theme.primary
-                            )
-                        )
                     }
+                    .frame(height: isIPad ? 60 : 50)
                     .padding(.bottom, 2)
                     
                     // MARK: - PAGE DOTS
