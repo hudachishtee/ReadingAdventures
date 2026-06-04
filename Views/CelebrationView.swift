@@ -157,87 +157,42 @@ struct CelebrationView: View {
                 
                 if showBadge && !badgeDismissed {
                     
-                    Color.black.opacity(0.18)
+                    Color.black.opacity(0.6)
                         .ignoresSafeArea()
-                        .onTapGesture {
-                            dismissBadge()
-                        }
+//                        .onTapGesture {
+//                            dismissBadge()
+//                        }
                     
-                    VStack(spacing: isIPad ? 28 : 22) {
-                        
-                        Text("You Earned\nA Badge!")
-                            .font(
-                                .custom(
-                                    "OpenDyslexic-Bold",
-                                    size: isIPad ? 34 : 24
-                                )
-                            )
-                            .multilineTextAlignment(.center)
-                        
-                        Circle()
-                            .fill(Color.orange)
+                    ZStack(alignment: .topTrailing) {
+
+                        Image(BadgeHelper.badgeImage(for: story))
+                            .resizable()
+                            .scaledToFit()
                             .frame(
-                                width: isIPad ? 150 : 110,
-                                height: isIPad ? 150 : 110
+                                width: isIPad ? 500 : 340
                             )
-                            .overlay(
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(.white)
-                                    .font(
-                                        .system(
-                                            size: isIPad ? 58 : 44
-                                        )
+
+                        Button {
+                            dismissBadge()
+                        } label: {
+
+                            Image(systemName: "xmark.circle.fill")
+                                .font(
+                                    .system(
+                                        size: isIPad ? 40 : 30
                                     )
-                            )
-                        
-                        Text(
-                            (story.title.components(separatedBy: " ").first ?? "Reading")
-                            + " Star"
-                        )
-                        .font(
-                            .custom(
-                                "OpenDyslexic-Bold",
-                                size: isIPad ? 26 : 18
-                            )
-                        )
-                        
-                        Text("Tap anywhere")
-                            .font(
-                                .custom(
-                                    "OpenDyslexic-Regular",
-                                    size: isIPad ? 18 : 14
                                 )
-                            )
-                            .foregroundColor(.gray)
+                                .foregroundColor(.white)
+                                .background(
+                                    Circle()
+                                        .fill(Color.gray.opacity(0.9))
+                                )
+                        }
+                        .offset(
+                            x: isIPad ? 35 : 22,
+                            y: isIPad ? -40 : -25
+                        )
                     }
-                    .foregroundColor(
-                        Color(
-                            UIColor { trait in
-                                trait.userInterfaceStyle == .dark
-                                ? UIColor.white
-                                : UIColor.black
-                            }
-                        )
-                    )
-                    .padding(.vertical, isIPad ? 42 : 28)
-                    .padding(.horizontal, isIPad ? 50 : 28)
-                    .frame(width: isIPad ? 430 : 300)
-                    .background(
-                        Color(
-                            UIColor { trait in
-                                trait.userInterfaceStyle == .dark
-                                ? UIColor(
-                                    red: 0.12,
-                                    green: 0.15,
-                                    blue: 0.20,
-                                    alpha: 1
-                                )
-                                : UIColor.white
-                            }
-                        )
-                    )
-                    .cornerRadius(32)
-                    .shadow(radius: 18)
                 }
             }
             .fullScreenCover(isPresented: $goMiniGame) {

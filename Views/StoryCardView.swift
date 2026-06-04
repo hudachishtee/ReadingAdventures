@@ -59,7 +59,7 @@ struct StoryCard: View {
                         size: isPad ? 28 : 18
                     )
                 )
-                .foregroundColor(.black)
+                .foregroundColor(Color("PrimaryText"))
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
                 .padding(.horizontal, 4)
@@ -106,12 +106,7 @@ struct StoryCard: View {
                 style: .continuous
             )
             .fill(
-                Color(
-                    red: 0.56,
-                    green: 0.74,
-                    blue: 0.90
-                )
-                .opacity(0.55)
+                Color("StoryCardBackground")
             )
         )
         .shadow(

@@ -183,39 +183,18 @@ struct HomeView: View {
                                 
                             } label: {
                                 
-                                ZStack {
-                                    
-                                    Circle()
-                                        .fill(
-                                            showMenu
-                                            ? Color(
-                                                red: 0.35,
-                                                green: 0.57,
-                                                blue: 0.63
-                                            )
-                                            : .clear
+                                Image(systemName: "line.3.horizontal.decrease.circle")
+                                    .font(
+                                        .system(
+                                            size: 26,
+                                            weight: .medium
                                         )
-                                        .overlay(
-                                            Circle()
-                                                .stroke(
-                                                    Color.black.opacity(0.65),
-                                                    lineWidth: 2.0
-                                                )
-                                        )
-                                        .frame(width: 38, height: 38)
-
-                                    Image(systemName: "line.3.horizontal")
-                                        .font(
-                                            .system(
-                                                size: 13,
-                                                weight: .bold
-                                            )
-                                        )
-                                        .foregroundColor(
-                                            showMenu
-                                            ? .white
-                                            : .black.opacity(0.65)
-                                        )                                }
+                                    )
+                                    .foregroundColor(
+                                        showMenu
+                                        ? Color("ButtonColor")
+                                        : Color("PrimaryText")
+                                    )
                             }
                             .buttonStyle(.plain)
                             .padding(.trailing, 16)
@@ -246,9 +225,7 @@ struct HomeView: View {
                                                 size: 14
                                             )
                                         )
-                                        .foregroundColor(
-                                            .black.opacity(0.78)
-                                        )
+                                        .foregroundColor(Color("PrimaryText"))
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 42)
                                 }
@@ -274,9 +251,7 @@ struct HomeView: View {
                                                 size: 14
                                             )
                                         )
-                                        .foregroundColor(
-                                            .black.opacity(0.78)
-                                        )
+                                        .foregroundColor(Color("PrimaryText"))
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 42)
                                 }
@@ -410,7 +385,11 @@ extension HomeView {
                 .tracking(0.2)
                 .lineLimit(1)
                 .minimumScaleFactor(0.9)
-                .foregroundColor(.black)
+                .foregroundColor(
+                    selectedFilter == title
+                    ? .white
+                    : .black
+                )
                 .padding(.horizontal, 14)
                 .padding(.vertical, 7)
                 .background(
@@ -419,11 +398,7 @@ extension HomeView {
                         Capsule(style: .continuous)
                             .fill(
                                 selectedFilter == title
-                                ? Color(
-                                    red: 0.35,
-                                    green: 0.57,
-                                    blue: 0.63
-                                )
+                                ? Color("ButtonColor")
                                 : Color.white.opacity(0.92)
                             )
                         
