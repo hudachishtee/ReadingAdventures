@@ -43,9 +43,7 @@ struct StoryReaderView: View {
                     
                     // MARK: - CONTROLS
                     
-                    // MARK: - CONTROLS
-
-                    HStack(spacing: 8) {
+                    HStack(spacing: isIPad ? 14 : 10) {
                         
                         Button {
                             
@@ -86,13 +84,25 @@ struct StoryReaderView: View {
                                 Color(uiColor: .label)
                             )
                             .frame(
-                                width: isIPad ? 52 : 46,
-                                height: 46
+                                width: isIPad ? 58 : 50,
+                                height: isIPad ? 58 : 50
+                            )
+                            .background(
+                                Circle()
+                                    .fill(
+                                        story.theme.primary.opacity(0.85)
+                                    )
+                            )
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        Color.white.opacity(0.6),
+                                        lineWidth: 1
+                                    )
                             )
                         }
-                        
-                        HStack {
-                            
+                                                
+                        HStack(spacing: isIPad ? 24 : 34){
                             // MINUS
                             
                             Button {
@@ -127,11 +137,12 @@ struct StoryReaderView: View {
                                     .contentShape(Rectangle())
                             }
                             
-                            Spacer(minLength: 0)
+//                            Spacer(minLength: 0)
                             
                             Text(
                                 "\(String(format: "%.1fx", speed))"
                             )
+                            .frame(width: isIPad ? 70 : 55)
                             .font(
                                 .system(
                                     size: isIPad ? 15 : 13,
@@ -142,7 +153,7 @@ struct StoryReaderView: View {
                                 Color(uiColor: .label)
                             )
                             
-                            Spacer(minLength: 0)
+//                            Spacer(minLength: 0)
                             
                             // PLUS
                             
@@ -179,12 +190,17 @@ struct StoryReaderView: View {
                             }
                         }
                         .frame(
-                            width: isIPad ? 240 : 180,
-                            height: 46
+                            maxWidth: isIPad ? 380 : .infinity,
+                            minHeight: isIPad ? 58 : 50
                         )
                     }
-                    .padding(.horizontal, isIPad ? 18 : 12)
-                    .frame(height: isIPad ? 58 : 46)
+                    .padding(.horizontal, 0)
+                    .frame(height: isIPad ? 70 : 58)
+
+                    .frame(
+                        maxWidth: isIPad ? 620 : .infinity
+                    )
+
                     .background(
                         SpeedControlBackground(
                             themeColor: story.theme.primary
@@ -206,7 +222,7 @@ struct StoryReaderView: View {
                             )
 //                            .id(audioManager.currentWordIndex)
                             .frame(
-                                maxWidth: isIPad ? 720 : .infinity,
+                                maxWidth: isIPad ? 650 : .infinity,
                                 alignment: .leading
                             )
                             .padding(.horizontal, isIPad ? 18 : 2)

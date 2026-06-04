@@ -39,7 +39,7 @@ struct NarratedTextView: View {
                 let words = lines[lineIndex]
                 
                 FlowLayout(
-                    spacing: 6
+                    spacing: isIPad ? 10 : 8
                 ) {
                     
                     ForEach(words.indices, id: \.self) { wordIndex in
@@ -58,7 +58,7 @@ struct NarratedTextView: View {
                                     size: isIPad ? 26 : 18
                                 )
                             )
-                            .tracking(-0.4)
+                            .tracking(0)
                             
                             .foregroundStyle(
                                 currentWordIndex == currentIndex
@@ -66,8 +66,8 @@ struct NarratedTextView: View {
                                 : Color.black
                             )
                             
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 5)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
                             
                             .background {
                                 
