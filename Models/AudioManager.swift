@@ -133,22 +133,22 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
     
     // MARK: - Word Highlighting
-    
+
     private func startWordHighlighting(
         text: String,
         audioDuration: Double,
         speed: Float
     ) {
-        
+
         let words = text
             .replacingOccurrences(of: "\n", with: " ")
             .components(separatedBy: .whitespaces)
             .filter { !$0.isEmpty }
-        
+
         guard !words.isEmpty else {
             return
         }
-        
+
         currentWordIndex = 0
         
         // MARK: - Build Natural Timing Weights
@@ -217,6 +217,12 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             cumulativeTime += wordDuration
         }
     }
+    func updatePlaybackRate(_ speed: Float) {
+        
+        player?.enableRate = true
+        player?.rate = speed
+    }
+    
     func pause() {
         
         player?.pause()

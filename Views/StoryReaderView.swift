@@ -113,11 +113,7 @@ struct StoryReaderView: View {
                                     
                                     if audioManager.isPlaying {
                                         
-                                        audioManager.play(
-                                            audioName: page.audioName,
-                                            text: page.text,
-                                            speed: speed
-                                        )
+                                        audioManager.updatePlaybackRate(speed)
                                     }
                                 }
                                 
@@ -165,11 +161,7 @@ struct StoryReaderView: View {
                                     
                                     if audioManager.isPlaying {
                                         
-                                        audioManager.play(
-                                            audioName: page.audioName,
-                                            text: page.text,
-                                            speed: speed
-                                        )
+                                        audioManager.updatePlaybackRate(speed)
                                     }
                                 }
                                 
