@@ -1,7 +1,18 @@
 [
-    {
-        "word": "Nora",
-        "start": 0.0,
-        "end": 0.25
-    }
+    { "word": "Nora",       "start": 0.00, "end": 0.35 },
+    { "word": "packed",     "start": 0.35, "end": 0.80 },
+    { "word": "two",        "start": 0.80, "end": 1.05 },
+    { "word": "sandwiches", "start": 1.05, "end": 1.75 },
+    { "word": "today.",     "start": 1.75, "end": 2.15 },
+
+    { "word": "She",        "start": 2.15, "end": 2.45 },
+    { "word": "did",        "start": 2.45, "end": 2.70 },
+    { "word": "not",        "start": 2.70, "end": 2.95 },
+    { "word": "know",       "start": 2.95, "end": 3.35 },
+    { "word": "why.",       "start": 3.35, "end": 3.80 },
+
+    { "word": "It",         "start": 3.80, "end": 4.05 },
+    { "word": "just",       "start": 4.05, "end": 4.40 },
+    { "word": "felt",       "start": 4.40, "end": 4.70 },
+    { "word": "right.",     "start": 4.70, "end": 5.00 }
 ]

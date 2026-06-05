@@ -12,12 +12,14 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     static let shared = AudioManager()
     
     private var player: AVAudioPlayer?
+    private var highlightTimer: Timer?
     
     @Published var isPlaying = false
     @Published var isPaused = false
     @Published var currentWordIndex = -1
     
     private var narratedWords: [String] = []
+    private var wordTimings: [WordTiming] = []
     
     override init() {
         super.init()
@@ -84,6 +86,9 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             player?.play()
             
             narratedWords = cleanedWords(from: text)
+            loadWordTimings(
+                for: audioName
+            )
             
             currentWordIndex = -1
             
@@ -92,11 +97,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
                 self.isPaused = false
             }
             
-            startWordHighlighting(
-                text: text,
-                audioDuration: duration,
-                speed: speed
-            )
+            startJSONHighlighting()
             
         } catch {
             
@@ -131,7 +132,41 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             .components(separatedBy: .whitespacesAndNewlines)
             .filter { !$0.isEmpty }
     }
-    
+    private func loadWordTimings(
+        for audioName: String
+    ) {
+
+        print("Trying to load JSON for:", audioName)
+
+        guard let url = Bundle.main.url(
+            forResource: audioName,
+            withExtension: "json"
+        ) else {
+
+            print("JSON not found:", audioName)
+            return
+        }
+
+        do {
+
+            let data = try Data(contentsOf: url)
+
+            wordTimings = try JSONDecoder().decode(
+                [WordTiming].self,
+                from: data
+            )
+            print("Loaded timings:", wordTimings.count);
+
+            print("Loaded \(wordTimings.count) timings")
+
+        } catch {
+
+            print(
+                "Failed to load timings:",
+                error.localizedDescription
+            )
+        }
+    }
     // MARK: - Word Highlighting
 
     private func startWordHighlighting(
@@ -222,6 +257,42 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         player?.enableRate = true
         player?.rate = speed
     }
+
+    private func startJSONHighlighting() {
+
+//        print("startJSONHighlighting called")
+
+        Task { @MainActor in
+
+            while isPlaying {
+
+                guard let player else { break }
+
+                let currentTime = player.currentTime + 0.15
+                
+                
+                for (index, timing) in wordTimings.enumerated() {
+
+                    if currentTime >= timing.start &&
+                        currentTime < timing.end {
+
+                        if currentWordIndex != index {
+
+//                            print("Highlighting:", index)
+
+                            currentWordIndex = index
+                        }
+
+                        break
+                    }
+                }
+
+                try? await Task.sleep(
+                    for: .milliseconds(15)
+                )
+            }
+        }
+    }
     
     func pause() {
         
@@ -232,6 +303,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             self.isPaused = true
         }
     }
+    
     
     func resume() {
         
@@ -246,10 +318,16 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     func stop() {
         
+        highlightTimer?.invalidate()
+        highlightTimer = nil
+        
         player?.stop()
         player = nil
         
         DispatchQueue.main.async {
+            self.highlightTimer?.invalidate()
+            self.highlightTimer = nil
+            
             self.isPlaying = false
             self.isPaused = false
             self.currentWordIndex = -1
