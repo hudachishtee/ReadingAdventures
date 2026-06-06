@@ -14,7 +14,7 @@ struct StoryPreviewSheet: View {
             
             ZStack {
                 
-                Color(red: 0.55, green: 0.7, blue: 0.8)
+                Color("StoryCardBackground")
                     .ignoresSafeArea()
                 
                 VStack {
@@ -24,7 +24,10 @@ struct StoryPreviewSheet: View {
                     // TOP BAR
                     HStack {
                         Capsule()
-                            .fill(Color.gray.opacity(0.5))
+                            .fill(
+                                Color("SecondaryText")
+                                    .opacity(0.35)
+                            )
                             .frame(width: 40 * scale, height: 5 * scale)
                             .frame(maxWidth: .infinity)
                     }
@@ -35,7 +38,9 @@ struct StoryPreviewSheet: View {
                             Image(systemName: "xmark")
                                 .foregroundColor(.black)
                                 .padding(10 * scale)
-                                .background(Color.white.opacity(0.3))
+                                .background(
+                                    Color("ButtonSecondaryBackground")
+                                )
                                 .clipShape(Circle())
                         }
                         .padding(.trailing, 20 * scale)
@@ -79,16 +84,12 @@ struct StoryPreviewSheet: View {
                     } label: {
                         Text("START")
                             .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("PrimaryText"))
                             .frame(maxWidth: 300)
                             .padding(.vertical, 14 * scale)
                             .background(
-                                Color(
-                                    red: 0.5,
-                                    green: 0.82,
-                                    blue: 1.00
-                                )
-                            )                            .cornerRadius(18)
+                                Color("ButtonColor")
+                            )                          .cornerRadius(18)
                     }
                     
                     Spacer().frame(height: 20 * scale)

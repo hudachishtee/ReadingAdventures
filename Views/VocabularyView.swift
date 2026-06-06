@@ -20,12 +20,12 @@ struct VocabularyView: View {
             let isIPad = UIDevice.current.userInterfaceIdiom == .pad
             
             let cardWidth = isIPad
-                ? min(geo.size.width * 0.72, 640)
+                ? min(geo.size.width * 0.64, 580)
                 : geo.size.width * 0.74
             
             let cardHeight = isIPad
-                ? min(geo.size.height * 0.42, 520)
-                : geo.size.height * 0.40
+                ? min(geo.size.height * 0.40, 520)
+                : geo.size.height * 0.42
             
             let words = story.vocabulary
             
@@ -45,32 +45,43 @@ struct VocabularyView: View {
                     HStack {
                         Spacer()
                         
-                        Button("Done") {
+                        Button {
                             goToCelebration = true
-                        }
-                        .font(.custom(
-                            "OpenDyslexic-Bold",
-                            size: isIPad ? 24 : 16
-                        ))
-                        .foregroundColor(.appPrimaryText)                        .padding(.horizontal, isIPad ? 28 : 22)
-                        .padding(.vertical, isIPad ? 10 : 8)
-                        .background(
-                            Capsule()
-                                .fill(
-                                    Color.buttonSecondaryBackground.opacity(0.85)
-                                )                        )
-                        .overlay(
-                            Capsule()
-                                .stroke(
-                                    Color.white.opacity(0.45),
-                                    lineWidth: 1
+                        } label: {
+                            
+                            Image(systemName: "checkmark")
+                                .font(.system(
+                                    size: isIPad ? 20 : 16,
+                                    weight: .bold
+                                ))
+                                .foregroundColor(.appPrimaryText)
+                                .frame(
+                                    width: isIPad ? 52 : 44,
+                                    height: isIPad ? 52 : 44
                                 )
-                        )
+                                .background(
+                                    Circle()
+                                        .fill(Color("ButtonColor"))
+                                )
+                                .overlay(
+                                    Circle()
+                                        .stroke(
+                                            Color.white.opacity(0.35),
+                                            lineWidth: 1
+                                        )
+                                )
+                                .shadow(
+                                    color: .black.opacity(0.12),
+                                    radius: 8,
+                                    x: 0,
+                                    y: 4
+                                )
+                        }
                     }
                     
                     Spacer()
                 }
-                .padding(.top, isIPad ? 24 : 16)
+                .padding(.top, isIPad ? 40 : 28)
                 .padding(.horizontal, 20)
                 
                 // MARK: Main Content
@@ -79,8 +90,7 @@ struct VocabularyView: View {
                     Spacer(minLength: isIPad ? 42 : 28)
                     
                     // MARK: Title
-                    Text("Vocabulary of\nthe Week")
-                        .font(.custom(
+                    Text("New Words")                       .font(.custom(
                             "OpenDyslexic-Bold",
                             size: isIPad ? 34 : 20
                         ))
@@ -89,7 +99,7 @@ struct VocabularyView: View {
                         .lineSpacing(6)
                         .padding(.horizontal, 20)
                         .padding(.vertical, isIPad ? 18 : 14)
-                        .frame(maxWidth: isIPad ? 620 : 280)
+                        .frame(maxWidth: isIPad ? 620 : 240)
                         .background(
                             RoundedRectangle(
                                 cornerRadius: 24,
@@ -113,8 +123,7 @@ struct VocabularyView: View {
                     // MARK: Card + Arrows
                     if !words.isEmpty {
                         
-                        HStack(spacing: isIPad ? 18 : 10) {
-                            
+                        HStack(spacing: isIPad ? 8 : 2) {
                             Button {
                                 previousWord(total: words.count)
                             } label: {
@@ -147,7 +156,7 @@ struct VocabularyView: View {
                                     width: cardWidth - 14,
                                     height: cardHeight - 14
                                 )
-                                .offset(x: 16, y: 16)
+                                .offset(x: 8, y: 8)
                                 
                                 // Back Card 1
                                 RoundedRectangle(
@@ -165,7 +174,7 @@ struct VocabularyView: View {
                                     width: cardWidth - 8,
                                     height: cardHeight - 8
                                 )
-                                .offset(x: 8, y: 8)
+                                .offset(x: 4, y: 4)
                                 
                                 // Main Card
                                 vocabularyCard(
@@ -291,7 +300,7 @@ struct VocabularyView: View {
                                         cornerRadius: 24,
                                         style: .continuous
                                     )
-                                    .fill(.ultraThinMaterial)                              )
+                                    .fill(Color("ButtonSecondaryBackground"))                              )
                                 .overlay(
                                     RoundedRectangle(
                                         cornerRadius: 24,
@@ -350,17 +359,17 @@ struct VocabularyView: View {
         
         VStack(alignment: .leading, spacing: isIPad ? 32 : 22) {
             
-            HStack(spacing: 8) {
-                
+            HStack {
+
                 Spacer()
-                
+
                 Text(word.word)
                     .font(.custom(
                         "OpenDyslexic-Bold",
                         size: isIPad ? 34 : 20
                     ))
                     .foregroundColor(.appPrimaryText)
-                
+
                 Button {
                     audioManager.play(
                         audioName: word.audioName,
@@ -368,12 +377,24 @@ struct VocabularyView: View {
                     )
                 } label: {
                     Image(systemName: "speaker.wave.2.fill")
-                        .foregroundColor(.green)
+                        .foregroundColor(Color("VocabularyAccent"))
                         .font(.system(size: isIPad ? 26 : 16))
                 }
-                
+
                 Spacer()
+
+                Button {
+
+                    // save word
+
+                } label: {
+
+                    Image(systemName: "bookmark")
+                        .font(.system(size: isIPad ? 24 : 18))
+                        .foregroundColor(.appPrimaryText.opacity(0.7))
+                }
             }
+            
             
             Divider()
                 .padding(.top, 4)
@@ -419,16 +440,7 @@ struct VocabularyView: View {
                     cornerRadius: 26,
                     style: .continuous
                 )
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color.vocabularyCard.opacity(1),
-                            Color.vocabularyCard.opacity(0.9)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
+                .fill(Color.vocabularyCard)
                 
                 RoundedRectangle(
                     cornerRadius: 26,

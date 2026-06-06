@@ -258,7 +258,7 @@ struct HomeView: View {
                             }
                             .frame(width: 176)
                             .background(
-                                .ultraThinMaterial,
+                                Color("CardBackground"),
                                 in: RoundedRectangle(
                                     cornerRadius: 18,
                                     style: .continuous
@@ -399,7 +399,7 @@ extension HomeView {
                             .fill(
                                 selectedFilter == title
                                 ? Color("ButtonColor")
-                                : Color.white.opacity(0.92)
+                                : Color("ButtonSecondaryBackground")
                             )
                         
                         Capsule(style: .continuous)

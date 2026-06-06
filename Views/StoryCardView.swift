@@ -87,13 +87,7 @@ struct StoryCard: View {
                             cornerRadius: isPad ? 18 : 14,
                             style: .continuous
                         )
-                        .fill(
-                            Color(
-                                red: 0.33,
-                                green: 0.49,
-                                blue: 0.53
-                            )
-                        )
+                        .fill(Color("ButtonColor"))
                     )
             }
             .buttonStyle(.plain)

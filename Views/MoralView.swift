@@ -61,14 +61,14 @@ struct MoralView: View {
                                 "OpenDyslexic-Regular",
                                 size: isIPad ? 28 : 22
                             ))
-                            .foregroundColor(.black)                            .multilineTextAlignment(.center)
+                            .foregroundColor(.primaryText)                            .multilineTextAlignment(.center)
                             .lineSpacing(20)
                             .padding(.horizontal, 28)
                             .padding(.vertical, 34)
                             .frame(maxWidth: isIPad ? 650 : 340)
                             .background(
                                 RoundedRectangle(cornerRadius: 36)
-                                    .fill(Color("MiniGameOption"))
+                                    .fill(Color("MoralBackground"))
                             )
                         
                         // OWL ON SIDE
@@ -88,43 +88,47 @@ struct MoralView: View {
                     Button {
                         goToVocabulary = true
                     } label: {
+                        
                         Text("Learn New Words!")
                             .font(.custom(
                                 "OpenDyslexic-Bold",
                                 size: isIPad ? 24 : 20
                             ))
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .padding(.horizontal, 34)
                             .padding(.vertical, 16)
                             .background(
                                 RoundedRectangle(cornerRadius: 18)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color(
-                                                    red: 253/255,
-                                                    green: 232/255,
-                                                    blue: 109/255
-                                                ),
-                                                Color(
-                                                    red: 241/255,
-                                                    green: 247/255,
-                                                    blue: 252/255
-                                                )
-                                            ],
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
-                                    )
+                                    .fill(Color("ButtonColor"))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 18)
                                             .stroke(
-                                                Color.white.opacity(0.7),
-                                                lineWidth: 2
+                                                Color.white.opacity(0.25),
+                                                lineWidth: 1.5
                                             )
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 18)
+                                            .fill(
+                                                LinearGradient(
+                                                    colors: [
+                                                        Color.white.opacity(0.12),
+                                                        .clear
+                                                    ],
+                                                    startPoint: .top,
+                                                    endPoint: .center
+                                                )
+                                            )
+                                    )
+                                    .shadow(
+                                        color: .black.opacity(0.18),
+                                        radius: 10,
+                                        x: 0,
+                                        y: 5
                                     )
                             )
                     }
+                    .buttonStyle(.plain)
                     
                     Spacer(minLength: 40)
                 }
@@ -163,5 +167,5 @@ struct MoralView: View {
 }
 
 #Preview {
-    MoralView(story: sampleStories[6])
+    MoralView(story: sampleStories[0])
 }
