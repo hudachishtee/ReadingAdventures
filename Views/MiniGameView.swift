@@ -132,7 +132,7 @@ struct MiniGameView: View {
                         
                         Text("\(currentIndex + 1)/\(story.games.count)")
                             .font(.custom("OpenDyslexic-Regular", size: isIPad ? 18 : 14))
-                            .foregroundColor(.black.opacity(0.8))
+                            .foregroundColor(Color("PrimaryText"))
                     }
                     .padding(.horizontal, isIPad ? 40 : 24)
                     .padding(.bottom, geo.size.height * 0.03)
@@ -302,7 +302,7 @@ extension MiniGameView {
                 .multilineTextAlignment(.center)
                 .lineLimit(nil)
                 .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(.black)
+                .foregroundColor(Color("PrimaryText"))
                 .padding(.horizontal, isPad() ? 40 : 24)
 
             if let promptAudio = currentGame.promptAudio {
@@ -314,15 +314,18 @@ extension MiniGameView {
                 } label: {
                     Image(systemName: "speaker.wave.2.fill")
                         .font(.system(size: isPad() ? 28 : 24, weight: .bold))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("PrimaryText"))
                         .frame(
                             width: isPad() ? 84 : 68,
                             height: isPad() ? 84 : 68
                         )
-                        .background(Color.white.opacity(0.7))
+                        .background(Color("SpeakerBackground"))
                         .clipShape(Circle())
                         .overlay(
-                            Circle().stroke(Color.black.opacity(0.15), lineWidth: 1)
+                            Circle().stroke(
+                                Color("PrimaryText").opacity(0.15),
+                                lineWidth: 1
+                            )
                         )
                         .shadow(
                             color: Color.black.opacity(0.15),
@@ -383,7 +386,7 @@ extension MiniGameView {
                             size: isPad() ? 24 : 20
                         )
                     )
-                    .foregroundColor(.black)
+                    .foregroundColor(Color("PrimaryText"))
                     .frame(
                         width: isPad() ? 280 : 220,
                         height: isPad() ? 70 : 58
@@ -546,7 +549,7 @@ extension MiniGameView {
                     
                     Image(systemName: "delete.left.fill")
                         .font(.system(size: 18))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("PrimaryText"))
                         .frame(width: 46, height: 46)
                         .background(Color.white.opacity(0.7))
                         .cornerRadius(12)
@@ -737,7 +740,7 @@ extension MiniGameView {
     NavigationStack {
         
         MiniGameView(
-            story: sampleStories[14],
+            story: sampleStories[1],
             selectedTab: .constant(.games),
             onFinish: {}
         )
