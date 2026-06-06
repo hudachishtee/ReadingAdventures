@@ -60,7 +60,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "sandwich",
 
@@ -74,6 +74,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Sandwich",
                         audioName: "sandwich"
+                    ),
+                    
+                    GameOption(
+                        text: "Moon",
+                        audioName: "moon"
                     ),
 
                     GameOption(
@@ -102,6 +107,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Give part to others",
                         audioName: "give_part_to_others"
+                    ),
+                    
+                    GameOption(
+                        text: "A mountain",
+                        audioName: "mountain"
                     ),
 
                     GameOption(
@@ -194,7 +204,7 @@ let sampleStories: [Story] = [
         vocabulary: [
             VocabularyWord(word: "Brave", meaning: "To not give up even when you are afraid", example: "The little wave was brave.", audioName: "brave"),
             VocabularyWord(word: "Encourage", meaning: "To help someone feel strong", example: "Friends encourage each other.", audioName: "encourage"),
-            VocabularyWord(word: "Ocean", meaning: "A very large body of water", example: "Fish live in the ocean.", audioName: "ocean"),
+            VocabularyWord(word: "Ocean", meaning: "Large sea", example: "Fish live in the ocean.", audioName: "ocean"),
             VocabularyWord(word: "Splash", meaning: "Water hitting something", example: "The wave made a splash.", audioName: "splash")
         ],
 
@@ -203,7 +213,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "brave",
                 
@@ -217,6 +227,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Brave",
                         audioName: "brave"
+                    ),
+                    
+                    GameOption(
+                        text: "Ocean",
+                        audioName: "ocean"
                     ),
 
                     GameOption(
@@ -238,13 +253,18 @@ let sampleStories: [Story] = [
                 options: [
 
                     GameOption(
-                        text: "A very large body of water",
-                        audioName: "large_body_of_water"
+                        text: "Large sea",
+                        audioName: "large_sea"
                     ),
 
                     GameOption(
                         text: "A mountain",
                         audioName: "mountain"
+                    ),
+                    
+                    GameOption(
+                        text: "Happy",
+                        audioName: "happy"
                     ),
 
                     GameOption(
@@ -253,7 +273,7 @@ let sampleStories: [Story] = [
                     )
                 ],
 
-                correctAnswer: "A very large body of water"
+                correctAnswer: "Large sea"
             ),
 
             GameQuestion(
@@ -348,7 +368,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "promise",
 
@@ -362,6 +382,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Window",
                         audioName: "window"
+                    ),
+                    
+                    GameOption(
+                        text: "Sun",
+                        audioName: "sun"
                     ),
 
                     GameOption(
@@ -383,13 +408,18 @@ let sampleStories: [Story] = [
                 options: [
 
                     GameOption(
-                        text: "Caring about someone",
+                        text: "Can't be found",
                         audioName: "caring_about_someone"
                     ),
 
                     GameOption(
                         text: "Being angry",
                         audioName: "being_angry"
+                    ),
+                    
+                    GameOption(
+                        text: "Happy",
+                        audioName: "happy"
                     ),
 
                     GameOption(
@@ -478,7 +508,7 @@ let sampleStories: [Story] = [
 
         vocabulary: [
             VocabularyWord(word: "Crayon", meaning: "A tool for drawing", example: "I used a crayon.", audioName: "crayon"),
-            VocabularyWord(word: "Lost", meaning: "Not where it should be", example: "My toy is lost.", audioName: "lost"),
+            VocabularyWord(word: "Lost", meaning: "Can't be found", example: "My toy is lost.", audioName: "lost"),
             VocabularyWord(word: "Draw", meaning: "To make a picture", example: "I draw flowers.", audioName: "draw"),
             VocabularyWord(word: "Smile", meaning: "A happy face", example: "She gave a smile.", audioName: "smile")
         ],
@@ -488,7 +518,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "crayon",
 
@@ -502,6 +532,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Crayon",
                         audioName: "crayon"
+                    ),
+                    
+                    GameOption(
+                        text: "Wave",
+                        audioName: "wave"
                     ),
 
                     GameOption(
@@ -523,13 +558,18 @@ let sampleStories: [Story] = [
                 options: [
 
                     GameOption(
-                        text: "Not where it should be",
-                        audioName: "not_where_it_should_be"
+                        text: "Can't be found",
+                        audioName: "can't_be_found"
                     ),
 
                     GameOption(
                         text: "Very loud",
                         audioName: "very_loud"
+                    ),
+                    
+                    GameOption(
+                        text: "A bright sunny day",
+                        audioName: "bright_sunny_day"
                     ),
 
                     GameOption(
@@ -538,7 +578,7 @@ let sampleStories: [Story] = [
                     )
                 ],
 
-                correctAnswer: "Not where it should be"
+                correctAnswer: "Can't be found"
             ),
 
             GameQuestion(
@@ -624,7 +664,7 @@ let sampleStories: [Story] = [
 
         vocabulary: [
             VocabularyWord(word: "Cat", meaning: "A small animal with fur that people keep as a pet.", example: "I  have a cat at home.", audioName: "cat"),
-            VocabularyWord(word: "Soft", meaning: "gentle and not hard to touch.", example: "My pillow is soft.", audioName: "soft"),
+            VocabularyWord(word: "Soft", meaning: "Gentle to touch.", example: "My pillow is soft.", audioName: "soft"),
             VocabularyWord(word: "Toy", meaning: "Something to play with.", example: "Milo loves his toy mouse.", audioName: "toy"),
             VocabularyWord(word: "Play", meaning: "To have fun and enjoy.", example: "Milo likes to play with the ball.", audioName: "play")
         ],
@@ -633,7 +673,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "toy",
 
@@ -647,6 +687,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Toy",
                         audioName: "toy"
+                    ),
+                    
+                    GameOption(
+                        text: "Rain",
+                        audioName: "rain"
                     ),
 
                     GameOption(
@@ -668,13 +713,18 @@ let sampleStories: [Story] = [
                 options: [
 
                     GameOption(
-                        text: "Gentle and not hard to touch.",
-                        audioName: "gentle_and_not_hard_to_touch"
+                        text: "Gentle to touch",
+                        audioName: "gentle_to_touch"
                     ),
 
                     GameOption(
                         text: "Very loud",
                         audioName: "very_loud"
+                    ),
+                    
+                    GameOption(
+                        text: "A bright sunny day",
+                        audioName: "bright_sunny_day"
                     ),
 
                     GameOption(
@@ -683,7 +733,7 @@ let sampleStories: [Story] = [
                     )
                 ],
 
-                correctAnswer: "Gentle and not hard to touch."
+                correctAnswer: "Gentle to touch"
             ),
 
             GameQuestion(
@@ -765,14 +815,14 @@ let sampleStories: [Story] = [
             VocabularyWord(word: "Moon", meaning: "The bright light in the night sky.", example: "Milo looks at the moon before bedtime.", audioName: "moon"),
             VocabularyWord(word: "Quiet", meaning: "No loud sounds.", example: "Milo sleeps quietly on the soft pillow.", audioName: "quiet"),
             VocabularyWord(word: "Owl", meaning: "A bird that wakes up at night.", example: "The owl flies silently in the dark.", audioName: "owl"),
-            VocabularyWord(word: "Night", meaning: "The dark time after the sun goes down.", example: "Stars shine at night.", audioName: "night")
+            VocabularyWord(word: "Night", meaning: "After sunset.", example: "Stars shine at night.", audioName: "night")
         ],
         games: [
 
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "moon",
 
@@ -786,6 +836,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Moon",
                         audioName: "moon"
+                    ),
+                    
+                    GameOption(
+                        text: "Sky",
+                        audioName: "sky"
                     ),
 
                     GameOption(
@@ -807,13 +862,18 @@ let sampleStories: [Story] = [
                 options: [
 
                     GameOption(
-                        text: "The dark time after the sun goes down",
-                        audioName: "dark_time_after_sun_goes_down"
+                        text: "After sunset",
+                        audioName: "after_sunset"
                     ),
 
                     GameOption(
                         text: "A bright sunny day",
                         audioName: "bright_sunny_day"
+                    ),
+                    
+                    GameOption(
+                        text: "Loud",
+                        audioName: "loud"
                     ),
 
                     GameOption(
@@ -822,7 +882,7 @@ let sampleStories: [Story] = [
                     )
                 ],
 
-                correctAnswer: "The dark time after the sun goes down"
+                correctAnswer: "After sunset"
             ),
 
             GameQuestion(
@@ -933,7 +993,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "nest",
 
@@ -947,6 +1007,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Nest",
                         audioName: "nest"
+                    ),
+                    
+                    GameOption(
+                        text: "Light",
+                        audioName: "light"
                     ),
 
                     GameOption(
@@ -975,6 +1040,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Protected",
                         audioName: "protected"
+                    ),
+                    
+                    GameOption(
+                        text: "Loud",
+                        audioName: "loud"
                     ),
 
                     GameOption(
@@ -1095,7 +1165,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "rain",
 
@@ -1109,6 +1179,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Rain",
                         audioName: "rain"
+                    ),
+                    
+                    GameOption(
+                        text: "Soft",
+                        audioName: "soft"
                     ),
 
                     GameOption(
@@ -1137,6 +1212,11 @@ let sampleStories: [Story] = [
                     GameOption(
                         text: "Important or nice",
                         audioName: "important_or_nice"
+                    ),
+                    
+                    GameOption(
+                        text: "To move quickly",
+                        audioName: "to_move_quickly"
                     ),
 
                     GameOption(
@@ -1237,7 +1317,7 @@ let sampleStories: [Story] = [
         ),
         VocabularyWord(
             word: "Slip",
-            meaning: "To lose hold of something",
+            meaning: "Let go by accident",
             example: "The balloon slipped from Sara’s hand.",
             audioName: "slip"
         ),
@@ -1260,7 +1340,7 @@ let sampleStories: [Story] = [
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Tap the word you hear.",
+            question: "Tap the WORD you Hear",
 
             promptAudio: "balloon",
 
@@ -1275,6 +1355,11 @@ let sampleStories: [Story] = [
                     text: "Apple",
                     audioName: "apple"
                 ),
+                
+                GameOption(
+                    text: "Glow",
+                    audioName: "glow"
+                ),
 
                 GameOption(
                     text: "Book",
@@ -1288,7 +1373,7 @@ let sampleStories: [Story] = [
         GameQuestion(
             type: .meaning,
 
-            question: "Slip = ?",
+            question: "Slip means?",
 
             promptAudio: nil,
 
@@ -1303,14 +1388,19 @@ let sampleStories: [Story] = [
                     text: "Stay",
                     audioName: "stay"
                 ),
+                
+                GameOption(
+                    text: "To move quickly",
+                    audioName: "to_move_quickly"
+                ),
 
                 GameOption(
-                    text: "To lose hold of something",
-                    audioName: "To_lose_hold_of_something"
+                    text: "Let go by accident",
+                    audioName: "let_go_by_accident"
                 )
             ],
 
-            correctAnswer: "To lose hold of something"
+            correctAnswer: "Let go by accident"
         ),
 
         GameQuestion(
@@ -1405,7 +1495,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .listenAndChoose,
 
-                question: "Tap the word you hear.",
+                question: "Tap the WORD you Hear",
 
                 promptAudio: "turtle",
 
@@ -1420,6 +1510,11 @@ let sampleStories: [Story] = [
                         text: "Turtle",
                         audioName: "turtle"
                     ),
+                    
+                    GameOption(
+                        text: "Rain",
+                        audioName: "rain"
+                    ),
 
                     GameOption(
                         text: "Bird",
@@ -1433,7 +1528,7 @@ let sampleStories: [Story] = [
             GameQuestion(
                 type: .meaning,
 
-                question: "Rush = ?",
+                question: "Rush means?",
 
                 promptAudio: nil,
 
@@ -1449,6 +1544,11 @@ let sampleStories: [Story] = [
                         audioName: "to_move_quickly"
                     ),
 
+                    GameOption(
+                        text: "Complete",
+                        audioName: "complete"
+                    ),
+                    
                     GameOption(
                         text: "Sleep",
                         audioName: "sleep"
@@ -1542,7 +1642,7 @@ Story(
         ),
         VocabularyWord(
             word: "Brave",
-            meaning: "Not giving up when afraid",
+            meaning: "Not afraid to try.",
             example: "Lina felt brave in the dark.",
             audioName: "brave"
         ),
@@ -1559,7 +1659,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Tap the word you hear.",
+            question: "Tap the WORD you Hear",
 
             promptAudio: "light",
 
@@ -1574,6 +1674,11 @@ Story(
                     text: "Dark",
                     audioName: "dark"
                 ),
+                
+                GameOption(
+                    text: "Beautiful",
+                    audioName: "beautiful"
+                ),
 
                 GameOption(
                     text: "Fire",
@@ -1587,7 +1692,7 @@ Story(
         GameQuestion(
             type: .meaning,
 
-            question: "Brave = ?",
+            question: "Brave means?",
 
             promptAudio: nil,
 
@@ -1599,8 +1704,13 @@ Story(
                 ),
 
                 GameOption(
-                    text: "Not giving up when afraid",
-                    audioName: "not_giving_up_when_afraid"
+                    text: "Not afraid to try",
+                    audioName: "not_afraid_to_try"
+                ),
+                
+                GameOption(
+                    text: "Complete",
+                    audioName: "complete"
                 ),
 
                 GameOption(
@@ -1609,7 +1719,7 @@ Story(
                 )
             ],
 
-            correctAnswer: "Not giving up when afraid"
+            correctAnswer: "Not afraid to try"
         ),
 
         GameQuestion(
@@ -1708,7 +1818,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Tap the word you hear.",
+            question: "Tap the WORD you Hear",
 
             promptAudio: "fit",
 
@@ -1723,6 +1833,11 @@ Story(
                     text: "Miss",
                     audioName: "miss"
                 ),
+                
+                GameOption(
+                    text: "Balloon",
+                    audioName: "balloon"
+                ),
 
                 GameOption(
                     text: "Stop",
@@ -1736,7 +1851,7 @@ Story(
         GameQuestion(
             type: .meaning,
 
-            question: "Whole = ?",
+            question: "Whole means?",
 
             promptAudio: nil,
 
@@ -1751,6 +1866,12 @@ Story(
                     text: "Complete",
                     audioName: "complete"
                 ),
+                
+                GameOption(
+                    text: "Get worse",
+                    audioName: "get_worse"
+                ),
+
 
                 GameOption(
                     text: "Small",
@@ -1856,7 +1977,7 @@ Story(
         ),
         VocabularyWord(
             word: "Proud",
-            meaning: "Feeling happy about what you did",
+            meaning: "Happy with what you did.",
             example: "He felt proud of himself.",
             audioName: "proud"
         )
@@ -1867,7 +1988,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Tap the word you hear.",
+            question: "Tap the WORD you Hear",
 
             promptAudio: "glow",
 
@@ -1882,6 +2003,11 @@ Story(
                     text: "Dark",
                     audioName: "dark"
                 ),
+                
+                GameOption(
+                    text: "Nest",
+                    audioName: "nest"
+                ),
 
                 GameOption(
                     text: "Light",
@@ -1895,7 +2021,7 @@ Story(
         GameQuestion(
             type: .meaning,
 
-            question: "Proud = ?",
+            question: "Proud means?",
 
             promptAudio: nil,
 
@@ -1907,8 +2033,13 @@ Story(
                 ),
 
                 GameOption(
-                    text: "Feeling happy about what you did",
-                    audioName: "feeling_happy_about_what_you_did"
+                    text: "Happy with what you did",
+                    audioName: "happy_with_what_you_did"
+                ),
+
+                GameOption(
+                    text: "Get worse",
+                    audioName: "get_worse"
                 ),
 
                 GameOption(
@@ -1917,7 +2048,7 @@ Story(
                 )
             ],
 
-            correctAnswer: "Feeling happy about what you did"
+            correctAnswer: "Happy with what you did"
         ),
 
         GameQuestion(
@@ -2031,7 +2162,7 @@ Story(
         GameQuestion(
             type: .listenAndChoose,
 
-            question: "Tap the word you hear.",
+            question: "Tap the WORD you Hear",
 
             promptAudio: "beautiful",
 
@@ -2046,6 +2177,11 @@ Story(
                     text: "Ugly",
                     audioName: "ugly"
                 ),
+                
+                GameOption(
+                    text: "Night",
+                    audioName: "night"
+                ),
 
                 GameOption(
                     text: "Small",
@@ -2059,7 +2195,7 @@ Story(
         GameQuestion(
             type: .meaning,
 
-            question: "Improve = ?",
+            question: "Improve means?",
 
             promptAudio: nil,
 
@@ -2073,6 +2209,11 @@ Story(
                 GameOption(
                     text: "To get better",
                     audioName: "to_get_better"
+                ),
+                
+                GameOption(
+                    text: "Glow",
+                    audioName: "glow"
                 ),
 
                 GameOption(

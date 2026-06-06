@@ -11,6 +11,7 @@ struct MiniGameView: View {
     
     @State private var currentIndex = 0
     @State private var selectedIndex: Int? = nil
+    @State private var showCheckButton = false
     
     @State private var builtLetterIndices: [Int] = []
     
@@ -85,66 +86,72 @@ struct MiniGameView: View {
                 
                 // MARK: Main Content
                 
-                VStack(spacing: 14 * scale) {
+                VStack(
+                    spacing: isPad()
+                        ? 24
+                        : 18
+                ) {
                     
-                    Spacer().frame(height: isIPad ? 70 : 24)
-                    
+                    Spacer()
+                        .frame(height: geo.size.height * 0.06)                    // Header Card
                     Text("Story Game")
-                        .font(.custom("OpenDyslexic-Bold", size: isIPad ? 34 : 26))
-                        .foregroundColor(.appPrimaryText)
-                    
-                    // MARK: Progress
-                    
-                    HStack(spacing: 10) {
-                        
-                        ForEach(0..<story.games.count, id: \.self) { index in
-                            
-                            Capsule()
-                                .fill(index <= currentIndex ? .yellow : .white.opacity(0.55))
-                                .frame(width: 24 * scale, height: 6)
-                                .animation(.easeInOut(duration: 0.3), value: currentIndex)
-                        }
-                    }
-                    
-                    // MARK: Image
-                    
-                    Image(story.coverImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(
-                            width: geo.size.width * 0.92,
-                            height: isIPad ? 300 : 210
+                        .font(
+                            .custom(
+                                "OpenDyslexic-Bold",
+                                size: isIPad ? 34 : 22
+                            )
                         )
-                        .clipped()
-                        .cornerRadius(22)
-                    
-                    Spacer().frame(height: isIPad ? 55 : 34)
+                        .foregroundColor(Color("PrimaryText"))
+                        .frame(
+                            width: isIPad ? 420 : geo.size.width * 0.60,
+                            height: isIPad ? 72 : 56
+                        )
+                        .background(
+                            RoundedRectangle(cornerRadius: 14)
+                                .fill(Color("CardBackground"))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(
+                                    Color("PrimaryText").opacity(0.08),
+                                    lineWidth: 1
+                                )
+                        )
+                    // Progress Bar with fraction
+                    HStack(spacing: 12) {
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(Color.white.opacity(0.6))
+                                .frame(height: 6)
+                            let progress = CGFloat(currentIndex + 1) / CGFloat(max(story.games.count, 1))
+                            Capsule()
+                                .fill(Color.yellow)
+                                .frame(width: (UIScreen.main.bounds.width - 120) * progress, height: 6)
+                        }
+                        .frame(maxWidth: .infinity)
+                        
+                        Text("\(currentIndex + 1)/\(story.games.count)")
+                            .font(.custom("OpenDyslexic-Regular", size: isIPad ? 18 : 14))
+                            .foregroundColor(.black.opacity(0.8))
+                    }
+                    .padding(.horizontal, isIPad ? 40 : 24)
+                    .padding(.bottom, geo.size.height * 0.03)
+                    .animation(.easeInOut(duration: 0.25), value: currentIndex)
                     
                     // MARK: Question Card
                     
-                    VStack(spacing: 18 * scale) {
-                        
-                        highlightedQuestion(scale: scale)
-                        
+                    highlightedQuestion(scale: scale)
+                    Spacer()
+                        .frame(height: isIPad ? 30 : 18)
+
+                    Group {
                         if currentGame.type == .buildWord {
-                            
                             buildWordView(scale: scale)
-                            
                         } else {
-                            
                             optionsView(scale: scale)
                         }
                     }
-                    .padding(20 * scale)
-                    .background(Color("MiniGameOuter"))
-                    .cornerRadius(26)
-                    .shadow(
-                        color: .black.opacity(0.08),
-                        radius: 10,
-                        x: 0,
-                        y: 6
-                    )
-                    .padding(.horizontal, 18)
+                    .padding(.horizontal, 40)
                     
                     Spacer(minLength: 10)
                 }
@@ -280,157 +287,219 @@ struct MiniGameView: View {
 // MARK: Highlighted Question
 
 extension MiniGameView {
-    
+
     func highlightedQuestion(scale: CGFloat) -> some View {
-        
-        HStack(spacing: 12) {
-            
+
+        VStack(spacing: 14 * scale) {
+            // Emphasized question text similar to screenshot
             Text(currentGame.question)
-                .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
+                .font(
+                    .custom(
+                        "OpenDyslexic-Bold",
+                        size: isPad() ? 38 : 26
+                    )
+                )
                 .multilineTextAlignment(.center)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(.black)
-            
-            // MARK: Replay Prompt Audio
-            
+                .padding(.horizontal, isPad() ? 40 : 24)
+
             if let promptAudio = currentGame.promptAudio {
-                
                 Button {
-                    
                     AudioManager.shared.playSound(
                         named: promptAudio,
                         text: ""
                     )
-                    
                 } label: {
-                    
                     Image(systemName: "speaker.wave.2.fill")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
-                        .frame(width: 42, height: 42)
-                        .background(Color.orange)
+                        .font(.system(size: isPad() ? 28 : 24, weight: .bold))
+                        .foregroundColor(.black)
+                        .frame(
+                            width: isPad() ? 84 : 68,
+                            height: isPad() ? 84 : 68
+                        )
+                        .background(Color.white.opacity(0.7))
                         .clipShape(Circle())
+                        .overlay(
+                            Circle().stroke(Color.black.opacity(0.15), lineWidth: 1)
+                        )
+                        .shadow(
+                            color: Color.black.opacity(0.15),
+                            radius: 8,
+                            x: 0,
+                            y: 4
+                        )
                 }
+                .padding(.top, 8)
+                .padding(.bottom, isPad() ? 10 : 4)
             }
         }
     }
+    private func isPad() -> Bool { UIDevice.current.userInterfaceIdiom == .pad }
 }
-
 // MARK: Options View
 
 extension MiniGameView {
-    
+
     func optionsView(scale: CGFloat) -> some View {
-        
-        VStack(spacing: 14 * scale) {
-            
-            ForEach(Array(currentGame.options.enumerated()), id: \.offset) { index, option in
-                
-                HStack(spacing: 12) {
-                    
-                    Button {
-                        
-                        AudioManager.shared.playSound(
-                            named: option.audioName,
-                            text: ""
-                        )
-                        
-                    } label: {
-                        
-                        Image(systemName: "speaker.wave.2.fill")
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(width: 42, height: 42)
-                            .background(Color.orange)
-                            .clipShape(Circle())
-                    }
-                    
-                    Button {
-                        
-                        pressedIndex = index
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-                            
-                            optionTapped(index)
-                            pressedIndex = nil
-                        }
-                        
-                    } label: {
-                        
-                        HStack {
-                            
-                            Text(option.text)
-                                .font(.custom("OpenDyslexic-Regular", size: 18 * scale))
-                                .foregroundColor(.black)
-                            
-                            Spacer()
-                            
-                            if selectedIndex == index &&
-                                option.text == currentGame.correctAnswer {
-                                
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                            }
-                            
-                            if selectedIndex == index &&
-                                option.text != currentGame.correctAnswer {
-                                
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.red)
-                            }
-                        }
-                        .padding(.horizontal, 18)
-                        .padding(.vertical, 16)
-                        .background(buttonColor(index))
-                        .cornerRadius(18)
-                        .scaleEffect(pressedIndex == index ? 0.96 : 1)
-                        .animation(
-                            .spring(response: 0.25, dampingFraction: 0.55),
-                            value: pressedIndex
-                        )
-                    }
+
+        VStack(spacing: isPad() ? 18 : 26) {
+
+            let options = currentGame.options
+
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible(), spacing: isPad() ? 20 : 12),
+                    GridItem(.flexible())
+                ],
+                spacing: isPad() ? 22 : 14
+            ) {
+
+                ForEach(Array(options.enumerated()), id: \.offset) { index, option in
+
+                    answerCard(
+                        option: option,
+                        index: index,
+                        color: cardColor(for: index),
+                        scale: scale
+                    )
                 }
             }
-        }
-    }
-    
-    func optionTapped(_ index: Int) {
-        
-        selectedIndex = index
-        
-        let selectedText = currentGame.options[index].text
-        
-        if selectedText == currentGame.correctAnswer {
-            
-            correctAnswer()
-            
-        } else {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                showWrongPopup = true
+
+            Spacer()
+                .frame(height: isPad() ? 32 : 0)
+
+            Button {
+
+                checkSelectedAnswer()
+
+            } label: {
+
+                Text("Check ✓")
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Bold",
+                            size: isPad() ? 24 : 20
+                        )
+                    )
+                    .foregroundColor(.black)
+                    .frame(
+                        width: isPad() ? 280 : 220,
+                        height: isPad() ? 70 : 58
+                    )
+                    .background(
+                        showCheckButton
+                        ? Color.yellow
+                        : Color.gray.opacity(0.35)
+                    )
+                    .cornerRadius(18)
+                    .shadow(
+                        color: Color.black.opacity(0.15),
+                        radius: 6,
+                        x: 0,
+                        y: 3
+                    )
             }
+            .disabled(!showCheckButton)
+            .opacity(showCheckButton ? 1 : 0.7)
         }
     }
-    
-    func buttonColor(_ index: Int) -> Color {
-        
-        let selectedText = currentGame.options[index].text
-        
-        if selectedIndex == index &&
-            selectedText == currentGame.correctAnswer {
-            
-            return .green.opacity(0.85)
+    func cardColor(for index: Int) -> Color {
+
+        switch index {
+
+        case 0:
+            return Color("MiniGameOption1")
+
+        case 1:
+            return Color("MiniGameOption2")
+
+        case 2:
+            return Color("MiniGameOption3")
+
+        default:
+            return Color("MiniGameOption4")
         }
-        
-        if selectedIndex == index &&
-            selectedText != currentGame.correctAnswer {
-            
-            return .red.opacity(0.85)
+    }
+
+    func optionTapped(_ index: Int) {
+
+        let option = currentGame.options[index]
+
+        AudioManager.shared.playSound(
+            named: option.audioName,
+            text: ""
+        )
+
+        selectedIndex = index
+
+        withAnimation(.spring()) {
+            showCheckButton = true
         }
-        
-        return Color("MiniGameOption")
+    }
+
+    @ViewBuilder
+    func answerCard(
+        option: GameOption,
+        index: Int,
+        color: Color,
+        scale: CGFloat
+    ) -> some View {
+
+        Button {
+
+            optionTapped(index)
+
+        } label: {
+
+            Text(option.text)
+                .font(
+                    .custom(
+                        "OpenDyslexic-Bold",
+                        size: isPad() ? 24 : 15
+                    )
+                )
+                .foregroundColor(Color("PrimaryText"))
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .minimumScaleFactor(0.8)
+                .frame(
+                    maxWidth: .infinity,
+                    minHeight: isPad() ? 140 : 115
+                )
+                .background(color.opacity(0.9))
+                .cornerRadius(24)
+                .shadow(
+                    color: Color.black.opacity(0.18),
+                    radius: 10,
+                    x: 0,
+                    y: 4
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24)
+                        .stroke(
+                            selectedIndex == index
+                            ? story.theme.primary
+                            : Color.clear,
+                            lineWidth: 4
+                        )
+                )
+                .scaleEffect(
+                    selectedIndex == index
+                    ? 1.03
+                    : 1.0
+                )
+                .animation(
+                    .spring(
+                        response: 0.35,
+                        dampingFraction: 0.8
+                    ),
+                    value: selectedIndex
+                )
+        }
     }
 }
-
 // MARK: Build Word
 
 extension MiniGameView {
@@ -439,11 +508,11 @@ extension MiniGameView {
         
         let target = currentGame.correctAnswer
         
-        return VStack(spacing: 18) {
+        return VStack(spacing: 24) {
             
             HStack(spacing: 12 * scale) {
                 
-                HStack(spacing: 8) {
+                HStack(spacing: isPad() ? 8 : 6) {
                     
                     ForEach(0..<target.count, id: \.self) { i in
                         
@@ -453,10 +522,18 @@ extension MiniGameView {
                                 ? Color.red.opacity(0.35)
                                 : Color("VocabularyCard")
                             )
-                            .frame(width: 42 * scale, height: 48 * scale)
+                            .frame(
+                                width: isPad() ? 42 : 34,
+                                height: isPad() ? 48 : 42
+                            )
                             .overlay(
                                 Text(letterAt(i))
-                                    .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
+                                    .font(
+                                        .custom(
+                                            "OpenDyslexic-Bold",
+                                            size: isPad() ? 22 : 18
+                                        )
+                                    )
                             )
                             .scaleEffect(letterAt(i).isEmpty ? 0.9 : 1)
                             .animation(.spring(), value: builtLetterIndices)
@@ -469,10 +546,11 @@ extension MiniGameView {
                     
                     Image(systemName: "delete.left.fill")
                         .font(.system(size: 18))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .frame(width: 46, height: 46)
-                        .background(Color.red)
+                        .background(Color.white.opacity(0.7))
                         .cornerRadius(12)
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black.opacity(0.15), lineWidth: 1))
                 }
                 .opacity(builtLetterIndices.isEmpty ? 0.45 : 1)
             }
@@ -586,6 +664,26 @@ extension MiniGameView {
 
 extension MiniGameView {
     
+    func checkSelectedAnswer() {
+        
+        guard let selectedIndex else {
+            return
+        }
+        
+        let selectedText = currentGame.options[selectedIndex].text
+        
+        if selectedText == currentGame.correctAnswer {
+            
+            correctAnswer()
+            
+        } else {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                showWrongPopup = true
+            }
+        }
+    }
+    
     func correctAnswer() {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -605,12 +703,14 @@ extension MiniGameView {
         showWrongPopup = false
         selectedIndex = nil
         builtLetterIndices = []
+        showCheckButton = false
     }
     
     func nextGame() {
         
         selectedIndex = nil
         builtLetterIndices = []
+        showCheckButton = false
         
         if currentIndex < story.games.count - 1 {
             
@@ -629,17 +729,18 @@ extension MiniGameView {
         builtLetterIndices = []
         showGameComplete = false
         animatePopup = false
+        showCheckButton = false
     }
 }
-
 #Preview {
     
     NavigationStack {
         
         MiniGameView(
-            story: sampleStories[13],
+            story: sampleStories[14],
             selectedTab: .constant(.games),
             onFinish: {}
         )
     }
 }
+
