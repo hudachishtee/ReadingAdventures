@@ -9,7 +9,7 @@ struct VocabularyView: View {
     @State private var dragOffset: CGFloat = 0
     @State private var goToCelebration = false
     @State private var showOwl = false
-    
+    @ObservedObject private var savedManager = SavedWordsManager.shared
     @ObservedObject var audioManager = AudioManager.shared
     @Environment(\.dismiss) private var dismiss
     
@@ -385,13 +385,18 @@ struct VocabularyView: View {
 
                 Button {
 
-                    // save word
+                    savedManager.toggle(word)
 
                 } label: {
 
-                    Image(systemName: "bookmark")
-                        .font(.system(size: isIPad ? 24 : 18))
-                        .foregroundColor(.appPrimaryText.opacity(0.7))
+                    Image(
+                        systemName:
+                            savedManager.isSaved(word)
+                            ? "bookmark.fill"
+                            : "bookmark"
+                    )
+                    .font(.system(size: isIPad ? 24 : 18))
+                    .foregroundColor(.appPrimaryText)
                 }
             }
             
