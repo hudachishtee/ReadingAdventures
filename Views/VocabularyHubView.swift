@@ -57,7 +57,6 @@ struct VocabularyHubView: View {
                             
                             Spacer()
                                 .frame(height: isIPad ? 40 : 10)
-
                             
                             Text("Learn new words from your stories!")
                                 .font(.custom(
@@ -68,8 +67,33 @@ struct VocabularyHubView: View {
                                 .multilineTextAlignment(.center)
                         }
                         
+//                        Spacer()
+//                            .frame(height: isIPad ?  : 1)
+                        
+                        // MARK: Vocabulary Stats
+                        
+                        HStack(spacing: isIPad ? 20 : 12) {
+
+                            statCard(
+                                icon: "star.fill",
+                                iconColor: .yellow,
+                                number: "12",
+                                title: "Saved Words",
+                                backgroundColor: Color("StoryCardBackground")
+                            )
+
+                            statCard(
+                                icon: "book.fill",
+                                iconColor: .orange,
+                                number: "35",
+                                title: "Words Learned",
+                                backgroundColor: Color("StoryCardBackground")
+                            )
+                        }
+                        .padding(.horizontal, isIPad ? 0 : -8)
+                        
                         Spacer()
-                            .frame(height: isIPad ? 40 : 40)
+                            .frame(height: isIPad ? 20 : 12)
                         
                         // MARK: Flash Cards
                         
@@ -79,6 +103,7 @@ struct VocabularyHubView: View {
                             
                             hubCard(
                                 icon: "square.stack.3d.up.fill",
+                                iconColor: .purple,
                                 title: "Flash Card Practice",
                                 subtitle: "Review all words from your stories",
                                 backgroundColor: Color("MiniGameOption3")
@@ -94,36 +119,18 @@ struct VocabularyHubView: View {
                             
                             hubCard(
                                 icon: "bookmark.fill",
+                                iconColor: .brown,
                                 title: "Saved Words",
                                 subtitle: "Practice words you have saved",
                                 backgroundColor: Color("MiniGameOption1")
                             )
                         }
                         .buttonStyle(.plain)
-
+                        
                         Spacer()
                             .frame(height: isIPad ? 20 : 10)
-
-                        if isIPad {
-
-                            Image("owl")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 220)
-
-                        } else {
-
-                            HStack {
-
-                                Spacer()
-
-                                Image("owl")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 145)
-                            }
-                        }
-                      Spacer(minLength: isIPad ? 80 : 60)
+                        
+                        Spacer(minLength: isIPad ? 80 : 60)
                     }
                     .padding(.horizontal, isIPad ? 40 : 20)
                     .padding(.top, 5)
@@ -137,6 +144,7 @@ struct VocabularyHubView: View {
     
     private func hubCard(
         icon: String,
+        iconColor: Color,
         title: String,
         subtitle: String,
         backgroundColor: Color
@@ -146,7 +154,7 @@ struct VocabularyHubView: View {
             
             Image(systemName: icon)
                 .font(.system(size: isIPad ? 42 : 30))
-                .foregroundColor(.appPrimaryText)
+                .foregroundColor(iconColor)
                 .frame(width: isIPad ? 80 : 60)
             
             VStack(
@@ -180,7 +188,8 @@ struct VocabularyHubView: View {
                 .foregroundColor(.appPrimaryText)
         }
         .padding(.horizontal, isIPad ? 40 : 20)
-        .padding(.vertical, isIPad ? 50 : 20)        .frame(maxWidth: isIPad ? 950 : 650)
+        .padding(.vertical, isIPad ? 50 : 20)
+        .frame(maxWidth: isIPad ? 950 : 650)
         .background(
             RoundedRectangle(
                 cornerRadius: 28,
@@ -205,6 +214,48 @@ struct VocabularyHubView: View {
             y: 4
         )
     }
+    
+    // MARK: Stat Card
+    
+    private func statCard(
+        icon: String,
+        iconColor: Color,
+        number: String,
+        title: String,
+        backgroundColor: Color
+    ) -> some View {
+        
+        VStack(spacing: isIPad ? 8 : 4) {
+
+            Image(systemName: icon)
+                .font(.system(size: isIPad ? 34 : 24))
+                .foregroundColor(iconColor)
+
+            Text(number)
+                .font(.custom(
+                    "OpenDyslexic-Bold",
+                    size: isIPad ? 28 : 18
+                ))
+                .foregroundColor(.appPrimaryText)
+
+            Text(title)
+                .font(.custom(
+                    "OpenDyslexic-Regular",
+                    size: isIPad ? 18 : 13
+                ))
+                .foregroundColor(.appPrimaryText)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, isIPad ? 24 : 16)
+        .padding(.vertical, isIPad ? 20 : 16)
+        .background(
+            RoundedRectangle(
+                cornerRadius: 22,
+                style: .continuous
+            )
+            .fill(backgroundColor)
+        )    }
 }
 
 #Preview {
