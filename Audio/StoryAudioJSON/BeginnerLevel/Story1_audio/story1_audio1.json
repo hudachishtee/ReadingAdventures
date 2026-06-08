@@ -13,6 +13,6 @@
 
     { "word": "It",         "start": 3.80, "end": 4.05 },
     { "word": "just",       "start": 4.05, "end": 4.40 },
-    { "word": "felt",       "start": 4.40, "end": 4.70 },
-    { "word": "right.",     "start": 4.70, "end": 5.00 }
+    { "word": "felt",       "start": 4.40, "end": 4.67 },
+    { "word": "right.",     "start": 4.67, "end": 5.00 }
 ]

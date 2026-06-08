@@ -19,10 +19,16 @@ struct MainTabContainerView: View {
                 
                 Group {
                     switch selectedTab {
+                        
                     case .home:
                         HomeView()
+                        
                     case .games:
                         GameHubView(selectedTab: $selectedTab)
+                        
+                    case .vocabulary:
+                        VocabularyHubView()
+                        
                     case .badges:
                         BadgesView()
                     }
@@ -42,17 +48,26 @@ struct MainTabContainerView: View {
 enum TabItem: CaseIterable {
     case home
     case games
+    case vocabulary
     case badges
     
     var icon: String {
         switch self {
-        case .home: return "house.fill"
-        case .games: return "gamecontroller.fill"
-        case .badges: return "medal.fill"
+            
+        case .home:
+            return "house.fill"
+            
+        case .games:
+            return "gamecontroller.fill"
+            
+        case .vocabulary:
+            return "book.fill"
+            
+        case .badges:
+            return "medal.fill"
         }
     }
 }
-
 //==============================================================
 // TAB BAR (WAVE VERSION)
 //==============================================================
