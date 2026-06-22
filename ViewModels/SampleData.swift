@@ -653,7 +653,7 @@ let sampleStories: [Story] = [
             ),
             
             Page(
-                text: "The toy stops.\nMilo sits and smiles.\nShe smiled.\n“I like my toy,” says Milo.",
+                text: "The toy stops.\nMilo sits and smiles.\nHe feels happy.\n“I like my toy,” says Milo.",
                 imageName: "story5_page3",
                 audioName: "story5_audio3",
                 imageOffset: 28
@@ -955,7 +955,7 @@ let sampleStories: [Story] = [
             ),
             
             Page(
-                text: "He found the nest and helped the bird.\nThe bird was safe again.",
+                text: "He found the nest.\nHe gently put the bird back.\nThe bird was safe again.",
                 imageName: "story8_page3",
                 audioName: "story8_audio3",
                 imageOffset: 150
@@ -1127,7 +1127,7 @@ let sampleStories: [Story] = [
             ),
             
             Page(
-                text: "They built a tent and read stories.\nLina smiled.\nRainy days can be fun too.",
+                text: "They built a tent and read stories.\nLina had fun.\nRainy days can be fun too.",
                 imageName: "story7_page3",
                 audioName: "story7_audio3",
                 imageOffset: 42
