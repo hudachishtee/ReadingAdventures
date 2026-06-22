@@ -82,6 +82,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             player?.prepareToPlay()
             
             let duration = player?.duration ?? 0
+            print("Audio duration:", duration)
             
             player?.play()
             
@@ -89,6 +90,13 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             loadWordTimings(
                 for: audioName
             )
+            print("Words count:", narratedWords.count)
+            print("Timing count:", wordTimings.count)
+
+            if narratedWords.count != wordTimings.count {
+
+                print("❌ WORD COUNT MISMATCH")
+            }
             
             currentWordIndex = -1
             
@@ -252,11 +260,11 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             cumulativeTime += wordDuration
         }
     }
-    func updatePlaybackRate(_ speed: Float) {
-        
-        player?.enableRate = true
-        player?.rate = speed
-    }
+//    func updatePlaybackRate(_ speed: Float) {
+//        
+//        player?.enableRate = true
+//        player?.rate = speed
+//    }
 
     private func startJSONHighlighting() {
 
@@ -268,17 +276,17 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
 
                 guard let player else { break }
 
-                let currentTime = player.currentTime + 0.15
+                let currentTime = player.currentTime + 0.05
                 
                 
                 for (index, timing) in wordTimings.enumerated() {
 
                     if currentTime >= timing.start &&
-                        currentTime < timing.end {
+                       currentTime <= timing.end {
 
                         if currentWordIndex != index {
 
-//                            print("Highlighting:", index)
+                            print("Highlighting word \(index): \(timing.word)")
 
                             currentWordIndex = index
                         }
@@ -313,6 +321,8 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
             self.isPlaying = true
             self.isPaused = false
         }
+        
+        startJSONHighlighting()
     }
     // MARK: - Stop
     

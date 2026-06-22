@@ -98,7 +98,7 @@ struct NarratedTextView: View {
                             )
                             
                             .animation(
-                                .easeInOut(duration: 0.18),
+                                .easeInOut(duration: 0.05),
                                 value: currentWordIndex
                             )
                             
