@@ -62,8 +62,8 @@ struct NarratedTextView: View {
                             
                             .foregroundStyle(
                                 currentWordIndex == currentIndex
-                                ? Color.white
-                                : Color.black
+                                ? Color.primary
+                                : Color.primary
                             )
                             
                             .padding(.horizontal, 6)
@@ -74,7 +74,7 @@ struct NarratedTextView: View {
                                 Capsule()
                                     .fill(
                                         currentWordIndex == currentIndex
-                                        ? Color.white.opacity(0.28)
+                                        ? Color.yellow.opacity(0.40)
                                         : Color.clear
                                     )
                                     .scaleEffect(
@@ -204,19 +204,12 @@ struct FlowLayout: Layout {
 }
 
 #Preview {
-    
+
     ZStack {
-        
-        LinearGradient(
-            colors: [
-                .orange,
-                .yellow
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .ignoresSafeArea()
-        
+
+        Color("CardBackground")
+            .ignoresSafeArea()
+
         NarratedTextView(
             text:
 """
@@ -225,7 +218,7 @@ She did not know why.
 It just felt right.
 """,
             currentWordIndex: 4,
-            themeColor: .orange,
+            themeColor: .appAccent,
             isIPad: false
         )
         .padding(24)
