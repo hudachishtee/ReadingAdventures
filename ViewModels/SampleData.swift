@@ -1299,7 +1299,7 @@ let sampleStories: [Story] = [
         ),
         
         Page(
-            text: "Sara smiled and waved.\n\"Maybe it will make someone happy.”",
+            text: "Sara smiled and waved.\nShe hoped someone would find it.\n\"Maybe it will make someone happy.\"",
             imageName: "story9_page3",
             audioName: "story9_audio3",
             imageOffset: 90
@@ -1460,7 +1460,7 @@ let sampleStories: [Story] = [
         pages: [
             Page(text: "A turtle walked very slowly.\nOther animals rushed.", imageName: "story10_page1", audioName: "story10_audio1"),
             Page(text: "They laughed at him.\nBut the turtle kept going.", imageName: "story10_page2", audioName: "story10_audio2"),
-            Page(text: "He reached the pond.\nSlow and steady wins.", imageName: "story10_page3", audioName: "story10_audio3")
+            Page(text: "The turtle reached the pond.\nThe others were still far behind.", imageName: "story10_page3", audioName: "story10_audio3")
         ],
         moral: "Patience and persistence lead to success.",
         vocabulary: [
@@ -1622,7 +1622,7 @@ Story(
         Page(text: "It was very dark.\nLina could not see the path.\nShe felt a little scared.", imageName: "story11_page1", audioName: "story11_audio1"),
         Page(text: "She saw a tiny light ahead.\nIt flickered softly.\nLina walked toward it.", imageName: "story11_page2", audioName: "story11_audio2"),
         Page(text: "The light grew brighter.\nIt showed her the way home.\nLina felt brave again.", imageName: "story11_page3", audioName: "story11_audio3"),
-        Page(text: "She smiled and kept walking.\nThe dark felt smaller now.\nThe light stayed with her.", imageName: "story11_page4", audioName: "story11_audio4")
+        Page(text: "She smiled and kept walking.\nThe dark felt smaller now.\nSoon she was home.", imageName: "story11_page4", audioName: "story11_audio4")
     ],
 
     moral: "Even a small light can guide you through dark times.",
@@ -1948,7 +1948,7 @@ Story(
         secondary: Color(red: 245/255, green: 207/255, blue: 92/255) // soft golden glow
     ),
     pages: [
-        Page(text: "A small lantern sat quietly.\nIt was afraid of the dark.\nIt did not want to shine.", imageName: "story13_page1", audioName: "story13_audio1"),
+        Page(text: "A small lantern sat quietly.\nIt was afraid of the dark.\nIt hid its light away.", imageName: "story13_page1", audioName: "story13_audio1"),
         Page(text: "People walked in the dark.\nThey could not see the road.\nThe lantern felt worried.", imageName: "story13_page2", audioName: "story13_audio2"),
         Page(text: "It took a deep breath.\nIt began to glow softly.\nThe road became clear.", imageName: "story13_page3", audioName: "story13_audio3"),
         Page(text: "People smiled and walked safely.\nThe lantern felt proud.\nIt was brave after all.", imageName: "story13_page4", audioName: "story13_audio4")
@@ -2125,7 +2125,7 @@ Story(
         Page(text: "Noor loved to paint the sky.\nShe used blue, pink, and gold.\nShe wanted it to be perfect.", imageName: "story14_page1", audioName: "story14_audio1"),
         Page(text: "The colors mixed too much.\nThe sky did not look right.\nNoor felt upset.", imageName: "story14_page2", audioName: "story14_audio2"),
         Page(text: "She tried again slowly.\nShe took her time.\nThe colors looked better.", imageName: "story14_page3", audioName: "story14_audio3"),
-        Page(text: "Noor smiled at her work.\nIt was not perfect, but beautiful.\nShe was proud of trying.", imageName: "story14_page4", audioName: "story14_audio4")
+        Page(text: "Noor smiled at her work.\nIt was not perfect, but beautiful.\nShe was proud of herself.", imageName: "story14_page4", audioName: "story14_audio4")
     ],
 
     moral: "Trying again helps you improve and grow.",
