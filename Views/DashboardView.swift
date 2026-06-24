@@ -4,6 +4,12 @@ struct DashboardView: View {
 
     @ObservedObject private var progress = ProgressManager.shared
     @ObservedObject private var savedWordsManager = SavedWordsManager.shared
+    @State private var selectedTheme: DashboardTheme = .friendship
+    private var filteredStories: [Story] {
+        sampleStories.filter {
+            $0.dashboardTheme == selectedTheme
+        }
+    }
 
     private var isIPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
@@ -294,25 +300,16 @@ private extension DashboardView {
 
                 HStack(spacing: 12) {
 
-                    themeChip(
-                        title: "Friendship",
-                        selected: true
-                    )
+                    ForEach(DashboardTheme.allCases, id: \.self) { theme in
 
-                    themeChip(
-                        title: "Courage",
-                        selected: false
-                    )
-
-                    themeChip(
-                        title: "Kindness",
-                        selected: false
-                    )
-
-                    themeChip(
-                        title: "Bedtime",
-                        selected: false
-                    )
+                        themeChip(
+                            title: theme.rawValue,
+                            selected: selectedTheme == theme
+                        )
+                        .onTapGesture {
+                            selectedTheme = theme
+                        }
+                    }
                 }
                 .padding(.horizontal, 22)
             }
@@ -321,15 +318,13 @@ private extension DashboardView {
 
                 HStack(spacing: 20) {
 
-                    storyCard(
-                        image: progress.lastOpenedStoryCoverImage ?? "story1_cover",
-                        title: progress.lastOpenedStoryTitle ?? "The Brave Little Wave"
-                    )
+                    ForEach(filteredStories) { story in
 
-                    storyCard(
-                        image: "story2_cover",
-                        title: "The Sunset Promise"
-                    )
+                        storyCard(
+                            image: story.coverImage,
+                            title: story.title
+                        )
+                    }
                 }
                 .padding(.horizontal, 22)
             }

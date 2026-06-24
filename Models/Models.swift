@@ -20,6 +20,15 @@ enum StoryLevel: String, CaseIterable {
     case advanced = "Advanced"
 }
 
+// MARK: - Dashboard Theme
+enum DashboardTheme: String, CaseIterable {
+    case friendship = "Friendship"
+    case courage = "Courage"
+    case kindness = "Kindness"
+    case bedtime = "Bedtime"
+    case animals = "Animals"
+    case adventure = "Adventure"
+}
 // MARK: - Story Model
 struct Story: Identifiable {
 
@@ -31,6 +40,8 @@ struct Story: Identifiable {
 
     let level: StoryLevel
     let category: StoryCategory
+
+    let dashboardTheme: DashboardTheme
 
     // MARK: Images
     let coverImage: String
@@ -46,7 +57,6 @@ struct Story: Identifiable {
 
     let games: [GameQuestion]
 }
-
 // MARK: - Page Model
 struct Page: Identifiable {
 

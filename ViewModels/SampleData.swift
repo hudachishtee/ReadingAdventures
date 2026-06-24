@@ -19,8 +19,10 @@ let sampleStories: [Story] = [
 
         level: .beginner,
         category: .moral,
+        dashboardTheme: .kindness,
+
         coverImage: "story1_cover",
-        previewImage: "story1_preview",    // ✅ Preview screen
+        previewImage: "story1_preview",   // ✅ Preview screen
 
         theme: StoryTheme(primary: .orange, secondary: .yellow),
 
@@ -171,6 +173,7 @@ let sampleStories: [Story] = [
         
         level: .beginner,
         category: .adventure,
+        dashboardTheme: .courage,
         coverImage: "story2_cover",
         previewImage: "story2_preview",    // ✅ Preview screen
 
@@ -324,6 +327,7 @@ let sampleStories: [Story] = [
         
         level: .beginner,
         category: .moral,
+        dashboardTheme: .friendship,
         coverImage: "story3_cover",
         previewImage: "story3_preview",    // ✅ Preview screen
 
@@ -474,6 +478,7 @@ let sampleStories: [Story] = [
         
         level: .beginner,
         category: .moral,
+        dashboardTheme: .courage,
         coverImage: "story4_cover",
         previewImage: "story4_preview",    // ✅ Preview screen
 
@@ -629,8 +634,9 @@ let sampleStories: [Story] = [
         
         level: .beginner,
         category: .moral,
+        dashboardTheme: .animals,
         coverImage: "story5_cover",
-        previewImage: "story5_preview",    // ✅ Preview screen
+        previewImage: "story5_preview",   // ✅ Preview screen
 
         theme: StoryTheme(
             primary: Color(red: 236/255, green: 188/255, blue: 182/255),
@@ -779,6 +785,7 @@ let sampleStories: [Story] = [
         
         level: .beginner,
         category: .moral,
+        dashboardTheme: .bedtime,
         coverImage: "story6_cover",
         previewImage: "story6_preview",    // ✅ Preview screen
 
@@ -932,6 +939,7 @@ let sampleStories: [Story] = [
         
         level: .explorer,
         category: .moral,
+        dashboardTheme: .kindness,
         coverImage: "story8_cover",
         previewImage: "story8_preview",    // ✅ Preview screen
 
@@ -1104,6 +1112,7 @@ let sampleStories: [Story] = [
         
         level: .explorer,
         category: .moral,
+        dashboardTheme: .adventure,
         coverImage: "story7_cover",
         previewImage: "story7_preview",    // ✅ Preview screen
 
@@ -1276,6 +1285,7 @@ let sampleStories: [Story] = [
     
     level: .explorer,
     category: .adventure,
+    dashboardTheme: .courage,
     coverImage: "story9_cover",
     previewImage: "story9_preview",    // ✅ Preview screen
 
@@ -1450,6 +1460,7 @@ let sampleStories: [Story] = [
         
         level: .explorer,
         category: .moral,
+        dashboardTheme: .courage,
         coverImage: "story10_cover",
         previewImage: "story10_preview",    // ✅ Preview screen
 
@@ -1611,6 +1622,7 @@ Story(
     
     level: .advanced,
     category: .moral,
+    dashboardTheme: .courage,
     coverImage: "story11_cover",
     previewImage: "story11_preview",    // ✅ Preview screen
 
@@ -1770,6 +1782,7 @@ Story(
     
     level: .advanced,
     category: .moral,
+    dashboardTheme: .kindness,
     coverImage: "story12_cover",
     previewImage: "story12_preview",    // ✅ Preview screen
 
@@ -1940,6 +1953,7 @@ Story(
     
     level: .advanced,
     category: .moral,
+    dashboardTheme: .courage,
     coverImage: "story13_cover",
     previewImage: "story13_preview",    // ✅ Preview screen
 
@@ -2114,6 +2128,7 @@ Story(
     
     level: .advanced,
     category: .moral,
+    dashboardTheme: .adventure,
     coverImage: "story14_cover",
     previewImage: "story14_preview",    // ✅ Preview screen
 
