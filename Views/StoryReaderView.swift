@@ -9,6 +9,7 @@ struct StoryReaderView: View {
     @State private var lastScrolledLine = 0
 
     @StateObject private var audioManager = AudioManager.shared
+    @ObservedObject private var progress = ProgressManager.shared
 
     var body: some View {
 
@@ -105,6 +106,21 @@ struct StoryReaderView: View {
             isPresented: $goToMoral
         ) {
             MoralView(story: story)
+        }
+
+        .onAppear {
+
+            progress.lastOpenedStoryTitle = story.title
+            progress.lastOpenedPage = currentPage
+            progress.lastOpenedStoryCoverImage = story.coverImage
+            progress.lastOpenedStoryTotalPages = story.pages.count
+        }
+        .onChange(of: currentPage) { newPage in
+
+            progress.lastOpenedStoryTitle = story.title
+            progress.lastOpenedPage = newPage
+            progress.lastOpenedStoryCoverImage = story.coverImage
+            progress.lastOpenedStoryTotalPages = story.pages.count
         }
     }
 }

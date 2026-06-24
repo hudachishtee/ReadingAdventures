@@ -13,9 +13,15 @@ class ProgressManager: ObservableObject {
     // MARK: - Published State
     @Published var completedStories: Set<UUID> = []
     @Published var unlockedGames: Set<UUID> = []
-    
-    // ✅ NEW: Badge notification state
+
+    // Badge notification
     @Published var hasUnseenAchievements: Bool = false
+
+    // Continue Reading
+    @Published var lastOpenedStoryTitle: String?
+    @Published var lastOpenedPage: Int = 0
+    @Published var lastOpenedStoryCoverImage: String?
+    @Published var lastOpenedStoryTotalPages: Int = 0
 
     private init() {}
 
