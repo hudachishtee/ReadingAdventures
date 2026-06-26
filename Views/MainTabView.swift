@@ -21,7 +21,7 @@ struct MainTabContainerView: View {
                     switch selectedTab {
                         
                     case .home:
-                        HomeView()
+                        DashboardView()
                         
                     case .games:
                         GameHubView(selectedTab: $selectedTab)

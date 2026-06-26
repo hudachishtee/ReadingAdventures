@@ -3,8 +3,22 @@ import SwiftUI
 struct StoryReaderView: View {
 
     let story: Story
+    @State private var currentPage: Int
+    init(story: Story) {
 
-    @State private var currentPage = 0
+        self.story = story
+
+        if ProgressManager.shared.lastOpenedStoryTitle == story.title {
+
+            _currentPage = State(
+                initialValue: ProgressManager.shared.lastOpenedPage
+            )
+
+        } else {
+
+            _currentPage = State(initialValue: 0)
+        }
+    }
     @State private var goToMoral = false
     @State private var lastScrolledLine = 0
 
@@ -111,6 +125,8 @@ struct StoryReaderView: View {
         .onAppear {
 
             progress.lastOpenedStoryTitle = story.title
+            progress.lastOpenedStoryCompleted = false
+
             progress.lastOpenedPage = currentPage
             progress.lastOpenedStoryCoverImage = story.coverImage
             progress.lastOpenedStoryTotalPages = story.pages.count

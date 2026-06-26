@@ -1,51 +1,68 @@
 import SwiftUI
 
 struct DashboardView: View {
+    
+    @Environment(\.colorScheme) private var colorScheme
 
+    private var isDarkMode: Bool {
+        colorScheme == .dark
+    }
     @ObservedObject private var progress = ProgressManager.shared
     @ObservedObject private var savedWordsManager = SavedWordsManager.shared
-    @State private var selectedTheme: DashboardTheme = .friendship
+    @State private var selectedTheme: DashboardTheme = .courage
+    @State private var selectedStory: Story?
+    @State private var showPreview = false
+    @State private var showAllStories = false
+    @State private var navigateToReader = false
+    @State private var storyForReader: Story?
     private var filteredStories: [Story] {
         sampleStories.filter {
             $0.dashboardTheme == selectedTheme
         }
     }
-
+    
     private var isIPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
-
+    
     private var heroHeight: CGFloat {
-        isIPad ? 330 : 250
+        isIPad ? 330 : 200
     }
-
+    
     private var storyCardWidth: CGFloat {
-        isIPad ? 460 : 300
+        isIPad ? 460 : 230
     }
-
+    
     private var storyImageHeight: CGFloat {
-        isIPad ? 260 : 180
+        isIPad ? 260 : 125
     }
     
     private var hasReadingProgress: Bool {
-        progress.lastOpenedStoryTitle != nil
+
+        progress.lastOpenedStoryTitle != nil &&
+        !progress.lastOpenedStoryCompleted
+    }
+    private var lastOpenedStory: Story? {
+
+        sampleStories.first {
+            $0.title == progress.lastOpenedStoryTitle
+        }
     }
     var body: some View {
-
+        
         ScrollView(showsIndicators: false) {
-
+            
             VStack(alignment: .leading,
                    spacing: isIPad ? 18 : 12)
             {
-
+                
                 heroSection
-
+                
                 continueReadingSection
                 
                 browseByThemeSection
                     .padding(.top, 10)
-//                exploreButton
-
+                
                 Spacer(minLength: 120)
             }
             .padding(.top, 12)
@@ -59,114 +76,173 @@ struct DashboardView: View {
             )
             .ignoresSafeArea()
         )
+        .sheet(isPresented: $showPreview) {
+
+            if let story = selectedStory {
+
+                StoryPreviewSheet(
+                    story: story
+                ) {
+
+                    storyForReader = story
+                    showPreview = false
+
+                    DispatchQueue.main.asyncAfter(
+                        deadline: .now() + 0.1
+                    ) {
+                        navigateToReader = true
+                    }
+                }
+            }
+        }
+        .navigationDestination(isPresented: $showAllStories) {
+            
+            HomeView()
+        }
+        .navigationDestination(isPresented: $navigateToReader) {
+
+            if let story = storyForReader {
+                StoryReaderView(story: story)
+            }
+        }
     }
 }
+// MARK: - Hero
 
 // MARK: - Hero
 
 private extension DashboardView {
 
     var heroSection: some View {
+        Group {
+            if isIPad {
+                ipadHero
+            } else {
+                iphoneHero
+            }
+        }
+    }
+
+    //==========================
+    // iPad Hero (YOUR ORIGINAL)
+    //==========================
+
+    var ipadHero: some View {
 
         ZStack {
 
-            RoundedRectangle(cornerRadius: 40)
-                .fill(Color(red: 0.86, green: 0.93, blue: 1.0))
+            RoundedRectangle(cornerRadius: isIPad ? 40 : 32)
+                .fill(Color("BackgroundBottom"))
 
             Circle()
-                .fill(Color.white.opacity(0.18))
-                .frame(
-                    width: isIPad ? 700 : 500,
-                    height: isIPad ? 700 : 500
+                .fill(
+                    Color.white.opacity(
+                        isDarkMode ? 0.08 : 0.18
+                    )
                 )
-                .offset(
-                    x: isIPad ? 260 : 180,
-                    y: isIPad ? -320 : -220
-                )
+                .frame(width: 700, height: 700)
+                .offset(x: 260, y: -320)
 
             Circle()
-                .fill(Color.blue.opacity(0.10))
-                .frame(
-                    width: isIPad ? 900 : 650,
-                    height: isIPad ? 900 : 650
+                .fill(
+                    Color.white.opacity(
+                        isDarkMode ? 0.04 : 0.10
+                    )
                 )
-                .offset(
-                    x: isIPad ? -220 : -140,
-                    y: isIPad ? 320 : 220
-                )
+                .frame(width: 900, height: 900)
+                .offset(x: -220, y: 320)
 
             Image(systemName: "star.fill")
                 .foregroundColor(.yellow.opacity(0.9))
-                .font(.system(size: isIPad ? 28 : 18))
-                .offset(
-                    x: isIPad ? 120 : 80,
-                    y: isIPad ? -90 : -65
-                )
+                .font(.system(size: 28))
+                .offset(x: 120, y: -90)
+
             Image(systemName: "moon.fill")
                 .foregroundColor(.yellow.opacity(0.9))
-                .font(.system(size: isIPad ? 32 : 22))
-                .offset(
-                    x: isIPad ? 180 : 110,
-                    y: isIPad ? -120 : -85
-                )
+                .font(.system(size: 32))
+                .offset(x: 180, y: -120)
+
             Image(systemName: "star.fill")
                 .foregroundColor(.blue.opacity(0.55))
-                .font(.system(size: isIPad ? 24 : 14))
-                .offset(
-                    x: isIPad ? 40 : 20,
-                    y: isIPad ? -20 : -10
-                )
+                .font(.system(size: 24))
+                .offset(x: 40, y: -20)
 
-            HStack(alignment: .center) {
+            HStack {
 
-                VStack(
-                    alignment: .leading,
-                    spacing: isIPad ? 18 : 12
-                ) {
+                VStack(alignment: .leading, spacing: 18) {
 
                     Text("Hi, Reader!")
-                        .font(
-                            .custom(
-                                "OpenDyslexic-Bold",
-                                size: isIPad ? 48 : 36
-                            )
-                        )
-                        .foregroundColor(.appPrimaryText)
+                        .font(.custom("OpenDyslexic-Bold", size: 48))
 
                     Text("Ready for a new\nadventure?")
-                        .font(
-                            .custom(
-                                "OpenDyslexic-Regular",
-                                size: isIPad ? 28 : 22
-                            )
-                        )
-                        .foregroundColor(.appPrimaryText)
+                        .font(.custom("OpenDyslexic-Regular", size: 28))
                         .lineSpacing(8)
-                        .fixedSize(horizontal: false, vertical: true)
                 }
-                .offset(y: -5)
 
                 Spacer()
 
                 Image("owl_logo1")
                     .resizable()
                     .scaledToFit()
-                    .frame(
-                        width: isIPad ? 500 : 360
-                    )
-                    .offset(y: 10)
+                    .frame(width: 450)
             }
-            .padding(isIPad ? 24 : 14)
+            .padding(24)
         }
-        .frame(height: heroHeight)
-        .clipShape(
-            RoundedRectangle(cornerRadius: 40)
-        )
-        .padding(.horizontal, 22)
-//        .padding(.horizontal, 22)
+        .frame(height: 330)
+        .clipShape(RoundedRectangle(cornerRadius: 40))
+        .padding(.horizontal, isIPad ? 22 : 16)
+    }
+
+    //==========================
+    // iPhone Hero
+    //==========================
+
+    var iphoneHero: some View {
+
+        ZStack {
+
+            RoundedRectangle(cornerRadius: isIPad ? 40 : 32)
+                .fill(Color("BackgroundBottom"))
+            
+            Circle()
+                .fill(Color.white.opacity(0.18))
+                .frame(width: 320, height: 320)
+                .offset(x: 120, y: -150)
+
+            Circle()
+                .fill(Color.blue.opacity(0.10))
+                .frame(width: 420, height: 420)
+                .offset(x: -100, y: 150)
+
+            HStack(alignment: .center) {
+
+                VStack(alignment: .leading, spacing: 10) {
+
+                    Text("Hi, Reader!")
+                        .font(.custom("OpenDyslexic-Bold", size: 28))
+                        .foregroundColor(.appPrimaryText)
+
+                    Text("Ready for a new\nadventure?")
+                        .font(.custom("OpenDyslexic-Regular", size: 16))
+                        .foregroundColor(.appPrimaryText)
+                        .lineSpacing(4)
+                }
+
+                Spacer()
+
+                Image("owl_logo1")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 150)
+            }
+            .padding(.horizontal, 18)
+            .padding(.top, -12)
+        }
+        .frame(height: 170)
+        .clipShape(RoundedRectangle(cornerRadius: 32))
+        .padding(.horizontal, 16)
     }
 }
-
 // MARK: - Continue Reading
 
 private extension DashboardView {
@@ -182,12 +258,12 @@ private extension DashboardView {
                     ? "Continue Reading"
                     : "Recommended Stories"
                 )
-                    .font(
-                        .custom(
-                            "OpenDyslexic-Bold",
-                            size: isIPad ? 30 : 22
-                        )
+                .font(
+                    .custom(
+                        "OpenDyslexic-Bold",
+                        size: isIPad ? 30 : 16
                     )
+                )
 
                 Spacer()
 
@@ -195,61 +271,68 @@ private extension DashboardView {
 
                     Circle()
                         .fill(Color.blue.opacity(0.5))
-                        .frame(width: 10, height: 10)
+                        .frame(
+                            width: isIPad ? 10 : 7,
+                            height: isIPad ? 10 : 7
+                        )
 
                     Circle()
                         .fill(Color.blue.opacity(0.25))
-                        .frame(width: 10, height: 10)
+                        .frame(
+                            width: isIPad ? 10 : 7,
+                            height: isIPad ? 10 : 7
+                        )
 
                     Circle()
                         .fill(Color.blue.opacity(0.25))
-                        .frame(width: 10, height: 10)
+                        .frame(
+                            width: isIPad ? 10 : 7,
+                            height: isIPad ? 10 : 7
+                        )
                 }
+                .padding(.trailing, 25)
             }
-            .padding(.horizontal, 22)
-
+            .padding(.leading, isIPad ? 30 : 28)
+            .padding(.trailing, isIPad ? 12 : 16)
             ScrollView(.horizontal, showsIndicators: false) {
 
                 HStack(spacing: 16) {
 
-                    if hasReadingProgress {
+                    if hasReadingProgress,
+                       let story = lastOpenedStory {
 
                         continueCard(
-                            image: progress.lastOpenedStoryCoverImage ?? "story1_cover",
-                            title: progress.lastOpenedStoryTitle ?? "The Brave Little Wave"
+                            story: story
                         )
 
                     } else {
 
                         continueCard(
-                            image: "story2_cover",
-                            title: "The Brave Little Wave"
+                            story: sampleStories[1]
                         )
 
                         continueCard(
-                            image: "story1_cover",
-                            title: "The Extra Sandwich"
+                            story: sampleStories[0]
+                        )
+
+                        continueCard(
+                            story: sampleStories[2]
                         )
                     }
-
-                    continueCard(
-                        image: "story2_cover",
-                        title: "The Sunset Promise"
-                    )
                 }
-                .padding(.horizontal, 22)
+                .padding(.leading, isIPad ? 30 : 28)
+                .padding(.trailing, isIPad ? 30 : 28)
             }
         }
     }
 
     func continueCard(
-        image: String,
-        title: String
+        story: Story
     ) -> some View {
 
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
 
-            Image(image)
+            Image(story.coverImage)
                 .resizable()
                 .scaledToFill()
                 .frame(
@@ -257,20 +340,41 @@ private extension DashboardView {
                     height: storyImageHeight
                 )
                 .clipShape(
-                    RoundedRectangle(cornerRadius: 24)
+                    RoundedRectangle(
+                        cornerRadius: isIPad ? 24 : 20
+                    )
                 )
 
-            Text(title)
+            Text(story.title)
                 .font(
                     .custom(
                         "OpenDyslexic-Bold",
-                        size: isIPad ? 18 : 16
+                        size: isIPad ? 20 : 13
                     )
                 )
+                .lineLimit(2)
+                .minimumScaleFactor(0.8)
+                .frame(
+                    height: isIPad ? 48 : 40,
+                    alignment: .topLeading
+                )
+        }
+        .onTapGesture {
+
+            if hasReadingProgress &&
+               progress.lastOpenedStoryTitle == story.title {
+
+                storyForReader = story
+                navigateToReader = true
+
+            } else {
+
+                selectedStory = story
+                showPreview = true
+            }
         }
     }
 }
-
 // MARK: - Browse Theme
 
 private extension DashboardView {
@@ -285,17 +389,31 @@ private extension DashboardView {
                     .font(
                         .custom(
                             "OpenDyslexic-Bold",
-                            size: isIPad ? 30 : 22
+                            size: isIPad ? 30 : 18
                         )
                     )
 
                 Spacer()
 
-                Button("View All") { }
-                    .foregroundColor(.appPrimaryText.opacity(0.75))
+                Button {
+                    showAllStories = true
+                } label: {
+                    Text("View All")
+                        .font(
+                            .custom(
+                                "OpenDyslexic-Regular",
+                                size: isIPad ? 13 : 11
+                            )
+                        )
+                        .lineLimit(1)
+                        .fixedSize()
+                }
+                .foregroundColor(.appPrimaryText.opacity(0.65))
+                .offset(x: isIPad ? 0 : -12)
             }
-            .padding(.horizontal, 22)
-
+            .padding(.leading, isIPad ? 30 : 30)
+            .padding(.trailing, isIPad ? 12 : 20)
+            
             ScrollView(.horizontal, showsIndicators: false) {
 
                 HStack(spacing: 12) {
@@ -311,7 +429,8 @@ private extension DashboardView {
                         }
                     }
                 }
-                .padding(.horizontal, 22)
+                .padding(.leading, isIPad ? 30 : 28)
+                .padding(.trailing, isIPad ? 30 : 28)
             }
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -324,9 +443,15 @@ private extension DashboardView {
                             image: story.coverImage,
                             title: story.title
                         )
+                        .onTapGesture {
+
+                            selectedStory = story
+                            showPreview = true
+                        }
                     }
                 }
-                .padding(.horizontal, 22)
+                .padding(.leading, isIPad ? 30 : 30)
+                .padding(.trailing, isIPad ? 30 : 30)
             }
         }
     }
@@ -340,20 +465,20 @@ private extension DashboardView {
             .font(
                 .custom(
                     "OpenDyslexic-Regular",
-                    size: isIPad ? 16 : 14
+                    size: isIPad ? 20 : 12
                 )
             )
             .foregroundColor(
-                selected ? .white : .appPrimaryText
+                selected ? .appPrimaryText : .appPrimaryText
             )
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
+            .padding(.horizontal, isIPad ? 27 : 18)
+            .padding(.vertical, isIPad ? 13 : 9)
             .background(
                 Capsule()
                     .fill(
                         selected
-                        ? Color.green.opacity(0.7)
-                        : Color(red: 0.88, green: 0.95, blue: 0.85)
+                        ? Color.appCardBackground
+                        : Color.appCardBackground.opacity(0.80)
                     )
             )
             .overlay(
@@ -374,7 +499,6 @@ private extension DashboardView {
             alignment: .leading,
             spacing: 8
         ) {
-
             Image(image)
                 .resizable()
                 .scaledToFill()
@@ -383,67 +507,29 @@ private extension DashboardView {
                     height: storyImageHeight
                 )
                 .clipShape(
-                    RoundedRectangle(cornerRadius: 24)
+                    RoundedRectangle(
+                        cornerRadius: isIPad ? 24 : 20
+                    )
                 )
 
             Text(title)
                 .font(
                     .custom(
                         "OpenDyslexic-Bold",
-                        size: isIPad ? 18 : 16
+                        size: isIPad ? 20 : 12
                     )
                 )
-                .foregroundColor(.appPrimaryText)
+                .padding()
 
-//            Text(subtitle)
-//                .font(
-//                    .custom(
-//                        "OpenDyslexic-Regular",
-//                        size: isIPad ? 15 : 13
-//                    )
-//                )
-//                .foregroundColor(.appPrimaryText.opacity(0.85))
+                .foregroundColor(.appPrimaryText)
+                .frame(
+                    height: isIPad ? 48 : 40,
+                    alignment: .topLeading
+                )
         }
         .frame(width: storyCardWidth)
     }
 }
-
-//// MARK: - Explore Button
-//
-//private extension DashboardView {
-//
-//    var exploreButton: some View {
-//
-//        NavigationLink {
-//
-//            HomeView()
-//
-//        } label: {
-//
-//            HStack(spacing: 10) {
-//
-//                Image(systemName: "book.fill")
-//
-//                Text("Explore All Stories")
-//                    .font(
-//                        .custom(
-//                            "OpenDyslexic-Bold",
-//                            size: isIPad ? 22 : 18
-//                        )
-//                    )
-//            }
-//            .foregroundColor(.white)
-//            .frame(maxWidth: .infinity)
-//            .frame(height: isIPad ? 64 : 58)
-//            .background(
-//                Capsule()
-//                    .fill(Color("ButtonColor"))
-//            )
-//            .padding(.horizontal, 22)
-//        }
-//    }
-//}
-
 #Preview {
     NavigationStack {
         DashboardView()

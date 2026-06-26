@@ -22,15 +22,19 @@ class ProgressManager: ObservableObject {
     @Published var lastOpenedPage: Int = 0
     @Published var lastOpenedStoryCoverImage: String?
     @Published var lastOpenedStoryTotalPages: Int = 0
-
+    @Published var lastOpenedStoryCompleted = false
     private init() {}
 
     // MARK: - Story Completion
     func completeStory(_ story: Story) {
+        
         completedStories.insert(story.id)
         unlockedGames.insert(story.id)
-        
-        // ✅ Trigger notification dot
+
+        if lastOpenedStoryTitle == story.title {
+            lastOpenedStoryCompleted = true
+        }
+
         hasUnseenAchievements = true
     }
 
