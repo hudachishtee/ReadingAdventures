@@ -87,7 +87,7 @@ struct VocabularyView: View {
                 // MARK: Main Content
                 VStack(spacing: 0) {
                     
-                    Spacer(minLength: isIPad ? 42 : 28)
+                    Spacer(minLength: isIPad ? 20 : 16)
                     
                     // MARK: Title
                     Text("New Words")                       .font(.custom(
@@ -119,6 +119,7 @@ struct VocabularyView: View {
                                 lineWidth: 1.2
                             )
                         )
+                        .padding(.top, isIPad ? -150 : -30)
                     
                     // MARK: Card + Arrows
                     if !words.isEmpty {
@@ -129,8 +130,8 @@ struct VocabularyView: View {
                             } label: {
                                 Image(systemName: "chevron.left")
                                     .font(.system(
-                                        size: isIPad ? 34 : 26,
-                                        weight: .medium
+                                        size: isIPad ? 38 : 30,
+                                        weight: .semibold
                                     ))
                                     .foregroundColor(
                                         .appPrimaryText.opacity(0.85)
@@ -260,8 +261,8 @@ struct VocabularyView: View {
                             } label: {
                                 Image(systemName: "chevron.right")
                                     .font(.system(
-                                        size: isIPad ? 34 : 26,
-                                        weight: .medium
+                                        size: isIPad ? 38 : 30,
+                                        weight: .semibold
                                     ))
                                     .foregroundColor(
                                         .appPrimaryText.opacity(0.85)
@@ -269,7 +270,7 @@ struct VocabularyView: View {
                                     .frame(width: isIPad ? 44 : 34)
                             }
                         }
-                        .offset(y: isIPad ? 100 : 100)
+                        .offset(y: isIPad ? 125 : 118)
                     }
                     
                     Spacer(minLength: 30)
@@ -402,6 +403,7 @@ struct VocabularyView: View {
             
             
             Divider()
+                .overlay(Color.appPrimaryText.opacity(0.18))
                 .padding(.top, 4)
             
             Text(word.meaning)

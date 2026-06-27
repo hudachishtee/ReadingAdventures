@@ -66,7 +66,7 @@ struct CelebrationView: View {
                                 .font(
                                     .custom(
                                         "OpenDyslexic-Regular",
-                                        size: isIPad ? 24 : 18
+                                        size: isIPad ? 26 : 20
                                     )
                                 )
                                 .foregroundColor(.appPrimaryText)
@@ -106,44 +106,84 @@ struct CelebrationView: View {
                     
                     if showButtons {
                         
-                        VStack(spacing: 14) {
+                        VStack(spacing: isIPad ? 16 : 14) {
                             
                             Button {
                                 goMiniGame = true
                             } label: {
                                 
-                                Text("Play Mini Game")
-                                    .font(
-                                        .custom(
-                                            "OpenDyslexic-Bold",
-                                            size: isIPad ? 24 : 18
+                                HStack(spacing: 10) {
+
+                                    Image(systemName: "gamecontroller.fill")
+
+                                    Text("Play Mini Game")
+                                        .font(
+                                            .custom(
+                                                "OpenDyslexic-Bold",
+                                                size: isIPad ? 24 : 18
+                                            )
                                         )
-                                    )
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 16)
-                                    .background(Color.yellow)
-                                    .cornerRadius(18)
+
+                                    Image(systemName: "arrow.right")
+                                }
+                                .foregroundColor(.appPrimaryText)
+                                .frame(maxWidth: isIPad ? 520 : 320)
+                                .padding(.vertical, 16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .fill(Color("ButtonColor"))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 18)
+                                                .stroke(
+                                                    Color.white.opacity(0.25),
+                                                    lineWidth: 1.5
+                                                )
+                                        )
+                                )
+                                .shadow(
+                                    color: .black.opacity(0.18),
+                                    radius: 10,
+                                    x: 0,
+                                    y: 5
+                                )
                             }
                             
                             Button {
                                 goHome = true
                             } label: {
                                 
-                                Text("Back To Library")
-                                    .font(
-                                        .custom(
-                                            "OpenDyslexic-Bold",
-                                            size: isIPad ? 24 : 18
+                                HStack(spacing: 10) {
+
+                                    Image(systemName: "books.vertical.fill")
+
+                                    Text("Back To Library")
+                                        .font(
+                                            .custom(
+                                                "OpenDyslexic-Bold",
+                                                size: isIPad ? 26 : 20
+                                            )
                                         )
-                                    )
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 16)
-                                    .background(
-                                        Color("ButtonSecondaryBackground")
-                                    )
-                                    .cornerRadius(18)
+                                }
+                                .foregroundColor(.appPrimaryText)
+                                .frame(maxWidth: isIPad ? 520 : 320)
+                                .padding(.vertical, isIPad ? 18 : 17)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .fill(Color("ButtonColor"))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 18)
+                                                .stroke(
+                                                    Color.white.opacity(0.25),
+                                                    lineWidth: 1.5
+                                                )
+                                        )
+                                )
+                                .shadow(
+                                    color: .black.opacity(0.10),
+                                    radius: 8,
+                                    x: 0,
+                                    y: 4
+                                )
                             }
                         }
                         .padding(.horizontal, 20)

@@ -89,44 +89,53 @@ struct MoralView: View {
                         goToVocabulary = true
                     } label: {
                         
-                        Text("Learn New Words!")
-                            .font(.custom(
-                                "OpenDyslexic-Bold",
-                                size: isIPad ? 24 : 20
-                            ))
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 34)
-                            .padding(.vertical, 16)
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .fill(Color("ButtonColor"))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 18)
-                                            .stroke(
-                                                Color.white.opacity(0.25),
-                                                lineWidth: 1.5
+                        HStack(spacing: isIPad ? 14 : 10) {
+
+                            Image(systemName: "book.fill")
+                                .font(.system(size: isIPad ? 22 : 18, weight: .semibold))
+
+                            Text("Learn New Words")
+                                .font(.custom(
+                                    "OpenDyslexic-Bold",
+                                    size: isIPad ? 24 : 20
+                                ))
+
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: isIPad ? 22 : 19, weight: .bold))
+                        }
+                        .foregroundColor(.appPrimaryText)
+                        .padding(.horizontal, isIPad ? 38 : 30)
+                        .padding(.vertical, isIPad ? 18 : 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(Color("ButtonColor"))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .stroke(
+                                            Color.white.opacity(0.25),
+                                            lineWidth: 1.5
+                                        )
+                                )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [
+                                                    Color.white.opacity(0.12),
+                                                    .clear
+                                                ],
+                                                startPoint: .top,
+                                                endPoint: .center
                                             )
-                                    )
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 18)
-                                            .fill(
-                                                LinearGradient(
-                                                    colors: [
-                                                        Color.white.opacity(0.12),
-                                                        .clear
-                                                    ],
-                                                    startPoint: .top,
-                                                    endPoint: .center
-                                                )
-                                            )
-                                    )
-                                    .shadow(
-                                        color: .black.opacity(0.18),
-                                        radius: 10,
-                                        x: 0,
-                                        y: 5
-                                    )
-                            )
+                                        )
+                                )
+                                .shadow(
+                                    color: .black.opacity(0.25),
+                                    radius: 12,
+                                    x: 0,
+                                    y: 6
+                                )
+                        )
                     }
                     .buttonStyle(.plain)
                     
