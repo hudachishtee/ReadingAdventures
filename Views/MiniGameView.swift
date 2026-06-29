@@ -17,7 +17,7 @@ struct MiniGameView: View {
     
     @State private var showWrongPopup = false
     @State private var showConfetti = false
-    @State private var showGameComplete = false
+//    @State private var showGameComplete = false
     
     @State private var shakeWord = false
     @State private var wrongGlow = false
@@ -25,7 +25,7 @@ struct MiniGameView: View {
     @State private var showExitAlert = false
     
     @State private var pressedIndex: Int? = nil
-    @State private var animatePopup = false
+//    @State private var animatePopup = false
     
     @State private var goHome = false
     
@@ -160,107 +160,76 @@ struct MiniGameView: View {
                 
                 if showWrongPopup {
                     
-                    Color.black.opacity(0.25)
+                    Color.black.opacity(0.35)
                         .ignoresSafeArea()
                     
-                    VStack(spacing: 18) {
+                    VStack(spacing: isPad() ? 24 : 20) {
                         
                         Text("Nice Try!")
-                            .font(.custom("OpenDyslexic-Bold", size: 24))
+                            .font(.custom("OpenDyslexic-Bold", size: isPad() ? 22 : 20))
                             .foregroundColor(.black)
 
-                        Text("Want to try again or continue?")
-                            .font(.custom("OpenDyslexic-Regular", size: 16))
-                            .multilineTextAlignment(.center)
+                        Text("Try again?")
+                            .font(
+                                .custom(
+                                    "OpenDyslexic-Regular",
+                                    size: isPad() ? 22 : 18
+                                )
+                            )
                             .foregroundColor(.black)
-                        
-                        HStack(spacing: 14) {
-                            
-                            Button("Try Again") {
+
+                        HStack(spacing: isPad() ? 18 : 14) {
+
+                            Button {
+
                                 resetTryAgain()
+
+                            } label: {
+
+                                Text("Try Again")
+
+                                    .font(
+                                        .custom(
+                                            "OpenDyslexic-Bold",
+                                            size: isPad() ? 18 : 16
+                                        )
+                                    )
+                                    .foregroundColor(.black)
+                                    .frame(width: isPad() ? 170 : 130,
+                                           height: isPad() ? 54 : 46)
+                                    .background(Color("ButtonSecondaryBackground"))
+                                    .cornerRadius(14)
                             }
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 10)
-                            .background(Color.blue.opacity(0.25))
-                            .cornerRadius(14)
-                            
-                            Button("Continue") {
-                                
+
+                            Button {
+
                                 showWrongPopup = false
                                 nextGame()
-                            }
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 10)
-                            .background(Color.green.opacity(0.25))
-                            .cornerRadius(14)
-                        }
-                    }
-                    .padding(26)
-                    .background(Color.white)
-                    .cornerRadius(26)
-                    .shadow(radius: 14)
-                    .padding(.horizontal, 30)
-                }
-                
-                // MARK: Complete Popup
-                
-                if showGameComplete {
-                    
-                    Color.black.opacity(0.25)
-                        .ignoresSafeArea()
-                    
-                    VStack(spacing: 20) {
-                        
-                        Text("Amazing Work!")
-                            .font(.custom("OpenDyslexic-Bold", size: 28))
-                            .foregroundColor(.black)
 
-                        Text("You completed\n\(story.title)")
-                            .font(.custom("OpenDyslexic-Regular", size: 18))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                        
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 60))
-                            .foregroundColor(.yellow)
-                        
-                        HStack(spacing: 14) {
-                            
-                            Button("Play Again") {
-                                restartGame()
+                            } label: {
+
+                                Text("Continue →")
+
+                                    .font(
+                                        .custom(
+                                            "OpenDyslexic-Bold",
+                                            size: isPad() ? 18 : 16
+                                        )
+                                    )
+                                    .foregroundColor(.black)
+                                    .frame(width: isPad() ? 170 : 130,
+                                           height: isPad() ? 54 : 46)
+                                    .background(Color.yellow)
+                                    .cornerRadius(14)
                             }
-                            .foregroundColor(.black)
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 10)
-                            .background(Color.yellow)
-                            .cornerRadius(14)
-                            
-                            Button("Back Home") {
-                                
-                                selectedTab = .home
-                                onFinish()
-                                goHome = true
-                            }
-                            .foregroundColor(.black)
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 10)
-                            .background(Color.blue.opacity(0.25))
-                            .cornerRadius(14)
                         }
                     }
-                    .padding(28)
+                    .padding(isPad() ? 42 : 30)
                     .background(Color.white)
-                    .cornerRadius(28)
-                    .shadow(radius: 16)
-                    .padding(.horizontal, 28)
-                    .scaleEffect(animatePopup ? 1 : 0.8)
-                    .opacity(animatePopup ? 1 : 0)
-                    .onAppear {
-                        
-                        withAnimation(.spring()) {
-                            animatePopup = true
-                        }
-                    }
+                    .cornerRadius(30)
+                    .shadow(radius: 14)
+                    .frame(maxWidth: isPad() ? 560 : 360)
+                    .padding(.horizontal, 30)
                 }
             }
         }
@@ -356,7 +325,7 @@ extension MiniGameView {
                     GridItem(.flexible(), spacing: isPad() ? 20 : 12),
                     GridItem(.flexible())
                 ],
-                spacing: isPad() ? 22 : 14
+                spacing: isPad() ? 28 : 18
             ) {
 
                 ForEach(Array(options.enumerated()), id: \.offset) { index, option in
@@ -490,7 +459,7 @@ extension MiniGameView {
                 )
                 .scaleEffect(
                     selectedIndex == index
-                    ? 1.03
+                    ? (isPad() ? 1.05 : 1.04)
                     : 1.0
                 )
                 .animation(
@@ -511,11 +480,11 @@ extension MiniGameView {
         
         let target = currentGame.correctAnswer
         
-        return VStack(spacing: 24) {
+        return VStack(spacing: isPad() ? 52 : 34) {
             
             HStack(spacing: 12 * scale) {
                 
-                HStack(spacing: isPad() ? 8 : 6) {
+                HStack(spacing: isPad() ? 14 : 10) {
                     
                     ForEach(0..<target.count, id: \.self) { i in
                         
@@ -526,15 +495,15 @@ extension MiniGameView {
                                 : Color("VocabularyCard")
                             )
                             .frame(
-                                width: isPad() ? 42 : 34,
-                                height: isPad() ? 48 : 42
+                                width: isPad() ? 80 : 56,
+                                height: isPad() ? 86 : 62
                             )
                             .overlay(
                                 Text(letterAt(i))
                                     .font(
                                         .custom(
                                             "OpenDyslexic-Bold",
-                                            size: isPad() ? 22 : 18
+                                            size: isPad() ? 34 : 24
                                         )
                                     )
                             )
@@ -550,7 +519,10 @@ extension MiniGameView {
                     Image(systemName: "delete.left.fill")
                         .font(.system(size: 18))
                         .foregroundColor(Color("PrimaryText"))
-                        .frame(width: 46, height: 46)
+                        .frame(
+                            width: isPad() ? 72 : 52,
+                            height: isPad() ? 72 : 52
+                        )
                         .background(Color.white.opacity(0.7))
                         .cornerRadius(12)
                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.black.opacity(0.15), lineWidth: 1))
@@ -585,7 +557,7 @@ extension MiniGameView {
                         Text(letter)
                             .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
                             .foregroundColor(.black)
-                            .frame(height: 50)
+                            .frame(height: isPad() ? 64 : 54)
                             .frame(maxWidth: .infinity)
                             .background(Color.yellow)
                             .cornerRadius(14)
@@ -721,18 +693,13 @@ extension MiniGameView {
             
         } else {
             
-            showGameComplete = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+
+                selectedTab = .home
+                onFinish()
+                goHome = true
+            }
         }
-    }
-    
-    func restartGame() {
-        
-        currentIndex = 0
-        selectedIndex = nil
-        builtLetterIndices = []
-        showGameComplete = false
-        animatePopup = false
-        showCheckButton = false
     }
 }
 #Preview {
