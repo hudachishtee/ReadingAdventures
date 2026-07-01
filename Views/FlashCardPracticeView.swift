@@ -2,11 +2,13 @@ import SwiftUI
 
 struct FlashCardPracticeView: View {
 
+    @Environment(\.colorScheme) private var colorScheme
+
     private let allWords = sampleStories.flatMap(\.vocabulary)
 
     @State private var currentIndex = 0
     @State private var isFlipped = false
-    @State private var practiceWords: [VocabularyWord] = []
+    @State private var dragOffset: CGSize = .zero
 
     @ObservedObject var audioManager = AudioManager.shared
 
@@ -16,216 +18,187 @@ struct FlashCardPracticeView: View {
 
     var body: some View {
 
-        GeometryReader { geo in
+        let isIPad = UIDevice.current.userInterfaceIdiom == .pad
 
-            let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+        ZStack {
 
-            ZStack {
+            LinearGradient(
+                colors: [.bgTop, .bgBottom],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-                LinearGradient(
-                    colors: [.bgTop, .bgBottom],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
+            VStack(spacing: isIPad ? 40 : 20) {
 
-                VStack(spacing: isIPad ? 24 : 16) {
+                Spacer()
+                    .frame(height: 4)
 
-                    Spacer()
-                        .frame(height: isIPad ? 20 : 10)
+                VStack(spacing: isIPad ? 14 : 10) {
 
-                    Text("Flash Card Practice")
-                        .font(.custom(
-                            "OpenDyslexic-Bold",
-                            size: isIPad ? 32 : 22
-                        ))
-                        .foregroundColor(.appPrimaryText)
+                    Text("Flash Cards")
+                        .font(
+                            .custom(
+                                "OpenDyslexic-Bold",
+                                size: isIPad ? 48 : 34
+                            )
+                        )
 
-                    Text("Word \(currentIndex + 1) of \(allWords.count)")
-                        .font(.custom(
-                            "OpenDyslexic-Regular",
-                            size: isIPad ? 18 : 14
-                        ))
-                        .foregroundColor(.appPrimaryText)
+                    Text("Practice every new word.")
+                        .font(
+                            .custom(
+                                "OpenDyslexic-Regular",
+                                size: isIPad ? 24 : 17
+                            )
+                        )
+                        .foregroundColor(.appPrimaryText.opacity(0.8))
+                }
+
+                VStack(spacing: 12) {
+
+                    Text("\(currentIndex + 1) / \(allWords.count)")
+                        .font(
+                            .custom(
+                                "OpenDyslexic-Bold",
+                                size: isIPad ? 22 : 18
+                            )
+                        )
 
                     ProgressView(
                         value: Double(currentIndex + 1),
                         total: Double(allWords.count)
                     )
                     .tint(Color("VocabularyAccent"))
-                    .frame(width: isIPad ? 420 : 260)
-
-                    Spacer()
-
-                    FlipCard(
-                        word: currentWord,
-                        isFlipped: $isFlipped,
-                        isIPad: isIPad,
-                        audioManager: audioManager
-                    )
-
-                    Spacer()
+                    .scaleEffect(y: 1.8)
                 }
-                .padding()
-            }
-        }
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-private struct FlipCard: View {
-
-    let word: VocabularyWord
-
-    @Binding var isFlipped: Bool
-
-    let isIPad: Bool
-
-    let audioManager: AudioManager
-
-    var body: some View {
-
-        ZStack {
-
-            RoundedRectangle(
-                cornerRadius: 30,
-                style: .continuous
-            )
-            .fill(Color("MiniGameOption3"))
-
-            // FRONT
-
-            VStack {
+                .padding(.horizontal, isIPad ? 70 : 24)
+                .padding(.vertical, isIPad ? 26 : 20)
+                .background(
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(
+                            colorScheme == .dark
+                            ? Color.white.opacity(0.15)
+                            : Color.white.opacity(0.8)
+                        )
+                )
 
                 Spacer()
+                    .frame(height: 38)
 
-                Text(word.word)
-                    .font(.custom(
-                        "OpenDyslexic-Bold",
-                        size: isIPad ? 54 : 36
-                    ))
-                    .foregroundColor(.appPrimaryText)
+                ZStack {
 
-                Spacer()
+                    ForEach(Array(allWords[currentIndex...].prefix(3).enumerated().reversed()),
+                            id: \.element.word) { index, vocab in
 
-                HStack {
+                        if index == 0 {
 
-                    Spacer()
-
-                    Image(systemName: "arrow.triangle.2.circlepath")
-                        .font(.system(size: isIPad ? 28 : 22))
-                        .foregroundColor(
-                            Color("VocabularyAccent")
-                        )
-                }
-                .padding(.trailing, 18)
-                .padding(.bottom, 18)
-            }
-            .opacity(isFlipped ? 0 : 1)
-
-            // BACK
-
-            VStack(
-                alignment: .leading,
-                spacing: isIPad ? 20 : 12
-            ) {
-
-                HStack {
-
-                    Text(word.word)
-                        .font(.custom(
-                            "OpenDyslexic-Bold",
-                            size: isIPad ? 34 : 26
-                        ))
-                        .foregroundColor(.appPrimaryText)
-
-                    Spacer()
-
-                    Button {
-
-                        audioManager.play(
-                            audioName: word.audioName,
-                            text: ""
-                        )
-
-                    } label: {
-
-                        Image(systemName: "speaker.wave.2.fill")
-                            .font(.system(
-                                size: isIPad ? 24 : 18
-                            ))
-                            .foregroundColor(
-                                Color("VocabularyAccent")
+                            FlipCard(
+                                word: vocab,
+                                currentIndex: $currentIndex,
+                                totalWords: allWords.count,
+                                isFlipped: $isFlipped,
+                                isIPad: isIPad,
+                                audioManager: audioManager,
+                                showSwipeHint: currentIndex == 0
                             )
-                            .padding(10)
-                            .background(
-                                Circle()
-                                    .fill(
-                                        Color("SpeakerBackground")
-                                    )
+                            .offset(dragOffset)
+                            .rotationEffect(.degrees(Double(dragOffset.width) / 25))
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        dragOffset = value.translation
+                                    }
+                                    .onEnded { value in
+
+                                        let threshold: CGFloat = 120
+
+                                        if value.translation.width < -threshold {
+
+                                            guard currentIndex < allWords.count - 1 else {
+                                                withAnimation(.spring()) {
+                                                    dragOffset = .zero
+                                                }
+                                                return
+                                            }
+
+                                            withAnimation(.easeOut(duration: 0.22)) {
+                                                dragOffset.width = -900
+                                            }
+
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+
+                                                currentIndex += 1
+                                                isFlipped = false
+                                                dragOffset = .zero
+
+                                            }
+
+                                        }
+
+                                        else if value.translation.width > threshold {
+
+                                            guard currentIndex > 0 else {
+                                                withAnimation(.spring()) {
+                                                    dragOffset = .zero
+                                                }
+                                                return
+                                            }
+
+                                            withAnimation(.easeOut(duration: 0.22)) {
+                                                dragOffset.width = 900
+                                            }
+
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+
+                                                currentIndex -= 1
+                                                isFlipped = false
+                                                dragOffset = .zero
+
+                                            }
+
+                                        }
+
+                                        else {
+
+                                            withAnimation(.spring(response: 0.35,
+                                                                  dampingFraction: 0.82)) {
+
+                                                dragOffset = .zero
+
+                                            }
+
+                                        }
+                                    }
                             )
+                            .zIndex(3)
+                        } else {
+
+                            MiniFlashCard()
+                                .frame(
+                                    width: isIPad ? 530 : 320,
+                                    height: isIPad ? 490 : 390
+                                )
+                                .scaleEffect(1 - CGFloat(index) * 0.06)
+                                .offset(
+                                    x: CGFloat(index) * 28,
+                                    y: CGFloat(index) * -10
+                                )
+                                .opacity(index == 1 ? 0.8 : 0.55)
+                                .zIndex(Double(2 - index))
+                        }
+
                     }
+
                 }
 
-                Divider()
-
-                Text("Meaning")
-                    .font(.custom(
-                        "OpenDyslexic-Bold",
-                        size: isIPad ? 18 : 14
-                    ))
-                    .foregroundColor(.appPrimaryText)
-
-                Text(word.meaning)
-                    .font(.custom(
-                        "OpenDyslexic-Regular",
-                        size: isIPad ? 22 : 16
-                    ))
-                    .foregroundColor(.appPrimaryText)
-
-                Text("Example")
-                    .font(.custom(
-                        "OpenDyslexic-Bold",
-                        size: isIPad ? 18 : 14
-                    ))
-                    .foregroundColor(.appPrimaryText)
-
-                Text(word.example)
-                    .font(.custom(
-                        "OpenDyslexic-Regular",
-                        size: isIPad ? 22 : 16
-                    ))
-                    .foregroundColor(.appPrimaryText)
-
                 Spacer()
-            }
-            .padding(isIPad ? 30 : 20)
-            .opacity(isFlipped ? 1 : 0)
-            .scaleEffect(x: -1)
-        }
-        .frame(
-            width: isIPad ? 560 : 320,
-            height: isIPad ? 520 : 380
-        )
-        .rotation3DEffect(
-            .degrees(isFlipped ? 180 : 0),
-            axis: (x: 0, y: 1, z: 0)
-        )
-        .animation(
-            .easeInOut(duration: 0.5),
-            value: isFlipped
-        )
-        .onTapGesture {
 
-            withAnimation {
-
-                isFlipped.toggle()
             }
+            .padding()
+
         }
     }
 }
-
 
 #Preview {
     FlashCardPracticeView()
