@@ -106,11 +106,7 @@ struct SavedWordsView: View {
                                 )
                                 .background(
                                     RoundedRectangle(cornerRadius: 18)
-                                        .fill(
-                                            Color.white.opacity(
-                                                colorScheme == .dark ? 0.14 : 0.45
-                                            )
-                                        )
+                                        .fill(Color.appCardBackground)
                                 )
                             
                             Text("⭐ Your favorite words ⭐")
@@ -240,19 +236,27 @@ struct SavedWordsView: View {
                 
                 HStack(spacing: isIPad ? 18 : 14) {
                     
-                    ZStack {
+                    Button {
 
-                        Circle()
-                            .fill(Color.white.opacity(colorScheme == .dark ? 0.12 : 0.55))
-                            .frame(
-                                width: isIPad ? 42 : 34,
-                                height: isIPad ? 42 : 34
-                            )
+                        savedWordsManager.toggle(word)
 
-                        Image(systemName: "bookmark.fill")
-                            .font(.system(size: isIPad ? 17 : 14))
-                            .foregroundColor(.appPrimaryText)
+                    } label: {
+
+                        ZStack {
+
+                            Circle()
+                                .fill(Color.white.opacity(colorScheme == .dark ? 0.12 : 0.55))
+                                .frame(
+                                    width: isIPad ? 42 : 34,
+                                    height: isIPad ? 42 : 34
+                                )
+
+                            Image(systemName: "bookmark.fill")
+                                .font(.system(size: isIPad ? 17 : 14))
+                                .foregroundColor(.appPrimaryText)
+                        }
                     }
+                    .buttonStyle(.plain)
                     
                     VStack(alignment: .leading, spacing: 10) {
                         
@@ -320,19 +324,6 @@ struct SavedWordsView: View {
                     RoundedRectangle(cornerRadius: 24)
                         .fill(Color.appCardBackground)
                 )
-
-                .swipeActions(edge: .trailing) {
-
-                    Button(role: .destructive) {
-
-                        wordToDelete = word
-
-                    } label: {
-
-                        Label("Delete", systemImage: "trash")
-
-                    }
-                }
             }
         }
     }
