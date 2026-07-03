@@ -81,6 +81,10 @@ struct Responsive {
     var heroCornerRadius: CGFloat {
         isPad ? 40 : 28
     }
+    
+    var heroContentWidth: CGFloat {
+        heroWidth - (horizontalPadding * 2)
+    }
     // MARK: - Typography
 
     func font(_ base: CGFloat) -> CGFloat {

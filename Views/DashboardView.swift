@@ -97,7 +97,6 @@ struct DashboardView: View {
     }
 }
 // MARK: - Hero
-
 private extension DashboardView {
 
     func heroSection(_ responsive: Responsive) -> some View {
@@ -111,103 +110,91 @@ private extension DashboardView {
     }
 
     //==========================
-    // iPad Hero (YOUR ORIGINAL)
+    // iPad Hero
     //==========================
 
     func ipadHero(_ responsive: Responsive) -> some View {
 
-        ZStack {
+        GeometryReader { heroGeo in
 
-            RoundedRectangle(cornerRadius: responsive.isPad ? 40 : 32)
-                .fill(Color("BackgroundBottom"))
+            let w = heroGeo.size.width
+            let h = heroGeo.size.height
 
-            Circle()
-                .fill(
-                    Color.white.opacity(
-                        isDarkMode ? 0.08 : 0.18
+            ZStack {
+
+                RoundedRectangle(cornerRadius: responsive.heroCornerRadius)
+                    .fill(Color("BackgroundBottom"))
+
+                Circle()
+                    .fill(Color.white.opacity(isDarkMode ? 0.08 : 0.18))
+                    .frame(width: w * 1.3, height: w * 1.3)
+                    .offset(x: w * 0.35, y: -h * 0.55)
+
+                Circle()
+                    .fill(Color.white.opacity(isDarkMode ? 0.04 : 0.10))
+                    .frame(width: w * 1.6, height: w * 1.6)
+                    .offset(x: -w * 0.30, y: h * 0.60)
+
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow.opacity(0.9))
+                    .font(.system(size: w * 0.035))
+                    .offset(
+                        x: w * 0.18,
+                        y: -h * 0.20
                     )
-                )
-                .frame(
-                    width: responsive.heroWidth * 1.3,
-                    height: responsive.heroWidth * 1.3
-                )
-                .offset(
-                    x: responsive.heroWidth * 0.35,
-                    y: -responsive.heroHeight * 0.55
-                )
 
-            Circle()
-                .fill(
-                    Color.white.opacity(
-                        isDarkMode ? 0.04 : 0.10
+                Image(systemName: "moon.fill")
+                    .foregroundColor(.yellow.opacity(0.9))
+                    .font(.system(size: w * 0.04))
+                    .offset(
+                        x: w * 0.30,
+                        y: -h * 0.30
                     )
-                )
-                .frame(
-                    width: responsive.heroWidth * 1.6,
-                    height: responsive.heroWidth * 1.6
-                )
-                .offset(
-                    x: -responsive.heroWidth * 0.30,
-                    y: responsive.heroHeight * 0.60
-                )
 
-            Image(systemName: "star.fill")
-                .foregroundColor(.yellow.opacity(0.9))
-                .font(.system(size: 28))
-                .offset(
-                    x: responsive.heroWidth * 0.18,
-                    y: -responsive.heroHeight * 0.22
-                )
-            
-            Image(systemName: "moon.fill")
-                .foregroundColor(.yellow.opacity(0.9))
-                .font(.system(size: 32))
-                .offset(
-                    x: responsive.heroWidth * 0.28,
-                    y: -responsive.heroHeight * 0.30
-                )
-            Image(systemName: "star.fill")
-                .foregroundColor(.blue.opacity(0.55))
-                .font(.system(size: 24))
-                .offset(
-                    x: responsive.heroWidth * 0.02,
-                    y: -responsive.heroHeight * 0.04
-                )
-            
-            HStack(spacing: responsive.spacing(12)) {
+                Image(systemName: "star.fill")
+                    .foregroundColor(.blue.opacity(0.55))
+                    .font(.system(size: w * 0.03))
+                    .offset(
+                        x: w * 0.02,
+                        y: -h * 0.05
+                    )
 
-                VStack(alignment: .leading,
-                       spacing: responsive.spacing(8)) {
+                HStack(spacing: w * 0.04) {
 
-                    Text("Hi,\nReader!")
-                        .font(.custom(
-                            "OpenDyslexic-Bold",
-                            size: responsive.heroTitleSize
-                        ))
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.7)
+                    VStack(alignment: .leading, spacing: h * 0.05) {
 
-                    Text("Ready for a new\nadventure?")
-                        .font(.custom(
-                            "OpenDyslexic-Regular",
-                            size: responsive.heroSubtitleSize
-                        ))
+                        Text("Hi,\nReader!")
+                            .font(.custom("OpenDyslexic-Bold", size: w * 0.065))
+                            .foregroundColor(.appPrimaryText)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .minimumScaleFactor(0.7)
+
+                        Text("Ready for a new\nadventure?")
+                            .font(.custom("OpenDyslexic-Regular", size: w * 0.036))
+                            .foregroundColor(.appPrimaryText)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.5)
+                    }
+                    .layoutPriority(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    
+                    Spacer(minLength: 0)
+
+                    Image("owl_logo1")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: min(w * 0.22, 220))
+                        .padding(.trailing, w * 0.02)
                 }
-                .frame(maxWidth: .infinity,
-                       alignment: .leading)
-
-                Image("owl_logo1")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: responsive.heroOwlWidth)
+                .frame(width: w * 0.88, alignment: .leading)
+                .offset(x: -w * 0.02)
             }
-            .padding(responsive.spacing(18))
+            .frame(width: w, height: h) // <- THE FIX: ZStack now fills the reader's bounds
         }
         .frame(height: responsive.heroHeight)
         .frame(width: responsive.heroWidth)
-        .clipShape(
-            RoundedRectangle(cornerRadius: responsive.heroCornerRadius)
-        )
+        .clipShape(RoundedRectangle(cornerRadius: responsive.heroCornerRadius))
         .padding(.horizontal, responsive.horizontalPadding)
     }
 
@@ -217,65 +204,86 @@ private extension DashboardView {
 
     func iphoneHero(_ responsive: Responsive) -> some View {
 
-        ZStack {
+        GeometryReader { heroGeo in
 
-            RoundedRectangle(cornerRadius: responsive.isPad ? 40 : 32)
-                .fill(Color("BackgroundBottom"))
-            
-            Circle()
-                .fill(Color.white.opacity(0.18))
-                .frame(
-                    width: responsive.width(0.80),
-                    height: responsive.width(0.80)
-                )
-                .offset(x: 120, y: -150)
+            let w = heroGeo.size.width
+            let h = heroGeo.size.height
 
-            Circle()
-                .fill(Color.blue.opacity(0.10))
-                .frame(
-                    width: responsive.width(1.05),
-                    height: responsive.width(1.05)
-                )
-                .offset(
-                    x: -responsive.heroWidth * 0.22,
-                    y: responsive.heroHeight * 0.35
-                )
-            
-            HStack(alignment: .center) {
+            ZStack {
 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Hi,\nReader!")
-                        .font(.custom(
-                            "OpenDyslexic-Bold",
-                            size: responsive.heroTitleSize
-                        ))
-                        .foregroundColor(.appPrimaryText)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.7)
-                        .fixedSize(horizontal: false, vertical: true)
+                RoundedRectangle(cornerRadius: responsive.heroCornerRadius)
+                    .fill(Color("BackgroundBottom"))
 
-                    Text("Ready for a new\nadventure?")
-                        .font(.custom("OpenDyslexic-Regular", size: responsive.heroSubtitleSize))
-                        .foregroundColor(.appPrimaryText)
-                        .lineSpacing(4)
+                Circle()
+                    .fill(Color.white.opacity(0.18))
+                    .frame(width: w * 0.80, height: w * 0.80)
+                    .offset(x: w * 0.30, y: -h * 0.65)
+
+                Circle()
+                    .fill(Color.blue.opacity(0.10))
+                    .frame(width: w * 1.05, height: w * 1.05)
+                    .offset(x: -w * 0.22, y: h * 0.55)
+                
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow.opacity(0.9))
+                    .font(.system(size: w * 0.045))
+                    .offset(
+                        x: w * 0.16,
+                        y: -h * 0.22
+                    )
+
+                Image(systemName: "moon.fill")
+                    .foregroundColor(.yellow.opacity(0.9))
+                    .font(.system(size: w * 0.05))
+                    .offset(
+                        x: w * 0.28,
+                        y: -h * 0.30
+                    )
+
+                Image(systemName: "star.fill")
+                    .foregroundColor(.blue.opacity(0.55))
+                    .font(.system(size: w * 0.04))
+                    .offset(
+                        x: w * 0.02,
+                        y: -h * 0.08
+                    )
+
+                HStack(alignment: .center, spacing: w * 0.04) {
+
+                    VStack(alignment: .leading, spacing: h * 0.06) {
+
+                        Text("Hi,\nReader!")
+                            .font(.custom("OpenDyslexic-Bold", size: w * 0.078))
+                            .foregroundColor(.appPrimaryText)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .minimumScaleFactor(0.7)
+
+                        Text("Ready for a new\nadventure?")
+                            .font(.custom("OpenDyslexic-Regular", size: w * 0.044))
+                            .foregroundColor(.appPrimaryText)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.5)
+                    }
+                    .layoutPriority(2)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                    Spacer(minLength: 0)
+
+                    Image("owl_logo1")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: min(w * 0.22, 110))
+                        .padding(.trailing, w * 0.02)
                 }
-
-                Spacer(minLength: responsive.spacing(12))
-
-                Image("owl_logo1")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: responsive.heroOwlWidth)
-                    .padding(.trailing, responsive.spacing(8))
+                .frame(width: w * 0.88)
+                .padding(.horizontal, w * 0.02)
             }
-            .padding(.horizontal, responsive.horizontalPadding)
-            .padding(.vertical, responsive.spacing(12))
+            .frame(width: w, height: h) // <- THE FIX: ZStack now fills the reader's bounds
         }
         .frame(height: responsive.heroHeight)
         .frame(width: responsive.heroWidth)
-        .clipShape(
-            RoundedRectangle(cornerRadius: responsive.heroCornerRadius)
-        )
+        .clipShape(RoundedRectangle(cornerRadius: responsive.heroCornerRadius))
         .padding(.horizontal, responsive.horizontalPadding)
     }
 }
