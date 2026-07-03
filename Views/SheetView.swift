@@ -10,8 +10,7 @@ struct StoryPreviewSheet: View {
     var body: some View {
         
         GeometryReader { geo in
-            let scale = Scale.factor(geo)
-            
+            let scale = Scale.factor;
             ZStack {
                 
                 Color("StoryCardBackground")

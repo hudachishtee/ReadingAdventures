@@ -20,8 +20,7 @@ struct MoralView: View {
         
         GeometryReader { geo in
             
-            let scale = Scale.factor(geo)
-            let isIPad = UIDevice.current.userInterfaceIdiom == .pad
+            let scale = Scale.factor;            let isIPad = UIDevice.current.userInterfaceIdiom == .pad
             
             ZStack {
                 

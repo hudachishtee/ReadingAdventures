@@ -36,12 +36,12 @@ struct MiniGameView: View {
     var body: some View {
         
         GeometryReader { geo in
-            
-            let scale = Scale.factor(geo)
+
+            let scale = Scale.factor
             let isIPad = UIDevice.current.userInterfaceIdiom == .pad
-            
+
             ZStack {
-                
+                            
                 // MARK: Background
                 
                 LinearGradient(
