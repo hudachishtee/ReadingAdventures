@@ -11,7 +11,7 @@ struct DashboardView: View {
     @ObservedObject private var savedWordsManager = SavedWordsManager.shared
     @State private var selectedTheme: DashboardTheme = .courage
     @State private var selectedStory: Story?
-    @State private var showPreview = false
+//    @State private var showPreview = false
     @State private var showAllStories = false
     @State private var navigateToReader = false
     @State private var storyForReader: Story?
@@ -69,18 +69,16 @@ struct DashboardView: View {
                 )
                 .ignoresSafeArea()
             )
-            .sheet(isPresented: $showPreview) {
+            .sheet(item: $selectedStory) { story in
 
-                if let story = selectedStory {
+                StoryPreviewSheet(story: story) {
 
-                    StoryPreviewSheet(story: story) {
+                    storyForReader = story
 
-                        storyForReader = story
-                        showPreview = false
+                    selectedStory = nil
 
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            navigateToReader = true
-                        }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        navigateToReader = true
                     }
                 }
             }
@@ -418,7 +416,7 @@ private extension DashboardView {
             } else {
 
                 selectedStory = story
-                showPreview = true
+//                showPreview = true
             }
         }
     }
@@ -496,7 +494,7 @@ private extension DashboardView {
                         .onTapGesture {
 
                             selectedStory = story
-                            showPreview = true
+//                            showPreview = true
                         }
                     }
                 }
@@ -515,11 +513,12 @@ private extension DashboardView {
         Text(title)
             .font(
                 .custom(
-                    "OpenDyslexic-Regular",
-                    size: responsive.isPad ? 20 : 12                )
+                    "OpenDyslexic-Bold",
+                    size: responsive.isPad ? 20 : 12
+                )
             )
             .foregroundColor(
-                selected ? .appPrimaryText : .appPrimaryText
+                selected ? .white : .appPrimaryText
             )
             .padding(.horizontal, responsive.isPad ? 27 : 18)
             .padding(.vertical, responsive.isPad ? 13 : 9)
@@ -527,19 +526,28 @@ private extension DashboardView {
                 Capsule()
                     .fill(
                         selected
-                        ? Color.appCardBackground
-                        : Color.appCardBackground.opacity(0.80)
+                        ? Color("ButtonColor")      // darker green
+                        : Color.appCardBackground
                     )
             )
             .overlay(
                 Capsule()
                     .stroke(
-                        Color.green.opacity(0.5),
-                        lineWidth: selected ? 0 : 1
+                        selected
+                        ? Color.clear
+                        : Color.green.opacity(0.45),
+                        lineWidth: 1
                     )
             )
+            .shadow(
+                color: selected ? .black.opacity(0.18) : .clear,
+                radius: 6,
+                y: 3
+            )
+            .scaleEffect(selected ? 1.05 : 1.0)
+            .animation(.spring(duration: 0.25), value: selected)
     }
-
+    
     func storyCard(
         image: String,
         title: String,

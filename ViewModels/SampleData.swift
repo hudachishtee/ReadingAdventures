@@ -798,7 +798,7 @@ let sampleStories: [Story] = [
                 text: "The moon is big and bright.\nIt shines in the dark sky.\nEverything is quiet.",
                 imageName: "story6_page1",
                 audioName: "story6_audio1",
-                imageOffset: 185
+                imageOffset: 200
             ),
             
             Page(
@@ -1298,7 +1298,7 @@ let sampleStories: [Story] = [
             text: "Sara held a red balloon.\nIt was her favorite.",
             imageName: "story9_page1",
             audioName: "story9_audio1",
-            imageOffset: 180
+            imageOffset: 195
         ),
         
         Page(

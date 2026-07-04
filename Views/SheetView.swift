@@ -60,6 +60,8 @@ struct StoryPreviewSheet: View {
                             .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
                             .foregroundColor(.black)
                             .lineLimit(2)
+                            .minimumScaleFactor(0.75)
+                            .fixedSize(horizontal: false, vertical: true)
                         
                         Spacer()
                     }
@@ -109,7 +111,7 @@ struct StoryPreviewSheet: View {
         .ignoresSafeArea()
         
         StoryPreviewSheet(
-            story: sampleStories[0],
+            story: sampleStories[13],
             onStart: {}   // ✅ REQUIRED (empty for preview)
         )
         .padding(.top, 200) // optional: makes it look like a sheet
