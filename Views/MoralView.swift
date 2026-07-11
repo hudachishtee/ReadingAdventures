@@ -96,7 +96,7 @@ struct MoralView: View {
                             Text("Learn New Words")
                                 .font(.custom(
                                     "OpenDyslexic-Bold",
-                                    size: isIPad ? 24 : 20
+                                    size: isIPad ? 24 : 17
                                 ))
 
                             Image(systemName: "arrow.right")
@@ -146,6 +146,9 @@ struct MoralView: View {
         }
         .navigationDestination(isPresented: $goToVocabulary) {
             VocabularyView(story: story)
+                .onAppear {
+                    LearnedWordsManager.shared.markWordsAsLearned(from: story)
+                }
         }
     }
     

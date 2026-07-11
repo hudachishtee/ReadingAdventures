@@ -106,8 +106,8 @@ struct PremiumTabBar: View {
                         }
                         
                         ZStack {
-                            
-                            // 🌊 BADGES WAVE (STRONG)
+
+                            // 🌊 BADGES WAVE
                             if tab == .badges && progress.hasUnseenAchievements {
                                 Circle()
                                     .fill(Color.red.opacity(0.19))
@@ -115,8 +115,8 @@ struct PremiumTabBar: View {
                                     .scaleEffect(wave ? 2.2 : 1)
                                     .opacity(wave ? 0 : 0.9)
                             }
-                            
-                            // 🌊 GAMES WAVE (SUBTLE)
+
+                            // 🌊 GAMES WAVE
                             if tab == .games && progress.hasUnseenAchievements {
                                 Circle()
                                     .fill(Color.blue.opacity(0.12))
@@ -124,7 +124,7 @@ struct PremiumTabBar: View {
                                     .scaleEffect(wave ? 2.0 : 1)
                                     .opacity(wave ? 0 : 0.5)
                             }
-                            
+
                             Image(systemName: tab.icon)
                                 .font(.system(size: 21, weight: .semibold))
                                 .foregroundColor(
@@ -132,15 +132,18 @@ struct PremiumTabBar: View {
                                     ? .black
                                     : .black.opacity(0.38)
                                 )
-                            
-                            // 🔴 Badge dot
-                            if tab == .badges && progress.hasUnseenAchievements {
-                                Circle()
-                                    .fill(Color.red)
-                                    .frame(width: 10, height: 10)
-                                    .offset(x: 10, y: -10)
-                            }
+                                .overlay(alignment: .topTrailing) {
+
+                                    // 🔴 notification dot
+                                    if tab == .badges && progress.hasUnseenAchievements {
+                                        Circle()
+                                            .fill(.red)
+                                            .frame(width: 10, height: 10)
+                                            .offset(x: 4, y: -4)
+                                    }
+                                }
                         }
+                        .frame(width: 30, height: 30)
                         .onAppear {
                             startWaveIfNeeded()
                         }

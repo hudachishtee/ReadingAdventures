@@ -141,8 +141,6 @@ struct MiniGameView: View {
                     // MARK: Question Card
                     
                     highlightedQuestion(scale: scale)
-                    Spacer()
-                        .frame(height: isIPad ? 30 : 18)
 
                     Group {
                         if currentGame.type == .buildWord {
@@ -152,8 +150,8 @@ struct MiniGameView: View {
                         }
                     }
                     .padding(.horizontal, 40)
-                    
-                    Spacer(minLength: 10)
+
+                    Spacer()
                 }
                 
                 // MARK: Wrong Popup
@@ -169,14 +167,14 @@ struct MiniGameView: View {
                             .font(.custom("OpenDyslexic-Bold", size: isPad() ? 22 : 20))
                             .foregroundColor(.black)
 
-                        Text("Try again?")
-                            .font(
-                                .custom(
-                                    "OpenDyslexic-Regular",
-                                    size: isPad() ? 22 : 18
-                                )
-                            )
-                            .foregroundColor(.black)
+//                        Text("Try again?")
+//                            .font(
+//                                .custom(
+//                                    "OpenDyslexic-Regular",
+//                                    size: isPad() ? 22 : 18
+//                                )
+//                            )
+//                            .foregroundColor(.black)
 
                         HStack(spacing: isPad() ? 18 : 14) {
 
@@ -208,7 +206,7 @@ struct MiniGameView: View {
 
                             } label: {
 
-                                Text("Continue →")
+                                Text("Continue")
 
                                     .font(
                                         .custom(
@@ -373,8 +371,10 @@ extension MiniGameView {
                         y: 3
                     )
             }
+            
             .disabled(!showCheckButton)
             .opacity(showCheckButton ? 1 : 0.7)
+            .padding(.bottom, isPad() ? 40 : 90)
         }
     }
     func cardColor(for index: Int) -> Color {

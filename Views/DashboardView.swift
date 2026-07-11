@@ -309,30 +309,30 @@ private extension DashboardView {
 
                 Spacer()
 
-                HStack(spacing: 6) {
-
-                    Circle()
-                        .fill(Color.blue.opacity(0.5))
-                        .frame(
-                            width: responsive.isPad ? 10 : 7,
-                            height: responsive.isPad ? 10 : 7
-                        )
-
-                    Circle()
-                        .fill(Color.blue.opacity(0.25))
-                        .frame(
-                            width: responsive.isPad ? 10 : 7,
-                            height: responsive.isPad ? 10 : 7
-                        )
-
-                    Circle()
-                        .fill(Color.blue.opacity(0.25))
-                        .frame(
-                            width: responsive.isPad ? 10 : 7,
-                            height: responsive.isPad ? 10 : 7
-                        )
-                }
-                .padding(.trailing, 25)
+//                HStack(spacing: 6) {
+//
+//                    Circle()
+//                        .fill(Color.blue.opacity(0.5))
+//                        .frame(
+//                            width: responsive.isPad ? 10 : 7,
+//                            height: responsive.isPad ? 10 : 7
+//                        )
+//
+//                    Circle()
+//                        .fill(Color.blue.opacity(0.25))
+//                        .frame(
+//                            width: responsive.isPad ? 10 : 7,
+//                            height: responsive.isPad ? 10 : 7
+//                        )
+//
+//                    Circle()
+//                        .fill(Color.blue.opacity(0.25))
+//                        .frame(
+//                            width: responsive.isPad ? 10 : 7,
+//                            height: responsive.isPad ? 10 : 7
+//                        )
+//                }
+//                .padding(.trailing, 25)
             }
             .padding(.leading, responsive.horizontalPadding)
             .padding(.trailing, responsive.horizontalPadding)
@@ -455,7 +455,7 @@ private extension DashboardView {
                         .fixedSize()
                 }
                 .foregroundColor(.appPrimaryText.opacity(0.65))
-                .offset(x: responsive.isPad ? 0 : -12)
+                .offset(x: responsive.isPad ? 0 : 6)
             }
             .padding(.leading, responsive.horizontalPadding)
             .padding(.trailing, responsive.horizontalPadding)

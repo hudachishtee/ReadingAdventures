@@ -11,8 +11,15 @@ class ProgressManager: ObservableObject {
     static let shared = ProgressManager()
 
     // MARK: - Published State
-    @Published var completedStories: Set<UUID> = []
-    @Published var unlockedGames: Set<UUID> = []
+    @Published var completedStories: Set<String> = [] {
+        didSet {
+            UserDefaults.standard.set(
+                Array(completedStories),
+                forKey: "completedStories"
+            )
+        }
+    }
+    @Published var unlockedGames: Set<String> = []
 
     // Badge notification
     @Published var hasUnseenAchievements: Bool = false
@@ -23,7 +30,14 @@ class ProgressManager: ObservableObject {
     @Published var lastOpenedStoryCoverImage: String?
     @Published var lastOpenedStoryTotalPages: Int = 0
     @Published var lastOpenedStoryCompleted = false
-    private init() {}
+    private init() {
+
+        completedStories = Set(
+            UserDefaults.standard.stringArray(
+                forKey: "completedStories"
+            ) ?? []
+        )
+    }
 
     // MARK: - Story Completion
     func completeStory(_ story: Story) {

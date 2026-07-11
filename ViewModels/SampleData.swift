@@ -7,6 +7,7 @@ let sampleStories: [Story] = [
     // =========================
 
     Story(
+        id: "extra_sandwich",
         title: "The Extra Sandwich",
         description: """
                 Meet a child who brings an extra sandwich.
@@ -161,6 +162,7 @@ let sampleStories: [Story] = [
     ),
 
     Story(
+        id: "brave_little_wave",
         title: "The Brave Little Wave",
         description: """
                 Meet a little wave who feels nervous about reaching the shore.
@@ -315,6 +317,7 @@ let sampleStories: [Story] = [
     ),
 
     Story(
+        id: "sunset_promise",
         title: "The Sunset Promise",
         description: """
                 Meet two friends who watch the sun set by the sea.
@@ -466,6 +469,8 @@ let sampleStories: [Story] = [
     ),
 
     Story(
+        id: "lost_crayon",
+
         title: "The Lost Crayon",
         description: """
                 Meet Mia, a little artist who loses her favorite crayon.    
@@ -622,6 +627,7 @@ let sampleStories: [Story] = [
     ),
 
     Story(
+        id: "milo_the_cat",
         title: "Milo the Cat",
         description: """
                 Meet Milo, a small, playful cat with soft white fur. 
@@ -773,6 +779,7 @@ let sampleStories: [Story] = [
     ),
     
     Story(
+        id: "quiet_moon",
         title: "The Quiet Moon",
         description: """
                 Meet the quiet moon that watches over the night.
@@ -927,6 +934,7 @@ let sampleStories: [Story] = [
     // =========================
 
     Story(
+        id: "lost_little_bird",
         title: "The Lost Little Bird",
         description: """
                 Meet Omar, who finds a scared little bird all alone.
@@ -1100,6 +1108,7 @@ let sampleStories: [Story] = [
     ),
 
     Story(
+        id: "rainy_day_surprise",
         title: "The Rainy Day Surprise",
         description: """
                 Meet Lina, who wakes to a rainy day.
@@ -1132,7 +1141,7 @@ let sampleStories: [Story] = [
                 text: "She felt a little sad.\nHer mother said, “Let’s make today special.”",
                 imageName: "story7_page2",
                 audioName: "story7_audio2",
-                imageOffset: 150
+                imageOffset: 110
             ),
             
             Page(
@@ -1273,6 +1282,7 @@ let sampleStories: [Story] = [
     ),
 
  Story(
+    id: "floating_balloon",
     title: "The Floating Balloon",
     description: """
             Sara’s red balloon slips away in the wind.
@@ -1448,6 +1458,7 @@ let sampleStories: [Story] = [
     ]
     ),
     Story(
+        id: "slow_and_steady_turtle",
         title: "The Slow and Steady Turtle",
         description: """
                 A turtle walks slowly while others rush past.
@@ -1610,6 +1621,7 @@ let sampleStories: [Story] = [
 // =========================
 
 Story(
+    id: "light_in_the_dark",
     title: "The Light in the Dark",
     description: """
             Meet a child who feels lost in the dark.
@@ -1770,6 +1782,7 @@ Story(
 ),
 
 Story(
+    id: "missing_piece",
     title: "The Missing Piece",
     description: """
             Meet Lina, who wakes to a rainy day.
@@ -1941,6 +1954,7 @@ Story(
 ),
 
 Story(
+    id: "brave_lantern",
     title: "The Brave Lantern",
     description: """
             Meet Lina, who wakes to a rainy day.
@@ -2116,6 +2130,7 @@ Story(
 ),
 
 Story(
+    id: "sky_painter",
     title: "The Sky Painter",
     description: """
             Meet Lina, who wakes to a rainy day.

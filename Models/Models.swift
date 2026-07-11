@@ -32,7 +32,7 @@ enum DashboardTheme: String, CaseIterable {
 // MARK: - Story Model
 struct Story: Identifiable {
 
-    let id = UUID()
+    let id: String
 
     let title: String
     let description: String

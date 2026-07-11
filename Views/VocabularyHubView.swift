@@ -3,6 +3,9 @@ import SwiftUI
 struct VocabularyHubView: View {
     @Environment(\.colorScheme)
     private var colorScheme
+
+    @ObservedObject private var savedWordsManager = SavedWordsManager.shared
+    @ObservedObject private var learnedWordsManager = LearnedWordsManager.shared
     private var isIPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
@@ -153,7 +156,7 @@ struct VocabularyHubView: View {
                             .foregroundColor(.yellow)
                     }
 
-                    Text("12")
+                    Text("\(savedWordsManager.savedWords.count)")
                         .font(
                             .custom(
                                 "OpenDyslexic-Bold",
@@ -191,7 +194,7 @@ struct VocabularyHubView: View {
                             .foregroundColor(.orange)
                     }
 
-                    Text("35")
+                    Text("\(learnedWordsManager.learnedWords.count)")
                         .font(
                             .custom(
                                 "OpenDyslexic-Bold",
@@ -320,7 +323,7 @@ struct VocabularyHubView: View {
                                 weight: .bold
                             )
                         )
-                        .foregroundColor(.appPrimaryText)
+                        .foregroundColor( .appPrimaryText)
                 }
             }
             .padding(

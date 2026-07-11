@@ -146,25 +146,18 @@ struct HomeView: View {
                             // FILTER PILLS
                             //==========================================
                             
-                            ScrollView(
-                                .horizontal,
-                                showsIndicators: false
-                            ) {
-                                
-                                HStack(spacing: 12) {
-                                    
-                                    filterButton(title: "All")
-                                    
-                                    filterButton(title: "Beginner")
-                                    
-                                    filterButton(title: "Explorer")
-                                    
-                                    filterButton(title: "Advanced")
-                                }
-                                .padding(.leading, 14)
-                                .padding(.vertical, 2)
-                                .padding(.trailing, 8)
+                            HStack(spacing: 8) {
+
+                                filterButton(title: "All")
+
+                                filterButton(title: "Beginner")
+
+                                filterButton(title: "Explorer")
+
+                                filterButton(title: "Advanced")
                             }
+                            .padding(.leading, 14)
+                            .padding(.vertical, 2)
                             
                             //==========================================
                             // MENU BUTTON
@@ -379,7 +372,7 @@ extension HomeView {
                         "OpenDyslexic-Bold",
                         size: UIDevice.current.userInterfaceIdiom == .pad
                         ? 16
-                        : 13
+                        : 10
                     )
                 )
                 .tracking(0.2)
@@ -390,7 +383,10 @@ extension HomeView {
                     ? .white
                     : .black
                 )
-                .padding(.horizontal, 14)
+                .padding(
+                    .horizontal,
+                    UIDevice.current.userInterfaceIdiom == .pad ? 14 : 9
+                )
                 .padding(.vertical, 7)
                 .background(
                     ZStack {
