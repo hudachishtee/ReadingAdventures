@@ -9,6 +9,7 @@ struct FlashCardPracticeView: View {
     @State private var currentIndex = 0
     @State private var isFlipped = false
     @State private var dragOffset: CGSize = .zero
+    @State private var showFinished = false
 
     @ObservedObject var audioManager = AudioManager.shared
 
@@ -86,12 +87,12 @@ struct FlashCardPracticeView: View {
                     .frame(height: 38)
 
                 ZStack {
-
+                    
                     ForEach(Array(allWords[currentIndex...].prefix(3).enumerated().reversed()),
                             id: \.element.word) { index, vocab in
-
+                        
                         if index == 0 {
-
+                            
                             FlipCard(
                                 word: vocab,
                                 currentIndex: $currentIndex,
@@ -109,70 +110,74 @@ struct FlashCardPracticeView: View {
                                         dragOffset = value.translation
                                     }
                                     .onEnded { value in
-
+                                        
                                         let threshold: CGFloat = 120
-
+                                        
                                         if value.translation.width < -threshold {
-
+                                            
                                             guard currentIndex < allWords.count - 1 else {
+                                                
+                                                showFinished = true
+                                                
                                                 withAnimation(.spring()) {
                                                     dragOffset = .zero
                                                 }
+                                                
                                                 return
                                             }
-
+                                            
                                             withAnimation(.easeOut(duration: 0.22)) {
                                                 dragOffset.width = -900
                                             }
-
+                                            
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
-
+                                                
                                                 currentIndex += 1
                                                 isFlipped = false
                                                 dragOffset = .zero
-
+                                                
                                             }
-
+                                            
                                         }
-
+                                        
                                         else if value.translation.width > threshold {
-
+                                            
                                             guard currentIndex > 0 else {
                                                 withAnimation(.spring()) {
                                                     dragOffset = .zero
                                                 }
                                                 return
                                             }
-
+                                            
                                             withAnimation(.easeOut(duration: 0.22)) {
                                                 dragOffset.width = 900
                                             }
-
+                                            
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
-
+                                                
                                                 currentIndex -= 1
                                                 isFlipped = false
                                                 dragOffset = .zero
-
+                                                
                                             }
-
+                                            
                                         }
-
+                                        
                                         else {
-
+                                            
                                             withAnimation(.spring(response: 0.35,
                                                                   dampingFraction: 0.82)) {
-
+                                                
                                                 dragOffset = .zero
-
+                                                
                                             }
-
+                                            
                                         }
                                     }
                             )
                             .zIndex(3)
                         } else {
-
+                            
                             MiniFlashCard()
                                 .frame(
                                     width: isIPad ? 530 : 320,
@@ -186,9 +191,72 @@ struct FlashCardPracticeView: View {
                                 .opacity(index == 1 ? 0.8 : 0.55)
                                 .zIndex(Double(2 - index))
                         }
-
+                        
                     }
+                    if showFinished {
 
+                        VStack(spacing: 20) {
+
+                            Text("🎉")
+                                .font(.system(size: 60))
+
+                            Text("Amazing!")
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Bold",
+                                        size: isIPad ? 34 : 26
+                                    )
+                                )
+
+                            Text("You practiced all \(allWords.count) words!")
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Regular",
+                                        size: isIPad ? 22 : 16
+                                    )
+                                )
+                                .multilineTextAlignment(.center)
+
+                            HStack(spacing: 12) {
+
+                                Button("Again") {
+
+                                    currentIndex = 0
+                                    isFlipped = false
+                                    showFinished = false
+                                }
+                                .padding(.horizontal, 18)
+                                .padding(.vertical, 10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .fill(Color("ButtonColor"))
+                                )
+                                .foregroundColor(.appPrimaryText)
+                                .cornerRadius(12)
+
+                                Button("Close") {
+
+                                    showFinished = false
+                                }
+                                .padding(.horizontal, 18)
+                                .padding(.vertical, 10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .fill(Color("ButtonSecondaryBackground"))
+                                )
+                                .foregroundColor(.appPrimaryText)
+                                .cornerRadius(12)
+                            }
+
+                        }
+                        .padding(40)
+                        .background(
+                            RoundedRectangle(cornerRadius: 30)
+                                .fill(Color.white.opacity(0.95))
+                        )
+                        .shadow(radius: 20)
+                        .zIndex(999)
+                    }
                 }
 
                 Spacer()

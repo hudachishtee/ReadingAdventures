@@ -25,6 +25,22 @@ struct StoryReaderView: View {
     @StateObject private var audioManager = AudioManager.shared
     @ObservedObject private var progress = ProgressManager.shared
 
+    func nextPage() {
+        if currentPage < story.pages.count - 1 {
+            currentPage += 1
+            audioManager.stop()
+        } else {
+            goToMoral = true
+        }
+    }
+
+    func previousPage() {
+        if currentPage > 0 {
+            currentPage -= 1
+            audioManager.stop()
+        }
+    }
+
     var body: some View {
 
         let page = story.pages[currentPage]
@@ -61,7 +77,9 @@ struct StoryReaderView: View {
                     isIPad: isIPad,
                     audioManager: audioManager,
                     goToMoral: $goToMoral,
-                    lastScrolledLine: $lastScrolledLine
+                    lastScrolledLine: $lastScrolledLine,
+                    nextPage: nextPage,
+                    previousPage: previousPage
                 )
                 .offset(y: isIPad ? 35 : 45)                .zIndex(1)
             }

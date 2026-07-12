@@ -26,6 +26,8 @@ struct FlipCard: View {
     let audioManager: AudioManager
     let showSwipeHint: Bool
 
+    @ObservedObject private var savedManager = SavedWordsManager.shared
+
     var body: some View {
 
         ZStack {
@@ -46,14 +48,38 @@ struct FlipCard: View {
 
                 VStack(spacing: isIPad ? 42 : 30) {
 
-                    Text(word.word)
-                        .font(
-                            .custom(
-                                "OpenDyslexic-Bold",
-                                size: isIPad ? 56 : 38
+                    HStack {
+
+                        Text(word.word)
+                            .font(
+                                .custom(
+                                    "OpenDyslexic-Bold",
+                                    size: isIPad ? 56 : 38
+                                )
                             )
-                        )
-                        .foregroundColor(.appPrimaryText)
+                            .foregroundColor(.appPrimaryText)
+                           
+
+                        Button {
+
+                            savedManager.toggle(word)
+
+                        } label: {
+
+                            Image(
+                                systemName:
+                                    savedManager.isSaved(word)
+                                    ? "bookmark.fill"
+                                    : "bookmark"
+                            )
+                            .font(.system(size: isIPad ? 28 : 22))
+                            .foregroundColor(Color("VocabularyAccent"))
+                        }
+                    }
+                    .padding(.horizontal, isIPad ? 24 : 18)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.55)
+                        .padding(.horizontal, 20)
 
                     Spacer()
                         .frame(height: isIPad ? 18 : 12)

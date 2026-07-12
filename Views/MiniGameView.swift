@@ -15,9 +15,12 @@ struct MiniGameView: View {
     
     @State private var builtLetterIndices: [Int] = []
     
-    @State private var showWrongPopup = false
+//    @State private var showWrongPopup = false
     @State private var showConfetti = false
-//    @State private var showGameComplete = false
+
+    @State private var showCorrectAnswer = false
+    @State private var correctIndex: Int? = nil
+    @State private var wrongIndex: Int? = nil
     
     @State private var shakeWord = false
     @State private var wrongGlow = false
@@ -25,8 +28,6 @@ struct MiniGameView: View {
     @State private var showExitAlert = false
     
     @State private var pressedIndex: Int? = nil
-//    @State private var animatePopup = false
-    
     @State private var goHome = false
     
     var currentGame: GameQuestion {
@@ -156,79 +157,70 @@ struct MiniGameView: View {
                 
                 // MARK: Wrong Popup
                 
-                if showWrongPopup {
-                    
-                    Color.black.opacity(0.35)
-                        .ignoresSafeArea()
-                    
-                    VStack(spacing: isPad() ? 24 : 20) {
-                        
-                        Text("Nice Try!")
-                            .font(.custom("OpenDyslexic-Bold", size: isPad() ? 22 : 20))
-                            .foregroundColor(.black)
-
-//                        Text("Try again?")
-//                            .font(
-//                                .custom(
-//                                    "OpenDyslexic-Regular",
-//                                    size: isPad() ? 22 : 18
-//                                )
-//                            )
+//                if showWrongPopup {
+//                    
+//                    Color.black.opacity(0.35)
+//                        .ignoresSafeArea()
+//                    
+//                    VStack(spacing: isPad() ? 24 : 20) {
+//                        
+//                        Text("Nice Try!")
+//                            .font(.custom("OpenDyslexic-Bold", size: isPad() ? 22 : 20))
 //                            .foregroundColor(.black)
-
-                        HStack(spacing: isPad() ? 18 : 14) {
-
-                            Button {
-
-                                resetTryAgain()
-
-                            } label: {
-
-                                Text("Try Again")
-
-                                    .font(
-                                        .custom(
-                                            "OpenDyslexic-Bold",
-                                            size: isPad() ? 18 : 16
-                                        )
-                                    )
-                                    .foregroundColor(.black)
-                                    .frame(width: isPad() ? 170 : 130,
-                                           height: isPad() ? 54 : 46)
-                                    .background(Color("ButtonSecondaryBackground"))
-                                    .cornerRadius(14)
-                            }
-
-                            Button {
-
-                                showWrongPopup = false
-                                nextGame()
-
-                            } label: {
-
-                                Text("Continue")
-
-                                    .font(
-                                        .custom(
-                                            "OpenDyslexic-Bold",
-                                            size: isPad() ? 18 : 16
-                                        )
-                                    )
-                                    .foregroundColor(.black)
-                                    .frame(width: isPad() ? 170 : 130,
-                                           height: isPad() ? 54 : 46)
-                                    .background(Color.yellow)
-                                    .cornerRadius(14)
-                            }
-                        }
-                    }
-                    .padding(isPad() ? 42 : 30)
-                    .background(Color.white)
-                    .cornerRadius(30)
-                    .shadow(radius: 14)
-                    .frame(maxWidth: isPad() ? 560 : 360)
-                    .padding(.horizontal, 30)
-                }
+//
+//                        HStack(spacing: isPad() ? 18 : 14) {
+//
+//                            Button {
+//
+//                                resetTryAgain()
+//
+//                            } label: {
+//
+//                                Text("Try Again")
+//
+//                                    .font(
+//                                        .custom(
+//                                            "OpenDyslexic-Bold",
+//                                            size: isPad() ? 18 : 16
+//                                        )
+//                                    )
+//                                    .foregroundColor(.black)
+//                                    .frame(width: isPad() ? 170 : 130,
+//                                           height: isPad() ? 54 : 46)
+//                                    .background(Color("ButtonSecondaryBackground"))
+//                                    .cornerRadius(14)
+//                            }
+//
+//                            Button {
+//
+//                                showWrongPopup = false
+//                                nextGame()
+//
+//                            } label: {
+//
+//                                Text("Continue")
+//
+//                                    .font(
+//                                        .custom(
+//                                            "OpenDyslexic-Bold",
+//                                            size: isPad() ? 18 : 16
+//                                        )
+//                                    )
+//                                    .foregroundColor(.black)
+//                                    .frame(width: isPad() ? 170 : 130,
+//                                           height: isPad() ? 54 : 46)
+//                                    .background(Color.yellow)
+//                                    .cornerRadius(14)
+//                            }
+//                        }
+//                    }
+//                    .padding(isPad() ? 42 : 30)
+//                    .background(Color.white)
+//                    .cornerRadius(30)
+//                    .shadow(radius: 14)
+//                    .frame(maxWidth: isPad() ? 560 : 360)
+//                    .padding(.horizontal, 30)
+//                }
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -440,7 +432,13 @@ extension MiniGameView {
                     maxWidth: .infinity,
                     minHeight: isPad() ? 140 : 115
                 )
-                .background(color.opacity(0.9))
+                .background(
+                    index == correctIndex && showCorrectAnswer
+                    ? Color.green.opacity(0.85)
+                    : index == wrongIndex && showCorrectAnswer
+                        ? Color.red.opacity(0.85)
+                        : color.opacity(0.9)
+                )
                 .cornerRadius(24)
                 .shadow(
                     color: Color.black.opacity(0.18),
@@ -451,7 +449,7 @@ extension MiniGameView {
                 .overlay(
                     RoundedRectangle(cornerRadius: 24)
                         .stroke(
-                            selectedIndex == index
+                            selectedIndex == index && !showCorrectAnswer
                             ? story.theme.primary
                             : Color.clear,
                             lineWidth: 4
@@ -462,6 +460,12 @@ extension MiniGameView {
                     ? (isPad() ? 1.05 : 1.04)
                     : 1.0
                 )
+                .opacity(
+                    showCorrectAnswer && index == wrongIndex
+                    ? 0.7
+                    : 1
+                )
+                .disabled(showCorrectAnswer)
                 .animation(
                     .spring(
                         response: 0.35,
@@ -640,21 +644,31 @@ extension MiniGameView {
 extension MiniGameView {
     
     func checkSelectedAnswer() {
-        
+
         guard let selectedIndex else {
             return
         }
-        
+
         let selectedText = currentGame.options[selectedIndex].text
-        
+
         if selectedText == currentGame.correctAnswer {
-            
+
             correctAnswer()
-            
+
         } else {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                showWrongPopup = true
+
+            wrongIndex = selectedIndex
+
+            correctIndex = currentGame.options.firstIndex {
+                $0.text == currentGame.correctAnswer
+            }
+
+            showCorrectAnswer = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+
+                showCorrectAnswer = false
+                nextGame()
             }
         }
     }
@@ -674,8 +688,7 @@ extension MiniGameView {
     }
     
     func resetTryAgain() {
-        
-        showWrongPopup = false
+
         selectedIndex = nil
         builtLetterIndices = []
         showCheckButton = false
@@ -686,6 +699,10 @@ extension MiniGameView {
         selectedIndex = nil
         builtLetterIndices = []
         showCheckButton = false
+
+        showCorrectAnswer = false
+        correctIndex = nil
+        wrongIndex = nil
         
         if currentIndex < story.games.count - 1 {
             

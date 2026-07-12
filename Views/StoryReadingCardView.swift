@@ -8,8 +8,11 @@ let isIPad: Bool
 
 @ObservedObject var audioManager: AudioManager
 
-@Binding var goToMoral: Bool
-@Binding var lastScrolledLine: Int
+    @Binding var goToMoral: Bool
+    @Binding var lastScrolledLine: Int
+
+    let nextPage: () -> Void
+    let previousPage: () -> Void
 
 var body: some View {
 
@@ -164,32 +167,39 @@ var body: some View {
         ZStack {
 
             HStack {
-
-                Image(systemName: "arrow.left")
-                    .font(
-                        .system(
-                            size: isIPad ? 34 : 26,
-                            weight: .medium
+                
+                Button {
+                    previousPage()
+                } label: {
+                    Image(systemName: "arrow.left")
+                        .font(
+                            .system(
+                                size: isIPad ? 34 : 26,
+                                weight: .medium
+                            )
                         )
-                    )
-                    .foregroundStyle(
-                        Color.appPrimaryText.opacity(0.55)
-                    )
-
+                        .foregroundStyle(
+                            Color.appPrimaryText.opacity(0.55)
+                        )
+                }
+                
                 Spacer()
-
-                Image(systemName: "arrow.right")
-                    .font(
-                        .system(
-                            size: isIPad ? 34 : 26,
-                            weight: .medium
+                
+                Button {
+                    nextPage()
+                } label: {
+                    Image(systemName: "arrow.right")
+                        .font(
+                            .system(
+                                size: isIPad ? 34 : 26,
+                                weight: .medium
+                            )
                         )
-                    )
-                    .foregroundStyle(
-                        Color.black.opacity(0.28)
-                    )
+                        .foregroundStyle(
+                            Color.appPrimaryText.opacity(0.55)
+                        )
+                }
             }
-
             if currentPage == story.pages.count - 1 {
 
                 HStack {
@@ -283,13 +293,14 @@ var body: some View {
 
 #Preview {
 
-StoryReadingCardView(
-    story: sampleStories[0],
-    currentPage: 0,
-    isIPad: false,
-    audioManager: AudioManager.shared,
-    goToMoral: .constant(false),
-    lastScrolledLine: .constant(0)
-)
-
+    StoryReadingCardView(
+        story: sampleStories[0],
+        currentPage: 0,
+        isIPad: false,
+        audioManager: AudioManager.shared,
+        goToMoral: .constant(false),
+        lastScrolledLine: .constant(0),
+        nextPage: {},
+        previousPage: {}
+    )
 }

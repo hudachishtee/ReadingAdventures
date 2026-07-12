@@ -178,12 +178,14 @@ struct VocabularyView: View {
                                 .offset(x: 4, y: 4)
                                 
                                 // Main Card
+                                // Main Card
                                 vocabularyCard(
                                     word: words[currentIndex],
                                     isIPad: isIPad,
                                     width: cardWidth,
                                     height: cardHeight
                                 )
+                                .id(words[currentIndex].word)
                                 .offset(x: dragOffset)
                                 .rotationEffect(
                                     .degrees(Double(dragOffset / 28))

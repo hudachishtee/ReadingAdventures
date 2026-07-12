@@ -81,6 +81,12 @@ struct DashboardView: View {
                         navigateToReader = true
                     }
                 }
+                .presentationDetents(
+                    UIDevice.current.userInterfaceIdiom == .pad
+                    ? [.large]
+                    : [.fraction(0.6)]
+                )
+                .presentationCornerRadius(30)
             }
             .navigationDestination(isPresented: $showAllStories) {
                 HomeView()
@@ -398,12 +404,16 @@ private extension DashboardView {
                         size: responsive.isPad ? 20 : 13
                     )
                 )
+                .foregroundColor(.appPrimaryText)
                 .lineLimit(2)
                 .minimumScaleFactor(0.8)
-                .frame(
-                    height: responsive.isPad ? 48 : 40,
-                    alignment: .topLeading
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule()
+                        .fill(Color.appCardBackground.opacity(0.9))
                 )
+                .frame(maxWidth: .infinity, alignment: .center)
         }
         .onTapGesture {
 
@@ -578,13 +588,16 @@ private extension DashboardView {
                         size: responsive.isPad ? 20 : 12
                     )
                 )
-                .padding()
-
                 .foregroundColor(.appPrimaryText)
-                .frame(
-                    height: responsive.isPad ? 48 : 40,
-                    alignment: .topLeading
+                .lineLimit(2)
+                .minimumScaleFactor(0.8)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 5)
+                .background(
+                    Capsule()
+                        .fill(Color.appCardBackground.opacity(0.9))
                 )
+                .frame(maxWidth: .infinity, alignment: .center)
         }
         .frame(width: responsive.storyCardWidth)    }
 }
