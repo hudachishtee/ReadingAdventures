@@ -481,12 +481,17 @@ extension MiniGameView {
 extension MiniGameView {
     
     func buildWordView(scale: CGFloat) -> some View {
-        
+
         let target = currentGame.correctAnswer
-        
+
+        let boxWidth = min(
+            CGFloat(isPad() ? 80 : 56),
+            (UIScreen.main.bounds.width - 120) / CGFloat(target.count)
+        )
+
         return VStack(spacing: isPad() ? 52 : 34) {
             
-            HStack(spacing: 12 * scale) {
+            VStack(spacing: 12) {
                 
                 HStack(spacing: isPad() ? 14 : 10) {
                     
@@ -499,7 +504,7 @@ extension MiniGameView {
                                 : Color("VocabularyCard")
                             )
                             .frame(
-                                width: isPad() ? 80 : 56,
+                                width: boxWidth,
                                 height: isPad() ? 86 : 62
                             )
                             .overlay(

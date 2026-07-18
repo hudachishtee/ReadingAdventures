@@ -152,7 +152,7 @@ extension AchievementsView {
                 
                 Text("You earned")
                     .font(.custom("OpenDyslexic-Regular", size: 13))
-                    .foregroundColor(.appSecondaryText)
+                    .foregroundColor(.appPrimaryText)
                 
                 Text("\(earned) / \(total)")
                     .font(.system(size: 34, weight: .heavy))
@@ -160,7 +160,7 @@ extension AchievementsView {
                 
                 Text("badges")
                     .font(.custom("OpenDyslexic-Regular", size: 12))
-                    .foregroundColor(.appSecondaryText)
+                    .foregroundColor(.appPrimaryText)
                 
                 ProgressView(
                     value: Double(earned),
@@ -298,7 +298,7 @@ extension AchievementsView {
                 )
                 .font(.custom("OpenDyslexic-Regular", size: 15))
                 .multilineTextAlignment(.center)
-                .foregroundColor(.appSecondaryText)
+                .foregroundColor(.appPrimaryText)
                 .padding(.horizontal, 10)
             }
             .padding(28)

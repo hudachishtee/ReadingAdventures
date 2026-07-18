@@ -326,7 +326,7 @@ struct GameHubView: View {
                             .font(.headline)
                         
                         Circle()
-                            .fill(Color.gray.opacity(0.35))
+                            .fill(Color.gray.opacity(0.5))
                             .frame(width: 100, height: 100)
                             .overlay(
                                 Image(systemName: "lock.fill")
@@ -341,7 +341,7 @@ struct GameHubView: View {
                         
                         Text("Finish reading this story to unlock the game")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.appPrimaryText)
                             .multilineTextAlignment(.center)
                         
                         Button {
@@ -352,12 +352,12 @@ struct GameHubView: View {
                             
                             Text("OK")
                                 .fontWeight(.semibold)
-                                .foregroundColor(.black)
+                                .foregroundColor(.appPrimaryText)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
                                 .background(
                                     Capsule()
-                                        .fill(Color.gray.opacity(0.15))
+                                        .fill(Color.gray.opacity(0.5))
                                 )
                         }
                     }
@@ -365,7 +365,7 @@ struct GameHubView: View {
                     .frame(maxWidth: 320)
                     .background(
                         RoundedRectangle(cornerRadius: 28)
-                            .fill(Color.white.opacity(0.96))
+                            .fill(Color("CardBackground"))
                     )
                     .shadow(radius: 20)
                     .padding(.horizontal, 30)
@@ -429,7 +429,7 @@ extension GameHubView {
                     "OpenDyslexic-Regular",
                     size: isPhone ? 15 : 19
                 ))
-                .foregroundColor(.black)
+                .foregroundColor(.appPrimaryText)
                 .lineLimit(isPhone ? 2 : 1)
                 .minimumScaleFactor(0.75)
                 .multilineTextAlignment(.center)

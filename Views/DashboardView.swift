@@ -139,29 +139,29 @@ private extension DashboardView {
                     .frame(width: w * 1.6, height: w * 1.6)
                     .offset(x: -w * 0.30, y: h * 0.60)
 
-                Image(systemName: "star.fill")
-                    .foregroundColor(.yellow.opacity(0.9))
-                    .font(.system(size: w * 0.035))
-                    .offset(
-                        x: w * 0.18,
-                        y: -h * 0.20
-                    )
-
-                Image(systemName: "moon.fill")
-                    .foregroundColor(.yellow.opacity(0.9))
-                    .font(.system(size: w * 0.04))
-                    .offset(
-                        x: w * 0.30,
-                        y: -h * 0.30
-                    )
-
-                Image(systemName: "star.fill")
-                    .foregroundColor(.blue.opacity(0.55))
-                    .font(.system(size: w * 0.03))
-                    .offset(
-                        x: w * 0.02,
-                        y: -h * 0.05
-                    )
+//                Image(systemName: "star.fill")
+//                    .foregroundColor(.yellow.opacity(0.9))
+//                    .font(.system(size: w * 0.035))
+//                    .offset(
+//                        x: w * 0.18,
+//                        y: -h * 0.20
+//                    )
+//
+//                Image(systemName: "moon.fill")
+//                    .foregroundColor(.yellow.opacity(0.9))
+//                    .font(.system(size: w * 0.04))
+//                    .offset(
+//                        x: w * 0.30,
+//                        y: -h * 0.30
+//                    )
+//
+//                Image(systemName: "star.fill")
+//                    .foregroundColor(.blue.opacity(0.55))
+//                    .font(.system(size: w * 0.03))
+//                    .offset(
+//                        x: w * 0.02,
+//                        y: -h * 0.05
+//                    )
 
                 HStack(spacing: w * 0.04) {
 
@@ -188,8 +188,8 @@ private extension DashboardView {
                     Image("owl_logo1")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: min(w * 0.22, 220))
-                        .padding(.trailing, w * 0.02)
+                        .frame(width: min(w * 0.38, 340))
+                        .padding(.trailing, -w * 0.01)
                 }
                 .frame(width: w * 0.88, alignment: .leading)
                 .offset(x: -w * 0.02)
@@ -228,43 +228,43 @@ private extension DashboardView {
                     .frame(width: w * 1.05, height: w * 1.05)
                     .offset(x: -w * 0.22, y: h * 0.55)
                 
-                Image(systemName: "star.fill")
-                    .foregroundColor(.yellow.opacity(0.9))
-                    .font(.system(size: w * 0.045))
-                    .offset(
-                        x: w * 0.16,
-                        y: -h * 0.22
-                    )
-
-                Image(systemName: "moon.fill")
-                    .foregroundColor(.yellow.opacity(0.9))
-                    .font(.system(size: w * 0.05))
-                    .offset(
-                        x: w * 0.28,
-                        y: -h * 0.30
-                    )
-
-                Image(systemName: "star.fill")
-                    .foregroundColor(.blue.opacity(0.55))
-                    .font(.system(size: w * 0.04))
-                    .offset(
-                        x: w * 0.02,
-                        y: -h * 0.08
-                    )
+//                Image(systemName: "star.fill")
+//                    .foregroundColor(.yellow.opacity(0.9))
+//                    .font(.system(size: w * 0.045))
+//                    .offset(
+//                        x: w * 0.16,
+//                        y: -h * 0.22
+//                    )
+//
+//                Image(systemName: "moon.fill")
+//                    .foregroundColor(.yellow.opacity(0.9))
+//                    .font(.system(size: w * 0.05))
+//                    .offset(
+//                        x: w * 0.28,
+//                        y: -h * 0.30
+//                    )
+//
+//                Image(systemName: "star.fill")
+//                    .foregroundColor(.blue.opacity(0.55))
+//                    .font(.system(size: w * 0.04))
+//                    .offset(
+//                        x: w * 0.02,
+//                        y: -h * 0.08
+//                    )
 
                 HStack(alignment: .center, spacing: w * 0.04) {
 
                     VStack(alignment: .leading, spacing: h * 0.06) {
 
                         Text("Hi,\nReader!")
-                            .font(.custom("OpenDyslexic-Bold", size: w * 0.078))
+                            .font(.custom("OpenDyslexic-Bold", size: w * 0.072))
                             .foregroundColor(.appPrimaryText)
                             .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
                             .minimumScaleFactor(0.7)
 
                         Text("Ready for a new\nadventure?")
-                            .font(.custom("OpenDyslexic-Regular", size: w * 0.044))
+                            .font(.custom("OpenDyslexic-Regular", size: w * 0.040))
                             .foregroundColor(.appPrimaryText)
                             .lineLimit(2)
                             .minimumScaleFactor(0.5)
@@ -277,10 +277,10 @@ private extension DashboardView {
                     Image("owl_logo1")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: min(w * 0.22, 110))
-                        .padding(.trailing, w * 0.02)
+                        .frame(width: min(w * 0.42, 180))
+                        .padding(.trailing, -w * 0.02)
                 }
-                .frame(width: w * 0.88)
+                .frame(width: w * 0.94)
                 .padding(.horizontal, w * 0.02)
             }
             .frame(width: w, height: h) // <- THE FIX: ZStack now fills the reader's bounds

@@ -161,6 +161,6 @@ struct StoryReaderView: View {
 
 #Preview {
     StoryReaderView(
-        story: sampleStories[8]
+        story: sampleStories[0]
     )
 }
