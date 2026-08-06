@@ -1,105 +1,132 @@
 import SwiftUI
 
 struct DashboardView: View {
-    
+
     @Environment(\.colorScheme) private var colorScheme
 
     private var isDarkMode: Bool {
         colorScheme == .dark
     }
+
     @ObservedObject private var progress = ProgressManager.shared
     @ObservedObject private var savedWordsManager = SavedWordsManager.shared
+
     @State private var selectedTheme: DashboardTheme = .courage
     @State private var selectedStory: Story?
-//    @State private var showPreview = false
+    @State private var showAdventureMap = false
     @State private var showAllStories = false
     @State private var navigateToReader = false
     @State private var storyForReader: Story?
+
+    // Replaces the old top-level GeometryReader.
+    // We measure size via a background GeometryReader instead so it
+    // doesn't sit "around" the ScrollView/LazyHStack and break
+    // hit-testing/gestures on cards past the first one.
+    @State private var containerSize: CGSize = .zero
+    @State private var safeAreaTop: CGFloat = 0
+    @State private var safeAreaBottom: CGFloat = 0
+
     private var filteredStories: [Story] {
         sampleStories.filter {
             $0.dashboardTheme == selectedTheme
         }
     }
-    private var hasReadingProgress: Bool {
 
+    private var hasReadingProgress: Bool {
         progress.lastOpenedStoryTitle != nil &&
         !progress.lastOpenedStoryCompleted
     }
-    private var lastOpenedStory: Story? {
 
+    private var lastOpenedStory: Story? {
         sampleStories.first {
             $0.title == progress.lastOpenedStoryTitle
         }
     }
+
+    private var responsive: Responsive {
+        Responsive(
+            width: containerSize.width,
+            height: containerSize.height,
+            safeTop: safeAreaTop,
+            safeBottom: safeAreaBottom
+        )
+    }
+
     var body: some View {
 
-        GeometryReader { geo in
+        ScrollView(showsIndicators: false) {
 
-            let responsive = Responsive(
-                width: geo.size.width,
-                height: geo.size.height,
-                safeTop: geo.safeAreaInsets.top,
-                safeBottom: geo.safeAreaInsets.bottom
-            )
+            VStack(alignment: .leading,
+                   spacing: responsive.isPad ? 18 : 12)
+            {
+                heroSection(responsive)
 
-            ScrollView(showsIndicators: false) {
+                continueReadingSection(responsive)
 
-                VStack(alignment: .leading,
-                       spacing: responsive.isPad ? 18 : 12)
-                {
-                    heroSection(responsive)
+                browseByThemeSection(responsive)
+                    .padding(.top, 10)
 
-                    continueReadingSection(responsive)
-
-                    browseByThemeSection(responsive)
-                        .padding(.top, 10)
-
-                    Spacer(minLength: 120)
-                }
-//                .frame(maxWidth: responsive.contentWidth)
-                .frame(maxWidth: .infinity)
-                .padding(.top, 12)
-                .padding(.bottom, 30)
+                Spacer(minLength: 120)
             }
-            .background(
-                LinearGradient(
-                    colors: [.bgTop, .bgBottom],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-            )
-            .sheet(item: $selectedStory) { story in
-
-                StoryPreviewSheet(story: story) {
-
-                    storyForReader = story
-
-                    selectedStory = nil
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        navigateToReader = true
+            .frame(maxWidth: .infinity)
+            .padding(.top, 12)
+            .padding(.bottom, 30)
+        }
+        // Measure available size WITHOUT wrapping content in GeometryReader.
+        .background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear {
+                        containerSize = geo.size
+                        safeAreaTop = geo.safeAreaInsets.top
+                        safeAreaBottom = geo.safeAreaInsets.bottom
                     }
-                }
-                .presentationDetents(
-                    UIDevice.current.userInterfaceIdiom == .pad
-                    ? [.large]
-                    : [.fraction(0.6)]
-                )
-                .presentationCornerRadius(30)
+                    .onChange(of: geo.size) { newSize in
+                        containerSize = newSize
+                    }
             }
-            .navigationDestination(isPresented: $showAllStories) {
-                HomeView()
-            }
-            .navigationDestination(isPresented: $navigateToReader) {
+        )
+        .background(
+            LinearGradient(
+                colors: [.bgTop, .bgBottom],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        )
+        .sheet(item: $selectedStory) { story in
 
-                if let story = storyForReader {
-                    StoryReaderView(story: story)
+            StoryPreviewSheet(story: story) {
+
+                storyForReader = story
+
+                selectedStory = nil
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    navigateToReader = true
                 }
+            }
+            .presentationDetents(
+                UIDevice.current.userInterfaceIdiom == .pad
+                ? [.large]
+                : [.fraction(0.6)]
+            )
+            .presentationCornerRadius(30)
+        }
+        .navigationDestination(isPresented: $showAllStories) {
+            HomeView()
+        }
+        .navigationDestination(isPresented: $showAdventureMap) {
+            AdventureMapView()
+        }
+        .navigationDestination(isPresented: $navigateToReader) {
+            if let story = storyForReader {
+                StoryReaderView(story: story)
             }
         }
     }
 }
+
 // MARK: - Hero
 private extension DashboardView {
 
@@ -139,30 +166,6 @@ private extension DashboardView {
                     .frame(width: w * 1.6, height: w * 1.6)
                     .offset(x: -w * 0.30, y: h * 0.60)
 
-//                Image(systemName: "star.fill")
-//                    .foregroundColor(.yellow.opacity(0.9))
-//                    .font(.system(size: w * 0.035))
-//                    .offset(
-//                        x: w * 0.18,
-//                        y: -h * 0.20
-//                    )
-//
-//                Image(systemName: "moon.fill")
-//                    .foregroundColor(.yellow.opacity(0.9))
-//                    .font(.system(size: w * 0.04))
-//                    .offset(
-//                        x: w * 0.30,
-//                        y: -h * 0.30
-//                    )
-//
-//                Image(systemName: "star.fill")
-//                    .foregroundColor(.blue.opacity(0.55))
-//                    .font(.system(size: w * 0.03))
-//                    .offset(
-//                        x: w * 0.02,
-//                        y: -h * 0.05
-//                    )
-
                 HStack(spacing: w * 0.04) {
 
                     VStack(alignment: .leading, spacing: h * 0.05) {
@@ -182,7 +185,7 @@ private extension DashboardView {
                     }
                     .layoutPriority(2)
                     .fixedSize(horizontal: false, vertical: true)
-                    
+
                     Spacer(minLength: 0)
 
                     Image("owl_logo1")
@@ -194,7 +197,7 @@ private extension DashboardView {
                 .frame(width: w * 0.88, alignment: .leading)
                 .offset(x: -w * 0.02)
             }
-            .frame(width: w, height: h) // <- THE FIX: ZStack now fills the reader's bounds
+            .frame(width: w, height: h)
         }
         .frame(height: responsive.heroHeight)
         .frame(width: responsive.heroWidth)
@@ -227,30 +230,6 @@ private extension DashboardView {
                     .fill(Color.blue.opacity(0.10))
                     .frame(width: w * 1.05, height: w * 1.05)
                     .offset(x: -w * 0.22, y: h * 0.55)
-                
-//                Image(systemName: "star.fill")
-//                    .foregroundColor(.yellow.opacity(0.9))
-//                    .font(.system(size: w * 0.045))
-//                    .offset(
-//                        x: w * 0.16,
-//                        y: -h * 0.22
-//                    )
-//
-//                Image(systemName: "moon.fill")
-//                    .foregroundColor(.yellow.opacity(0.9))
-//                    .font(.system(size: w * 0.05))
-//                    .offset(
-//                        x: w * 0.28,
-//                        y: -h * 0.30
-//                    )
-//
-//                Image(systemName: "star.fill")
-//                    .foregroundColor(.blue.opacity(0.55))
-//                    .font(.system(size: w * 0.04))
-//                    .offset(
-//                        x: w * 0.02,
-//                        y: -h * 0.08
-//                    )
 
                 HStack(alignment: .center, spacing: w * 0.04) {
 
@@ -283,7 +262,7 @@ private extension DashboardView {
                 .frame(width: w * 0.94)
                 .padding(.horizontal, w * 0.02)
             }
-            .frame(width: w, height: h) // <- THE FIX: ZStack now fills the reader's bounds
+            .frame(width: w, height: h)
         }
         .frame(height: responsive.heroHeight)
         .frame(width: responsive.heroWidth)
@@ -291,6 +270,7 @@ private extension DashboardView {
         .padding(.horizontal, responsive.horizontalPadding)
     }
 }
+
 // MARK: - Continue Reading
 
 private extension DashboardView {
@@ -315,33 +295,20 @@ private extension DashboardView {
 
                 Spacer()
 
-//                HStack(spacing: 6) {
-//
-//                    Circle()
-//                        .fill(Color.blue.opacity(0.5))
-//                        .frame(
-//                            width: responsive.isPad ? 10 : 7,
-//                            height: responsive.isPad ? 10 : 7
-//                        )
-//
-//                    Circle()
-//                        .fill(Color.blue.opacity(0.25))
-//                        .frame(
-//                            width: responsive.isPad ? 10 : 7,
-//                            height: responsive.isPad ? 10 : 7
-//                        )
-//
-//                    Circle()
-//                        .fill(Color.blue.opacity(0.25))
-//                        .frame(
-//                            width: responsive.isPad ? 10 : 7,
-//                            height: responsive.isPad ? 10 : 7
-//                        )
-//                }
-//                .padding(.trailing, 25)
+                Button("View All") {
+                    showAllStories = true
+                }
+                .font(
+                    .custom(
+                        "OpenDyslexic-Bold",
+                        size: responsive.isPad ? 18 : 14
+                    )
+                )
+                .foregroundColor(Color("ButtonColor"))
             }
             .padding(.leading, responsive.horizontalPadding)
             .padding(.trailing, responsive.horizontalPadding)
+
             ScrollView(.horizontal, showsIndicators: false) {
 
                 HStack(spacing: 16) {
@@ -372,8 +339,9 @@ private extension DashboardView {
                         )
                     }
                 }
-                .padding(.leading, responsive.horizontalPadding)
-                .padding(.trailing, responsive.horizontalPadding)            }
+                .padding(.horizontal, responsive.horizontalPadding)
+            }
+            .frame(height: responsive.storyImageHeight + (responsive.isPad ? 110 : 90))
         }
     }
 
@@ -381,56 +349,60 @@ private extension DashboardView {
         story: Story,
         responsive: Responsive
     ) -> some View {
+        Button {
+            selectedStory = story
+        } label: {
 
-        VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 12) {
 
-            Image(story.coverImage)
-                .resizable()
-                .scaledToFill()
-                .frame(
-                    width: responsive.storyCardWidth,
-                    height: responsive.storyImageHeight
-                )
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: responsive.isPad ? 24 : 20
+                Image(story.coverImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(
+                        width: responsive.storyCardWidth - 24,
+                        height: responsive.storyImageHeight
                     )
-                )
-
-            Text(story.title)
-                .font(
-                    .custom(
-                        "OpenDyslexic-Bold",
-                        size: responsive.isPad ? 20 : 13
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: responsive.isPad ? 22 : 18
+                        )
                     )
-                )
-                .foregroundColor(.appPrimaryText)
-                .lineLimit(2)
-                .minimumScaleFactor(0.8)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule()
-                        .fill(Color.appCardBackground.opacity(0.9))
-                )
-                .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .onTapGesture {
+                    .padding(.top, 12)
+                    .padding(.horizontal, 12)
 
-            if hasReadingProgress &&
-               progress.lastOpenedStoryTitle == story.title {
+                Text(story.title)
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Bold",
+                            size: responsive.isPad ? 22 : 17
+                        )
+                    )
+                    .foregroundColor(.appPrimaryText)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
+                    .padding(.horizontal, 16)
 
-                storyForReader = story
-                navigateToReader = true
-
-            } else {
-
-                selectedStory = story
-//                showPreview = true
             }
+            .frame(width: responsive.storyCardWidth)
+            .background(Color.appCardBackground)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: responsive.isPad ? 28 : 22
+                )
+            )
+            .shadow(
+                color: .black.opacity(colorScheme == .dark ? 0.18 : 0.08),
+                radius: 8,
+                y: 3
+            )
+            // Makes the entire card tappable, not just the parts
+            // that happen to have a non-transparent pixel under them.
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
     }
 }
+
 // MARK: - Browse Theme
 
 private extension DashboardView {
@@ -441,7 +413,7 @@ private extension DashboardView {
 
             HStack {
 
-                Text("Browse by Theme")
+                Text("Adventure")
                     .font(
                         .custom(
                             "OpenDyslexic-Bold",
@@ -450,67 +422,82 @@ private extension DashboardView {
                     )
 
                 Spacer()
-
-                Button {
-                    showAllStories = true
-                } label: {
-                    Text("View All")
-                        .font(
-                            .custom(
-                                "OpenDyslexic-Regular",
-                                size: responsive.isPad ? 13 : 11
-                            )
-                        )
-                        .lineLimit(1)
-                        .fixedSize()
-                }
-                .foregroundColor(.appPrimaryText.opacity(0.65))
-                .offset(x: responsive.isPad ? 0 : 6)
             }
-            .padding(.leading, responsive.horizontalPadding)
-            .padding(.trailing, responsive.horizontalPadding)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
+            .padding(.horizontal, responsive.horizontalPadding)
 
-                HStack(spacing: 12) {
+            Button {
+                showAdventureMap = true
+            } label: {
 
-                    ForEach(DashboardTheme.allCases, id: \.self) { theme in
+                VStack(alignment: .leading, spacing: 0) {
 
-                        themeChip(
-                            title: theme.rawValue,
-                            selected: selectedTheme == theme,
-                            responsive: responsive
+                    Image("map")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: responsive.adventurePreviewHeight)
+                        .clipped()
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: responsive.isPad ? 20 : 16)
                         )
-                        .onTapGesture {
-                            selectedTheme = theme
+                        .padding(8)
+                        .background(Color.appCardBackground)
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: responsive.isPad ? 24 : 20)
+                        )
+                        .shadow(
+                            color: .black.opacity(colorScheme == .dark ? 0.25 : 0.08),
+                            radius: 8,
+                            y: 3
+                        )
+
+                    VStack(alignment: .leading, spacing: 12) {
+
+                        VStack(alignment: .leading, spacing: 4) {
+
+                            Text("Explore Magical Worlds")
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Bold",
+                                        size: responsive.adventureTitleSize
+                                    )
+                                )
+                                .foregroundColor(.appPrimaryText)
+
+                            Text("Tap to begin your adventure!")
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Regular",
+                                        size: responsive.adventureSubtitleSize
+                                    )
+                                )
+                                .foregroundColor(.primary)
+                        }
+
+                        HStack {
+
+                            Spacer()
+
+                            Label("Explore", systemImage: "arrow.right.circle.fill")
+                                .font(
+                                    .custom(
+                                        "OpenDyslexic-Bold",
+                                        size: responsive.adventureButtonSize
+                                    )
+                                )
+                                .foregroundColor(Color("ButtonColor"))
                         }
                     }
+                    .padding()
                 }
-                .padding(.leading, responsive.horizontalPadding)
-                .padding(.trailing, responsive.horizontalPadding)
+                .background(Color.appCardBackground)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: responsive.isPad ? 28 : 22)
+                )
+                .contentShape(Rectangle())
             }
-
-            ScrollView(.horizontal, showsIndicators: false) {
-
-                HStack(spacing: 20) {
-
-                    ForEach(filteredStories) { story in
-
-                        storyCard(
-                            image: story.coverImage,
-                            title: story.title,
-                            responsive: responsive
-                        )
-                        .onTapGesture {
-
-                            selectedStory = story
-//                            showPreview = true
-                        }
-                    }
-                }
-                .padding(.leading, responsive.horizontalPadding)
-                .padding(.trailing, responsive.horizontalPadding)
-            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, responsive.horizontalPadding)
         }
     }
 
@@ -536,7 +523,7 @@ private extension DashboardView {
                 Capsule()
                     .fill(
                         selected
-                        ? Color("ButtonColor")      // darker green
+                        ? Color("ButtonColor")
                         : Color.appCardBackground
                     )
             )
@@ -557,7 +544,7 @@ private extension DashboardView {
             .scaleEffect(selected ? 1.05 : 1.0)
             .animation(.spring(duration: 0.25), value: selected)
     }
-    
+
     func storyCard(
         image: String,
         title: String,
@@ -599,11 +586,12 @@ private extension DashboardView {
                 )
                 .frame(maxWidth: .infinity, alignment: .center)
         }
-        .frame(width: responsive.storyCardWidth)    }
+        .frame(width: responsive.storyCardWidth)
+    }
 }
+
 #Preview {
     NavigationStack {
         DashboardView()
     }
 }
-

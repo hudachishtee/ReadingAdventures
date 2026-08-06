@@ -29,6 +29,27 @@ enum DashboardTheme: String, CaseIterable {
     case animals = "Animals"
     case adventure = "Adventure"
 }
+
+/// ADD IT HERE ↓↓↓
+
+// MARK: - Adventure Area
+struct AdventureArea: Identifiable, Hashable {
+
+    let id = UUID()
+
+    let name: String
+    let imageName: String
+    let isUnlocked: Bool
+
+    // Position on original 724×2172 map
+    let x: CGFloat
+    let y: CGFloat
+
+    // Size relative to map width/height
+    let width: CGFloat
+    let height: CGFloat
+}
+
 // MARK: - Story Model
 struct Story: Identifiable {
 

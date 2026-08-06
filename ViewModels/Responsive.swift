@@ -155,7 +155,26 @@ struct Responsive {
             return 190
         }
     }
+    
+    var adventurePreviewHeight: CGFloat {
+        if isPad {
+            return min(height * 0.28, 330)
+        } else {
+            return max(190, min(height * 0.28, 240))
+        }
+    }
 
+    var adventureTitleSize: CGFloat {
+        font(isPad ? 22 : 18)
+    }
+
+    var adventureSubtitleSize: CGFloat {
+        font(isPad ? 16 : 14)
+    }
+
+    var adventureButtonSize: CGFloat {
+        font(isPad ? 18 : 15)
+    }
     var buttonHeight: CGFloat {
         isPad ? 60 : 54
     }
