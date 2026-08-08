@@ -1,6 +1,5 @@
 //==============================================================
 // ProgressManager.swift
-// FINAL VERSION (with badge notification support)
 //==============================================================
 
 import SwiftUI
@@ -11,6 +10,7 @@ class ProgressManager: ObservableObject {
     static let shared = ProgressManager()
 
     // MARK: - Published State
+
     @Published var completedStories: Set<String> = [] {
         didSet {
             UserDefaults.standard.set(
@@ -19,6 +19,7 @@ class ProgressManager: ObservableObject {
             )
         }
     }
+
     @Published var unlockedGames: Set<String> = []
 
     // Badge notification
@@ -30,6 +31,7 @@ class ProgressManager: ObservableObject {
     @Published var lastOpenedStoryCoverImage: String?
     @Published var lastOpenedStoryTotalPages: Int = 0
     @Published var lastOpenedStoryCompleted = false
+
     private init() {
 
         completedStories = Set(
@@ -39,9 +41,12 @@ class ProgressManager: ObservableObject {
         )
     }
 
+    //==========================================================
     // MARK: - Story Completion
+    //==========================================================
+
     func completeStory(_ story: Story) {
-        
+
         completedStories.insert(story.id)
         unlockedGames.insert(story.id)
 
@@ -52,27 +57,78 @@ class ProgressManager: ObservableObject {
         hasUnseenAchievements = true
     }
 
-    // MARK: - Checks
+    //==========================================================
+    // MARK: - Story Checks
+    //==========================================================
 
     func isStoryCompleted(_ story: Story) -> Bool {
-        return completedStories.contains(story.id)
+        completedStories.contains(story.id)
     }
 
     func isGameUnlocked(for story: Story) -> Bool {
-        return unlockedGames.contains(story.id)
+        unlockedGames.contains(story.id)
     }
-    
+
+    //==========================================================
+    // MARK: - Area Progression
+    //==========================================================
+
+    func hasCompletedTheme(_ theme: DashboardTheme) -> Bool {
+
+        let storiesInTheme = sampleStories.filter {
+            $0.dashboardTheme == theme
+        }
+
+        return storiesInTheme.allSatisfy {
+            completedStories.contains($0.id)
+        }
+    }
+
+    func isFriendshipUnlocked() -> Bool {
+        true
+    }
+
+    func isAnimalUnlocked() -> Bool {
+        hasCompletedTheme(.friendship)
+    }
+
+    func isKindnessUnlocked() -> Bool {
+        hasCompletedTheme(.animals)
+    }
+
+    func isBedtimeUnlocked() -> Bool {
+        hasCompletedTheme(.kindness)
+    }
+
+    func isAdventureUnlocked() -> Bool {
+        hasCompletedTheme(.bedtime)
+    }
+
+    func isCourageUnlocked() -> Bool {
+        hasCompletedTheme(.adventure)
+    }
+
+    //==========================================================
     // MARK: - Notification Handling
-    
+    //==========================================================
+
     func markAchievementsAsSeen() {
         hasUnseenAchievements = false
     }
 
-    // MARK: - Optional Reset (useful for testing)
+    //==========================================================
+    // MARK: - Reset Progress
+    //==========================================================
 
     func resetProgress() {
+
         completedStories.removeAll()
         unlockedGames.removeAll()
-        hasUnseenAchievements = false // ✅ keep consistent
+
+        hasUnseenAchievements = false
+
+        UserDefaults.standard.removeObject(
+            forKey: "completedStories"
+        )
     }
 }

@@ -96,7 +96,10 @@ struct DashboardView: View {
         )
         .sheet(item: $selectedStory) { story in
 
-            StoryPreviewSheet(story: story) {
+            StoryPreviewSheet(
+                story: story,
+                source: .library
+            ) {
 
                 storyForReader = story
 
@@ -121,7 +124,10 @@ struct DashboardView: View {
         }
         .navigationDestination(isPresented: $navigateToReader) {
             if let story = storyForReader {
-                StoryReaderView(story: story)
+                StoryReaderView(
+                    story: story,
+                    source: .library
+                )
             }
         }
     }

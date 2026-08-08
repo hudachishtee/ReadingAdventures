@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct StoryPreviewSheet: View {
-    
+
     let story: Story
+    let source: StorySource
     let onStart: () -> Void
     
     @Environment(\.dismiss) private var dismiss
@@ -112,7 +113,8 @@ struct StoryPreviewSheet: View {
         
         StoryPreviewSheet(
             story: sampleStories[13],
-            onStart: {}   // ✅ REQUIRED (empty for preview)
+            source: .library,
+            onStart: {}
         )
         .padding(.top, 200) // optional: makes it look like a sheet
     }

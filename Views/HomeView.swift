@@ -316,7 +316,10 @@ struct HomeView: View {
         ) {
             
             if let story = storyForReader {
-                StoryReaderView(story: story)
+                StoryReaderView(
+                    story: story,
+                    source: .library
+                )
             }
         }
         
@@ -328,6 +331,7 @@ struct HomeView: View {
             
             StoryPreviewSheet(
                 story: story,
+                source: .library,
                 onStart: {
                     
                     storyForReader = story

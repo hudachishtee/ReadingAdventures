@@ -39,7 +39,7 @@ struct AdventureArea: Identifiable, Hashable {
 
     let name: String
     let imageName: String
-    let isUnlocked: Bool
+//    let isUnlocked: Bool
 
     // Position on original 724×2172 map
     let x: CGFloat

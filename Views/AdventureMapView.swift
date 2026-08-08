@@ -12,7 +12,7 @@ let adventureAreas: [AdventureArea] = [
     AdventureArea(
         name: "Friendship Meadow",
         imageName: "friendship_meadow",
-        isUnlocked: true,
+//        isUnlocked: true,
         x: 341,
         y: 180,
         width: 0.55,
@@ -22,7 +22,7 @@ let adventureAreas: [AdventureArea] = [
     AdventureArea(
         name: "Animal Wood",
         imageName: "animal_wood",
-        isUnlocked: false,
+//        isUnlocked: false,
         x: 351,
         y: 534,
         width: 0.55,
@@ -32,7 +32,7 @@ let adventureAreas: [AdventureArea] = [
     AdventureArea(
         name: "Kindness Garden",
         imageName: "kindness",
-        isUnlocked: false,
+//        isUnlocked: false,
         x: 352,
         y: 849,
         width: 0.55,
@@ -42,7 +42,7 @@ let adventureAreas: [AdventureArea] = [
     AdventureArea(
         name: "Bedtime Village",
         imageName: "bedtime_village",
-        isUnlocked: false,
+//        isUnlocked: false,
         x: 349,
         y: 1162,
         width: 0.55,
@@ -52,7 +52,7 @@ let adventureAreas: [AdventureArea] = [
     AdventureArea(
         name: "Adventure Island",
         imageName: "adventure_island",
-        isUnlocked: false,
+//        isUnlocked: false,
         x: 349,
         y: 1498,
         width: 0.55,
@@ -62,7 +62,7 @@ let adventureAreas: [AdventureArea] = [
     AdventureArea(
         name: "Courage Forest",
         imageName: "courage_forest",
-        isUnlocked: false,
+//        isUnlocked: false,
         x: 349,
         y: 1822,
         width: 0.55,
@@ -72,12 +72,14 @@ let adventureAreas: [AdventureArea] = [
 
 // MARK: - Adventure Map
 
-    struct AdventureMapView: View {
+struct AdventureMapView: View {
 
-        @State private var selectedArea: AdventureArea?
-        @State private var pressedArea: AdventureArea?
-        @State private var showSparkles = false
-        @State private var showDarkOverlay = false
+    @StateObject private var progress = ProgressManager.shared
+
+    @State private var selectedArea: AdventureArea?
+    @State private var pressedArea: AdventureArea?
+    @State private var showSparkles = false
+    @State private var showDarkOverlay = false
 
     var body: some View {
 
@@ -105,7 +107,7 @@ let adventureAreas: [AdventureArea] = [
 
                                 Button {
 
-                                    guard area.isUnlocked else { return }
+                                    guard isAreaUnlocked(area.name) else { return }
 
                                     pressedArea = area
 
@@ -158,7 +160,7 @@ let adventureAreas: [AdventureArea] = [
                                     )
                             }
                             // MARK: - Locked Areas
-                            ForEach(adventureAreas.filter { !$0.isUnlocked }) { area in
+                            ForEach(adventureAreas.filter { !isAreaUnlocked($0.name) }) { area in
 
                                 ZStack {
 
@@ -230,6 +232,32 @@ let adventureAreas: [AdventureArea] = [
             default:
                 EmptyView()
             }
+        }
+    }
+    private func isAreaUnlocked(_ areaName: String) -> Bool {
+
+        switch areaName {
+
+        case "Friendship Meadow":
+            return progress.isFriendshipUnlocked()
+
+        case "Animal Wood":
+            return progress.isAnimalUnlocked()
+
+        case "Kindness Garden":
+            return progress.isKindnessUnlocked()
+
+        case "Bedtime Village":
+            return progress.isBedtimeUnlocked()
+
+        case "Adventure Island":
+            return progress.isAdventureUnlocked()
+
+        case "Courage Forest":
+            return progress.isCourageUnlocked()
+
+        default:
+            return false
         }
     }
 }

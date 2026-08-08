@@ -8,6 +8,7 @@ enum MoralBackgroundStyle {
 struct MoralView: View {
     
     let story: Story
+    let source: StorySource
     
     @State private var goToVocabulary = false
     
@@ -145,10 +146,14 @@ struct MoralView: View {
             .ignoresSafeArea()
         }
         .navigationDestination(isPresented: $goToVocabulary) {
-            VocabularyView(story: story)
-                .onAppear {
-                    LearnedWordsManager.shared.markWordsAsLearned(from: story)
-                }
+
+            VocabularyView(
+                story: story,
+                source: source
+            )
+            .onAppear {
+                LearnedWordsManager.shared.markWordsAsLearned(from: story)
+            }
         }
     }
     
@@ -178,5 +183,8 @@ struct MoralView: View {
 }
 
 #Preview {
-    MoralView(story: sampleStories[0])
+    MoralView(
+        story: sampleStories[0],
+        source: .library
+    )
 }

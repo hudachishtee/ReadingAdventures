@@ -3,10 +3,15 @@ import SwiftUI
 struct StoryReaderView: View {
 
     let story: Story
+    let source: StorySource
     @State private var currentPage: Int
-    init(story: Story) {
+    init(
+        story: Story,
+        source: StorySource
+    ) {
 
         self.story = story
+        self.source = source
 
         if ProgressManager.shared.lastOpenedStoryTitle == story.title {
 
@@ -137,7 +142,10 @@ struct StoryReaderView: View {
         .navigationDestination(
             isPresented: $goToMoral
         ) {
-            MoralView(story: story)
+            MoralView(
+                story: story,
+                source: source
+            )
         }
 
         .onAppear {
@@ -161,6 +169,7 @@ struct StoryReaderView: View {
 
 #Preview {
     StoryReaderView(
-        story: sampleStories[0]
+        story: sampleStories[0],
+        source: .library
     )
 }

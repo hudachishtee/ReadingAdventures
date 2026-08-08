@@ -10,6 +10,7 @@ import Combine
 struct CelebrationView: View {
     
     let story: Story
+    let source: StorySource
     
     @StateObject private var progress = ProgressManager.shared
     
@@ -156,7 +157,11 @@ struct CelebrationView: View {
 
                                     Image(systemName: "books.vertical.fill")
 
-                                    Text("Back To Library")
+                                    Text(
+                                        source == .adventure
+                                        ? "Back To Adventure"
+                                        : "Back To Library"
+                                    )
                                         .font(
                                             .custom(
                                                 "OpenDyslexic-Bold",
@@ -246,7 +251,18 @@ struct CelebrationView: View {
                 )
             }
             .fullScreenCover(isPresented: $goHome) {
-                MainTabContainerView()
+
+                if source == .adventure {
+
+                    NavigationStack {
+                        AdventureMapView()
+                    }
+
+                } else {
+
+                    MainTabContainerView()
+
+                }
             }
             .onAppear {
                 startAnimation()
@@ -415,11 +431,12 @@ struct ConfettiBackground: View {
 //==============================================================
 
 #Preview {
-    
+
     NavigationStack {
-        
+
         CelebrationView(
-            story: sampleStories[0]
+            story: sampleStories[0],
+            source: .library
         )
     }
 }

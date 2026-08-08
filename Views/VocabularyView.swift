@@ -3,6 +3,7 @@ import SwiftUI
 struct VocabularyView: View {
     
     let story: Story
+    let source: StorySource
     
     @State private var currentIndex = 0
     @State private var showReward = false
@@ -348,7 +349,10 @@ struct VocabularyView: View {
         }
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $goToCelebration) {
-            CelebrationView(story: story)
+            CelebrationView(
+                story: story,
+                source: source
+            )
         }
     }
     
@@ -496,5 +500,8 @@ struct VocabularyView: View {
 }
 
 #Preview {
-    VocabularyView(story: sampleStories[1])
+    VocabularyView(
+        story: sampleStories[1],
+        source: .library
+    )
 }
