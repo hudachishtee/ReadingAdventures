@@ -2,8 +2,6 @@
 //  BedtimeVillageView.swift
 //  ReadingAdventures
 //
-//  Created by Huda Chishtee on 22/07/2026.
-//
 
 import SwiftUI
 
@@ -11,16 +9,24 @@ struct BedtimeVillageView: View {
 
     var body: some View {
 
-        ZStack {
-
-            Color.bgTop
-                .ignoresSafeArea()
+        GeometryReader { geo in
 
             Image("bedtime_village")
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
+                .frame(
+                    width: geo.size.width,
+                    height: geo.size.height
+                )
+                .clipped()
         }
-        .navigationTitle("Bedtime Village")
+        .ignoresSafeArea()
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        BedtimeVillageView()
     }
 }

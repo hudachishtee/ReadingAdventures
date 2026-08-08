@@ -2,8 +2,6 @@
 //  AnimalWoodView.swift
 //  ReadingAdventures
 //
-//  Created by Huda Chishtee on 22/07/2026.
-//
 
 import SwiftUI
 
@@ -11,16 +9,24 @@ struct AnimalWoodView: View {
 
     var body: some View {
 
-        ZStack {
-
-            Color.bgTop
-                .ignoresSafeArea()
+        GeometryReader { geo in
 
             Image("animal_wood")
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
+                .frame(
+                    width: geo.size.width,
+                    height: geo.size.height
+                )
+                .clipped()
         }
-        .navigationTitle("Animal Wood")
+        .ignoresSafeArea()
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        AnimalWoodView()
     }
 }

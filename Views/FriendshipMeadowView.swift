@@ -2,8 +2,6 @@
 //  FriendshipMeadowView.swift
 //  ReadingAdventures
 //
-//  Created by Huda Chishtee on 22/07/2026.
-//
 
 import SwiftUI
 
@@ -11,16 +9,24 @@ struct FriendshipMeadowView: View {
 
     var body: some View {
 
-        ZStack {
-
-            Color.bgTop
-                .ignoresSafeArea()
+        GeometryReader { geo in
 
             Image("friendship_meadow")
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
+                .frame(
+                    width: geo.size.width,
+                    height: geo.size.height
+                )
+                .clipped()
         }
+        .ignoresSafeArea()
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Friendship Meadow")
+    }
+}
+
+#Preview {
+    NavigationStack {
+        FriendshipMeadowView()
     }
 }

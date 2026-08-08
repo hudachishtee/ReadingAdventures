@@ -75,6 +75,9 @@ let adventureAreas: [AdventureArea] = [
     struct AdventureMapView: View {
 
         @State private var selectedArea: AdventureArea?
+        @State private var pressedArea: AdventureArea?
+        @State private var showSparkles = false
+        @State private var showDarkOverlay = false
 
     var body: some View {
 
@@ -84,6 +87,13 @@ let adventureAreas: [AdventureArea] = [
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
+                .overlay {
+
+                    Color.black
+                        .opacity(showDarkOverlay ? 0.45 : 0)
+                        .animation(.easeInOut(duration: 0.35), value: showDarkOverlay)
+
+                }
 
                 .overlay(alignment: .topLeading) {
                     GeometryReader { geo in
@@ -96,7 +106,22 @@ let adventureAreas: [AdventureArea] = [
                                 Button {
 
                                     guard area.isUnlocked else { return }
-                                    selectedArea = area
+
+                                    pressedArea = area
+
+                                    withAnimation {
+                                        showSparkles = true
+                                        showDarkOverlay = true
+                                    }
+
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+
+                                        selectedArea = area
+
+                                        pressedArea = nil
+                                        showSparkles = false
+                                        showDarkOverlay = false
+                                    }
 
                                 } label: {
 
@@ -106,12 +131,32 @@ let adventureAreas: [AdventureArea] = [
                                     width: geo.size.width * area.width,
                                     height: geo.size.height * area.height
                                 )
+                                .scaleEffect(
+                                    pressedArea?.id == area.id ? 0.95 : 1
+                                )
+                                .animation(
+                                    .spring(response: 0.25, dampingFraction: 0.6),
+                                    value: pressedArea
+                                )
                                 .position(
                                     x: geo.size.width * (area.x / 724),
                                     y: geo.size.height * (area.y / 2172)
                                 )
                             }
+                            
+                            if showSparkles,
+                               let area = pressedArea {
 
+                                LottieView(animationName: "Magic Sparcle Burst")
+                                    .frame(
+                                        width: geo.size.width * 0.8,
+                                        height: geo.size.width * 0.8
+                                    )
+                                    .position(
+                                        x: geo.size.width * (area.x / 724),
+                                        y: geo.size.height * (area.y / 2172)
+                                    )
+                            }
                             // MARK: - Locked Areas
                             ForEach(adventureAreas.filter { !$0.isUnlocked }) { area in
 

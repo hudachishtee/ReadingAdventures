@@ -1,10 +1,7 @@
 //
-//  CourageForest.swift
+//  CourageForestView.swift
 //  ReadingAdventures
 //
-//  Created by Huda Chishtee on 22/07/2026.
-//
-
 
 import SwiftUI
 
@@ -12,16 +9,24 @@ struct CourageForestView: View {
 
     var body: some View {
 
-        ZStack {
-
-            Color.bgTop
-                .ignoresSafeArea()
+        GeometryReader { geo in
 
             Image("courage_forest")
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
+                .frame(
+                    width: geo.size.width,
+                    height: geo.size.height
+                )
+                .clipped()
         }
-        .navigationTitle("Courage Forest")
+        .ignoresSafeArea()
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        CourageForestView()
     }
 }

@@ -2,8 +2,6 @@
 //  KindnessGardenView.swift
 //  ReadingAdventures
 //
-//  Created by Huda Chishtee on 22/07/2026.
-//
 
 import SwiftUI
 
@@ -11,16 +9,24 @@ struct KindnessGardenView: View {
 
     var body: some View {
 
-        ZStack {
-
-            Color.bgTop
-                .ignoresSafeArea()
+        GeometryReader { geo in
 
             Image("kindness")
                 .resizable()
-                .scaledToFit()
+                .scaledToFill()
+                .frame(
+                    width: geo.size.width,
+                    height: geo.size.height
+                )
+                .clipped()
         }
-        .navigationTitle("Kindness Garden")
+        .ignoresSafeArea()
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        KindnessGardenView()
     }
 }
