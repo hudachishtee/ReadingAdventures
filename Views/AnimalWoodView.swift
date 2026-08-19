@@ -11,6 +11,14 @@ struct AnimalWoodView: View {
 
     @State private var showPreview = false
     @State private var goToStory = false
+    @State private var selectedStory: Story?
+
+    // All stories that belong to Animal Wood
+    private var animalStories: [Story] {
+        sampleStories.filter {
+            $0.dashboardTheme == .animals
+        }
+    }
 
     var body: some View {
 
@@ -18,7 +26,8 @@ struct AnimalWoodView: View {
 
             ZStack {
 
-                // Background
+                // MARK: - Background
+
                 Image("animal_wood")
                     .resizable()
                     .scaledToFill()
@@ -28,66 +37,122 @@ struct AnimalWoodView: View {
                     )
                     .clipped()
 
-                // Story 1
-                LevelNode(
-                    number: 1,
-                    state: progress.isStoryCompleted(sampleStories[3])
-                        ? .completed
-                        : .unlocked
-                ) {
-                    showPreview = true
+                // MARK: - Story Levels
+
+                ForEach(
+                    Array(animalStories.enumerated()),
+                    id: \.element.id
+                ) { index, story in
+
+                    LevelNode(
+                        number: index + 1,
+                        state: levelState(for: index)
+                    ) {
+                        selectedStory = story
+                        showPreview = true
+                    }
+                    .position(
+                        x: nodeXPosition(for: index) * geo.size.width,
+                        y: nodeYPosition(for: index) * geo.size.height
+                    )
                 }
-                // Story 1
-                .position(
-                    x: geo.size.width * 0.52,
-                    y: geo.size.height * 0.62
-                )
-
-                // Story 2
-                LevelNode(
-                    number: 2,
-                    state: .locked
-                ) {
-
-                }
-                .position(
-                    x: geo.size.width * 0.40,
-                    y: geo.size.height * 0.46
-                )
-
-                // Story 3
-                LevelNode(
-                    number: 3,
-                    state: .locked
-                ) {
-
-                }
-                .position(
-                    x: geo.size.width * 0.63,
-                    y: geo.size.height * 0.33
-                )
             }
         }
         .ignoresSafeArea()
         .navigationBarTitleDisplayMode(.inline)
 
+        // MARK: - Story Preview
+
         .sheet(isPresented: $showPreview) {
 
-            StoryPreviewSheet(
-                story: sampleStories[3],
-                source: .adventure,
-                onStart: {
-                    goToStory = true
-                }
-            )
+            if let story = selectedStory {
+
+                StoryPreviewSheet(
+                    story: story,
+                    source: .adventure,
+                    onStart: {
+                        showPreview = false
+                        goToStory = true
+                    }
+                )
+            }
         }
+
+        // MARK: - Story Reader
 
         .navigationDestination(isPresented: $goToStory) {
 
-            StoryReaderView(
-                story: sampleStories[3],
-                source: .adventure
-            )
+            if let story = selectedStory {
+
+                StoryReaderView(
+                    story: story,
+                    source: .adventure
+                )
+            }
+        }
+    }
+
+    // MARK: - Level State
+
+    private func levelState(for index: Int) -> LevelState {
+
+        let story = animalStories[index]
+
+        // Story already completed
+        if progress.isStoryCompleted(story) {
+            return .completed
+        }
+
+        // First story is always unlocked
+        if index == 0 {
+            return .unlocked
+        }
+
+        // Later stories unlock when the previous story is completed
+        let previousStory = animalStories[index - 1]
+
+        if progress.isStoryCompleted(previousStory) {
+            return .unlocked
+        }
+
+        return .locked
+    }
+
+    // MARK: - Node Position
+
+    private func nodeXPosition(for index: Int) -> CGFloat {
+
+        switch index {
+
+        case 0:
+            return 0.52
+
+        case 1:
+            return 0.40
+
+        case 2:
+            return 0.63
+
+        default:
+            return 0.52
+        }
+    }
+
+    private func nodeYPosition(for index: Int) -> CGFloat {
+
+        switch index {
+
+        case 0:
+            return 0.62
+
+        case 1:
+            return 0.46
+
+        case 2:
+            return 0.33
+
+        default:
+            return 0.62
         }
     }
 }

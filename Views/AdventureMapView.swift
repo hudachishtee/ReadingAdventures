@@ -194,7 +194,10 @@ struct AdventureMapView: View {
                                let area = adventureAreas.first(where: { $0.name == areaName }) {
 
                                 LottieView(animationName: "Sparkle Stars")
-                                    .frame(width: 350, height: 350)
+                                    .frame(
+                                        width: geo.size.width * 0.75,
+                                        height: geo.size.width * 0.75
+                                    )
                                     .position(
                                         x: geo.size.width * (area.x / 724),
                                         y: geo.size.height * (area.y / 2172)

@@ -65,6 +65,22 @@ class ProgressManager: ObservableObject {
             UnlockAnimationManager.shared.play(for: "Animal Wood")
         }
 
+        if !wasKindnessUnlocked && isKindnessUnlocked() {
+            UnlockAnimationManager.shared.play(for: "Kindness Garden")
+        }
+
+        if !wasBedtimeUnlocked && isBedtimeUnlocked() {
+            UnlockAnimationManager.shared.play(for: "Bedtime Village")
+        }
+
+        if !wasAdventureUnlocked && isAdventureUnlocked() {
+            UnlockAnimationManager.shared.play(for: "Adventure Island")
+        }
+
+        if !wasCourageUnlocked && isCourageUnlocked() {
+            UnlockAnimationManager.shared.play(for: "Courage Forest")
+        }
+
         if lastOpenedStoryTitle == story.title {
             lastOpenedStoryCompleted = true
         }
