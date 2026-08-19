@@ -7,6 +7,8 @@ import SwiftUI
 
 struct AnimalWoodView: View {
 
+    @StateObject private var progress = ProgressManager.shared
+
     @State private var showPreview = false
     @State private var goToStory = false
 
@@ -16,6 +18,7 @@ struct AnimalWoodView: View {
 
             ZStack {
 
+                // Background
                 Image("animal_wood")
                     .resizable()
                     .scaledToFill()
@@ -25,19 +28,43 @@ struct AnimalWoodView: View {
                     )
                     .clipped()
 
+                // Story 1
                 LevelNode(
                     number: 1,
-                    state: ProgressManager.shared.isStoryCompleted(sampleStories[3])
+                    state: progress.isStoryCompleted(sampleStories[3])
                         ? .completed
                         : .unlocked
                 ) {
-
                     showPreview = true
+                }
+                // Story 1
+                .position(
+                    x: geo.size.width * 0.52,
+                    y: geo.size.height * 0.62
+                )
+
+                // Story 2
+                LevelNode(
+                    number: 2,
+                    state: .locked
+                ) {
 
                 }
                 .position(
-                    x: geo.size.width * 0.52,
-                    y: geo.size.height * 0.55
+                    x: geo.size.width * 0.40,
+                    y: geo.size.height * 0.46
+                )
+
+                // Story 3
+                LevelNode(
+                    number: 3,
+                    state: .locked
+                ) {
+
+                }
+                .position(
+                    x: geo.size.width * 0.63,
+                    y: geo.size.height * 0.33
                 )
             }
         }
@@ -50,9 +77,7 @@ struct AnimalWoodView: View {
                 story: sampleStories[3],
                 source: .adventure,
                 onStart: {
-
                     goToStory = true
-
                 }
             )
         }

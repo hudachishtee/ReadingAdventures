@@ -20,7 +20,7 @@ let sampleStories: [Story] = [
 
         level: .beginner,
         category: .moral,
-        dashboardTheme: .kindness,
+        dashboardTheme: .friendship,
 
         coverImage: "story1_cover",
         previewImage: "story1_preview",   // ✅ Preview screen

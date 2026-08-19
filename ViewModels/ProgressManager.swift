@@ -46,9 +46,24 @@ class ProgressManager: ObservableObject {
     //==========================================================
 
     func completeStory(_ story: Story) {
+        print("COMPLETED STORY:", story.title)
+
+        let wasAnimalUnlocked = isAnimalUnlocked()
+        let wasKindnessUnlocked = isKindnessUnlocked()
+        let wasBedtimeUnlocked = isBedtimeUnlocked()
+        let wasAdventureUnlocked = isAdventureUnlocked()
+        let wasCourageUnlocked = isCourageUnlocked()
 
         completedStories.insert(story.id)
         unlockedGames.insert(story.id)
+
+        print("Completed stories:", completedStories)
+        print("Friendship complete:", hasCompletedTheme(.friendship))
+        print("Animal unlocked:", isAnimalUnlocked())
+
+        if !wasAnimalUnlocked && isAnimalUnlocked() {
+            UnlockAnimationManager.shared.play(for: "Animal Wood")
+        }
 
         if lastOpenedStoryTitle == story.title {
             lastOpenedStoryCompleted = true
@@ -56,7 +71,6 @@ class ProgressManager: ObservableObject {
 
         hasUnseenAchievements = true
     }
-
     //==========================================================
     // MARK: - Story Checks
     //==========================================================

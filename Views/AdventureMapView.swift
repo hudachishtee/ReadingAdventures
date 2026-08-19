@@ -75,6 +75,7 @@ let adventureAreas: [AdventureArea] = [
 struct AdventureMapView: View {
 
     @StateObject private var progress = ProgressManager.shared
+    @StateObject private var unlockAnimation = UnlockAnimationManager.shared
 
     @State private var selectedArea: AdventureArea?
     @State private var pressedArea: AdventureArea?
@@ -188,6 +189,17 @@ struct AdventureMapView: View {
                                     x: geo.size.width * (area.x / 724),
                                     y: geo.size.height * (area.y / 2172)
                                 )
+                            }
+                            if let areaName = unlockAnimation.unlockedArea,
+                               let area = adventureAreas.first(where: { $0.name == areaName }) {
+
+                                LottieView(animationName: "Sparkle Stars")
+                                    .frame(width: 350, height: 350)
+                                    .position(
+                                        x: geo.size.width * (area.x / 724),
+                                        y: geo.size.height * (area.y / 2172)
+                                    )
+                                    .allowsHitTesting(false)
                             }
                         }
                     }
