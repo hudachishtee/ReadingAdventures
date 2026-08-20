@@ -415,7 +415,7 @@ let sampleStories: [Story] = [
                 options: [
 
                     GameOption(
-                        text: "Can't be found",
+                        text: "Caring about someone",
                         audioName: "caring_about_someone"
                     ),
 

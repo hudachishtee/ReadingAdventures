@@ -90,13 +90,12 @@ struct CelebrationView: View {
                     //==================================================
                     // OWL
                     //==================================================
-                    
+
                     if showOwl {
-                        
                         Image("owl")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: isIPad ? 700 : 240)
+                            .frame(width: isIPad ? 380 : 240)
                     }
                     
                     Spacer()

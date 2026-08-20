@@ -54,12 +54,12 @@ struct MoralView: View {
                     Spacer()
                     
                     // MORAL CARD + OWL
-                    ZStack(alignment: .topTrailing) {
+                    ZStack(alignment: .top) {
                         
                         Text(story.moral)
                             .font(.custom(
                                 "OpenDyslexic-Regular",
-                                size: isIPad ? 28 : 22
+                                size: isIPad ? 28 : 18
                             ))
                             .foregroundColor(.primaryText)                            .multilineTextAlignment(.center)
                             .lineSpacing(20)
@@ -75,10 +75,10 @@ struct MoralView: View {
                         Image("moral_owl")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: isIPad ? 180 : 95)
+                            .frame(width: isIPad ? 270 : 125)
                             .offset(
-                                x: isIPad ? -5 : 12,
-                                y: isIPad ? -150 : -42
+                                x: 0,
+                                y: isIPad ? -180 : -80
                             )
                     }
                     
