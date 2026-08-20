@@ -21,9 +21,12 @@ struct CourageForestView: View {
     }
 
     var body: some View {
+
         GeometryReader { geo in
 
             ZStack {
+
+                // MARK: - Background
 
                 Image("courage_forest")
                     .resizable()
@@ -33,6 +36,8 @@ struct CourageForestView: View {
                         height: geo.size.height
                     )
                     .clipped()
+
+                // MARK: - Story Nodes
 
                 ForEach(
                     Array(courageStories.enumerated()),
@@ -56,8 +61,12 @@ struct CourageForestView: View {
         .ignoresSafeArea()
         .navigationBarTitleDisplayMode(.inline)
 
+        // MARK: - Story Preview
+
         .sheet(isPresented: $showPreview) {
+
             if let story = selectedStory {
+
                 StoryPreviewSheet(
                     story: story,
                     source: .adventure,
@@ -69,8 +78,12 @@ struct CourageForestView: View {
             }
         }
 
+        // MARK: - Story Reader
+
         .navigationDestination(isPresented: $goToStory) {
+
             if let story = selectedStory {
+
                 StoryReaderView(
                     story: story,
                     source: .adventure
@@ -79,18 +92,23 @@ struct CourageForestView: View {
         }
     }
 
+    // MARK: - Story Unlock State
+
     private func levelState(for index: Int) -> LevelState {
 
         let story = courageStories[index]
 
+        // Already completed
         if progress.isStoryCompleted(story) {
             return .completed
         }
 
+        // First story is always available
         if index == 0 {
             return .unlocked
         }
 
+        // Unlock this story when the previous one is completed
         let previousStory = courageStories[index - 1]
 
         if progress.isStoryCompleted(previousStory) {
@@ -100,15 +118,30 @@ struct CourageForestView: View {
         return .locked
     }
 
+    // MARK: - Node Positions
+
     private func nodeXPosition(for index: Int) -> CGFloat {
 
         switch index {
+
         case 0:
-            return 0.50
+            return 0.50       // Story 1 - bottom center
+
         case 1:
-            return 0.38
+            return 0.38       // Story 2 - lower left
+
         case 2:
-            return 0.62
+            return 0.62       // Story 3 - middle right
+
+        case 3:
+            return 0.40       // Story 4 - middle left
+
+        case 4:
+            return 0.60       // Story 5 - upper right
+
+        case 5:
+            return 0.50       // Story 6 - top center
+
         default:
             return 0.50
         }
@@ -117,14 +150,27 @@ struct CourageForestView: View {
     private func nodeYPosition(for index: Int) -> CGFloat {
 
         switch index {
+
         case 0:
-            return 0.70
+            return 0.82       // Story 1
+
         case 1:
-            return 0.52
+            return 0.68       // Story 2
+
         case 2:
-            return 0.35
+            return 0.54       // Story 3
+
+        case 3:
+            return 0.40       // Story 4
+
+        case 4:
+            return 0.26       // Story 5
+
+        case 5:
+            return 0.12       // Story 6
+
         default:
-            return 0.70
+            return 0.82
         }
     }
 }

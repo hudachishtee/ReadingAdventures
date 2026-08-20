@@ -21,11 +21,33 @@ struct LevelNode: View {
 
     @State private var isPressed = false
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    // MARK: - Responsive Size
+
+    private var nodeSize: CGFloat {
+        horizontalSizeClass == .compact ? 76 : 100
+    }
+
+    private var borderWidth: CGFloat {
+        horizontalSizeClass == .compact ? 4 : 5
+    }
+
+    private var iconSize: CGFloat {
+        horizontalSizeClass == .compact ? 28 : 36
+    }
+
+    private var numberSize: CGFloat {
+        horizontalSizeClass == .compact ? 32 : 40
+    }
+
     var body: some View {
 
         Button {
 
-            guard state != .locked else { return }
+            guard state != .locked else {
+                return
+            }
 
             action()
 
@@ -33,31 +55,55 @@ struct LevelNode: View {
 
             ZStack {
 
+                // MARK: - Background Circle
+
                 Circle()
                     .fill(backgroundColor)
-                    .frame(width: 100, height: 100)
+                    .frame(
+                        width: nodeSize,
+                        height: nodeSize
+                    )
 
-                    Circle()
-                        .stroke(.white, lineWidth: 5)
-                        .frame(width: 100, height: 100)
+                // MARK: - White Border
+
+                Circle()
+                    .stroke(.white, lineWidth: borderWidth)
+                    .frame(
+                        width: nodeSize,
+                        height: nodeSize
+                    )
+
+                // MARK: - Content
 
                 content
             }
-            .shadow(color: .black.opacity(0.25), radius: 6, y: 4)
+            .shadow(
+                color: .black.opacity(0.25),
+                radius: horizontalSizeClass == .compact ? 5 : 6,
+                y: horizontalSizeClass == .compact ? 3 : 4
+            )
             .scaleEffect(isPressed ? 0.92 : 1)
-            .animation(.spring(response: 0.25), value: isPressed)
+            .animation(
+                .spring(response: 0.25),
+                value: isPressed
+            )
         }
         .buttonStyle(.plain)
         .simultaneousGesture(
+
             DragGesture(minimumDistance: 0)
+
                 .onChanged { _ in
                     isPressed = true
                 }
+
                 .onEnded { _ in
                     isPressed = false
                 }
         )
     }
+
+    // MARK: - Background Color
 
     private var backgroundColor: Color {
 
@@ -74,6 +120,8 @@ struct LevelNode: View {
         }
     }
 
+    // MARK: - Content
+
     @ViewBuilder
     private var content: some View {
 
@@ -82,19 +130,34 @@ struct LevelNode: View {
         case .locked:
 
             Image(systemName: "lock.fill")
-                .font(.system(size: 36, weight: .bold))
+                .font(
+                    .system(
+                        size: iconSize,
+                        weight: .bold
+                    )
+                )
                 .foregroundStyle(.white)
 
         case .unlocked:
 
             Text("\(number)")
-                .font(.system(size: 40, weight: .bold))
+                .font(
+                    .system(
+                        size: numberSize,
+                        weight: .bold
+                    )
+                )
                 .foregroundStyle(.white)
 
         case .completed:
 
             Image(systemName: "checkmark")
-                .font(.system(size: 36, weight: .bold))
+                .font(
+                    .system(
+                        size: iconSize,
+                        weight: .bold
+                    )
+                )
                 .foregroundStyle(.white)
         }
     }
@@ -104,10 +167,19 @@ struct LevelNode: View {
 
     VStack(spacing: 30) {
 
-        LevelNode(number: 1, state: .unlocked) {}
+        LevelNode(
+            number: 1,
+            state: .unlocked
+        ) {}
 
-        LevelNode(number: 2, state: .locked) {}
+        LevelNode(
+            number: 2,
+            state: .locked
+        ) {}
 
-        LevelNode(number: 3, state: .completed) {}
+        LevelNode(
+            number: 3,
+            state: .completed
+        ) {}
     }
 }
