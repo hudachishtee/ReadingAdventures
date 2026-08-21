@@ -32,17 +32,41 @@ struct StoryPreviewSheet: View {
                             .frame(maxWidth: .infinity)
                     }
                     .overlay(alignment: .trailing) {
+
                         Button {
+
                             dismiss()
+
                         } label: {
+
                             Image(systemName: "xmark")
-                                .foregroundColor(.black)
-                                .padding(10 * scale)
-                                .background(
-                                    Color("ButtonSecondaryBackground")
+                                .font(
+                                    .system(
+                                        size: 16 * scale,
+                                        weight: .bold
+                                    )
                                 )
-                                .clipShape(Circle())
+                                .foregroundStyle(.red)
+                                .frame(
+                                    width: 38 * scale,
+                                    height: 38 * scale
+                                )
+                                .background(
+                                    Circle()
+                                        .fill(.white.opacity(0.8))
+                                )
+                                .overlay {
+
+                                    Circle()
+                                        .stroke(
+                                            Color.red.opacity(0.8),
+                                            lineWidth: 1
+                                        )
+                                }
                         }
+
+                        .buttonStyle(.plain)
+
                         .padding(.trailing, 20 * scale)
                     }
                     

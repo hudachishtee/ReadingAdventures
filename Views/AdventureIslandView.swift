@@ -8,10 +8,14 @@ import SwiftUI
 struct AdventureIslandView: View {
 
     @StateObject private var progress = ProgressManager.shared
-
     @State private var showPreview = false
     @State private var goToStory = false
     @State private var selectedStory: Story?
+
+    private let nodePositions: [CGPoint] = [
+        CGPoint(x: 0.524, y: 0.422),
+        CGPoint(x: 0.451, y: 0.615)
+    ]
 
     // All stories that belong to Adventure Island
     private var adventureStories: [Story] {
@@ -43,7 +47,6 @@ struct AdventureIslandView: View {
                     Array(adventureStories.enumerated()),
                     id: \.element.id
                 ) { index, story in
-
                     LevelNode(
                         number: index + 1,
                         state: levelState(for: index)
@@ -52,8 +55,8 @@ struct AdventureIslandView: View {
                         showPreview = true
                     }
                     .position(
-                        x: nodeXPosition(for: index) * geo.size.width,
-                        y: nodeYPosition(for: index) * geo.size.height
+                        x: nodePositions[index].x * geo.size.width,
+                        y: nodePositions[index].y * geo.size.height
                     )
                 }
             }
@@ -116,44 +119,6 @@ struct AdventureIslandView: View {
         }
 
         return .locked
-    }
-
-    // MARK: - Node Positions
-
-    private func nodeXPosition(for index: Int) -> CGFloat {
-
-        switch index {
-
-        case 0:
-            return 0.50
-
-        case 1:
-            return 0.38
-
-        case 2:
-            return 0.62
-
-        default:
-            return 0.50
-        }
-    }
-
-    private func nodeYPosition(for index: Int) -> CGFloat {
-
-        switch index {
-
-        case 0:
-            return 0.70
-
-        case 1:
-            return 0.52
-
-        case 2:
-            return 0.35
-
-        default:
-            return 0.70
-        }
     }
 }
 
