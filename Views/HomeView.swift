@@ -1,103 +1,110 @@
-//==============================================================
-// HomeView.swift
-// FINAL CLEAN VERSION
-//==============================================================
-
 import SwiftUI
 
 struct HomeView: View {
-    
+
     //==========================================================
     // STATES
     //==========================================================
-    
+
     @State private var selectedStory: Story?
     @State private var navigateToReader = false
     @State private var storyForReader: Story?
-    
     @State private var selectedFilter: String = "All"
     @State private var showMenu = false
-    
+
     @ObservedObject private var progress = ProgressManager.shared
-    
+
+    // Owl Guide
+    @ObservedObject private var owlGuide = OwlGuideManager.shared
+
     //==========================================================
     // FILTERED STORIES
     //==========================================================
-    
+
     var filteredStories: [Story] {
-        
+
         switch selectedFilter {
-            
+
         case "Beginner":
+
             return sampleStories.filter {
                 $0.level == .beginner
             }
-            
+
         case "Explorer":
+
             return sampleStories.filter {
                 $0.level == .explorer
             }
-            
+
         case "Advanced":
+
             return sampleStories.filter {
                 $0.level == .advanced
             }
-            
+
         case "Completed":
+
             return sampleStories.filter {
                 progress.completedStories.contains($0.id)
             }
-            
+
         case "Not Completed":
+
             return sampleStories.filter {
                 !progress.completedStories.contains($0.id)
             }
-            
+
         default:
+
             return sampleStories
         }
     }
-    
+
     //==========================================================
     // BODY
     //==========================================================
-    
+
     var body: some View {
-        
+
         GeometryReader { geo in
-            
+
             ZStack(alignment: .top) {
-                
+
                 //==================================================
                 // BACKGROUND
                 //==================================================
-                
+
                 LinearGradient(
-                    colors: [.bgTop, .bgBottom],
+                    colors: [
+                        .bgTop,
+                        .bgBottom
+                    ],
                     startPoint: .top,
                     endPoint: .bottom
                 )
                 .ignoresSafeArea()
-                
+
                 //==================================================
                 // MAIN CONTENT
                 //==================================================
-                
+
                 VStack(spacing: 20) {
-                    
+
                     Spacer()
-                    
+
                     //==================================================
                     // TITLE
                     //==================================================
-                    
+
                     Text("Choose A Story")
                         .font(
                             .custom(
                                 "OpenDyslexic-Bold",
-                                size: UIDevice.current.userInterfaceIdiom == .pad
-                                ? 38
-                                : 23
+                                size:
+                                    UIDevice.current.userInterfaceIdiom == .pad
+                                    ? 38
+                                    : 23
                             )
                         )
                         .foregroundColor(.appPrimaryText)
@@ -133,84 +140,97 @@ struct HomeView: View {
                             )
                         )
                         .padding(.horizontal, 16)
-                    
+
                     //==================================================
                     // FILTER AREA
                     //==================================================
-                    
+
                     ZStack(alignment: .topTrailing) {
-                        
+
                         HStack(spacing: 8) {
-                            
+
                             //==========================================
                             // FILTER PILLS
                             //==========================================
-                            
+
                             HStack(spacing: 8) {
 
                                 filterButton(title: "All")
-
                                 filterButton(title: "Beginner")
-
                                 filterButton(title: "Explorer")
-
                                 filterButton(title: "Advanced")
                             }
+
+                            .owlGuideTarget("categories")
+
                             .padding(.leading, 14)
                             .padding(.vertical, 2)
-                            
+
                             //==========================================
                             // MENU BUTTON
                             //==========================================
-                            
+
                             Button {
-                                
+
                                 withAnimation(
                                     .spring(
                                         response: 0.32,
                                         dampingFraction: 0.82
                                     )
                                 ) {
+
                                     showMenu.toggle()
                                 }
-                                
+
                             } label: {
-                                
-                                Image(systemName: "line.3.horizontal.decrease.circle")
-                                    .font(
-                                        .system(
-                                            size: 26,
-                                            weight: .medium
-                                        )
+
+                                Image(
+                                    systemName:
+                                        "line.3.horizontal.decrease.circle"
+                                )
+                                .font(
+                                    .system(
+                                        size: 26,
+                                        weight: .medium
                                     )
-                                    .foregroundColor(
-                                        showMenu
-                                        ? Color("ButtonColor")
-                                        : Color("PrimaryText")
-                                    )
+                                )
+                                .foregroundColor(
+                                    showMenu
+                                    ? Color("ButtonColor")
+                                    : Color("PrimaryText")
+                                )
                             }
                             .buttonStyle(.plain)
                             .padding(.trailing, 16)
-                            .offset(x: -2, y: 2)
+                            .offset(
+                                x: -2,
+                                y: 2
+                            )
+
+                            // Don't allow menu interaction during guide
+                            .disabled(
+                                owlGuide.currentStep != nil
+                            )
                         }
-                        
+
                         //==================================================
                         // FLOATING DROPDOWN
                         //==================================================
-                        
+
                         if showMenu {
-                            
+
                             VStack(spacing: 0) {
-                                
+
                                 Button {
-                                    
+
                                     withAnimation(.spring()) {
+
                                         selectedFilter = "Completed"
                                         showMenu = false
                                     }
-                                    
+
                                 } label: {
-                                    
+
                                     Text("Completed")
                                         .font(
                                             .custom(
@@ -218,25 +238,32 @@ struct HomeView: View {
                                                 size: 14
                                             )
                                         )
-                                        .foregroundColor(Color("PrimaryText"))
-                                        .frame(maxWidth: .infinity)
+                                        .foregroundColor(
+                                            Color("PrimaryText")
+                                        )
+                                        .frame(
+                                            maxWidth: .infinity
+                                        )
                                         .frame(height: 42)
                                 }
-                                
+
                                 Rectangle()
-                                    .fill(Color.gray.opacity(0.35))
+                                    .fill(
+                                        Color.gray.opacity(0.35)
+                                    )
                                     .frame(height: 1)
                                     .padding(.horizontal, 12)
-                                
+
                                 Button {
-                                    
+
                                     withAnimation(.spring()) {
+
                                         selectedFilter = "Not Completed"
                                         showMenu = false
                                     }
-                                    
+
                                 } label: {
-                                    
+
                                     Text("Not Completed")
                                         .font(
                                             .custom(
@@ -244,12 +271,18 @@ struct HomeView: View {
                                                 size: 14
                                             )
                                         )
-                                        .foregroundColor(Color("PrimaryText"))
-                                        .frame(maxWidth: .infinity)
+                                        .foregroundColor(
+                                            Color("PrimaryText")
+                                        )
+                                        .frame(
+                                            maxWidth: .infinity
+                                        )
                                         .frame(height: 42)
                                 }
                             }
+
                             .frame(width: 176)
+
                             .background(
                                 Color("CardBackground"),
                                 in: RoundedRectangle(
@@ -257,6 +290,7 @@ struct HomeView: View {
                                     style: .continuous
                                 )
                             )
+
                             .overlay(
                                 RoundedRectangle(
                                     cornerRadius: 18,
@@ -267,168 +301,245 @@ struct HomeView: View {
                                     lineWidth: 1.2
                                 )
                             )
+
                             .shadow(
                                 color: .black.opacity(0.18),
                                 radius: 16,
                                 x: 0,
                                 y: 10
                             )
-                            .offset(x: -8, y: 58)
+
+                            .offset(
+                                x: -8,
+                                y: 58
+                            )
+
                             .zIndex(999999)
                         }
                     }
+
                     .zIndex(999999)
-                    
+
                     //==================================================
                     // STORIES
                     //==================================================
-                    
-                    ScrollView(showsIndicators: false) {
-                        
+
+                    ScrollView(
+                        showsIndicators: false
+                    ) {
+
                         VStack(spacing: 25) {
-                            
-                            ForEach(filteredStories) { story in
-                                
+
+                            ForEach(
+                                filteredStories
+                            ) { story in
+
                                 StoryCard(
                                     story: story,
                                     onPreview: {
+
                                         selectedStory = story
-                                    }
+
+                                        if owlGuide.currentStep == .preview {
+                                            owlGuide.nextStep()
+                                        }
+                                    },
+                                    isGuideTarget:
+                                        story.id == filteredStories.first?.id
+                                )
+
+                                // Only the guide's target card
+                                // can be interacted with.
+                                .disabled(
+                                    owlGuide.currentStep != nil &&
+                                    story.id != filteredStories.first?.id
                                 )
                             }
                         }
+
                         .padding(.horizontal, 16)
                         .padding(.bottom, 120)
                     }
+
+                    // Prevent scrolling while the guide is active.
+                    .scrollDisabled(
+                        owlGuide.currentStep != nil
+                    )
                 }
+
                 .padding(.top, 10)
+
                 .frame(maxWidth: 600)
+
                 .frame(maxWidth: .infinity)
             }
         }
-        
+
         //======================================================
         // NAVIGATION
         //======================================================
-        
+
         .navigationDestination(
             isPresented: $navigateToReader
         ) {
-            
+
             if let story = storyForReader {
+
                 StoryReaderView(
                     story: story,
                     source: .library
                 )
             }
         }
-        
+
         //======================================================
         // STORY PREVIEW SHEET
         //======================================================
-        
+
         .sheet(item: $selectedStory) { story in
-            
+
             StoryPreviewSheet(
                 story: story,
                 source: .library,
+
                 onStart: {
-                    
+
                     storyForReader = story
                     selectedStory = nil
-                    
+
                     DispatchQueue.main.asyncAfter(
                         deadline: .now() + 0.1
                     ) {
+
                         navigateToReader = true
                     }
                 }
             )
+
             .presentationDetents(
                 UIDevice.current.userInterfaceIdiom == .pad
                 ? [.large]
                 : [.fraction(0.6)]
             )
+
             .presentationCornerRadius(30)
         }
+
+        //======================================================
+        // REUSABLE OWL GUIDE
+        //======================================================
+
+        .owlGuideOverlay()
     }
 }
+
 
 //==============================================================
 // MARK: FILTER BUTTON
 //==============================================================
 
 extension HomeView {
-    
-    func filterButton(title: String) -> some View {
-        
+
+    func filterButton(
+        title: String
+    ) -> some View {
+
         Button {
-            
-            withAnimation(.spring(response: 0.3)) {
+
+            withAnimation(
+                .spring(response: 0.3)
+            ) {
+
                 selectedFilter = title
             }
-            
+
+            // Only move the guide forward when
+            // the Categories step is active.
+            if owlGuide.currentStep == .categories {
+
+                owlGuide.nextStep()
+            }
+
         } label: {
-            
+
             Text(title)
+
                 .font(
                     .custom(
                         "OpenDyslexic-Bold",
-                        size: UIDevice.current.userInterfaceIdiom == .pad
-                        ? 16
-                        : 10
+                        size:
+                            UIDevice.current.userInterfaceIdiom == .pad
+                            ? 16
+                            : 10
                     )
                 )
+
                 .tracking(0.2)
+
                 .lineLimit(1)
+
                 .minimumScaleFactor(0.9)
+
                 .foregroundColor(
                     selectedFilter == title
                     ? .white
                     : .black
                 )
+
                 .padding(
                     .horizontal,
-                    UIDevice.current.userInterfaceIdiom == .pad ? 14 : 9
+                    UIDevice.current.userInterfaceIdiom == .pad
+                    ? 14
+                    : 9
                 )
+
                 .padding(.vertical, 7)
+
                 .background(
+
                     ZStack {
-                        
-                        Capsule(style: .continuous)
-                            .fill(
-                                selectedFilter == title
-                                ? Color("ButtonColor")
-                                : Color("ButtonSecondaryBackground")
-                            )
-                        
-                        Capsule(style: .continuous)
-                            .stroke(
-                                selectedFilter == title
-                                ? Color.black.opacity(0.10)
-                                : Color.white.opacity(0.75),
-                                lineWidth: 0.9
-                            )
-                        
+
+                        Capsule(
+                            style: .continuous
+                        )
+                        .fill(
+                            selectedFilter == title
+                            ? Color("ButtonColor")
+                            : Color("ButtonSecondaryBackground")
+                        )
+
+                        Capsule(
+                            style: .continuous
+                        )
+                        .stroke(
+                            selectedFilter == title
+                            ? Color.black.opacity(0.10)
+                            : Color.white.opacity(0.75),
+                            lineWidth: 0.9
+                        )
+
                         if selectedFilter == title {
-                            
-                            Capsule(style: .continuous)
-                                .fill(
-                                    LinearGradient(
-                                        colors: [
-                                            Color.white.opacity(0.18),
-                                            .clear
-                                        ],
-                                        startPoint: .top,
-                                        endPoint: .center
-                                    )
+
+                            Capsule(
+                                style: .continuous
+                            )
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.18),
+                                        .clear
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .center
                                 )
-                                .padding(.horizontal, 0.5)
-                                .padding(.vertical, 0.5)
-                                .blendMode(.plusLighter)
+                            )
+                            .padding(.horizontal, 0.5)
+                            .padding(.vertical, 0.5)
+                            .blendMode(.plusLighter)
                         }
                     }
                 )
+
                 .shadow(
                     color: .black.opacity(0.12),
                     radius: 5,
@@ -436,16 +547,27 @@ extension HomeView {
                     y: 3
                 )
         }
+
         .buttonStyle(.plain)
+
+        // During Categories → buttons enabled.
+        // During Preview → buttons disabled.
+        .disabled(
+            owlGuide.currentStep != nil &&
+            owlGuide.currentStep != .categories
+        )
     }
 }
+
 
 //==============================================================
 // MARK: PREVIEW
 //==============================================================
 
 #Preview {
+
     NavigationStack {
+
         HomeView()
     }
 }

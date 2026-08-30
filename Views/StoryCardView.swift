@@ -1,22 +1,25 @@
 import SwiftUI
 
 struct StoryCard: View {
-    
+
     let story: Story
     let onPreview: () -> Void
-    
+
+    // NEW: Only the selected card becomes the Owl Guide target
+    let isGuideTarget: Bool
+
     var body: some View {
-        
+
         let isPad = UIDevice.current.userInterfaceIdiom == .pad
-        
+
         VStack(alignment: .leading, spacing: isPad ? 18 : 14) {
-            
+
             //==================================================
             // IMAGE
             //==================================================
-            
+
             ZStack(alignment: .topLeading) {
-                
+
                 Image(story.coverImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -24,7 +27,7 @@ struct StoryCard: View {
                     .frame(maxWidth: .infinity)
                     .clipped()
                     .cornerRadius(isPad ? 28 : 22)
-                
+
                 Text(story.level.rawValue)
                     .font(
                         .custom(
@@ -47,11 +50,11 @@ struct StoryCard: View {
                     )
                     .padding(isPad ? 16 : 12)
             }
-            
+
             //==================================================
             // TITLE
             //==================================================
-            
+
             Text(story.title)
                 .font(
                     .custom(
@@ -63,15 +66,17 @@ struct StoryCard: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
                 .padding(.horizontal, 4)
-            
+
             //==================================================
             // BUTTON
             //==================================================
-            
+
             Button {
+
                 onPreview()
+
             } label: {
-                
+
                 Text("Preview")
                     .font(
                         .custom(
@@ -92,7 +97,21 @@ struct StoryCard: View {
             }
             .buttonStyle(.plain)
             .padding(.horizontal, isPad ? 28 : 18)
+
+            //==================================================
+            // OWL GUIDE TARGET
+            //==================================================
+
+            .background {
+
+                if isGuideTarget {
+
+                    Color.clear
+                        .owlGuideTarget("preview")
+                }
+            }
         }
+
         .padding(isPad ? 22 : 14)
         .background(
             RoundedRectangle(
@@ -110,29 +129,41 @@ struct StoryCard: View {
             y: isPad ? 8 : 5
         )
         .padding(.horizontal, isPad ? 20 : 14)
+
         //==================================================
         // WIDTH CONTROL
         //==================================================
-        
-        .frame(maxWidth: isPad ? 760 : 500)        .frame(maxWidth: .infinity)
+
+        .frame(maxWidth: isPad ? 760 : 500)
+        .frame(maxWidth: .infinity)
     }
 }
 
+
+//==============================================================
+// PREVIEW
+//==============================================================
+
 #Preview {
+
     NavigationStack {
-        
+
         ZStack {
-            
+
             LinearGradient(
-                colors: [.bgTop, .bgBottom],
+                colors: [
+                    .bgTop,
+                    .bgBottom
+                ],
                 startPoint: .top,
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-            
+
             StoryCard(
                 story: sampleStories[0],
-                onPreview: {}
+                onPreview: {},
+                isGuideTarget: true
             )
         }
     }

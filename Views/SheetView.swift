@@ -5,30 +5,40 @@ struct StoryPreviewSheet: View {
     let story: Story
     let source: StorySource
     let onStart: () -> Void
-    
+
     @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
-        
+
         GeometryReader { geo in
-            let scale = Scale.factor;
+
+            let scale = Scale.factor
+
             ZStack {
-                
+
                 Color("StoryCardBackground")
                     .ignoresSafeArea()
-                
+
                 VStack {
-                    
-                    Spacer().frame(height: 20 * scale)
-                    
+
+                    Spacer()
+                        .frame(height: 20 * scale)
+
+                    //==================================================
                     // TOP BAR
+                    //==================================================
+
                     HStack {
+
                         Capsule()
                             .fill(
                                 Color("SecondaryText")
                                     .opacity(0.35)
                             )
-                            .frame(width: 40 * scale, height: 5 * scale)
+                            .frame(
+                                width: 40 * scale,
+                                height: 5 * scale
+                            )
                             .frame(maxWidth: .infinity)
                     }
                     .overlay(alignment: .trailing) {
@@ -53,7 +63,9 @@ struct StoryPreviewSheet: View {
                                 )
                                 .background(
                                     Circle()
-                                        .fill(.white.opacity(0.8))
+                                        .fill(
+                                            .white.opacity(0.8)
+                                        )
                                 )
                                 .overlay {
 
@@ -64,82 +76,148 @@ struct StoryPreviewSheet: View {
                                         )
                                 }
                         }
-
                         .buttonStyle(.plain)
-
                         .padding(.trailing, 20 * scale)
                     }
-                    
-                    Spacer().frame(height: 20 * scale)
-                    
+
+                    Spacer()
+                        .frame(height: 20 * scale)
+
+                    //==================================================
                     // IMAGE + TITLE
-                    HStack(alignment: .top, spacing: 16 * scale) {
-                        
+                    //==================================================
+
+                    HStack(
+                        alignment: .top,
+                        spacing: 16 * scale
+                    ) {
+
                         Image(story.coverImage)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 90 * scale, height: 90 * scale)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                        
+                            .frame(
+                                width: 90 * scale,
+                                height: 90 * scale
+                            )
+                            .clipShape(
+                                RoundedRectangle(
+                                    cornerRadius: 10
+                                )
+                            )
+
                         Text(story.title)
-                            .font(.custom("OpenDyslexic-Bold", size: 20 * scale))
+                            .font(
+                                .custom(
+                                    "OpenDyslexic-Bold",
+                                    size: 20 * scale
+                                )
+                            )
                             .foregroundColor(.black)
                             .lineLimit(2)
                             .minimumScaleFactor(0.75)
-                            .fixedSize(horizontal: false, vertical: true)
-                        
+                            .fixedSize(
+                                horizontal: false,
+                                vertical: true
+                            )
+
                         Spacer()
                     }
                     .padding(.horizontal, 24 * scale)
-                    
+
                     Spacer()
-                    
+
+                    //==================================================
                     // DESCRIPTION
+                    //==================================================
+
                     Text(story.shortDescription)
-                        .font(.custom("OpenDyslexic-Regular", size: 20 * scale))
+                        .font(
+                            .custom(
+                                "OpenDyslexic-Regular",
+                                size: 20 * scale
+                            )
+                        )
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: 350)
-                    
+
                     Spacer()
-                    
-                    // START BUTTON (FIXED SIZE)
+
+                    //==================================================
+                    // START BUTTON
+                    //==================================================
+
                     Button {
+
                         dismiss()
                         onStart()
+
                     } label: {
+
                         Text("START")
-                            .font(.custom("OpenDyslexic-Bold", size: 22 * scale))
-                            .foregroundColor(Color("PrimaryText"))
-                            .frame(maxWidth: 300)
-                            .padding(.vertical, 14 * scale)
+                            .font(
+                                .custom(
+                                    "OpenDyslexic-Bold",
+                                    size: 22 * scale
+                                )
+                            )
+                            .foregroundColor(
+                                Color("PrimaryText")
+                            )
+                            .frame(
+                                maxWidth: 300
+                            )
+                            .padding(
+                                .vertical,
+                                14 * scale
+                            )
                             .background(
                                 Color("ButtonColor")
-                            )                          .cornerRadius(18)
+                            )
+                            .cornerRadius(18)
                     }
-                    
-                    Spacer().frame(height: 20 * scale)
+                    .buttonStyle(.plain)
+
+                    //==================================================
+                    // OWL GUIDE TARGET
+                    //==================================================
+
+                    .owlGuideTarget("start")
+
+                    Spacer()
+                        .frame(height: 20 * scale)
                 }
             }
         }
     }
 }
+
+
+//==============================================================
+// PREVIEW
+//==============================================================
+
 #Preview {
+
     ZStack {
-        
+
         // Background (matches HomeView)
+
         LinearGradient(
-            colors: [.bgTop, .bgBottom],
+            colors: [
+                .bgTop,
+                .bgBottom
+            ],
             startPoint: .top,
             endPoint: .bottom
         )
         .ignoresSafeArea()
-        
+
         StoryPreviewSheet(
             story: sampleStories[13],
             source: .library,
             onStart: {}
         )
-        .padding(.top, 200) // optional: makes it look like a sheet
+        .padding(.top, 200)
     }
 }

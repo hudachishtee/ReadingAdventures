@@ -74,11 +74,15 @@ struct DashboardView: View {
             .padding(.top, 12)
             .padding(.bottom, 30)
         }
+
         .scrollDisabled(
             owlGuide.currentStep != nil
         )
 
-        // Measure available size WITHOUT wrapping content in GeometryReader.
+        // ============================================================
+        // MEASURE AVAILABLE SIZE
+        // ============================================================
+
         .background(
             GeometryReader { geo in
 
@@ -96,6 +100,10 @@ struct DashboardView: View {
             }
         )
 
+        // ============================================================
+        // BACKGROUND
+        // ============================================================
+
         .background(
             LinearGradient(
                 colors: [
@@ -107,6 +115,10 @@ struct DashboardView: View {
             )
             .ignoresSafeArea()
         )
+
+        // ============================================================
+        // STORY PREVIEW SHEET
+        // ============================================================
 
         .sheet(item: $selectedStory) { story in
 
@@ -134,6 +146,10 @@ struct DashboardView: View {
 
             .presentationCornerRadius(30)
         }
+
+        // ============================================================
+        // NAVIGATION
+        // ============================================================
 
         .navigationDestination(
             isPresented: $showAllStories
@@ -163,36 +179,26 @@ struct DashboardView: View {
         }
 
         // ============================================================
-        // OWL GUIDE
+        // REUSABLE OWL GUIDE
         // ============================================================
 
-        .overlayPreferenceValue(
-            OwlGuideTargetPreferenceKey.self
-        ) { preferences in
+        .owlGuideOverlay()
 
-            GeometryReader { proxy in
-
-                if owlGuide.currentStep == .viewAll,
-                   let anchor = preferences["viewAll"] {
-
-                    OwlGuideView(
-                        message: "Tap View All!",
-                        targetRect: proxy[anchor],
-                        targetShape: .capsule
-                    )
-                }
-            }
-            .ignoresSafeArea()
-        }
+        // ============================================================
+        // START GUIDE
+        // ============================================================
 
         .onAppear {
+
             owlGuide.startIfNeeded()
         }
     }
 }
 
 
+// ================================================================
 // MARK: - Hero
+// ================================================================
 
 private extension DashboardView {
 
@@ -214,9 +220,9 @@ private extension DashboardView {
     }
 
 
-    // ==========================
+    // ============================================================
     // iPad Hero
-    // ==========================
+    // ============================================================
 
     func ipadHero(
         _ responsive: Responsive
@@ -309,6 +315,7 @@ private extension DashboardView {
                     }
 
                     .layoutPriority(2)
+
                     .fixedSize(
                         horizontal: false,
                         vertical: true
@@ -335,6 +342,7 @@ private extension DashboardView {
                     width: w * 0.88,
                     alignment: .leading
                 )
+
                 .offset(
                     x: -w * 0.02
                 )
@@ -367,9 +375,9 @@ private extension DashboardView {
     }
 
 
-    // ==========================
+    // ============================================================
     // iPhone Hero
-    // ==========================
+    // ============================================================
 
     func iphoneHero(
         _ responsive: Responsive
@@ -459,6 +467,7 @@ private extension DashboardView {
                     }
 
                     .layoutPriority(2)
+
                     .fixedSize(
                         horizontal: false,
                         vertical: true
@@ -484,6 +493,7 @@ private extension DashboardView {
                 .frame(
                     width: w * 0.94
                 )
+
                 .padding(
                     .horizontal,
                     w * 0.02
@@ -518,7 +528,9 @@ private extension DashboardView {
 }
 
 
+// ================================================================
 // MARK: - Continue Reading
+// ================================================================
 
 private extension DashboardView {
 
@@ -538,6 +550,7 @@ private extension DashboardView {
                     ? "Continue Reading"
                     : "Recommended Stories"
                 )
+
                 .font(
                     .custom(
                         "OpenDyslexic-Bold",
@@ -552,15 +565,18 @@ private extension DashboardView {
                     owlGuide.nextStep()
                     showAllStories = true
                 }
+
                 .font(
                     .custom(
                         "OpenDyslexic-Bold",
                         size: responsive.isPad ? 18 : 14
                     )
                 )
+
                 .foregroundColor(
                     Color("PrimaryText")
                 )
+
                 .owlGuideTarget("viewAll")
             }
 
@@ -720,7 +736,9 @@ private extension DashboardView {
 }
 
 
+// ================================================================
 // MARK: - Browse Theme
+// ================================================================
 
 private extension DashboardView {
 
@@ -838,6 +856,7 @@ private extension DashboardView {
                                 )
                         }
 
+
                         HStack {
 
                             Spacer()
@@ -847,6 +866,7 @@ private extension DashboardView {
                                 systemImage:
                                     "arrow.right.circle.fill"
                             )
+
                             .font(
                                 .custom(
                                     "OpenDyslexic-Bold",
@@ -854,11 +874,13 @@ private extension DashboardView {
                                         responsive.adventureButtonSize
                                 )
                             )
+
                             .foregroundColor(
                                 Color("ButtonColor")
                             )
                         }
                     }
+
                     .padding()
                 }
 
@@ -893,6 +915,7 @@ private extension DashboardView {
     ) -> some View {
 
         Text(title)
+
             .font(
                 .custom(
                     "OpenDyslexic-Bold",
@@ -900,19 +923,23 @@ private extension DashboardView {
                         responsive.isPad ? 20 : 12
                 )
             )
+
             .foregroundColor(
                 selected
                 ? .white
                 : .appPrimaryText
             )
+
             .padding(
                 .horizontal,
                 responsive.isPad ? 27 : 18
             )
+
             .padding(
                 .vertical,
                 responsive.isPad ? 13 : 9
             )
+
             .background(
                 Capsule()
                     .fill(
@@ -921,6 +948,7 @@ private extension DashboardView {
                         : Color.appCardBackground
                     )
             )
+
             .overlay(
                 Capsule()
                     .stroke(
@@ -930,6 +958,7 @@ private extension DashboardView {
                         lineWidth: 1
                     )
             )
+
             .shadow(
                 color:
                     selected
@@ -938,9 +967,11 @@ private extension DashboardView {
                 radius: 6,
                 y: 3
             )
+
             .scaleEffect(
                 selected ? 1.05 : 1.0
             )
+
             .animation(
                 .spring(duration: 0.25),
                 value: selected
@@ -1008,6 +1039,10 @@ private extension DashboardView {
     }
 }
 
+
+// ================================================================
+// PREVIEW
+// ================================================================
 
 #Preview {
 
