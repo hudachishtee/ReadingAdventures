@@ -18,29 +18,32 @@ struct DashboardView: View {
     @State private var showAllStories = false
     @State private var navigateToReader = false
     @State private var storyForReader: Story?
-
     @State private var containerSize: CGSize = .zero
     @State private var safeAreaTop: CGFloat = 0
     @State private var safeAreaBottom: CGFloat = 0
 
     private var filteredStories: [Story] {
+
         sampleStories.filter {
             $0.dashboardTheme == selectedTheme
         }
     }
 
     private var hasReadingProgress: Bool {
+
         progress.lastOpenedStoryTitle != nil &&
         !progress.lastOpenedStoryCompleted
     }
 
     private var lastOpenedStory: Story? {
+
         sampleStories.first {
             $0.title == progress.lastOpenedStoryTitle
         }
     }
 
     private var responsive: Responsive {
+
         Responsive(
             width: containerSize.width,
             height: containerSize.height,
@@ -70,13 +73,16 @@ struct DashboardView: View {
 
                 Spacer(minLength: 120)
             }
+
             .frame(maxWidth: .infinity)
+
             .padding(.top, 12)
             .padding(.bottom, 30)
         }
 
         .scrollDisabled(
-            owlGuide.currentStep != nil
+            owlGuide.currentStep != nil &&
+            owlGuide.currentStep != .achievements
         )
 
         // ============================================================
@@ -84,15 +90,18 @@ struct DashboardView: View {
         // ============================================================
 
         .background(
+
             GeometryReader { geo in
 
                 Color.clear
+
                     .onAppear {
 
                         containerSize = geo.size
                         safeAreaTop = geo.safeAreaInsets.top
                         safeAreaBottom = geo.safeAreaInsets.bottom
                     }
+
                     .onChange(of: geo.size) { newSize in
 
                         containerSize = newSize
@@ -105,6 +114,7 @@ struct DashboardView: View {
         // ============================================================
 
         .background(
+
             LinearGradient(
                 colors: [
                     .bgTop,
@@ -113,6 +123,7 @@ struct DashboardView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
+
             .ignoresSafeArea()
         )
 
@@ -182,18 +193,31 @@ struct DashboardView: View {
         // REUSABLE OWL GUIDE
         // ============================================================
 
-        .owlGuideOverlay()
+//        .owlGuideOverlay()
 
         // ============================================================
-        // START GUIDE
+        // START / RESUME GUIDE
         // ============================================================
 
         .onAppear {
 
-            owlGuide.startIfNeeded()
+            // Normal first-time guide start
+            if owlGuide.currentStep == nil {
+
+                owlGuide.startIfNeeded()
+            }
+
+            // When returning from Vocabulary/Celebration,
+            // keep the .achievements step active.
+            else if owlGuide.currentStep == .achievements {
+
+                // Intentionally do nothing.
+                // The guide should remain on the achievements step.
+            }
         }
     }
 }
+
 
 
 // ================================================================
@@ -220,6 +244,7 @@ private extension DashboardView {
     }
 
 
+
     // ============================================================
     // iPad Hero
     // ============================================================
@@ -238,6 +263,7 @@ private extension DashboardView {
                 RoundedRectangle(
                     cornerRadius: responsive.heroCornerRadius
                 )
+
                 .fill(
                     Color("BackgroundBottom")
                 )
@@ -375,6 +401,7 @@ private extension DashboardView {
     }
 
 
+
     // ============================================================
     // iPhone Hero
     // ============================================================
@@ -393,6 +420,7 @@ private extension DashboardView {
                 RoundedRectangle(
                     cornerRadius: responsive.heroCornerRadius
                 )
+
                 .fill(
                     Color("BackgroundBottom")
                 )
@@ -528,6 +556,7 @@ private extension DashboardView {
 }
 
 
+
 // ================================================================
 // MARK: - Continue Reading
 // ================================================================
@@ -591,6 +620,7 @@ private extension DashboardView {
             )
 
 
+
             ScrollView(
                 .horizontal,
                 showsIndicators: false
@@ -605,6 +635,7 @@ private extension DashboardView {
                             story: story,
                             responsive: responsive
                         )
+
                         .allowsHitTesting(
                             owlGuide.currentStep == nil
                         )
@@ -615,6 +646,7 @@ private extension DashboardView {
                             story: sampleStories[1],
                             responsive: responsive
                         )
+
                         .allowsHitTesting(
                             owlGuide.currentStep == nil
                         )
@@ -623,6 +655,7 @@ private extension DashboardView {
                             story: sampleStories[0],
                             responsive: responsive
                         )
+
                         .allowsHitTesting(
                             owlGuide.currentStep == nil
                         )
@@ -631,6 +664,7 @@ private extension DashboardView {
                             story: sampleStories[2],
                             responsive: responsive
                         )
+
                         .allowsHitTesting(
                             owlGuide.currentStep == nil
                         )
@@ -650,6 +684,7 @@ private extension DashboardView {
             )
         }
     }
+
 
 
     func continueCard(
@@ -736,6 +771,7 @@ private extension DashboardView {
 }
 
 
+
 // ================================================================
 // MARK: - Browse Theme
 // ================================================================
@@ -769,6 +805,7 @@ private extension DashboardView {
                 .horizontal,
                 responsive.horizontalPadding
             )
+
 
 
             Button {
@@ -820,7 +857,6 @@ private extension DashboardView {
                             y: 3
                         )
 
-
                     VStack(
                         alignment: .leading,
                         spacing: 12
@@ -855,6 +891,7 @@ private extension DashboardView {
                                     .primary
                                 )
                         }
+
 
 
                         HStack {
@@ -908,6 +945,7 @@ private extension DashboardView {
     }
 
 
+
     func themeChip(
         title: String,
         selected: Bool,
@@ -915,7 +953,6 @@ private extension DashboardView {
     ) -> some View {
 
         Text(title)
-
             .font(
                 .custom(
                     "OpenDyslexic-Bold",
@@ -923,23 +960,19 @@ private extension DashboardView {
                         responsive.isPad ? 20 : 12
                 )
             )
-
             .foregroundColor(
                 selected
                 ? .white
                 : .appPrimaryText
             )
-
             .padding(
                 .horizontal,
                 responsive.isPad ? 27 : 18
             )
-
             .padding(
                 .vertical,
                 responsive.isPad ? 13 : 9
             )
-
             .background(
                 Capsule()
                     .fill(
@@ -948,7 +981,6 @@ private extension DashboardView {
                         : Color.appCardBackground
                     )
             )
-
             .overlay(
                 Capsule()
                     .stroke(
@@ -958,7 +990,6 @@ private extension DashboardView {
                         lineWidth: 1
                     )
             )
-
             .shadow(
                 color:
                     selected
@@ -967,16 +998,15 @@ private extension DashboardView {
                 radius: 6,
                 y: 3
             )
-
             .scaleEffect(
                 selected ? 1.05 : 1.0
             )
-
             .animation(
                 .spring(duration: 0.25),
                 value: selected
             )
     }
+
 
 
     func storyCard(
@@ -1040,8 +1070,9 @@ private extension DashboardView {
 }
 
 
+
 // ================================================================
-// PREVIEW
+// MARK: - PREVIEW
 // ================================================================
 
 #Preview {

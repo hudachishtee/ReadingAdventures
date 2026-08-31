@@ -70,6 +70,11 @@ struct OwlGuideView: View {
                         .foregroundStyle(
                             Color("PrimaryText")
                         )
+                        .lineLimit(nil)
+                        .fixedSize(
+                            horizontal: false,
+                            vertical: true
+                        )
                         .padding(.horizontal, 18)
                         .padding(.vertical, 14)
                         .background(

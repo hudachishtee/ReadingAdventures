@@ -174,13 +174,13 @@ struct OwlGuideOverlayModifier: ViewModifier {
             return "Learn new words!"
 
         case .vocabularyAudio:
-            return "Tap to hear the word."
+            return "Tap the speaker to hear the word!"
 
         case .vocabularyBookmark:
-            return "Tap to save this word."
+            return "Tap the bookmark to save this word!"
 
         case .vocabularySwipe:
-            return "Swipe to explore!"
+            return "Swipe or use the arrows to see the next word!"
 
         case .achievements:
             return "Tap here to see your badge!"

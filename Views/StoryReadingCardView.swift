@@ -242,7 +242,7 @@ struct StoryReadingCardView: View {
                         if guideManager.currentStep == .navigation &&
                             navigationGuideTarget == "back" {
 
-                            guideManager.currentStep = nil
+                            guideManager.currentStep = .newWords
                         }
 
                         previousPage()

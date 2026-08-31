@@ -6,80 +6,85 @@
 import SwiftUI
 
 struct AchievementsView: View {
-    
+
     @ObservedObject var progress = ProgressManager.shared
+
+    // Owl Guide
+    @ObservedObject private var owlGuide = OwlGuideManager.shared
+
     let stories: [Story]
-    
+
     @State private var selectedStory: Story? = nil
-    
+
     //==========================================================
     // GRID
     //==========================================================
-    
+
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
     ]
-    
+
     var body: some View {
-        
+
         ZStack {
-            
+
             //==================================================
             // BACKGROUND
             //==================================================
-            
+
             LinearGradient(
                 colors: [.bgTop, .bgBottom],
                 startPoint: .top,
                 endPoint: .bottom
             )
             .ignoresSafeArea()
-            
+
             VStack(spacing: 24) {
-                
+
                 //==================================================
                 // TITLE
                 //==================================================
-                
+
                 titleBanner
                     .padding(.top, 30)
-                
+
                 //==================================================
                 // PROGRESS
                 //==================================================
-                
+
                 progressCard
-                
+
                 //==================================================
                 // GRID
                 //==================================================
-                
+
                 ScrollView(showsIndicators: false) {
-                    
+
                     LazyVGrid(
                         columns: columns,
                         spacing: 16
                     ) {
-                        
+
                         ForEach(stories) { story in
+
                             badgeItem(for: story)
                         }
                     }
+
                     .padding(.horizontal, 20)
                     .padding(.top, 6)
                     .padding(.bottom, 140)
                 }
             }
         }
+
         .overlay {
-            
+
             if let story = selectedStory {
-                
+
                 badgePopup(for: story)
-//                    .transition(
-//                        .scale.combined(with: .opacity)
-//                    )
+
             }
         }
     }
@@ -90,78 +95,110 @@ struct AchievementsView: View {
 //==============================================================
 
 extension AchievementsView {
-    
+
     //==========================================================
     // TITLE BANNER
     //==========================================================
-    
+
     var titleBanner: some View {
-        
+
         ZStack {
-            
+
             RoundedRectangle(cornerRadius: 26)
                 .fill(
                     LinearGradient(
                         colors: [
-                            Color(red: 1.0, green: 0.95, blue: 0.78),
-                            Color(red: 1.0, green: 0.83, blue: 0.52)
+                            Color(
+                                red: 1.0,
+                                green: 0.95,
+                                blue: 0.78
+                            ),
+                            Color(
+                                red: 1.0,
+                                green: 0.83,
+                                blue: 0.52
+                            )
                         ],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
                 .frame(height: 82)
-            
+
             RoundedRectangle(cornerRadius: 26)
                 .stroke(
                     Color.white.opacity(0.9),
                     lineWidth: 3
                 )
                 .frame(height: 82)
-            
+
             HStack(spacing: 8) {
-                
+
                 Image(systemName: "star.fill")
                     .font(.system(size: 15))
                     .foregroundColor(.yellow)
-                
+
                 Text("My Achievements")
-                    .font(.custom("OpenDyslexic-Bold", size: 20))
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Bold",
+                            size: 20
+                        )
+                    )
                     .foregroundColor(.black)
-                
+
                 Image(systemName: "star.fill")
                     .font(.system(size: 15))
                     .foregroundColor(.yellow)
             }
         }
+
         .padding(.horizontal, 20)
     }
-    
+
     //==========================================================
     // PROGRESS CARD
     //==========================================================
-    
+
     var progressCard: some View {
-        
+
         let earned = progress.completedStories.count
         let total = stories.count
-        
+
         return HStack {
-            
-            VStack(alignment: .leading, spacing: 6) {
-                
+
+            VStack(
+                alignment: .leading,
+                spacing: 6
+            ) {
+
                 Text("You earned")
-                    .font(.custom("OpenDyslexic-Regular", size: 13))
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Regular",
+                            size: 13
+                        )
+                    )
                     .foregroundColor(.appPrimaryText)
-                
+
                 Text("\(earned) / \(total)")
-                    .font(.system(size: 34, weight: .heavy))
+                    .font(
+                        .system(
+                            size: 34,
+                            weight: .heavy
+                        )
+                    )
                     .foregroundColor(.appPrimaryText)
-                
+
                 Text("badges")
-                    .font(.custom("OpenDyslexic-Regular", size: 12))
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Regular",
+                            size: 12
+                        )
+                    )
                     .foregroundColor(.appPrimaryText)
-                
+
                 ProgressView(
                     value: Double(earned),
                     total: Double(total)
@@ -170,40 +207,52 @@ extension AchievementsView {
                 .scaleEffect(y: 1.5)
                 .padding(.top, 8)
             }
-            
+
             Spacer()
-            
+
             VStack(spacing: 4) {
-                
+
                 Image(systemName: "star.fill")
                     .font(.system(size: 48))
                     .foregroundStyle(
                         LinearGradient(
-                            colors: [.yellow, .orange],
+                            colors: [
+                                .yellow,
+                                .orange
+                            ],
                             startPoint: .top,
                             endPoint: .bottom
                         )
                     )
-                
+
                 Text("Great job!")
-                    .font(.custom("OpenDyslexic-Bold", size: 13))
+                    .font(
+                        .custom(
+                            "OpenDyslexic-Bold",
+                            size: 13
+                        )
+                    )
                     .foregroundColor(.orange)
             }
         }
+
         .padding(18)
+
         .background(
             RoundedRectangle(cornerRadius: 30)
                 .fill(
                     LinearGradient(
                         colors: [
                             Color("CardBackground"),
-                            Color("CardBackground").opacity(0.85)
+                            Color("CardBackground")
+                                .opacity(0.85)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
         )
+
         .overlay(
             RoundedRectangle(cornerRadius: 30)
                 .stroke(
@@ -211,111 +260,197 @@ extension AchievementsView {
                     lineWidth: 2
                 )
         )
+
         .shadow(
             color: .black.opacity(0.25),
             radius: 16,
             y: 8
         )
+
         .padding(.horizontal, 20)
     }
-    
+
     //==========================================================
     // BADGE ITEM
     //==========================================================
-    
+
     func badgeItem(for story: Story) -> some View {
-        
-        let unlocked = progress.completedStories.contains(story.id)
-        
+
+        let unlocked =
+            progress.completedStories.contains(story.id)
+
+        // Find the first unlocked story.
+        let firstUnlockedStoryID =
+            stories.first {
+                progress.completedStories.contains($0.id)
+            }?.id
+
+        let isGuideBadge =
+            story.id == firstUnlockedStoryID
+
         return Button {
-            
+
             withAnimation(
                 .spring(
                     response: 0.35,
                     dampingFraction: 0.82
                 )
             ) {
+
                 selectedStory = story
             }
-            
+
         } label: {
-            
-            Image(BadgeHelper.badgeImage(for: story))                .resizable()
-                .scaledToFit()
-                .saturation(unlocked ? 1 : 0)
-                .opacity(unlocked ? 1 : 0.5)
-                .shadow(
-                    color: unlocked
+
+            Image(
+                BadgeHelper.badgeImage(
+                    for: story
+                )
+            )
+            .resizable()
+            .scaledToFit()
+            .saturation(
+                unlocked
+                ? 1
+                : 0
+            )
+            .opacity(
+                unlocked
+                ? 1
+                : 0.5
+            )
+            .shadow(
+                color:
+                    unlocked
                     ? .yellow.opacity(0.12)
                     : .black.opacity(0.08),
-                    radius: unlocked ? 18 : 8,
-                    y: unlocked ? 10 : 4
-                )
-                .scaleEffect(unlocked ? 1 : 0.98)
+                radius:
+                    unlocked
+                    ? 18
+                    : 8,
+                y:
+                    unlocked
+                    ? 10
+                    : 4
+            )
+            .scaleEffect(
+                unlocked
+                ? 1
+                : 0.98
+            )
+
+            //==================================================
+            // OWL GUIDE TARGET
+            //==================================================
+
+            .background {
+
+                Color.clear
+                    .owlGuideTarget(
+                        "unlockedBadge"
+                    )
+                    .opacity(
+                        isGuideBadge
+                        ? 1
+                        : 0
+                    )
+            }
         }
+
         .buttonStyle(.plain)
     }
-    
+
     //==========================================================
     // POPUP
     //==========================================================
-    
+
     func badgePopup(for story: Story) -> some View {
-        
-        let unlocked = progress.completedStories.contains(story.id)
-        
+
+        let unlocked =
+            progress.completedStories.contains(story.id)
+
         return ZStack {
-            
-            Color.black.opacity(0.25)                .ignoresSafeArea()
+
+            Color.black.opacity(0.25)
+                .ignoresSafeArea()
                 .onTapGesture {
-                    
+
                     withAnimation {
+
                         selectedStory = nil
                     }
                 }
-            
+
             VStack(spacing: 20) {
-                
+
                 Text(
                     unlocked
                     ? "Badge\nUnlocked!"
                     : "Locked Badge"
                 )
-                .font(.custom("OpenDyslexic-Bold", size: 24))
+                .font(
+                    .custom(
+                        "OpenDyslexic-Bold",
+                        size: 24
+                    )
+                )
                 .multilineTextAlignment(.center)
                 .foregroundColor(.appPrimaryText)
-                
-                Image(BadgeHelper.badgeImage(for: story))   .resizable()
-                    .scaledToFit()
-                    .frame(width: 230)
-                    .saturation(unlocked ? 1 : 0)
-                    .opacity(unlocked ? 1 : 0.55)
-                
+
+                Image(
+                    BadgeHelper.badgeImage(
+                        for: story
+                    )
+                )
+                .resizable()
+                .scaledToFit()
+                .frame(width: 230)
+                .saturation(
+                    unlocked
+                    ? 1
+                    : 0
+                )
+                .opacity(
+                    unlocked
+                    ? 1
+                    : 0.55
+                )
+
                 Text(
                     unlocked
                     ? "You completed this story!"
                     : "Finish this story to unlock this badge."
                 )
-                .font(.custom("OpenDyslexic-Regular", size: 15))
+                .font(
+                    .custom(
+                        "OpenDyslexic-Regular",
+                        size: 15
+                    )
+                )
                 .multilineTextAlignment(.center)
                 .foregroundColor(.appPrimaryText)
                 .padding(.horizontal, 10)
             }
+
             .padding(28)
+
             .frame(width: 340)
+
             .background(
                 RoundedRectangle(cornerRadius: 34)
                     .fill(
                         LinearGradient(
                             colors: [
                                 Color.appCardBackground,
-                                Color.appCardBackground.opacity(0.92)
+                                Color.appCardBackground
+                                    .opacity(0.92)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
             )
+
             .overlay(
                 RoundedRectangle(cornerRadius: 34)
                     .stroke(
@@ -323,6 +458,7 @@ extension AchievementsView {
                         lineWidth: 1
                     )
             )
+
             .shadow(
                 color: .black.opacity(0.35),
                 radius: 30,
@@ -332,21 +468,24 @@ extension AchievementsView {
     }
 }
 
-
-//
+//==============================================================
 // MARK: PREVIEW
-//
+//==============================================================
 
 #Preview {
 
-let progress = ProgressManager.shared
+    let progress = ProgressManager.shared
 
-progress.resetProgress()
+    progress.resetProgress()
 
-if let first = sampleStories.first {
-    progress.completedStories.insert(first.id)
+    if let first = sampleStories.first {
+
+        progress.completedStories.insert(
+            first.id
+        )
+    }
+
+    return AchievementsView(
+        stories: sampleStories
+    )
 }
-
-return AchievementsView(stories: sampleStories)
-}
-    
