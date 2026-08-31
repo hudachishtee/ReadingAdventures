@@ -22,6 +22,16 @@ class ProgressManager: ObservableObject {
 
     @Published var unlockedGames: Set<String> = []
 
+    // Adventure Map - areas already visited
+    @Published var visitedAreas: Set<String> = [] {
+        didSet {
+            UserDefaults.standard.set(
+                Array(visitedAreas),
+                forKey: "visitedAreas"
+            )
+        }
+    }
+
     // Badge notification
     @Published var hasUnseenAchievements: Bool = false
 
@@ -39,8 +49,13 @@ class ProgressManager: ObservableObject {
                 forKey: "completedStories"
             ) ?? []
         )
-    }
 
+        visitedAreas = Set(
+            UserDefaults.standard.stringArray(
+                forKey: "visitedAreas"
+            ) ?? []
+        )
+    }
     //==========================================================
     // MARK: - Story Completion
     //==========================================================
@@ -145,6 +160,18 @@ class ProgressManager: ObservableObject {
     func markAchievementsAsSeen() {
         hasUnseenAchievements = false
     }
+    
+    //==========================================================
+    // MARK: - Adventure Area Visits
+    //==========================================================
+
+    func hasVisitedArea(_ areaName: String) -> Bool {
+        visitedAreas.contains(areaName)
+    }
+
+    func markAreaAsVisited(_ areaName: String) {
+        visitedAreas.insert(areaName)
+    }
 
     //==========================================================
     // MARK: - Reset Progress
@@ -153,12 +180,19 @@ class ProgressManager: ObservableObject {
     func resetProgress() {
 
         completedStories.removeAll()
+
         unlockedGames.removeAll()
+
+        visitedAreas.removeAll()
 
         hasUnseenAchievements = false
 
         UserDefaults.standard.removeObject(
             forKey: "completedStories"
+        )
+
+        UserDefaults.standard.removeObject(
+            forKey: "visitedAreas"
         )
     }
 }

@@ -68,6 +68,8 @@ let adventureAreas: [AdventureArea] = [
 
 struct AdventureMapView: View {
 
+    @Environment(\.dismiss) private var dismiss
+
     @StateObject private var progress = ProgressManager.shared
     @StateObject private var unlockAnimation = UnlockAnimationManager.shared
 
@@ -76,6 +78,9 @@ struct AdventureMapView: View {
 
     @State private var showSparkles = false
     @State private var showDarkOverlay = false
+
+    // Unlock animation
+    @State private var showUnlockSparkles = false
 
     // Locked popup
     @State private var showLockedPopup = false
@@ -88,239 +93,323 @@ struct AdventureMapView: View {
 
     var body: some View {
 
-        ScrollView(.vertical, showsIndicators: false) {
+        ZStack(alignment: .topLeading) {
 
-            Image("map")
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
+            ScrollView(.vertical, showsIndicators: false) {
 
-                // MARK: Dark overlay
+                Image("map")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
 
-                .overlay {
+                    // MARK: Dark overlay
 
-                    Color.black
-                        .opacity(showDarkOverlay ? 0.45 : 0)
-                        .animation(
-                            .easeInOut(duration: 0.35),
-                            value: showDarkOverlay
-                        )
-                }
+                    .overlay {
 
-                // MARK: Map Overlay
-
-                .overlay(alignment: .topLeading) {
-
-                    GeometryReader { geo in
-
-                        ZStack {
-
-                            // MARK: - Castle Chains
-
-                            // MARK: - Castle
-
-                            Button {
-
-                                requiredAreaName = "Courage Forest"
-                                lockedAreaName = "Castle"
-                                showLockedPopup = true
-
-                            } label: {
-
-                                Image("chains")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(
-                                        width: geo.size.width * 0.55
-                                    )
-                            }
-                            .buttonStyle(.plain)
-                            .position(
-                                x: geo.size.width * (chainsX / 724),
-                                y: geo.size.height * (chainsY / 2172)
+                        Color.black
+                            .opacity(showDarkOverlay ? 0.45 : 0)
+                            .animation(
+                                .easeInOut(duration: 0.35),
+                                value: showDarkOverlay
                             )
+                    }
 
-                            // MARK: - Unlocked Area Tap Areas
+                    // MARK: Map Overlay
 
-                            ForEach(adventureAreas) { area in
+                    .overlay(alignment: .topLeading) {
 
-                                if isAreaUnlocked(area.name) {
+                        GeometryReader { geo in
+
+                            ZStack {
+
+                                // MARK: - Castle
+
+                                Button {
+
+                                    requiredAreaName = "Courage Forest"
+                                    lockedAreaName = "Castle"
+                                    showLockedPopup = true
+
+                                } label: {
+
+                                    Image("chains")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(
+                                            width: geo.size.width * 0.55
+                                        )
+                                }
+                                .buttonStyle(.plain)
+                                .position(
+                                    x: geo.size.width * (chainsX / 724),
+                                    y: geo.size.height * (chainsY / 2172)
+                                )
+
+                                // MARK: - Unlocked Area Tap Areas
+
+                                ForEach(adventureAreas) { area in
+
+                                    if isAreaUnlocked(area.name) {
+
+                                        Button {
+
+                                            // --------------------------------------------------
+                                            // NEWLY UNLOCKED AREA
+                                            // --------------------------------------------------
+                                            // If this is the area that was just unlocked,
+                                            // Sparkle Stars has already shown the child
+                                            // that it is new.
+                                            //
+                                            // Therefore:
+                                            // NO Magic Sparcle Burst.
+                                            // Enter immediately.
+                                            // --------------------------------------------------
+
+                                            if unlockAnimation.unlockedArea == area.name {
+
+                                                showUnlockSparkles = false
+                                                unlockAnimation.clear()
+
+                                                selectedArea = area
+                                                pressedArea = nil
+
+                                            }
+
+                                            // --------------------------------------------------
+                                            // FIRST VISIT
+                                            // --------------------------------------------------
+                                            // If this area is being visited for the first time
+                                            // but was NOT just unlocked, play the normal
+                                            // entrance animation.
+                                            // --------------------------------------------------
+
+                                            else if !hasVisitedArea(area.name) {
+
+                                                pressedArea = area
+
+                                                withAnimation {
+
+                                                    showSparkles = true
+                                                    showDarkOverlay = true
+                                                }
+
+                                                DispatchQueue.main.asyncAfter(
+                                                    deadline: .now() + 1.1
+                                                ) {
+
+                                                    markAreaAsVisited(area.name)
+
+                                                    selectedArea = area
+                                                    pressedArea = nil
+                                                    showSparkles = false
+                                                    showDarkOverlay = false
+                                                }
+
+                                            }
+
+                                            // --------------------------------------------------
+                                            // ALREADY VISITED
+                                            // --------------------------------------------------
+                                            // Enter immediately with no animation.
+                                            // --------------------------------------------------
+
+                                            else {
+
+                                                selectedArea = area
+                                                pressedArea = nil
+                                            }
+
+                                        } label: {
+
+                                            Color.clear
+                                        }
+
+                                        .frame(
+                                            width: geo.size.width * area.width,
+                                            height: geo.size.height * area.height
+                                        )
+
+                                        .scaleEffect(
+                                            pressedArea?.id == area.id
+                                            ? 0.95
+                                            : 1
+                                        )
+
+                                        .animation(
+                                            .spring(
+                                                response: 0.25,
+                                                dampingFraction: 0.6
+                                            ),
+                                            value: pressedArea
+                                        )
+
+                                        .position(
+                                            x: geo.size.width * (area.x / 724),
+                                            y: geo.size.height * (area.y / 2172)
+                                        )
+                                    }
+                                }
+
+                                // MARK: - Tap Sparkles
+
+                                if showSparkles,
+                                   let area = pressedArea {
+
+                                    LottieView(
+                                        animationName: "Sparkle Stars"
+                                    )
+                                    .frame(
+                                        width: geo.size.width * 0.8,
+                                        height: geo.size.width * 0.8
+                                    )
+                                    .position(
+                                        x: geo.size.width * (area.x / 724),
+                                        y: geo.size.height * (area.y / 2172)
+                                    )
+                                    .allowsHitTesting(false)
+                                }
+
+                                // MARK: - Locked Areas
+
+                                ForEach(
+                                    adventureAreas.filter {
+                                        !isAreaUnlocked($0.name)
+                                    }
+                                ) { area in
 
                                     Button {
 
-                                        pressedArea = area
+                                        if let requiredArea =
+                                            requiredArea(for: area.name) {
 
-                                        withAnimation {
-                                            showSparkles = true
-                                            showDarkOverlay = true
-                                        }
-
-                                        DispatchQueue.main.asyncAfter(
-                                            deadline: .now() + 1.1
-                                        ) {
-
-                                            selectedArea = area
-
-                                            pressedArea = nil
-                                            showSparkles = false
-                                            showDarkOverlay = false
+                                            requiredAreaName = requiredArea
+                                            lockedAreaName = area.name
+                                            showLockedPopup = true
                                         }
 
                                     } label: {
 
-                                        Color.clear
+                                        ZStack {
+
+                                            RoundedRectangle(
+                                                cornerRadius: 30
+                                            )
+                                            .fill(
+                                                .gray.opacity(0.45)
+                                            )
+                                            .frame(
+                                                width: geo.size.width * area.width,
+                                                height: geo.size.height * area.height
+                                            )
+                                            .overlay {
+
+                                                RoundedRectangle(
+                                                    cornerRadius: 30
+                                                )
+                                                .stroke(
+                                                    .white.opacity(0.2),
+                                                    lineWidth: 2
+                                                )
+                                            }
+
+                                            Circle()
+                                                .fill(
+                                                    .white.opacity(0.9)
+                                                )
+                                                .frame(
+                                                    width: 58,
+                                                    height: 58
+                                                )
+                                                .shadow(radius: 6)
+
+                                            Image(
+                                                systemName: "lock.fill"
+                                            )
+                                            .font(
+                                                .system(
+                                                    size: 26,
+                                                    weight: .bold
+                                                )
+                                            )
+                                            .foregroundStyle(.gray)
+                                        }
                                     }
 
-                                    .frame(
-                                        width: geo.size.width * area.width,
-                                        height: geo.size.height * area.height
-                                    )
-
-                                    .scaleEffect(
-                                        pressedArea?.id == area.id
-                                        ? 0.95
-                                        : 1
-                                    )
-
-                                    .animation(
-                                        .spring(
-                                            response: 0.25,
-                                            dampingFraction: 0.6
-                                        ),
-                                        value: pressedArea
-                                    )
+                                    .buttonStyle(.plain)
 
                                     .position(
                                         x: geo.size.width * (area.x / 724),
                                         y: geo.size.height * (area.y / 2172)
                                     )
                                 }
-                            }
 
-                            // MARK: - Tap Sparkles
+                                // MARK: - Unlock Sparkles
 
-                            if showSparkles,
-                               let area = pressedArea {
+                                if showUnlockSparkles,
+                                   let areaName =
+                                        unlockAnimation.unlockedArea,
+                                   let area =
+                                        adventureAreas.first(
+                                            where: {
+                                                $0.name == areaName
+                                            }
+                                        ) {
 
-                                LottieView(
-                                    animationName: "Magic Sparcle Burst"
-                                )
-                                .frame(
-                                    width: geo.size.width * 0.8,
-                                    height: geo.size.width * 0.8
-                                )
-                                .position(
-                                    x: geo.size.width * (area.x / 724),
-                                    y: geo.size.height * (area.y / 2172)
-                                )
-                                .allowsHitTesting(false)
-                            }
-
-                            // MARK: - Locked Areas
-
-                            ForEach(
-                                adventureAreas.filter {
-                                    !isAreaUnlocked($0.name)
+                                    LottieView(
+                                        animationName: "Sparkle Stars"
+                                    )
+                                    .frame(
+                                        width: geo.size.width * 0.75,
+                                        height: geo.size.width * 0.75
+                                    )
+                                    .position(
+                                        x: geo.size.width * (area.x / 724),
+                                        y: geo.size.height * (area.y / 2172)
+                                    )
+                                    .allowsHitTesting(false)
                                 }
-                            ) { area in
-
-                                Button {
-
-                                    if let requiredArea =
-                                        requiredArea(for: area.name) {
-
-                                        requiredAreaName = requiredArea
-                                        lockedAreaName = area.name
-
-                                        showLockedPopup = true
-                                    }
-
-                                } label: {
-
-                                    ZStack {
-
-                                        RoundedRectangle(
-                                            cornerRadius: 30
-                                        )
-                                        .fill(
-                                            .gray.opacity(0.45)
-                                        )
-                                        .frame(
-                                            width: geo.size.width * area.width,
-                                            height: geo.size.height * area.height
-                                        )
-                                        .overlay {
-
-                                            RoundedRectangle(
-                                                cornerRadius: 30
-                                            )
-                                            .stroke(
-                                                .white.opacity(0.2),
-                                                lineWidth: 2
-                                            )
-                                        }
-
-                                        Circle()
-                                            .fill(
-                                                .white.opacity(0.9)
-                                            )
-                                            .frame(
-                                                width: 58,
-                                                height: 58
-                                            )
-                                            .shadow(radius: 6)
-
-                                        Image(
-                                            systemName: "lock.fill"
-                                        )
-                                        .font(
-                                            .system(
-                                                size: 26,
-                                                weight: .bold
-                                            )
-                                        )
-                                        .foregroundStyle(.gray)
-                                    }
-                                }
-
-                                .buttonStyle(.plain)
-
-                                .position(
-                                    x: geo.size.width * (area.x / 724),
-                                    y: geo.size.height * (area.y / 2172)
-                                )
-                            }
-
-                            // MARK: - Unlock Sparkles
-
-                            if let areaName =
-                                unlockAnimation.unlockedArea,
-
-                               let area =
-                                adventureAreas.first(
-                                    where: {
-                                        $0.name == areaName
-                                    }
-                                ) {
-
-                                LottieView(
-                                    animationName: "Sparkle Stars"
-                                )
-                                .frame(
-                                    width: geo.size.width * 0.75,
-                                    height: geo.size.width * 0.75
-                                )
-                                .position(
-                                    x: geo.size.width * (area.x / 724),
-                                    y: geo.size.height * (area.y / 2172)
-                                )
-                                .allowsHitTesting(false)
                             }
                         }
                     }
-                }
 
-                .padding(.bottom, 40)
+                    .padding(.bottom, 40)
+            }
+
+            // MARK: - Back Button
+
+            Button {
+
+                dismiss()
+
+            } label: {
+
+                Image(systemName: "chevron.left")
+                    .font(
+                        .system(
+                            size: 20,
+                            weight: .bold
+                        )
+                    )
+                    .foregroundColor(.appPrimaryText)
+                    .frame(
+                        width: 46,
+                        height: 46
+                    )
+                    .background(
+                        Circle()
+                            .fill(
+                                Color.white.opacity(0.9)
+                            )
+                    )
+                    .shadow(
+                        color: .black.opacity(0.12),
+                        radius: 8,
+                        y: 4
+                    )
+            }
+            .buttonStyle(.plain)
+            .padding(.leading, 20)
+            .padding(.top, 20)
         }
 
         // MARK: - Background
@@ -389,6 +478,50 @@ struct AdventureMapView: View {
                 }
             }
         }
+
+        // MARK: - Unlock Animation
+
+        .onAppear {
+
+            playUnlockAnimationIfNeeded()
+        }
+
+        .onChange(of: unlockAnimation.unlockedArea) { _ in
+
+            playUnlockAnimationIfNeeded()
+        }
+    }
+
+    // MARK: - First Visit Handling
+
+    private func hasVisitedArea(
+        _ areaName: String
+    ) -> Bool {
+
+        UserDefaults.standard.bool(
+            forKey: "visitedArea_\(areaName)"
+        )
+    }
+
+    private func markAreaAsVisited(
+        _ areaName: String
+    ) {
+
+        UserDefaults.standard.set(
+            true,
+            forKey: "visitedArea_\(areaName)"
+        )
+    }
+
+    // MARK: - Unlock Animation Handling
+
+    private func playUnlockAnimationIfNeeded() {
+
+        guard unlockAnimation.unlockedArea != nil else {
+            return
+        }
+
+        showUnlockSparkles = true
     }
 
     // MARK: - Check Area Unlock
