@@ -6,6 +6,7 @@
 import Foundation
 import AVFoundation
 import Combine
+import UIKit
 
 class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
 
@@ -28,6 +29,29 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     override init() {
         super.init()
         configureAudioSession()
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+
+    @objc private func appDidEnterBackground() {
+        stop()
+
+        do {
+            try AVAudioSession.sharedInstance().setActive(
+                false,
+                options: .notifyOthersOnDeactivation
+            )
+        } catch {
+            print(
+                "Audio session deactivation error:",
+                error.localizedDescription
+            )
+        }
     }
 
     // MARK: - Configure Audio Session
@@ -314,7 +338,6 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
                 }
 
                 if self.isPlaying {
-
                     self.currentWordIndex = index
                 }
             }

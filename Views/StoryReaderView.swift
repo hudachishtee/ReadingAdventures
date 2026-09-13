@@ -266,6 +266,9 @@ struct StoryReaderView: View {
         //==========================================================
 
         .owlGuideOverlay()
+        .onDisappear {
+            audioManager.stop()
+        }
     }
 }
 

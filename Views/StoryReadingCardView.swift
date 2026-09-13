@@ -233,21 +233,20 @@ struct StoryReadingCardView: View {
                     // ====================================================
 
                     Button {
+                        audioManager.stop()
 
                         // ====================================================
                         // AFTER FORWARD IS CLICKED:
                         // SHOW BACK GUIDE
                         // ====================================================
-
                         if guideManager.currentStep == .navigation &&
                             navigationGuideTarget == "back" {
-
                             guideManager.currentStep = .newWords
                         }
 
                         previousPage()
-
-                    } label: {
+                    }
+                    label: {
 
                         Image(
                             systemName: "arrow.left"
