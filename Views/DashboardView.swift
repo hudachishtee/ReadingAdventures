@@ -633,7 +633,8 @@ private extension DashboardView {
 
                         continueCard(
                             story: story,
-                            responsive: responsive
+                            responsive: responsive,
+                            showPreview: false
                         )
 
                         .allowsHitTesting(
@@ -689,13 +690,17 @@ private extension DashboardView {
 
     func continueCard(
         story: Story,
-        responsive: Responsive
+        responsive: Responsive,
+        showPreview: Bool = true
     ) -> some View {
 
         Button {
-
-            selectedStory = story
-
+            if showPreview {
+                selectedStory = story
+            } else {
+                storyForReader = story
+                navigateToReader = true
+            }
         } label: {
 
             VStack(
