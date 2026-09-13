@@ -36,20 +36,23 @@ final class OwlGuideManager: ObservableObject {
 
     // MARK: - First-Time User
 
+    @AppStorage("hasSeenOwlGuide")
+    private var hasSeenOwlGuide = false
+
     @AppStorage("hasCompletedOwlGuide")
     private var hasCompletedOwlGuide = false
 
     // MARK: - Guide Active
 
     var isGuideNeeded: Bool {
-        !hasCompletedOwlGuide
+        !hasSeenOwlGuide
     }
 
     // MARK: - Start Guide
 
     func startIfNeeded() {
 
-        guard hasCompletedOwlGuide == false else {
+        guard hasSeenOwlGuide == false else {
             return
         }
 
@@ -58,6 +61,10 @@ final class OwlGuideManager: ObservableObject {
         }
 
         currentStep = .viewAll
+
+        // The guide has now been shown once.
+        // It should not restart if the user leaves and comes back.
+        hasSeenOwlGuide = true
     }
 
     // MARK: - Move to Next Step
@@ -139,9 +146,11 @@ final class OwlGuideManager: ObservableObject {
         hasCompletedOwlGuide = true
     }
 
+    // MARK: - Reset For Testing
+
     func resetGuideForTesting() {
+        hasSeenOwlGuide = false
         hasCompletedOwlGuide = false
         currentStep = .viewAll
     }
-
-    }
+}
